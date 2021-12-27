@@ -3,17 +3,14 @@ import pytest
 
 def open_railways_file(filepath: str) -> str:
     try:
-        file = input("Enter full path to railway file: ")
-        with open(file, 'r') as raw_text_file:
+        with open(filepath, 'r') as raw_text_file:
             return raw_text_file.read()
     except Exception as ex:
         print(ex)
 
 @pytest.mark.parametrize("path_to_railway_file", 
     [("C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\map\\railways.txt")])
-def test_check_railways_file(path_to_railway_file: str = None) -> bool:
-    if path_to_railway_file is None:
-        path_to_railway_file = input("Please input full filepath to railway file: ")
+def test_check_railways_file(path_to_railway_file: str) -> bool:
     lines = open_railways_file(path_to_railway_file).split('\n')
     line_counter = 0
     for line in lines:
