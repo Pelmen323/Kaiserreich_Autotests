@@ -1,5 +1,10 @@
 ### By Pelmen323, https://github.com/Pelmen323
+# The script analyzes the railways.txt file, if the line includes more or less provinces than specified - it throws error
+# Designed to be used with pytest
 import pytest
+import os
+FILEPATH = f"{os.environ.get('USERPROFILE')}\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\map\\railways.txt"
+
 
 def open_railways_file(filepath: str) -> str:
     try:
@@ -8,8 +13,8 @@ def open_railways_file(filepath: str) -> str:
     except Exception as ex:
         print("Unable to open railways file", ex)
 
-@pytest.mark.parametrize("path_to_railway_file", 
-    [("C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\map\\railways.txt")])
+
+@pytest.mark.parametrize("path_to_railway_file", [(FILEPATH)])
 def test_check_railways_file(path_to_railway_file: str) -> bool:
     print("The railway file test is started! Opening the file...")
     lines = open_railways_file(path_to_railway_file).split('\n')
@@ -33,5 +38,5 @@ def test_check_railways_file(path_to_railway_file: str) -> bool:
 
 
 if __name__ == '__main__':
-    open_railways_file()
+    test_check_railways_file(FILEPATH)
     input('Press any key to exit')
