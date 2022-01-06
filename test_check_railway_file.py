@@ -3,7 +3,7 @@
 # Designed to be used with pytest
 import pytest
 import os
-FILEPATH = f"{os.environ.get('USERPROFILE')}\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\map\\railways.txt"
+FILEPATH = f"C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\map\\railways.txt"
 
 
 def open_railways_file(filepath: str) -> str:

@@ -7,9 +7,8 @@ import os
 from .bad_words import bad_words                                                                             # Dict with wrong_word : right_word. Bad versions are keys in the dict
 import string
 import pytest
-PATH_TO_MOD = f"{os.environ.get('USERPROFILE')}\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build"
+PATH_TO_MOD = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build"
 FILEPATH_LOCALIZATION = f"{PATH_TO_MOD}\\localisation\\"
-
 
 @pytest.mark.parametrize("filepath", [(FILEPATH_LOCALIZATION)])
 def test_find_bad_words(filepath: str):
