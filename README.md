@@ -17,8 +17,8 @@ Pytest-Jenkins instructions:
 - git repo - https://github.com/Pelmen323/Kaiserreich_Jenkins_PyTests, branch - main
 - Build action - Custom Python Builder, path to your venv (not to exe), nature - Shell, command - 'pytest -v -s --junitxml TestResults.xml')
 - Post-Build Actions - Publish Junit test result report, test report xmls - *.xml
-
 ![Screenshot (1786)](https://user-images.githubusercontent.com/43440389/148402821-1feb37ad-90cd-4a47-83dd-c3a34a0d2727.png)
+
 6. Setup the Build Triggers (or you can trigger the job manually)
 7. Save the job
 
