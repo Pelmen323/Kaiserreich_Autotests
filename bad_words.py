@@ -183,7 +183,6 @@ bad_words = {
     "libary":"library",
     "liberry":"library",
     "liesure":"leisure",
-    "lightening":"lightning",
     "lisence":"license",
     "lollypop":"lollipop",
     "maintainance":"maintenance",
