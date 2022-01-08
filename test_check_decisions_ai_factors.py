@@ -27,7 +27,7 @@ def test_check_decisions_ai_factors(filepath: str):
 
         icon_counter = len(re.findall('icon =', text_file))
         ai_will_do_counter = len(re.findall('ai_will_do =', text_file))
-        missions_counter = len(re.findall('\\bdays_mission_timeout\\b', text_file))
+        missions_counter = len(re.findall('\\bdays_mission_timeout ', text_file))
         selectable_missions_counter = len(re.findall('selectable_mission = yes', text_file))
         expected_num_of_ai_factors = icon_counter - missions_counter + selectable_missions_counter
         if expected_num_of_ai_factors > ai_will_do_counter:
