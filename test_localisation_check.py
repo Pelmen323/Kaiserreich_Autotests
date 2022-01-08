@@ -21,10 +21,10 @@ def test_find_bad_words(filepath: str):
             with open(filename, 'r', encoding='utf-8-sig') as text_file:                                    # 'utf-8-sig' is mandatory for UTF-8 w/BOM
                 text_file = text_file.read()
         except Exception as ex:
-            print(f'Skipping the file {filename}')                                                              
+            print(f'Skipping the file {filename}')
             print(ex)
             continue
-                                                                                                                    
+
         for i in text_file:                                                                                 # Remove all punctuation from the text
             if i in string.punctuation:
                 text_file = text_file.replace(i, ' ')
@@ -34,7 +34,7 @@ def test_find_bad_words(filepath: str):
             for word in line.split(' '):                                                                    # For each word in splitted line (splitting by whitespaces)
                 if word in bad_words.keys():
                     typo_list.append(f'File {filename} -- "{word}" in line {i+1} - correct is "{bad_words.get(word)}"')
-    
+
     if typo_list != []:
         for error in typo_list:
             print(error)
