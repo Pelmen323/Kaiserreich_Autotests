@@ -26,3 +26,4 @@ Pytest-Jenkins instructions:
 Currently included tests:
 - railways file test (verifies the expected and actual number of provinces provided in /map/railways.txt file)
 - localization files typo check (parses loc files and finds commonly misspelled words, as well as prints correct variant)
+- decisions ai factor test (verifies that decisions and selectable missions have ai factors)
