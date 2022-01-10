@@ -2,10 +2,11 @@ import glob
 import pytest
 import re
 FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\"
+FALSE_POSITIVES = ['JAP_war_vs_ENT', 'CAN_king_busy', 'first_inter_congress_@ROOT', 'first_inter_congress_CUB', 'PAP_pontine_marshes']
 
-
+@pytest.mark.parametrize("false_positives", [FALSE_POSITIVES])
 @pytest.mark.parametrize("filepath", [FILEPATH])
-def test_check_decisions_ai_factors(filepath: str):
+def test_check_decisions_ai_factors(filepath: str, false_positives: str):
     print("The test is started. Please wait...")
     global_flags = {}
     # Part 1 - get the dict of all global flags 
@@ -23,6 +24,13 @@ def test_check_decisions_ai_factors(filepath: str):
             for flag in global_flags_in_file:
                 flag = flag[18:-1]
                 global_flags[flag] = 0
+
+    # Part 1.5 - clear flase positives:
+    for key in false_positives:
+        try:
+            global_flags.pop(key)
+        except:
+            pass
 
     # Part 2 - count the number of their occurencies
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
