@@ -9,7 +9,7 @@ import pytest
 import re
 from .imports.file_functions import open_text_file
 FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\"
-FALSE_POSITIVES = ['JAP_war_vs_ENT', 'CAN_king_busy', 'first_inter_congress_@ROOT', 'first_inter_congress_CUB', 'PAP_pontine_marshes']
+FALSE_POSITIVES = ['JAP_war_vs_ENT', 'CAN_king_busy', 'first_inter_congress_CUB', 'PAP_pontine_marshes']
 
 
 @pytest.mark.parametrize("false_positives", [FALSE_POSITIVES])
@@ -43,6 +43,10 @@ def test_check_unused_global_flags(filepath: str, false_positives: str):
             global_flags.pop(key)
         except KeyError:
             continue
+
+    false_keys = [key for key in global_flags if '@' in key]
+    for key in false_keys:
+        global_flags.pop(key)
 
     # Part 2 - count the number of their occurrences
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):

@@ -9,12 +9,19 @@ import pytest
 import re
 from .imports.file_functions import open_text_file
 FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\"
-# FALSE_POSITIVES = ['JAP_war_vs_ENT', 'CAN_king_busy', 'first_inter_congress_@ROOT', 'first_inter_congress_CUB', 'PAP_pontine_marshes']
+FALSE_POSITIVES = ['HNN_rigged_last_days',
+                  'cubsuccconstscore',
+                  'cublibconstscore',
+                  'cubconconstscore',
+                  'cubradconstscore',
+                  'is_han_chinese_tag',
+                  'is_non_han_chinese_tag',
+]
 
 
-# @pytest.mark.parametrize("false_positives", [FALSE_POSITIVES])
+@pytest.mark.parametrize("false_positives", [FALSE_POSITIVES])
 @pytest.mark.parametrize("filepath", [FILEPATH])
-def test_check_unused_country_flags(filepath: str):
+def test_check_unused_country_flags(filepath: str, false_positives: str):
     print("The test is started. Please wait...")
     country_flags = {}
     # Part 1 - get the dict of all global flags
@@ -38,11 +45,15 @@ def test_check_unused_country_flags(filepath: str):
                 country_flags[flag] = 0
 
     # Part 1.5 - clear false positives:
-    # for key in false_positives:
-    #     try:
-    #         country_flags.pop(key)
-    #     except KeyError:
-    #         continue
+    for key in false_positives:
+        try:
+            country_flags.pop(key)
+        except KeyError:
+            continue
+
+    false_keys = [key for key in country_flags if '@' in key]
+    for key in false_keys:
+        country_flags.pop(key)
 
     # Part 2 - count the number of their occurrences
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
@@ -55,6 +66,7 @@ def test_check_unused_country_flags(filepath: str):
 
         for flag in country_flags.keys():
             country_flags[flag] += text_file.count(f'has_country_flag = {flag}')
+            country_flags[flag] += text_file.count(f'has_country_flag = {{ flag = {flag}')
 
     results = [i for i in country_flags if country_flags[i] == 0]
     if results != []:
