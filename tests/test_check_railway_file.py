@@ -1,23 +1,17 @@
-### By Pelmen323, https://github.com/Pelmen323
+##########################
 # The script analyzes the railways.txt file, if the line includes more or less provinces than specified - it throws error
-# Designed to be used with pytest
+# The error is very important as the game draws level 4 railways in half of the world if you provide less provinces than should
+# By Pelmen, https://github.com/Pelmen323
+##########################
 import pytest
-import os
-FILEPATH = f"C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\map\\railways.txt"
-
-
-def open_railways_file(filepath: str) -> str:
-    try:
-        with open(filepath, 'r') as raw_text_file:
-            return raw_text_file.read()
-    except Exception as ex:
-        print("Unable to open railways file", ex)
+from .imports.file_functions import open_text_file
+FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\map\\railways.txt"
 
 
 @pytest.mark.parametrize("path_to_railway_file", [(FILEPATH)])
 def test_check_railways_file(path_to_railway_file: str) -> bool:
     print("The railway file test is started! Opening the file...")
-    lines = open_railways_file(path_to_railway_file).split('\n')
+    lines = open_text_file(path_to_railway_file).split('\n')
     line_counter = 0
     errors_list = []
     for line in lines:
@@ -35,8 +29,3 @@ def test_check_railways_file(path_to_railway_file: str) -> bool:
     if errors_list != []:
         raise AssertionError(errors_list)
     print("The test is finished!")
-
-
-if __name__ == '__main__':
-    test_check_railways_file(FILEPATH)
-    input('Press any key to exit')
