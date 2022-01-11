@@ -1,6 +1,14 @@
 # Pytest Tests for Kaiserreich
 
-Repo for .py tests for Kaiserreich, can be run via Jenkins:
+Repo for .py tests for Kaiserreich (can be run for every other HOI4 mod), with possibility to setup Jenkins as runner.
+
+Currently included tests:
+- railways file test (verifies the expected and actual number of provinces provided in /map/railways.txt file)
+- localization files typo check (parses loc files and finds commonly misspelled words, as well as prints correct variant)
+- decisions ai factor test (verifies that decisions and selectable missions have ai factors)
+- unused global flags test (finds all global flags that are set but never checked)
+- unused country flags test (finds all country flags that are set but never checked)
+
 
 Pytest-Jenkins instructions:
 
@@ -21,9 +29,3 @@ Pytest-Jenkins instructions:
 
 6. Setup the Build Triggers (or you can trigger the job manually)
 7. Save the job
-
-
-Currently included tests:
-- railways file test (verifies the expected and actual number of provinces provided in /map/railways.txt file)
-- localization files typo check (parses loc files and finds commonly misspelled words, as well as prints correct variant)
-- decisions ai factor test (verifies that decisions and selectable missions have ai factors)
