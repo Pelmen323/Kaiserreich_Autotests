@@ -3,12 +3,18 @@
 Repo for .py tests for Kaiserreich (can be run for every other HOI4 mod), with possibility to setup Jenkins as runner.
 
 ## Currently included tests:
+
+- usage of remove_all_leader_roles effect test (the effect causes CTDs. Test verifies that this effect is not used)
+- usage of remove_country_leader_role effect test (the effect causes CTDs. Test verifies that this effect is not used)
 - railways file test (verifies the expected and actual number of provinces provided in /map/railways.txt file)
 - localization files typo check (parses loc files and finds commonly misspelled words, as well as prints correct variant)
 - decisions ai factor test (verifies that decisions and selectable missions have ai factors)
 - unused global flags test (finds all global flags that are set but never checked)
 - unused country flags test (finds all country flags that are set but never checked)
-
+- unused state flags test (finds all state flags that are set but never checked)
+- missing global flags test (finds all global flags that are not set but checked)
+- missing country flags test (finds all country flags that are not set but checked)
+- missing state flags test (finds all state flags that are not set but checked)
 
 ## Pytest-Jenkins instructions:
 
