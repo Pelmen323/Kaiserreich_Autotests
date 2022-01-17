@@ -6,6 +6,7 @@ Repo for .py tests for Kaiserreich (can be run for every other HOI4 mod), with p
 
 - usage of remove_all_leader_roles effect test (the effect causes CTDs. Test verifies that this effect is not used)
 - usage of remove_country_leader_role effect test (the effect causes CTDs. Test verifies that this effect is not used)
+- usage of retire_character outside of tooltip (retire_character does not remove the character from HoS slot if he is a current country leader. It should be replaced with retire = yes which removes char from all ideology slots)
 - railways file test (verifies the expected and actual number of provinces provided in /map/railways.txt file)
 - localization files typo check (parses loc files and finds commonly misspelled words, as well as prints correct variant)
 - decisions ai factor test (verifies that decisions and selectable missions have ai factors)
