@@ -1,9 +1,9 @@
-##########################
-# Test script to check for unused global flags
-# If flag is not used via "has_global_flag" at least once, it will appear in test results
-# Flags with values or vatiables (ROOT/THIS/FROM) should be added to false positives
-# By Pelmen, https://github.com/Pelmen323
-##########################
+# ##########################
+# # Test script to check for unused global flags
+# # If flag is not used via "has_global_flag" at least once, it will appear in test results
+# # Flags with values or vatiables (ROOT/THIS/FROM) should be added to false positives
+# # By Pelmen, https://github.com/Pelmen323
+# ##########################
 # import glob
 # import pytest
 # import re
