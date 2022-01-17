@@ -6,14 +6,15 @@ import glob
 import pytest
 from .imports.file_functions import open_text_file
 FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\"
-FILES_TO_SKIP = ('_useful_scripted_effects.txt')
-
+FILES_TO_SKIP = ('common\\scripted_effects\\_useful_scripted_effects.txt')
 
 @pytest.mark.parametrize("filepath", [(FILEPATH)])
 def test_check_remove_all_country_leader_roles(filepath: str):
     print("Starting the test...")
     results_dict = {}
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
+        if filename == f"{FILEPATH}{FILES_TO_SKIP}":
+            continue
         try:
             text_file = open_text_file(filename)
         except Exception as ex:
