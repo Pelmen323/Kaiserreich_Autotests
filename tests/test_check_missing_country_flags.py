@@ -1,7 +1,7 @@
 # ##########################
 # # Test script to check for unused global flags
 # # If flag is not used via "has_global_flag" at least once, it will appear in test results
-# # Flags with values or vatiables (ROOT/THIS/FROM) should be added to false positives
+# # Flags with values or variables (ROOT/THIS/FROM) should be added to false positives
 # # By Pelmen, https://github.com/Pelmen323
 # ##########################
 # import glob
@@ -23,6 +23,7 @@
 # @pytest.mark.parametrize("filepath", [FILEPATH])
 # def test_check_unused_country_flags(filepath: str, false_positives: str):
 #     print("The test is started. Please wait...")
+#     start = timer()
 #     country_flags = {}
 # # Part 1 - get the dict of all global flags
 #     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
@@ -70,8 +71,9 @@
 #         print("Following country flags are not set via set_country_flag! Recheck them")
 #         with open("C:\\Users\\VADIM\\Desktop\\created_file.txt", 'a') as create_var:
 #             for i in results:
-#                 create_var.write(f'\n{i}')  
+#                 create_var.write(f'\n{i}')
 #                 print(i)
 #         print(f'{len(results)} unset country flags found. Probably some of these are false positives, but they should be rechecked!')
 #         raise AssertionError("Unset country flags were encountered! Check console output")
-#     print("The test is finished!")
+#         end = timer()
+#         print(f"The test is finished in {end-start} seconds!")

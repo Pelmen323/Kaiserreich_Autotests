@@ -8,13 +8,15 @@ import glob
 import pytest
 import re
 import os
-from .imports.file_functions import open_text_file, clear_false_positives_flags
+from timeit import default_timer as timer
+from .imports.file_functions import open_text_file
 FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\"
 
 
 @pytest.mark.parametrize("filepath", [FILEPATH])
 def test_check_retire_characters(filepath: str):
     print("The test is started. Please wait...")
+    start = timer()
     results = {}
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
@@ -39,4 +41,5 @@ def test_check_retire_characters(filepath: str):
         for i in results.items():
             print(i)
         raise AssertionError("Characters retired with 'retire_character' were encountered, you should retire them with 'retire = yes'! Check console output")
-    print("The test is finished!")
+    end = timer()
+    print(f"The test is finished in {end-start} seconds!")

@@ -9,6 +9,7 @@ import os
 import glob
 import pytest
 import re
+from timeit import default_timer as timer
 from .imports.file_functions import open_text_file
 FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\common\\decisions\\"
 FILES_TO_SKIP = ('00_demobilization_decisions.txt',
@@ -17,13 +18,13 @@ FILES_TO_SKIP = ('00_demobilization_decisions.txt',
                 'Germany_decisions.txt',        # Empty decisions with modifier
                 'Hunan_decisions.txt',          # Missing icons
                 'Intermarium_decisions.txt',    # 2 non-ai decisions
-                'New_England_decisions.txt',    # 9 empty decisions
-                )
+                'New_England_decisions.txt',)   # 9 empty decisions
 
 
 @pytest.mark.parametrize("filepath", [(FILEPATH)])
 def test_check_decisions_ai_factors(filepath: str):
-    print("Starting the test...")
+    print("The test is started. Please wait...")
+    start = timer()
     results_dict = {}
     os.chdir(filepath)
 
@@ -51,4 +52,5 @@ def test_check_decisions_ai_factors(filepath: str):
         for error in results_dict.items():
             print(error)
         raise AssertionError("Issues were encountered! Check console output")
-    print("The test is finished!")
+    end = timer()
+    print(f"The test is finished in {end-start} seconds!")

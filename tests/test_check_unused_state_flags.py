@@ -7,6 +7,7 @@
 import glob
 import pytest
 import re
+from timeit import default_timer as timer
 from .imports.file_functions import open_text_file, clear_false_positives_flags
 FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\"
 FALSE_POSITIVES = ['ACW_important_state_CSA',
@@ -15,13 +16,15 @@ FALSE_POSITIVES = ['ACW_important_state_CSA',
                 'ACW_important_state_PSA',
                 'ACW_important_state_NEE',
                 'was_core_of_ROM',
-                'bulgarian_macedonia',      
+                'bulgarian_macedonia',
 ]
+
 
 @pytest.mark.parametrize("false_positives", [FALSE_POSITIVES])
 @pytest.mark.parametrize("filepath", [FILEPATH])
 def test_check_unused_state_flags(filepath: str, false_positives: str):
     print("The test is started. Please wait...")
+    start = timer()
     state_flags = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
@@ -70,4 +73,5 @@ def test_check_unused_state_flags(filepath: str, false_positives: str):
         for i in results:
             print(i)
         raise AssertionError("Unused state flags were encountered! Check console output")
-    print("The test is finished!")
+    end = timer()
+    print(f"The test is finished in {end-start} seconds!")

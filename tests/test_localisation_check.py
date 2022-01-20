@@ -7,6 +7,7 @@ from .imports.bad_words import bad_words    # Dict with wrong_word : right_word.
 from .imports.file_functions import open_text_file
 import string
 import pytest
+from timeit import default_timer as timer
 PATH_TO_MOD = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build"
 FILEPATH_LOCALIZATION = f"{PATH_TO_MOD}\\localisation\\"
 
@@ -14,6 +15,7 @@ FILEPATH_LOCALIZATION = f"{PATH_TO_MOD}\\localisation\\"
 @pytest.mark.parametrize("filepath", [(FILEPATH_LOCALIZATION)])
 def test_find_bad_words(filepath: str):
     print("The test is started. Please wait...")
+    start = timer()
     typo_list = []
     for filename in glob.iglob(filepath + '**/*.yml', recursive=True):        # Recursive opening of all yml files in folder and subfolders
         if filename == f"{FILEPATH_LOCALIZATION}english\\play_in_english_l_braz_por.yml":
@@ -39,4 +41,5 @@ def test_find_bad_words(filepath: str):
         for error in typo_list:
             print(error)
         raise AssertionError("Typos were encountered! Check console output")
-    print("The test is finished!")
+    end = timer()
+    print(f"The test is finished in {end-start} seconds!")

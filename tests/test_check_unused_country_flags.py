@@ -7,6 +7,7 @@
 import glob
 import pytest
 import re
+from timeit import default_timer as timer
 from .imports.file_functions import open_text_file, clear_false_positives_flags
 FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\"
 FALSE_POSITIVES = ['HNN_rigged_last_days',
@@ -23,13 +24,14 @@ FALSE_POSITIVES = ['HNN_rigged_last_days',
                 'women_suffrage',
                 'LOM_crown_refused_',
                 'ACW_new_england_war',
-                'RUS_don_kuban_isolated'
-]
+                'RUS_don_kuban_isolated']
+
 
 @pytest.mark.parametrize("false_positives", [FALSE_POSITIVES])
 @pytest.mark.parametrize("filepath", [FILEPATH])
 def test_check_unused_country_flags(filepath: str, false_positives: str):
     print("The test is started. Please wait...")
+    start = timer()
     country_flags = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
@@ -54,7 +56,7 @@ def test_check_unused_country_flags(filepath: str, false_positives: str):
                 flag = flag.strip()
                 country_flags[flag] = 0
 
-        # For flags with values. DO NOT UNCOMMENT unless manually verifying those flags 
+        # For flags with values. DO NOT UNCOMMENT unless manually verifying those flags
         # country_flags_in_file3 = re.findall('set_country_flag = \\{\\n\\t*flag = \\b\\w*\\b', text_file)
         # if len(country_flags_in_file3) > 0:
         #     for flag in country_flags_in_file3:
@@ -86,4 +88,5 @@ def test_check_unused_country_flags(filepath: str, false_positives: str):
         for i in results:
             print(i)
         raise AssertionError("Unused country flags were encountered! Check console output")
-    print("The test is finished!")
+    end = timer()
+    print(f"The test is finished in {end-start} seconds!")
