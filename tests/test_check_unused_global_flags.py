@@ -28,19 +28,20 @@ def test_check_unused_global_flags(filepath: str, false_positives: str):
             print(ex)
             continue
 
-        global_flags_in_file = re.findall('set_global_flag = \\b\\w*\\b', text_file)
-        if len(global_flags_in_file) > 0:
-            for flag in global_flags_in_file:
-                flag = flag[18:]                  # cut the 'set_global_flag =' part and \n symbol
-                flag = flag.strip()
-                global_flags[flag] = 0
+        if 'set_global_flag =' in text_file:
+            global_flags_in_file = re.findall('set_global_flag = \\b\\w*\\b', text_file)
+            if len(global_flags_in_file) > 0:
+                for flag in global_flags_in_file:
+                    flag = flag[18:]                  # cut the 'set_global_flag =' part and \n symbol
+                    flag = flag.strip()
+                    global_flags[flag] = 0
 
-        global_flags_in_file = re.findall('set_global_flag = \\{ flag = \\b\\w*\\b', text_file)
-        if len(global_flags_in_file) > 0:
-            for flag in global_flags_in_file:
-                flag = flag[27:]                 # cut the 'has_country_flag =' part and \n symbol
-                flag = flag.strip()
-                global_flags[flag] = 0
+            global_flags_in_file = re.findall('set_global_flag = \\{ flag = \\b\\w*\\b', text_file)
+            if len(global_flags_in_file) > 0:
+                for flag in global_flags_in_file:
+                    flag = flag[27:]                 # cut the 'has_country_flag =' part and \n symbol
+                    flag = flag.strip()
+                    global_flags[flag] = 0
 
 # Part 2 - clear false positives and flags with variables:
     print(f'{len(global_flags)} global flags were found')
@@ -55,9 +56,10 @@ def test_check_unused_global_flags(filepath: str, false_positives: str):
             print(ex)
             continue
 
-        for flag in global_flags.keys():
-            global_flags[flag] += text_file.count(f'has_global_flag = {flag}')
-            global_flags[flag] += text_file.count(f'has_global_flag = {{ flag = {flag}')
+        if 'has_global_flag =' in text_file:
+            for flag in global_flags.keys():
+                global_flags[flag] += text_file.count(f'has_global_flag = {flag}')
+                global_flags[flag] += text_file.count(f'has_global_flag = {{ flag = {flag}')
 
 # Part 4 - throw the error if flag is not used
     results = [i for i in global_flags if global_flags[i] == 0]
@@ -67,4 +69,4 @@ def test_check_unused_global_flags(filepath: str, false_positives: str):
             print(i)
         raise AssertionError("Unused global flags were encountered! Check console output")
     end = timer()
-    print(f"The test is finished in {end-start} seconds!")
+    print(f"The test is finished in {round(end-start, 3)} seconds!")

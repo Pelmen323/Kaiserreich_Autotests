@@ -42,27 +42,28 @@ def test_check_unused_country_flags(filepath: str, false_positives: str):
             print(ex)
             continue
 
-        country_flags_in_file = re.findall('set_country_flag = \\b\\w*\\b', text_file)
-        if len(country_flags_in_file) > 0:
-            for flag in country_flags_in_file:
-                flag = flag[19:]
-                flag = flag.strip()
-                country_flags[flag] = 0
+        if 'set_country_flag =' in text_file:
+            country_flags_in_file = re.findall('set_country_flag = \\b\\w*\\b', text_file)
+            if len(country_flags_in_file) > 0:
+                for flag in country_flags_in_file:
+                    flag = flag[19:]
+                    flag = flag.strip()
+                    country_flags[flag] = 0
 
-        country_flags_in_file2 = re.findall('set_country_flag = \\{ flag = \\b\\w*\\b', text_file)
-        if len(country_flags_in_file2) > 0:
-            for flag in country_flags_in_file2:
-                flag = flag[27:]
-                flag = flag.strip()
-                country_flags[flag] = 0
+            country_flags_in_file2 = re.findall('set_country_flag = \\{ flag = \\b\\w*\\b', text_file)
+            if len(country_flags_in_file2) > 0:
+                for flag in country_flags_in_file2:
+                    flag = flag[27:]
+                    flag = flag.strip()
+                    country_flags[flag] = 0
 
-        # For flags with values. DO NOT UNCOMMENT unless manually verifying those flags
-        # country_flags_in_file3 = re.findall('set_country_flag = \\{\\n\\t*flag = \\b\\w*\\b', text_file)
-        # if len(country_flags_in_file3) > 0:
-        #     for flag in country_flags_in_file3:
-        #         flag2 = re.search(r'\bflag = \b\w*\b', flag).group(0)
-        #         flag2 = flag2[7:].strip()
-        #         country_flags[flag2] = 0
+            # For flags with values. DO NOT UNCOMMENT unless manually verifying those flags
+            # country_flags_in_file3 = re.findall('set_country_flag = \\{\\n\\t*flag = \\b\\w*\\b', text_file)
+            # if len(country_flags_in_file3) > 0:
+            #     for flag in country_flags_in_file3:
+            #         flag2 = re.search(r'\bflag = \b\w*\b', flag).group(0)
+            #         flag2 = flag2[7:].strip()
+            #         country_flags[flag2] = 0
 
 # Part 2 - clear false positives and flags with variables:
     print(f'{len(country_flags)} global flags were found')
@@ -77,9 +78,10 @@ def test_check_unused_country_flags(filepath: str, false_positives: str):
             print(ex)
             continue
 
-        for flag in country_flags.keys():
-            country_flags[flag] += text_file.count(f'has_country_flag = {flag}')
-            country_flags[flag] += text_file.count(f'has_country_flag = {{ flag = {flag}')
+        if 'has_country_flag =' in text_file:
+            for flag in country_flags.keys():
+                country_flags[flag] += text_file.count(f'has_country_flag = {flag}')
+                country_flags[flag] += text_file.count(f'has_country_flag = {{ flag = {flag}')
 
 # Part 4 - throw the error if flag is not used
     results = [i for i in country_flags if country_flags[i] == 0]
@@ -89,4 +91,4 @@ def test_check_unused_country_flags(filepath: str, false_positives: str):
             print(i)
         raise AssertionError("Unused country flags were encountered! Check console output")
     end = timer()
-    print(f"The test is finished in {end-start} seconds!")
+    print(f"The test is finished in {round(end-start, 3)} seconds!")

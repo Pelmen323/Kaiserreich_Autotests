@@ -20,7 +20,7 @@ FALSE_POSITIVES = ['first_inter_congress_HND',
 
 @pytest.mark.parametrize("false_positives", [FALSE_POSITIVES])
 @pytest.mark.parametrize("filepath", [FILEPATH])
-def test_check_unused_global_flags(filepath: str, false_positives: str):
+def test_check_missing_global_flags(filepath: str, false_positives: str):
     print("The test is started. Please wait...")
     start = timer()
     global_flags = {}
@@ -33,19 +33,20 @@ def test_check_unused_global_flags(filepath: str, false_positives: str):
             print(ex)
             continue
 
-        global_flags_in_file = re.findall('has_global_flag = \\b\\w*\\b', text_file)
-        if len(global_flags_in_file) > 0:
-            for flag in global_flags_in_file:
-                flag = flag[18:]
-                flag = flag.strip()
-                global_flags[flag] = 0
+        if 'has_global_flag =' in text_file:
+            global_flags_in_file = re.findall('has_global_flag = \\b\\w*\\b', text_file)
+            if len(global_flags_in_file) > 0:
+                for flag in global_flags_in_file:
+                    flag = flag[18:]
+                    flag = flag.strip()
+                    global_flags[flag] = 0
 
-        global_flags_in_file = re.findall('has_global_flag = { flag = \\b\\w*\\b', text_file)
-        if len(global_flags_in_file) > 0:
-            for flag in global_flags_in_file:
-                flag = flag[27:]
-                flag = flag.strip()
-                global_flags[flag] = 0
+            global_flags_in_file = re.findall('has_global_flag = { flag = \\b\\w*\\b', text_file)
+            if len(global_flags_in_file) > 0:
+                for flag in global_flags_in_file:
+                    flag = flag[27:]
+                    flag = flag.strip()
+                    global_flags[flag] = 0
 
 # Part 2 - clear false positives and flags with variables:
     clear_false_positives_flags(flags_dict=global_flags, false_positives=false_positives)
@@ -60,9 +61,10 @@ def test_check_unused_global_flags(filepath: str, false_positives: str):
             print(ex)
             continue
 
-        for flag in global_flags.keys():
-            global_flags[flag] += text_file.count(f'set_global_flag = {flag}')
-            global_flags[flag] += text_file.count(f'set_global_flag = {{ flag = {flag}')
+        if 'set_global_flag =' in text_file:
+            for flag in global_flags.keys():
+                global_flags[flag] += text_file.count(f'set_global_flag = {flag}')
+                global_flags[flag] += text_file.count(f'set_global_flag = {{ flag = {flag}')
 
 # Part 4 - throw the error if flag is not used
     results = [i for i in global_flags if global_flags[i] == 0]
@@ -72,4 +74,4 @@ def test_check_unused_global_flags(filepath: str, false_positives: str):
             print(i)
         raise AssertionError("Unassigned global flags were encountered! Check console output")
     end = timer()
-    print(f"The test is finished in {end-start} seconds!")
+    print(f"The test is finished in {round(end-start, 3)} seconds!")

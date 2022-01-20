@@ -34,4 +34,4 @@ def test_check_remove_country_leader_role(filepath: str):
             print(error)
         raise AssertionError("'remove_country_leader_role' usage has been encountered! Check console output")
     end = timer()
-    print(f"The test is finished in {end-start} seconds!")
+    print(f"The test is finished in {round(end-start, 3)} seconds!")

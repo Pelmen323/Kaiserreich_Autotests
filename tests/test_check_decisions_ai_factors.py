@@ -53,4 +53,4 @@ def test_check_decisions_ai_factors(filepath: str):
             print(error)
         raise AssertionError("Issues were encountered! Check console output")
     end = timer()
-    print(f"The test is finished in {end-start} seconds!")
+    print(f"The test is finished in {round(end-start, 3)} seconds!")

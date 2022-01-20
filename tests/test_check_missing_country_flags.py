@@ -21,7 +21,7 @@
 
 # @pytest.mark.parametrize("false_positives", [FALSE_POSITIVES])
 # @pytest.mark.parametrize("filepath", [FILEPATH])
-# def test_check_unused_country_flags(filepath: str, false_positives: str):
+# def test_check_missing_country_flags(filepath: str, false_positives: str):
 #     print("The test is started. Please wait...")
 #     start = timer()
 #     country_flags = {}
@@ -76,4 +76,4 @@
 #         print(f'{len(results)} unset country flags found. Probably some of these are false positives, but they should be rechecked!')
 #         raise AssertionError("Unset country flags were encountered! Check console output")
 #         end = timer()
-#         print(f"The test is finished in {end-start} seconds!")
+#         print(f"The test is finished in {round(end-start, 3)} seconds!")

@@ -16,8 +16,7 @@ FALSE_POSITIVES = ['ACW_important_state_CSA',
                 'ACW_important_state_PSA',
                 'ACW_important_state_NEE',
                 'was_core_of_ROM',
-                'bulgarian_macedonia',
-]
+                'bulgarian_macedonia',]
 
 
 @pytest.mark.parametrize("false_positives", [FALSE_POSITIVES])
@@ -35,19 +34,20 @@ def test_check_unused_state_flags(filepath: str, false_positives: str):
             print(ex)
             continue
 
-        state_flags_in_file = re.findall('set_state_flag = \\b\\w*\\b', text_file)
-        if len(state_flags_in_file) > 0:
-            for flag in state_flags_in_file:
-                flag = flag[17:]
-                flag = flag.strip()
-                state_flags[flag] = 0
+        if 'set_state_flag =' in text_file:
+            state_flags_in_file = re.findall('set_state_flag = \\b\\w*\\b', text_file)
+            if len(state_flags_in_file) > 0:
+                for flag in state_flags_in_file:
+                    flag = flag[17:]
+                    flag = flag.strip()
+                    state_flags[flag] = 0
 
-        state_flags_in_file = re.findall('set_state_flag = \\{ flag = \\b\\w*\\b', text_file)
-        if len(state_flags_in_file) > 0:
-            for flag in state_flags_in_file:
-                flag = flag[26:]
-                flag = flag.strip()
-                state_flags[flag] = 0
+            state_flags_in_file = re.findall('set_state_flag = \\{ flag = \\b\\w*\\b', text_file)
+            if len(state_flags_in_file) > 0:
+                for flag in state_flags_in_file:
+                    flag = flag[26:]
+                    flag = flag.strip()
+                    state_flags[flag] = 0
 
 # Part 2 - clear false positives and flags with variables:
     print(f'{len(state_flags)} state flags were found')
@@ -62,9 +62,10 @@ def test_check_unused_state_flags(filepath: str, false_positives: str):
             print(ex)
             continue
 
-        for flag in state_flags.keys():
-            state_flags[flag] += text_file.count(f'has_state_flag = {flag}')
-            state_flags[flag] += text_file.count(f'has_state_flag = {{ flag = {flag}')
+        if 'has_state_flag =' in text_file:
+            for flag in state_flags.keys():
+                state_flags[flag] += text_file.count(f'has_state_flag = {flag}')
+                state_flags[flag] += text_file.count(f'has_state_flag = {{ flag = {flag}')
 
 # Part 4 - throw the error if flag is not used
     results = [i for i in state_flags if state_flags[i] == 0]
@@ -74,4 +75,4 @@ def test_check_unused_state_flags(filepath: str, false_positives: str):
             print(i)
         raise AssertionError("Unused state flags were encountered! Check console output")
     end = timer()
-    print(f"The test is finished in {end-start} seconds!")
+    print(f"The test is finished in {round(end-start, 3)} seconds!")

@@ -42,4 +42,4 @@ def test_find_bad_words(filepath: str):
             print(error)
         raise AssertionError("Typos were encountered! Check console output")
     end = timer()
-    print(f"The test is finished in {end-start} seconds!")
+    print(f"The test is finished in {round(end-start, 3)} seconds!")

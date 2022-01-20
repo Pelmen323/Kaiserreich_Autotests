@@ -31,4 +31,4 @@ def test_check_railways_file(path_to_railway_file: str) -> bool:
     if errors_list != []:
         raise AssertionError(errors_list)
     end = timer()
-    print(f"The test is finished in {end-start} seconds!")
+    print(f"The test is finished in {round(end-start, 3)} seconds!")

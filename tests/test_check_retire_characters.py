@@ -42,4 +42,4 @@ def test_check_retire_characters(filepath: str):
             print(i)
         raise AssertionError("Characters retired with 'retire_character' were encountered, you should retire them with 'retire = yes'! Check console output")
     end = timer()
-    print(f"The test is finished in {end-start} seconds!")
+    print(f"The test is finished in {round(end-start, 3)} seconds!")

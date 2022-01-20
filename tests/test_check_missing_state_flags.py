@@ -14,7 +14,7 @@ FALSE_POSITIVES = ['lba_increased_resistance']
 
 @pytest.mark.parametrize("false_positives", [FALSE_POSITIVES])
 @pytest.mark.parametrize("filepath", [FILEPATH])
-def test_check_unused_state_flags(filepath: str, false_positives: str):
+def test_check_missing_state_flags(filepath: str, false_positives: str):
     print("The test is started. Please wait...")
     start = timer()
     state_flags = {}
@@ -27,24 +27,26 @@ def test_check_unused_state_flags(filepath: str, false_positives: str):
             print(ex)
             continue
 
-        state_flags_in_file = re.findall('has_state_flag = \\b\\w*\\b', text_file)
-        if len(state_flags_in_file) > 0:
-            for flag in state_flags_in_file:
-                flag = flag[17:]
-                flag = flag.strip()
-                state_flags[flag] = 0
+        if 'has_state_flag =' in text_file:
+            state_flags_in_file = re.findall('has_state_flag = \\b\\w*\\b', text_file)
+            if len(state_flags_in_file) > 0:
+                for flag in state_flags_in_file:
+                    flag = flag[17:]
+                    flag = flag.strip()
+                    state_flags[flag] = 0
 
-        state_flags_in_file = re.findall('has_state_flag = { flag = \\b\\w*\\b', text_file)
-        if len(state_flags_in_file) > 0:
-            for flag in state_flags_in_file:
-                flag = flag[26:]
-                flag = flag.strip()
-                state_flags[flag] = 0
+            state_flags_in_file = re.findall('has_state_flag = { flag = \\b\\w*\\b', text_file)
+            if len(state_flags_in_file) > 0:
+                for flag in state_flags_in_file:
+                    flag = flag[26:]
+                    flag = flag.strip()
+                    state_flags[flag] = 0
 
 # Part 2 - clear false positives and flags with variables:
     clear_false_positives_flags(flags_dict=state_flags, false_positives=false_positives)
 
 # Part 3 - count the number of flag occurrences
+    print(f'{len(state_flags)} unique used state flags were found')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
             text_file = open_text_file(filename)
@@ -53,9 +55,10 @@ def test_check_unused_state_flags(filepath: str, false_positives: str):
             print(ex)
             continue
 
-        for flag in state_flags.keys():
-            state_flags[flag] += text_file.count(f'set_state_flag = {flag}')
-            state_flags[flag] += text_file.count(f'set_state_flag = {{ flag = {flag}')
+        if 'set_state_flag =' in text_file:
+            for flag in state_flags.keys():
+                state_flags[flag] += text_file.count(f'set_state_flag = {flag}')
+                state_flags[flag] += text_file.count(f'set_state_flag = {{ flag = {flag}')
 
 # Part 4 - throw the error if flag is not used
     results = [i for i in state_flags if state_flags[i] == 0]
@@ -66,4 +69,4 @@ def test_check_unused_state_flags(filepath: str, false_positives: str):
         print(f'{len(results)} unused state flags found. Probably some of these are false positives, but they should be rechecked!')
         raise AssertionError("Unused state flags were encountered! Check console output")
     end = timer()
-    print(f"The test is finished in {end-start} seconds!")
+    print(f"The test is finished in {round(end-start, 3)} seconds!")
