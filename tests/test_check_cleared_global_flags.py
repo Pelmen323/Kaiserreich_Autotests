@@ -49,8 +49,6 @@ def test_check_cleared_global_flags(filepath: str):
                 global_flags[flag] += text_file.count(f'set_global_flag = {{ flag = {flag}')
 
 # Part 4 - throw the error if flag is not used
-    for i in global_flags.items():
-        print(i)
     results = [i for i in global_flags if global_flags[i] == 0]
     if results != []:
         print("Following global flags are not set via set_global_flag! Recheck them")
