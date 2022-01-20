@@ -16,6 +16,9 @@ Repo for .py tests for Kaiserreich (can be run for every other HOI4 mod), with p
 - missing global flags test (finds all global flags that are not set but checked)
 - missing country flags test (finds all country flags that are not set but checked)
 - missing state flags test (finds all state flags that are not set but checked)
+- cleared global flags test (finds all global flags that are not set but cleared)
+- cleared country flags test (finds all country flags that are not set but cleared)
+- cleared state flags test (finds all state flags that are not set but cleared)
 
 ## Pytest-Jenkins instructions:
 
