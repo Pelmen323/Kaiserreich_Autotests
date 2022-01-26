@@ -9,23 +9,22 @@ import os
 import glob
 import pytest
 import re
-from timeit import default_timer as timer
+from .imports.decorators import util_decorator_no_false_positives
 from .imports.file_functions import open_text_file
 FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\common\\decisions\\"
 FILES_TO_SKIP = ('00_demobilization_decisions.txt',
-                'ZZ_debug_decisions.txt',
-                'Cyrenaica_decisions.txt',      # Caravans empty decisions
-                'Germany_decisions.txt',        # Empty decisions with modifier
-                'Hunan_decisions.txt',          # Missing icons
-                'Intermarium_decisions.txt',    # 2 non-ai decisions
-                'New_England_decisions.txt',)   # 9 empty decisions
+                 'ZZ_debug_decisions.txt',
+                 'Cyrenaica_decisions.txt',      # Caravans empty decisions
+                 'Germany_decisions.txt',        # Empty decisions with modifier
+                 'Hunan_decisions.txt',          # Missing icons
+                 'Intermarium_decisions.txt',    # 2 non-ai decisions
+                 'New_England_decisions.txt',)   # 9 empty decisions
 
 
 @pytest.mark.parametrize("filepath", [(FILEPATH)])
+@util_decorator_no_false_positives
 def test_check_decisions_ai_factors(filepath: str):
-    print("The test is started. Please wait...")
-    start = timer()
-    results_dict = {}
+    results = {}
     os.chdir(filepath)
 
     for filename in glob.glob("*.txt"):
@@ -44,13 +43,13 @@ def test_check_decisions_ai_factors(filepath: str):
         selectable_missions_counter = len(re.findall('selectable_mission = yes', text_file))
         expected_num_of_ai_factors = icon_counter - missions_counter + selectable_missions_counter
         if expected_num_of_ai_factors > ai_will_do_counter:
-            results_dict[filename] = f'There are more decisions and selectable missions in the file ({expected_num_of_ai_factors}) than ai factors ({ai_will_do_counter}). Not all decisions will be available for AI!)'
+            results[filename] = f'There are more decisions and selectable missions in the file ({expected_num_of_ai_factors}) than ai factors ({ai_will_do_counter})!)'
         elif expected_num_of_ai_factors < ai_will_do_counter:
-            results_dict[filename] = f'Huh? We found {ai_will_do_counter} ai factors and only {expected_num_of_ai_factors} selectable decisions and missions. Lets recheck that file... Probably not all decisions have icons or missions that are not selectable have ai factors'
+            results[filename] = f'Huh? We found {ai_will_do_counter} ai factors and only {expected_num_of_ai_factors} selectable decisions and missions. \
+                Probably not all decisions have icons or missions that are not selectable have ai factors'
 
-    if results_dict != {}:
-        for error in results_dict.items():
-            print(error)
-        raise AssertionError("Issues were encountered! Check console output")
-    end = timer()
-    print(f"The test is finished in {round(end-start, 3)} seconds!")
+    if results != {}:
+        for i in results.items():
+            print(f'- [ ] {i}')
+        print(f'{len(results)} decisions with issues found.')
+        raise AssertionError("Issues with decision ai factors were encountered! Check console output")

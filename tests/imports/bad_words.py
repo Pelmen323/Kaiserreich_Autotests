@@ -245,7 +245,6 @@ bad_words = {
     "neccessary": "necessary",
     "necessery": "necessary",
     "neice": "niece",
-    "nieghbor": "neighbor",
     "nieghbor": "neighbour",
     "noticable": "noticeable",
     "ocassion": "occasion",
@@ -392,8 +391,9 @@ bad_words = {
     "weakeaned": "weakened",
     "wensday": "wednesday",
     "wether": "weather",
-    "wether": "whether",
     "whereever": "wherever",
     "wich": "which",
     "wierd": "weird",
+    "montainous": "mountainous",
+    "italain": "italian",
 }

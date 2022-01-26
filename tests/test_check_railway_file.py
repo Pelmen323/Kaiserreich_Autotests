@@ -4,18 +4,18 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import pytest
-from timeit import default_timer as timer
+from .imports.decorators import util_decorator_no_false_positives
 from .imports.file_functions import open_text_file
 FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\map\\railways.txt"
 
 
 @pytest.mark.parametrize("path_to_railway_file", [(FILEPATH)])
+@util_decorator_no_false_positives
 def test_check_railways_file(path_to_railway_file: str) -> bool:
-    print("The test is started. Please wait...")
-    start = timer()
+    results = []
     lines = open_text_file(path_to_railway_file).split('\n')
     line_counter = 0
-    errors_list = []
+
     for line in lines:
         line_counter += 1
         if line == '':
@@ -27,8 +27,10 @@ def test_check_railways_file(path_to_railway_file: str) -> bool:
         str_with_provinces = line[4:].strip()
         list_with_provinces = str_with_provinces.split()
         if int(counter_of_provinces_in_line) != len(list_with_provinces):
-            errors_list.append(f"Line {line_counter} - expected {counter_of_provinces_in_line} provinces, got {list_with_provinces}. Line: {line}")
-    if errors_list != []:
-        raise AssertionError(errors_list)
-    end = timer()
-    print(f"The test is finished in {round(end-start, 3)} seconds!")
+            results.append(f"Line {line_counter} - expected {counter_of_provinces_in_line} provinces, got {list_with_provinces}. Line: {line}")
+
+    if results != []:
+        for i in results:
+            print(f'- [ ] {i}')
+        print(f'{len(results)} lines in railway file with issues found.')
+        raise AssertionError("Encountered issues in railway file! Check console output")

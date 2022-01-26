@@ -7,23 +7,21 @@
 import glob
 import pytest
 import re
-from timeit import default_timer as timer
 from .imports.file_functions import open_text_file, clear_false_positives_flags
+from .imports.decorators import util_decorator
 FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\"
-FALSE_POSITIVES = ['ACW_important_state_CSA',
-                'ACW_important_state_USA',
-                'ACW_important_state_TEX',
-                'ACW_important_state_PSA',
-                'ACW_important_state_NEE',
-                'was_core_of_ROM',
-                'bulgarian_macedonia',]
+FALSE_POSITIVES = ('ACW_important_state_CSA',     # Wavering momentum flags that are currently unused
+                   'ACW_important_state_USA',
+                   'ACW_important_state_TEX',
+                   'ACW_important_state_PSA',
+                   'ACW_important_state_NEE',
+                   'was_core_of_ROM')             # ROM annex event
 
 
 @pytest.mark.parametrize("false_positives", [FALSE_POSITIVES])
 @pytest.mark.parametrize("filepath", [FILEPATH])
-def test_check_unused_state_flags(filepath: str, false_positives: str):
-    print("The test is started. Please wait...")
-    start = timer()
+@util_decorator
+def test_check_unused_state_flags(filepath: str, false_positives: tuple):
     state_flags = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
@@ -50,10 +48,10 @@ def test_check_unused_state_flags(filepath: str, false_positives: str):
                     state_flags[flag] = 0
 
 # Part 2 - clear false positives and flags with variables:
-    print(f'{len(state_flags)} state flags were found')
     clear_false_positives_flags(flags_dict=state_flags, false_positives=false_positives)
 
 # Part 3 - count the number of flag occurrences
+    print(f'{len(state_flags)} set state flags were found')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
             text_file = open_text_file(filename)
@@ -72,7 +70,6 @@ def test_check_unused_state_flags(filepath: str, false_positives: str):
     if results != []:
         print("Following state flags are not checked via has_state_flag! Recheck them")
         for i in results:
-            print(i)
+            print(f'- [ ] {i}')
+        print(f'{len(results)} unused state flags found.')
         raise AssertionError("Unused state flags were encountered! Check console output")
-    end = timer()
-    print(f"The test is finished in {round(end-start, 3)} seconds!")

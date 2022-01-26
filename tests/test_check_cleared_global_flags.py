@@ -6,15 +6,14 @@
 import glob
 import pytest
 import re
-from timeit import default_timer as timer
+from .imports.decorators import util_decorator_no_false_positives
 from .imports.file_functions import open_text_file
 FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\"
 
 
 @pytest.mark.parametrize("filepath", [FILEPATH])
+@util_decorator_no_false_positives
 def test_check_cleared_global_flags(filepath: str):
-    print("The test is started. Please wait...")
-    start = timer()
     global_flags = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
@@ -34,7 +33,7 @@ def test_check_cleared_global_flags(filepath: str):
                     global_flags[flag] = 0
 
 # Part 2 - count the number of flag occurrences
-    print(f'{len(global_flags)} unique cleared global flags were found')
+    print(f'{len(global_flags)} state flags cleared at least once')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
             text_file = open_text_file(filename)
@@ -53,7 +52,6 @@ def test_check_cleared_global_flags(filepath: str):
     if results != []:
         print("Following global flags are not set via set_global_flag! Recheck them")
         for i in results:
-            print(i)
+            print(f'- [ ] {i}')
+        print(f'{len(results)} unset global flags found.')
         raise AssertionError("Unassigned global flags that are cleared were encountered! Check console output")
-    end = timer()
-    print(f"The test is finished in {round(end-start, 3)} seconds!")

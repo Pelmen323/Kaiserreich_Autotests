@@ -6,15 +6,14 @@
 import glob
 import pytest
 import re
-from timeit import default_timer as timer
+from .imports.decorators import util_decorator_no_false_positives
 from .imports.file_functions import open_text_file
 FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\"
 
 
 @pytest.mark.parametrize("filepath", [FILEPATH])
+@util_decorator_no_false_positives
 def test_check_cleared_state_flags(filepath: str):
-    print("The test is started. Please wait...")
-    start = timer()
     state_flags = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
@@ -35,6 +34,7 @@ def test_check_cleared_state_flags(filepath: str):
 
 
 # Part 2 - count the number of flag occurrences
+    print(f'{len(state_flags)} state flags cleared at least once')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
             text_file = open_text_file(filename)
@@ -48,12 +48,11 @@ def test_check_cleared_state_flags(filepath: str):
                 state_flags[flag] += text_file.count(f'set_state_flag = {flag}')
                 state_flags[flag] += text_file.count(f'set_state_flag = {{ flag = {flag}')
 
-# Part 4 - throw the error if flag is not used
+# Part 3 - throw the error if flag is not used
     results = [i for i in state_flags if state_flags[i] == 0]
     if results != []:
         print("Following state flags are cleared but not set via set_state_flag! Recheck them")
         for i in results:
-            print(i)
+            print(f'- [ ] {i}')
+        print(f'{len(results)} unset state flags found.')
         raise AssertionError("State flags that are cleared but not set were encountered! Check console output")
-    end = timer()
-    print(f"The test is finished in {round(end-start, 3)} seconds!")

@@ -6,23 +6,16 @@
 import glob
 import pytest
 import re
-from timeit import default_timer as timer
+from .imports.decorators import util_decorator
 from .imports.file_functions import open_text_file, clear_false_positives_flags
 FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\"
-FALSE_POSITIVES = ['first_inter_congress_HND',
-                'second_inter_congress_CSA',
-                'second_inter_congress_MEX',
-                'second_inter_congress_CHL',
-                'ENG_labour_was_in_power',
-                'PANAMA_CANAL_BLOCKED',
-                'KR_Economy_Logging']
+FALSE_POSITIVES = ('KR_Economy_Logging')
 
 
 @pytest.mark.parametrize("false_positives", [FALSE_POSITIVES])
 @pytest.mark.parametrize("filepath", [FILEPATH])
+@util_decorator
 def test_check_missing_global_flags(filepath: str, false_positives: str):
-    print("The test is started. Please wait...")
-    start = timer()
     global_flags = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
@@ -52,7 +45,7 @@ def test_check_missing_global_flags(filepath: str, false_positives: str):
     clear_false_positives_flags(flags_dict=global_flags, false_positives=false_positives)
 
 # Part 3 - count the number of flag occurrences
-    print(f'{len(global_flags)} unique used global flags were found')
+    print(f'{len(global_flags)} global flags used at least once')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
             text_file = open_text_file(filename)
@@ -65,13 +58,14 @@ def test_check_missing_global_flags(filepath: str, false_positives: str):
             for flag in global_flags.keys():
                 global_flags[flag] += text_file.count(f'set_global_flag = {flag}')
                 global_flags[flag] += text_file.count(f'set_global_flag = {{ flag = {flag}')
+                if flag[-4] == '_':
+                    global_flags[flag] += text_file.count(f'set_global_flag = {flag[:-4]}_@ROOT')
 
 # Part 4 - throw the error if flag is not used
     results = [i for i in global_flags if global_flags[i] == 0]
     if results != []:
         print("Following global flags are not set via set_global_flag! Recheck them")
         for i in results:
-            print(i)
+            print(f'- [ ] {i}')
+        print(f'{len(results)} missing global flags found.')
         raise AssertionError("Unassigned global flags were encountered! Check console output")
-    end = timer()
-    print(f"The test is finished in {round(end-start, 3)} seconds!")
