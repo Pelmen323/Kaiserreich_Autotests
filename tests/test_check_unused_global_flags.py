@@ -5,16 +5,12 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import pytest
 import re
 from .imports.file_functions import open_text_file
-from .imports.decorators import util_decorator_no_false_positives
-FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\"
 
 
-@pytest.mark.parametrize("filepath", [FILEPATH])
-@util_decorator_no_false_positives
-def test_check_unused_global_flags(filepath: str):
+def test_check_unused_global_flags(test_runner: object):
+    filepath = test_runner.full_path_to_mod
     global_flags = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
@@ -29,14 +25,14 @@ def test_check_unused_global_flags(filepath: str):
             global_flags_in_file = re.findall('set_global_flag = \\b\\w*\\b', text_file)
             if len(global_flags_in_file) > 0:
                 for flag in global_flags_in_file:
-                    flag = flag[18:]                  # cut the 'set_global_flag =' part and \n symbol
+                    flag = flag[18:]
                     flag = flag.strip()
                     global_flags[flag] = 0
 
             global_flags_in_file = re.findall('set_global_flag = \\{ flag = \\b\\w*\\b', text_file)
             if len(global_flags_in_file) > 0:
                 for flag in global_flags_in_file:
-                    flag = flag[27:]                 # cut the 'has_country_flag =' part and \n symbol
+                    flag = flag[27:]
                     flag = flag.strip()
                     global_flags[flag] = 0
 

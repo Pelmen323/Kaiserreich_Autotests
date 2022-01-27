@@ -3,15 +3,11 @@
 # The error is very important as the game draws level 4 railways in half of the world if you provide less provinces than should
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-import pytest
-from .imports.decorators import util_decorator_no_false_positives
 from .imports.file_functions import open_text_file
-FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\map\\railways.txt"
 
 
-@pytest.mark.parametrize("filepath", [(FILEPATH)])
-@util_decorator_no_false_positives
-def test_check_railways_file(filepath: str) -> bool:
+def test_check_railways_file(test_runner: object) -> bool:
+    filepath = f'{test_runner.full_path_to_mod}map\\railways.txt'
     results = []
     lines = open_text_file(filepath).split('\n')
     line_counter = 0

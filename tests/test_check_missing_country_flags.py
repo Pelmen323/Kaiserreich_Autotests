@@ -21,7 +21,7 @@
 
 # @pytest.mark.parametrize("false_positives", [FALSE_POSITIVES])
 # @pytest.mark.parametrize("filepath", [FILEPATH])
-# def test_check_missing_country_flags(filepath: str, false_positives: str):
+# def test_check_missing_country_flags(filepath: str, false_positives: tuple):
 #     print("The test is started. Please wait...")
 #     start = timer()
 #     country_flags = {}

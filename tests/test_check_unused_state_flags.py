@@ -5,23 +5,18 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import pytest
 import re
 from .imports.file_functions import open_text_file, clear_false_positives_flags
-from .imports.decorators import util_decorator
-FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\"
 FALSE_POSITIVES = ('ACW_important_state_CSA',     # Wavering momentum flags that are currently unused
                    'ACW_important_state_USA',
                    'ACW_important_state_TEX',
                    'ACW_important_state_PSA',
                    'ACW_important_state_NEE',
-                   'was_core_of_ROM')             # ROM annex event
+                   'was_core_of_ROM',)             # ROM annex event
 
 
-@pytest.mark.parametrize("false_positives", [FALSE_POSITIVES])
-@pytest.mark.parametrize("filepath", [FILEPATH])
-@util_decorator
-def test_check_unused_state_flags(filepath: str, false_positives: tuple):
+def test_check_unused_state_flags(test_runner: object):
+    filepath = test_runner.full_path_to_mod
     state_flags = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
@@ -48,7 +43,7 @@ def test_check_unused_state_flags(filepath: str, false_positives: tuple):
                     state_flags[flag] = 0
 
 # Part 2 - clear false positives and flags with variables:
-    clear_false_positives_flags(flags_dict=state_flags, false_positives=false_positives)
+    clear_false_positives_flags(flags_dict=state_flags, false_positives=FALSE_POSITIVES)
 
 # Part 3 - count the number of flag occurrences
     print(f'{len(state_flags)} set state flags were found')

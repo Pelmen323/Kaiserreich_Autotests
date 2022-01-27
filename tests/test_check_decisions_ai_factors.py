@@ -7,11 +7,8 @@
 ##########################
 import os
 import glob
-import pytest
 import re
-from .imports.decorators import util_decorator_no_false_positives
 from .imports.file_functions import open_text_file
-FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\common\\decisions\\"
 FILES_TO_SKIP = ('00_demobilization_decisions.txt',
                  'ZZ_debug_decisions.txt',
                  'Cyrenaica_decisions.txt',      # Caravans empty decisions
@@ -21,9 +18,8 @@ FILES_TO_SKIP = ('00_demobilization_decisions.txt',
                  'New_England_decisions.txt',)   # 9 empty decisions
 
 
-@pytest.mark.parametrize("filepath", [(FILEPATH)])
-@util_decorator_no_false_positives
-def test_check_decisions_ai_factors(filepath: str):
+def test_check_decisions_ai_factors(test_runner: object):
+    filepath = f'{test_runner.full_path_to_mod}common\\decisions\\'
     results = {}
     os.chdir(filepath)
 

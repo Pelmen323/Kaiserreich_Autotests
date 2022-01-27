@@ -3,19 +3,15 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import pytest
-from .imports.decorators import util_decorator_no_false_positives
 from .imports.file_functions import open_text_file
-FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\"
-FILES_TO_SKIP = ('common\\scripted_effects\\_useful_scripted_effects.txt')
 
 
-@pytest.mark.parametrize("filepath", [(FILEPATH)])
-@util_decorator_no_false_positives
-def test_check_remove_country_leader_role(filepath: str):
+def test_check_remove_country_leader_role(test_runner: object):
+    filepath = test_runner.full_path_to_mod
+    file_to_skip = f'{filepath}common\\scripted_effects\\_useful_scripted_effects.txt'
     results = {}
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        if filename == f"{FILEPATH}{FILES_TO_SKIP}":
+        if filename == file_to_skip:
             continue
         try:
             text_file = open_text_file(filename)

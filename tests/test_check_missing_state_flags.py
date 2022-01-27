@@ -4,16 +4,12 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import pytest
 import re
-from .imports.decorators import util_decorator_no_false_positives
 from .imports.file_functions import open_text_file
-FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\"
 
 
-@pytest.mark.parametrize("filepath", [FILEPATH])
-@util_decorator_no_false_positives
-def test_check_missing_state_flags(filepath: str):
+def test_check_missing_state_flags(test_runner: object):
+    filepath = test_runner.full_path_to_mod
     state_flags = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):

@@ -2,3 +2,4 @@ __pycache__/
 .venvs/
 .pytest_cache/
 .vscode/
+storage_folder/

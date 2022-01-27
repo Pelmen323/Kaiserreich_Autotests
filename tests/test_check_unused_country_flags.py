@@ -5,19 +5,14 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import pytest
 import re
-from .imports.decorators import util_decorator
 from .imports.file_functions import open_text_file, clear_false_positives_flags
-FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\"
 FALSE_POSITIVES = ('is_han_chinese_tag',        # Currently unused flags
-                   'is_non_han_chinese_tag')
+                   'is_non_han_chinese_tag',)
 
 
-@pytest.mark.parametrize("false_positives", [FALSE_POSITIVES])
-@pytest.mark.parametrize("filepath", [FILEPATH])
-@util_decorator
-def test_check_unused_country_flags(filepath: str, false_positives: list):
+def test_check_unused_country_flags(test_runner: object):
+    filepath = test_runner.full_path_to_mod
     country_flags = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
@@ -44,7 +39,7 @@ def test_check_unused_country_flags(filepath: str, false_positives: list):
                     country_flags[flag] = 0
 
 # Part 2 - clear false positives and flags with variables:
-    clear_false_positives_flags(flags_dict=country_flags, false_positives=false_positives)
+    clear_false_positives_flags(flags_dict=country_flags, false_positives=FALSE_POSITIVES)
 
 # Part 3 - count the number of flag occurrences
     print(f'{len(country_flags)} set country flags found')

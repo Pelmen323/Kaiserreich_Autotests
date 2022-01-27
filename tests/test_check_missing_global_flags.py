@@ -4,18 +4,13 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import pytest
 import re
-from .imports.decorators import util_decorator
 from .imports.file_functions import open_text_file, clear_false_positives_flags
-FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\"
-FALSE_POSITIVES = ('KR_Economy_Logging')
+FALSE_POSITIVES = ('KR_Economy_Logging',)
 
 
-@pytest.mark.parametrize("false_positives", [FALSE_POSITIVES])
-@pytest.mark.parametrize("filepath", [FILEPATH])
-@util_decorator
-def test_check_missing_global_flags(filepath: str, false_positives: str):
+def test_check_missing_global_flags(test_runner: object):
+    filepath = test_runner.full_path_to_mod
     global_flags = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
@@ -42,7 +37,7 @@ def test_check_missing_global_flags(filepath: str, false_positives: str):
                     global_flags[flag] = 0
 
 # Part 2 - clear false positives and flags with variables:
-    clear_false_positives_flags(flags_dict=global_flags, false_positives=false_positives)
+    clear_false_positives_flags(flags_dict=global_flags, false_positives=FALSE_POSITIVES)
 
 # Part 3 - count the number of flag occurrences
     print(f'{len(global_flags)} global flags used at least once')
