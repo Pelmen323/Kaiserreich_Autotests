@@ -9,11 +9,11 @@ from .imports.file_functions import open_text_file
 FILEPATH = "C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\map\\railways.txt"
 
 
-@pytest.mark.parametrize("path_to_railway_file", [(FILEPATH)])
+@pytest.mark.parametrize("filepath", [(FILEPATH)])
 @util_decorator_no_false_positives
-def test_check_railways_file(path_to_railway_file: str) -> bool:
+def test_check_railways_file(filepath: str) -> bool:
     results = []
-    lines = open_text_file(path_to_railway_file).split('\n')
+    lines = open_text_file(filepath).split('\n')
     line_counter = 0
 
     for line in lines:
