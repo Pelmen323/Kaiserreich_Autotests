@@ -1,6 +1,11 @@
 # Pytest Tests for Kaiserreich
 
 Repo for .py tests for Kaiserreich (can be run for every other HOI4 mod), with possibility to setup Jenkins as runner.
+It can be used 'as is' for Kaiserreich user, they only need to pass their system username in which doc folder the project is located and name of mod folder (see screenshots lower). For other HOI4 projects it can be used as well but requires manual verification of each error and adjusting FALSE_POSITIVES iterables respectively
+
+General idea of the project is to automate the scenarios testing that are almost impossible to verify otherwise (they can be checked manually via CWTools in some cases, but my solution benefits from all automation perks - it is never tired and it performs thousands of operation per second). Tests are NOT running the game, instead they parse and analyze the codebase
+
+Current full run time - around 4 minutes
 
 ## Currently included tests:
 
@@ -20,8 +25,20 @@ Repo for .py tests for Kaiserreich (can be run for every other HOI4 mod), with p
 - cleared country flags test (finds all country flags that are not set but cleared)
 - cleared state flags test (finds all state flags that are not set but cleared)
 
-## Pytest-Jenkins instructions:
 
+## Pytest instructions:
+It allows to run test locally, all you need is python installation and installed 'pytest' plugin
+0. Create venv with pytest installed - 'pip install pytest' or 'pipenv install pytest' if you use pipenv
+1. Clone repo with tests
+2. Change directory to repo directory
+3. Run:
+### pytest -v -s "--username=VADIM" "--mod_name=Kaiserreich Dev Build"**
+in console, replace **username** with your system username and **mod_name** with mod folder name
+![Screenshot (1959)](https://user-images.githubusercontent.com/43440389/151341518-cf21b401-3c90-459d-80ce-02385a0166fe.png)
+
+
+## Pytest-Jenkins instructions:
+It allows to run tests automatically based on specific triggers
 0. Create a Python Virtual Environment, install Pytest via 'pip install pytest' or 'pipenv install pytest' if you use pipenv
 1. Install Jenkins https://www.jenkins.io/
 2. Install **Python Plugin** and **ShiningPanda Plugin** Jenkins plugins:
@@ -33,9 +50,12 @@ Repo for .py tests for Kaiserreich (can be run for every other HOI4 mod), with p
 4. Create a new Job (Freestyle project)
 5. Configure the job
 - git repo - https://github.com/Pelmen323/Kaiserreich_Jenkins_PyTests, branch - main
-- Build action - Custom Python Builder, path to your venv (not to exe), nature - Shell, command - 'pytest -v -s --junitxml TestResults.xml')
+- Build action - Custom Python Builder, path to your venv (not to exe), nature - Shell, command:
+### pytest -v -s "--username=VADIM" "--mod_name=Kaiserreich Dev Build" --junitxml TestResults.xml
+(replace **username** with your system username and **mod_name** with mod folder name)
+![Screenshot (1961)](https://user-images.githubusercontent.com/43440389/151342210-319f1f31-e817-4283-8462-4279b4aa4e01.png)
 - Post-Build Actions - Publish Junit test result report, test report xmls - *.xml
-![Screenshot (1786)](https://user-images.githubusercontent.com/43440389/148402821-1feb37ad-90cd-4a47-83dd-c3a34a0d2727.png)
+![Screenshot (1962)](https://user-images.githubusercontent.com/43440389/151342304-4a1a4855-e3b0-4ad5-ab7e-d75877be3084.png)
 
 6. Setup the Build Triggers (or you can trigger the job manually)
 7. Save the job
