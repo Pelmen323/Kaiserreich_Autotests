@@ -7,6 +7,8 @@ General idea of the project is to automate the scenarios testing that are almost
 
 In-built multithreading support and high performance optimization, current full run time - around 70 seconds.
 
+Requirements - Python installation with pytest and pytest-xdist plugins installed
+
 ## Currently included tests:
 
 - usage of remove_all_leader_roles effect test (the effect causes CTDs. Test verifies that this effect is not used)
@@ -30,11 +32,12 @@ In-built multithreading support and high performance optimization, current full 
 
 
 ## Pytest instructions:
-It allows to run test locally, all you need is python installation and installed 'pytest' plugin
+It allows to run test locally, all you need is python installation and installed 'pytest' and 'pytest-xdist' plugins
 0. Create venv with pytest installed - 'pip install pytest' or 'pipenv install pytest' if you use pipenv
-1. Clone repo with tests
-2. Change directory to repo directory
-3. Run:
+1. Install pytest-xdist - 'pip install pytest-xdist' or 'pipenv install pytest-xdist' if you use pipenv
+2. Clone repo with tests
+3. Change directory to repo directory
+4. Run:
 ### pytest -v -s --tb=short "--username=xxx" "--mod_name=xxx" -n 6"
 in console, replace **username** with your system username and **mod_name** with mod folder name, -n - number of your CPU cores
 ![Screenshot (1959)](https://user-images.githubusercontent.com/43440389/151341518-cf21b401-3c90-459d-80ce-02385a0166fe.png)
@@ -42,7 +45,7 @@ in console, replace **username** with your system username and **mod_name** with
 
 ## Pytest-Jenkins instructions:
 It allows to run tests automatically based on specific triggers
-0. Create a Python Virtual Environment, install Pytest via 'pip install pytest' or 'pipenv install pytest' if you use pipenv
+0. Create a Python Virtual Environment, install Pytest via 'pip install pytest' or 'pipenv install pytest' if you use pipenv, install 'pytest-xdist' - 'pip install pytest-xdist' or 'pipenv install pytest-xdist' if you use pipenv
 1. Install Jenkins https://www.jenkins.io/
 2. Install **Python Plugin** and **ShiningPanda Plugin** Jenkins plugins:
 ![Screenshot (1782)](https://user-images.githubusercontent.com/43440389/148402585-b2eaa6d6-7496-4b11-8643-1b1b17fa87ff.png)
