@@ -8,6 +8,7 @@ import glob
 import re
 import os
 from .imports.file_functions import open_text_file
+import logging
 
 
 def test_check_retire_characters(test_runner: object):
@@ -17,8 +18,8 @@ def test_check_retire_characters(test_runner: object):
         try:
             text_file = open_text_file(filename)
         except Exception as ex:
-            print(f'Skipping the file {filename}')
-            print(ex)
+            logging.warning(f'Skipping the file {filename}')
+            logging.warning(ex)
             continue
 
         text_file_splitted = text_file.split('\n')
@@ -32,8 +33,8 @@ def test_check_retire_characters(test_runner: object):
                         results[f'{os.path.basename(filename)}, line {line}'] = found_issue
 
     if results != {}:
-        print("Following characters should be retired with 'retire = yes'! Recheck them")
+        logging.warning("Following characters should be retired with 'retire = yes'! Recheck them")
         for i in results.items():
-            print(f'- [ ] {i}')
-        print(f'{len(results)} times "retire_character" is used.')
+            logging.error(f'- [ ] {i}')
+        logging.warning(f'{len(results)} times "retire_character" is used.')
         raise AssertionError("Characters retired with 'retire_character' were encountered, you should retire them with 'retire = yes'! Check console output")

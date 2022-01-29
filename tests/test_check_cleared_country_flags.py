@@ -7,6 +7,7 @@
 import glob
 import re
 from .imports.file_functions import open_text_file, clear_false_positives_flags
+import logging
 FALSE_POSITIVES = ('annexation_window_open')    # Commented functionality
 
 
@@ -18,8 +19,8 @@ def test_check_cleared_country_flags(test_runner: object):
         try:
             text_file = open_text_file(filename)
         except Exception as ex:
-            print(f'Skipping the file {filename}')
-            print(ex)
+            logging.warning(f'Skipping the file {filename}')
+            logging.warning(ex)
             continue
 
         if 'clr_country_flag =' in text_file:
@@ -35,13 +36,13 @@ def test_check_cleared_country_flags(test_runner: object):
     clear_false_positives_flags(flags_dict=country_flags, false_positives=FALSE_POSITIVES)
 
 # Part 3 - count the number of flag occurrences
-    print(f'{len(country_flags)} country flags cleared at least once')
+    logging.debug(f'{len(country_flags)} country flags cleared at least once')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
             text_file = open_text_file(filename)
         except Exception as ex:
-            print(f'Skipping the file {filename}')
-            print(ex)
+            logging.warning(f'Skipping the file {filename}')
+            logging.warning(ex)
             continue
 
         not_encountered_flags = [i for i in country_flags.keys() if country_flags[i] == 0]
@@ -57,8 +58,8 @@ def test_check_cleared_country_flags(test_runner: object):
 # Part 4 - throw the error if flag is not used
     results = [i for i in country_flags if country_flags[i] == 0]
     if results != []:
-        print("Following cleared country flags are not set via set_country_flag! Recheck them")
+        logging.warning("Following cleared country flags are not set via set_country_flag! Recheck them")
         for i in results:
-            print(f'- [ ] {i}')
-        print(f'{len(results)} unset country flags found.')
+            logging.error(f'- [ ] {i}')
+        logging.warning(f'{len(results)} unset country flags found.')
         raise AssertionError("Unset country flags were encountered! Check console output")

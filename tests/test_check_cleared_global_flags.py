@@ -6,6 +6,7 @@
 import glob
 import re
 from .imports.file_functions import open_text_file
+import logging
 
 
 def test_check_cleared_global_flags(test_runner: object):
@@ -16,8 +17,8 @@ def test_check_cleared_global_flags(test_runner: object):
         try:
             text_file = open_text_file(filename)
         except Exception as ex:
-            print(f'Skipping the file {filename}')
-            print(ex)
+            logging.warning(f'Skipping the file {filename}')
+            logging.warning(ex)
             continue
 
         if 'clr_global_flag =' in text_file:
@@ -29,13 +30,13 @@ def test_check_cleared_global_flags(test_runner: object):
                     global_flags[flag] = 0
 
 # Part 2 - count the number of flag occurrences
-    print(f'{len(global_flags)} state flags cleared at least once')
+    logging.debug(f'{len(global_flags)} state flags cleared at least once')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
             text_file = open_text_file(filename)
         except Exception as ex:
-            print(f'Skipping the file {filename}')
-            print(ex)
+            logging.warning(f'Skipping the file {filename}')
+            logging.warning(ex)
             continue
 
         not_encountered_flags = [i for i in global_flags.keys() if global_flags[i] == 0]
@@ -48,8 +49,8 @@ def test_check_cleared_global_flags(test_runner: object):
 # Part 4 - throw the error if flag is not used
     results = [i for i in global_flags if global_flags[i] == 0]
     if results != []:
-        print("Following global flags are not set via set_global_flag! Recheck them")
+        logging.warning("Following global flags are not set via set_global_flag! Recheck them")
         for i in results:
-            print(f'- [ ] {i}')
-        print(f'{len(results)} unset global flags found.')
+            logging.error(f'- [ ] {i}')
+        logging.warning(f'{len(results)} unset global flags found.')
         raise AssertionError("Unassigned global flags that are cleared were encountered! Check console output")

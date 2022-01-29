@@ -6,6 +6,7 @@
 import glob
 import re
 from .imports.file_functions import open_text_file
+import logging
 
 
 def test_check_missing_state_flags(test_runner: object):
@@ -16,8 +17,8 @@ def test_check_missing_state_flags(test_runner: object):
         try:
             text_file = open_text_file(filename)
         except Exception as ex:
-            print(f'Skipping the file {filename}')
-            print(ex)
+            logging.warning(f'Skipping the file {filename}')
+            logging.warning(ex)
             continue
 
         if 'has_state_flag =' in text_file:
@@ -37,13 +38,13 @@ def test_check_missing_state_flags(test_runner: object):
 
 
 # Part 2 - count the number of flag occurrences
-    print(f'{len(state_flags)} state flags used at least once')
+    logging.debug(f'{len(state_flags)} state flags used at least once')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
             text_file = open_text_file(filename)
         except Exception as ex:
-            print(f'Skipping the file {filename}')
-            print(ex)
+            logging.warning(f'Skipping the file {filename}')
+            logging.warning(ex)
             continue
 
         not_encountered_flags = [i for i in state_flags.keys() if state_flags[i] == 0]
@@ -56,8 +57,8 @@ def test_check_missing_state_flags(test_runner: object):
 # Part 3 - throw the error if flag is not used
     results = [i for i in state_flags if state_flags[i] == 0]
     if results != []:
-        print("Following state flags are not set via set_state_flag! Recheck them")
+        logging.warning("Following state flags are not set via set_state_flag! Recheck them")
         for i in results:
-            print(f'- [ ] {i}')
-        print(f'{len(results)} missing state flags found.')
+            logging.error(f'- [ ] {i}')
+        logging.warning(f'{len(results)} missing state flags found.')
         raise AssertionError("Unassigned state flags were encountered! Check console output")

@@ -1,5 +1,6 @@
 import pytest
 from timeit import default_timer as timer
+import logging
 
 
 class TestRunner:
@@ -32,10 +33,9 @@ def test_runner(request):
     """
     This fixture passes class with test data, prints messages as well as times the test execution time and prints to console
     """
-    print("    The test is started. Please wait...")
     start = timer()
     username = request.config.getoption("--username")
     mod_name = request.config.getoption("--mod_name")
     yield TestRunner(username=username, mod_name=mod_name)
     end = timer()
-    print(f"    The test is finished in {round(end-start, 3)} seconds!")
+    logging.debug(f"The test is finished in {round(end-start, 3)} seconds!")

@@ -6,6 +6,7 @@ import glob
 from .imports.bad_words import bad_words    # Dict with wrong_word : right_word. Bad versions are keys in the dict
 from .imports.file_functions import open_text_file
 import string
+import logging
 
 
 def test_find_bad_words(test_runner: object):
@@ -18,8 +19,8 @@ def test_find_bad_words(test_runner: object):
         try:
             text_file = open_text_file(filename)
         except Exception as ex:
-            print(f'Skipping the file {filename}')
-            print(ex)
+            logging.warning(f'Skipping the file {filename}')
+            logging.warning(ex)
             continue
 
         for symbol in text_file:
@@ -34,6 +35,6 @@ def test_find_bad_words(test_runner: object):
 
     if typo_list != []:
         for i in typo_list:
-            print(f'- [ ] {i}')
-        print(f'{len(typo_list)} localisation issues found.')
+            logging.error(f'- [ ] {i}')
+        logging.warning(f'{len(typo_list)} localisation issues found.')
         raise AssertionError("Typos were encountered! Check console output")

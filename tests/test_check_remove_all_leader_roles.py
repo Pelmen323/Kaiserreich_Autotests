@@ -4,6 +4,7 @@
 ##########################
 import glob
 from .imports.file_functions import open_text_file
+import logging
 
 
 def test_check_remove_all_country_leader_roles(test_runner: object):
@@ -16,8 +17,8 @@ def test_check_remove_all_country_leader_roles(test_runner: object):
         try:
             text_file = open_text_file(filename)
         except Exception as ex:
-            print(f'Skipping the file {filename}')
-            print(ex)
+            logging.warning(f'Skipping the file {filename}')
+            logging.warning(ex)
             continue
 
         errors_found = text_file.count('remove_all_country_leader_roles')
@@ -26,6 +27,6 @@ def test_check_remove_all_country_leader_roles(test_runner: object):
 
     if results != {}:
         for i in results.items():
-            print(f'- [ ] {i}')
-        print(f'{len(results)} times "remove_all_country_leader_roles" is used.')
+            logging.error(f'- [ ] {i}')
+        logging.warning(f'{len(results)} times "remove_all_country_leader_roles" is used.')
         raise AssertionError("'remove_all_country_leader_roles' usage has been encountered! Check console output")

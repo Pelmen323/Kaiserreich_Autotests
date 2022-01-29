@@ -9,6 +9,7 @@ import os
 import glob
 import re
 from .imports.file_functions import open_text_file
+import logging
 FILES_TO_SKIP = ('00_demobilization_decisions.txt',
                  'ZZ_debug_decisions.txt',
                  'Cyrenaica_decisions.txt',      # Caravans empty decisions
@@ -29,8 +30,8 @@ def test_check_decisions_ai_factors(test_runner: object):
         try:
             text_file = open_text_file(filename)
         except Exception as ex:
-            print(f'Skipping the file {filename}')
-            print(ex)
+            logging.warning(f'Skipping the file {filename}')
+            logging.warning(ex)
             continue
 
         icon_counter = len(re.findall('icon =', text_file))
@@ -46,6 +47,6 @@ def test_check_decisions_ai_factors(test_runner: object):
 
     if results != {}:
         for i in results.items():
-            print(f'- [ ] {i}')
-        print(f'{len(results)} decisions with issues found.')
+            logging.error(f'- [ ] {i}')
+        logging.warning(f'{len(results)} decisions with issues found.')
         raise AssertionError("Issues with decision ai factors were encountered! Check console output")

@@ -7,6 +7,7 @@
 import glob
 import re
 from .imports.file_functions import open_text_file, clear_false_positives_flags
+import logging
 FALSE_POSITIVES = ('ACW_important_state_CSA',     # Wavering momentum flags that are currently unused
                    'ACW_important_state_USA',
                    'ACW_important_state_TEX',
@@ -23,8 +24,8 @@ def test_check_unused_state_flags(test_runner: object):
         try:
             text_file = open_text_file(filename)
         except Exception as ex:
-            print(f'Skipping the file {filename}')
-            print(ex)
+            logging.warning(f'Skipping the file {filename}')
+            logging.warning(ex)
             continue
 
         if 'set_state_flag =' in text_file:
@@ -46,13 +47,13 @@ def test_check_unused_state_flags(test_runner: object):
     clear_false_positives_flags(flags_dict=state_flags, false_positives=FALSE_POSITIVES)
 
 # Part 3 - count the number of flag occurrences
-    print(f'{len(state_flags)} set state flags were found')
+    logging.debug(f'{len(state_flags)} set state flags were found')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
             text_file = open_text_file(filename)
         except Exception as ex:
-            print(f'Skipping the file {filename}')
-            print(ex)
+            logging.warning(f'Skipping the file {filename}')
+            logging.warning(ex)
             continue
 
         not_encountered_flags = [i for i in state_flags.keys() if state_flags[i] == 0]
@@ -65,8 +66,8 @@ def test_check_unused_state_flags(test_runner: object):
 # Part 4 - throw the error if flag is not used
     results = [i for i in state_flags if state_flags[i] == 0]
     if results != []:
-        print("Following state flags are not checked via has_state_flag! Recheck them")
+        logging.warning("Following state flags are not checked via has_state_flag! Recheck them")
         for i in results:
-            print(f'- [ ] {i}')
-        print(f'{len(results)} unused state flags found.')
+            logging.error(f'- [ ] {i}')
+        logging.warning(f'{len(results)} unused state flags found.')
         raise AssertionError("Unused state flags were encountered! Check console output")

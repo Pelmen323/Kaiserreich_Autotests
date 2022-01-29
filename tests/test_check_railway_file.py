@@ -4,6 +4,7 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 from .imports.file_functions import open_text_file
+import logging
 
 
 def test_check_railways_file(test_runner: object) -> bool:
@@ -27,6 +28,6 @@ def test_check_railways_file(test_runner: object) -> bool:
 
     if results != []:
         for i in results:
-            print(f'- [ ] {i}')
-        print(f'{len(results)} lines in railway file with issues found.')
+            logging.error(f'- [ ] {i}')
+        logging.warning(f'{len(results)} lines in railway file with issues found.')
         raise AssertionError("Encountered issues in railway file! Check console output")
