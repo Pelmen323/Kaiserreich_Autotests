@@ -55,8 +55,10 @@ def test_check_unused_state_flags(test_runner: object):
             print(ex)
             continue
 
+        not_encountered_flags = [i for i in state_flags.keys() if state_flags[i] == 0]
+
         if 'has_state_flag =' in text_file:
-            for flag in state_flags.keys():
+            for flag in not_encountered_flags:
                 state_flags[flag] += text_file.count(f'has_state_flag = {flag}')
                 state_flags[flag] += text_file.count(f'has_state_flag = {{ flag = {flag}')
 

@@ -44,16 +44,18 @@ def test_check_unused_event_targets(test_runner: object):
             print(ex)
             continue
 
+        not_encountered_targets = [i for i in event_targets.keys() if event_targets[i] == 0]
+
         if 'event_target:' in text_file:
-            for target in event_targets.keys():
+            for target in not_encountered_targets:
                 event_targets[target] += text_file.count(f'event_target:{target}')
 
         if 'has_event_target =' in text_file:
-            for target in [i for i in event_targets.keys() if event_targets[i] == 0]:
+            for target in not_encountered_targets:
                 event_targets[target] += text_file.count(f'has_event_target = {target}')
 
         if 'global_event_target =' in text_file:
-            for target in [i for i in event_targets.keys() if event_targets[i] == 0]:
+            for target in not_encountered_targets:
                 event_targets[target] += text_file.count(f'global_event_target = {target}')
 
     # Additionally checking yml files for loc functions
@@ -65,8 +67,10 @@ def test_check_unused_event_targets(test_runner: object):
             print(ex)
             continue
 
+        not_encountered_targets = [i for i in event_targets.keys() if event_targets[i] == 0]
+
         if '.Get' in text_file:
-            for target in [i for i in event_targets.keys() if event_targets[i] == 0]:
+            for target in not_encountered_targets:
                 event_targets[target] += text_file.count(f'[{target}.GetName')
                 event_targets[target] += text_file.count(f'[{target}.GetAdjective')
 

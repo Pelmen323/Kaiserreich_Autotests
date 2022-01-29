@@ -37,11 +37,13 @@ def test_check_missing_event_targets(test_runner: object):
             print(ex)
             continue
 
+        not_encountered_targets = [i for i in event_targets.keys() if event_targets[i] == 0]
+
         if 'save_global_event_target_as =' in text_file:
-            for target in event_targets.keys():
+            for target in not_encountered_targets:
                 event_targets[target] += text_file.count(f'save_global_event_target_as = {target}')
         if 'save_event_target_as =' in text_file:
-            for target in event_targets.keys():
+            for target in not_encountered_targets:
                 event_targets[target] += text_file.count(f'save_event_target_as = {target}')
 
 # Part 3 - throw the error if flag is not used

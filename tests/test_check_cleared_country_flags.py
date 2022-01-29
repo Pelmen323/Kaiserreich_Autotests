@@ -35,7 +35,7 @@ def test_check_cleared_country_flags(test_runner: object):
     clear_false_positives_flags(flags_dict=country_flags, false_positives=FALSE_POSITIVES)
 
 # Part 3 - count the number of flag occurrences
-    print(f'{len(country_flags)} state flags cleared at least once')
+    print(f'{len(country_flags)} country flags cleared at least once')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
             text_file = open_text_file(filename)
@@ -44,10 +44,13 @@ def test_check_cleared_country_flags(test_runner: object):
             print(ex)
             continue
 
+        not_encountered_flags = [i for i in country_flags.keys() if country_flags[i] == 0]
+
         if 'set_country_flag =' in text_file:
-            for flag in country_flags.keys():
-                country_flags[flag] += text_file.count(f'set_country_flag = {flag}')
-                country_flags[flag] += text_file.count(f'set_country_flag = {{ flag = {flag}')
+            for flag in not_encountered_flags:
+                if flag in text_file:
+                    country_flags[flag] += text_file.count(f'set_country_flag = {flag}')
+                    country_flags[flag] += text_file.count(f'set_country_flag = {{ flag = {flag}')
                 if flag[-4] == '_':
                     country_flags[flag] += text_file.count(f'set_country_flag = {flag[:-4]}_@ROOT')
 

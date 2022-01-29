@@ -51,13 +51,16 @@ def test_check_unused_country_flags(test_runner: object):
             print(ex)
             continue
 
+        not_encountered_flags = [i for i in country_flags.keys() if country_flags[i] == 0]
+
         if 'has_country_flag =' in text_file:
-            for flag in country_flags.keys():
-                country_flags[flag] += text_file.count(f'has_country_flag = {flag}')
-                country_flags[flag] += text_file.count(f'has_country_flag = {{ flag = {flag}')
-                if country_flags[flag] == 0:    # Performance optimization
-                    pattern = 'has_country_flag = \\{\\n\\t*flag = ' + flag
-                    country_flags[flag] += len(re.findall(pattern, text_file))
+            for flag in not_encountered_flags:
+                if flag in text_file:
+                    country_flags[flag] += text_file.count(f'has_country_flag = {flag}')
+                    country_flags[flag] += text_file.count(f'has_country_flag = {{ flag = {flag}')
+                    if country_flags[flag] == 0:    # Performance optimization
+                        pattern = 'has_country_flag = \\{\\n\\t*flag = ' + flag
+                        country_flags[flag] += len(re.findall(pattern, text_file))
 
 # Part 4 - throw the error if flag is not used
     results = [i for i in country_flags if country_flags[i] == 0]

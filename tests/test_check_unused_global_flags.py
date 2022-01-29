@@ -46,8 +46,10 @@ def test_check_unused_global_flags(test_runner: object):
             print(ex)
             continue
 
+        not_encountered_flags = [i for i in global_flags.keys() if global_flags[i] == 0]
+
         if 'has_global_flag =' in text_file:
-            for flag in global_flags.keys():
+            for flag in not_encountered_flags:
                 global_flags[flag] += text_file.count(f'has_global_flag = {flag}')
                 global_flags[flag] += text_file.count(f'has_global_flag = {{ flag = {flag}')
                 if flag[-4] == '_':

@@ -62,10 +62,13 @@ def test_check_missing_country_flags(test_runner: object):
             print(ex)
             continue
 
+        not_encountered_flags = [i for i in country_flags.keys() if country_flags[i] == 0]
+
         if "set_country_flag =" in text_file:
-            for flag in country_flags.keys():
-                country_flags[flag] += text_file.count(f"set_country_flag = {flag}")
-                country_flags[flag] += text_file.count(f"set_country_flag = {{ flag = {flag}")
+            for flag in not_encountered_flags:
+                if flag in text_file:
+                    country_flags[flag] += text_file.count(f"set_country_flag = {flag}")
+                    country_flags[flag] += text_file.count(f"set_country_flag = {{ flag = {flag}")
                 if len(flag) > 3:
                     if flag[-4] == "_" and flag[-4:] != flag[-4:].lower():
                         country_flags[flag] += text_file.count(f"set_country_flag = {flag[:-4]}_@ROOT")
