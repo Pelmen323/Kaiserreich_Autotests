@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-
+20 tests:
 - usage of remove_all_leader_roles effect test (the effect causes CTDs. Test verifies that this effect is not used)
 - usage of remove_country_leader_role effect test (the effect causes CTDs. Test verifies that this effect is not used)
 - usage of retire_character outside of tooltip (retire_character does not remove the character from HoS slot if he is a current country leader. It should be replaced with retire = yes which removes char from all ideology slots)
@@ -21,10 +21,12 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - unused country flags test (finds all country flags that are set but never checked)
 - unused state flags test (finds all state flags that are set but never checked)
 - unused event targets test (finds all event targets that are set but never checked)
+- unused OOB files (files with unit templates and/or division/ships spawns that are not used)
 - missing global flags test (finds all global flags that are not set but checked)
 - missing country flags test (finds all country flags that are not set but checked)
 - missing state flags test (finds all state flags that are not set but checked)
 - missing event targets test (finds event targets that are not set but checked)
+- missing OOB files (files with unit templates and/or division/ships spawns that are missing)
 - cleared global flags test (finds all global flags that are not set but cleared)
 - cleared country flags test (finds all country flags that are not set but cleared)
 - cleared state flags test (finds all state flags that are not set but cleared)
