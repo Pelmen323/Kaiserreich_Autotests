@@ -6,8 +6,11 @@
 ##########################
 import glob
 import re
-from .imports.file_functions import open_text_file
+from .imports.file_functions import open_text_file, clear_false_positives_flags
 import logging
+FALSE_POSITIVES = ('CHI_soong_control',        # Currently unused flags
+                   'CHI_mingshu_control',
+                   'DEI_INS_COUP_AVOIDED',)
 
 
 def test_check_missing_country_flags(test_runner: object):
@@ -38,7 +41,7 @@ def test_check_missing_country_flags(test_runner: object):
                     country_flags[flag] = 0
 
 # Part 2 - clear false positives and flags with variables:
-    # clear_false_positives_flags(flags_dict=country_flags, false_positives=false_positives)
+    clear_false_positives_flags(flags_dict=country_flags, false_positives=FALSE_POSITIVES)
     # !-- In progress - remove after debug is finished
     # logging.debug(f"{len(country_flags)} unique used country flags were found")
     # debug = [i for i in country_flags]

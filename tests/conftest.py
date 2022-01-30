@@ -21,11 +21,11 @@ class TestRunner:
 def pytest_addoption(parser):
     parser.addoption('--username', action='store', default='VADIM',
                      help="Specify your system username in \\documents folder of which the modification is located. Example\
-                         C:\\Users\\My_username\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\mod_name")
+                         C:\\Users\\My_username\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\mod_name\\")
 
     parser.addoption('--mod_name', action='store', default='Kaiserreich Dev Build',
                      help="Specify your mod folder name. Example\
-                         C:\\Users\\My_username\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\mod_name")
+                         C:\\Users\\My_username\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\mod_name\\")
 
 
 @pytest.fixture
