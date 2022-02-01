@@ -4,6 +4,7 @@
 ##########################
 import glob
 import re
+import os
 from .imports.file_functions import open_text_file
 import logging
 
@@ -13,6 +14,7 @@ def test_check_missing_characters(test_runner: object):
     path_to_character_files = f'{test_runner.full_path_to_mod}common\\characters\\'
     characters_usages = {}
     characters = []
+    paths = {}
 # Part 1 - get the dict of character usages
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
@@ -28,6 +30,7 @@ def test_check_missing_characters(test_runner: object):
                 for match in pattern_matches:
                     match = match[15:].strip().lower()
                     characters_usages[match] = 0
+                    paths[match] = os.path.basename(filename)
 
         if 'character =' in text_file:
             pattern_matches = re.findall('\\bcharacter = \\w*', text_file)
@@ -36,6 +39,7 @@ def test_check_missing_characters(test_runner: object):
                     if 'event_target' not in match:
                         match = match[11:].strip().lower()
                         characters_usages[match] = 0
+                        paths[match] = os.path.basename(filename)
 
 
 # Part 2 - get list of all characters
@@ -70,6 +74,6 @@ def test_check_missing_characters(test_runner: object):
     if results != []:
         logging.warning("Following characters are missing:")
         for i in results:
-            logging.error(f'- [ ] {i}')
+            logging.error(f"- [ ] {i}, - '{paths[i]}'")
         logging.warning(f'{len(results)} missing characters found.')
         raise AssertionError("Missing characters were encountered! Check console output")

@@ -6,6 +6,7 @@
 ##########################
 import glob
 import re
+import os
 from .imports.file_functions import open_text_file, clear_false_positives_flags
 import logging
 FALSE_POSITIVES = ('ACW_important_state_CSA',     # Wavering momentum flags that are currently unused
@@ -19,6 +20,7 @@ FALSE_POSITIVES = ('ACW_important_state_CSA',     # Wavering momentum flags that
 def test_check_unused_state_flags(test_runner: object):
     filepath = test_runner.full_path_to_mod
     state_flags = {}
+    paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
@@ -29,19 +31,19 @@ def test_check_unused_state_flags(test_runner: object):
             continue
 
         if 'set_state_flag =' in text_file:
-            state_flags_in_file = re.findall('set_state_flag = \\b\\w*\\b', text_file)
-            if len(state_flags_in_file) > 0:
-                for flag in state_flags_in_file:
-                    flag = flag[17:]
-                    flag = flag.strip()
-                    state_flags[flag] = 0
+            pattern_matches = re.findall('set_state_flag = \\b\\w*\\b', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[17:].strip()
+                    state_flags[match] = 0
+                    paths[match] = os.path.basename(filename)
 
-            state_flags_in_file = re.findall('set_state_flag = \\{ flag = \\b\\w*\\b', text_file)
-            if len(state_flags_in_file) > 0:
-                for flag in state_flags_in_file:
-                    flag = flag[26:]
-                    flag = flag.strip()
-                    state_flags[flag] = 0
+            pattern_matches = re.findall('set_state_flag = \\{ flag = \\b\\w*\\b', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[26:].strip()
+                    state_flags[match] = 0
+                    paths[match] = os.path.basename(filename)
 
 # Part 2 - clear false positives and flags with variables:
     clear_false_positives_flags(flags_dict=state_flags, false_positives=FALSE_POSITIVES)
@@ -68,6 +70,6 @@ def test_check_unused_state_flags(test_runner: object):
     if results != []:
         logging.warning("Following state flags are not checked via has_state_flag! Recheck them")
         for i in results:
-            logging.error(f'- [ ] {i}')
+            logging.error(f"- [ ] {i}, - '{paths[i]}'")
         logging.warning(f'{len(results)} unused state flags found.')
         raise AssertionError("Unused state flags were encountered! Check console output")

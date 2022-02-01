@@ -5,6 +5,7 @@
 ##########################
 import glob
 import re
+import os
 from .imports.file_functions import open_text_file
 import logging
 
@@ -12,6 +13,7 @@ import logging
 def test_check_cleared_global_flags(test_runner: object):
     filepath = test_runner.full_path_to_mod
     global_flags = {}
+    paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
@@ -22,12 +24,12 @@ def test_check_cleared_global_flags(test_runner: object):
             continue
 
         if 'clr_global_flag =' in text_file:
-            global_flags_in_file = re.findall('clr_global_flag = \\b\\w*\\b', text_file)
-            if len(global_flags_in_file) > 0:
-                for flag in global_flags_in_file:
-                    flag = flag[18:]
-                    flag = flag.strip()
-                    global_flags[flag] = 0
+            pattern_matches = re.findall('clr_global_flag = \\b\\w*\\b', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[18:].strip()
+                    global_flags[match] = 0
+                    paths[match] = os.path.basename(filename)
 
 # Part 2 - count the number of flag occurrences
     logging.debug(f'{len(global_flags)} state flags cleared at least once')
@@ -51,6 +53,6 @@ def test_check_cleared_global_flags(test_runner: object):
     if results != []:
         logging.warning("Following global flags are not set via set_global_flag! Recheck them")
         for i in results:
-            logging.error(f'- [ ] {i}')
+            logging.error(f"- [ ] {i}, - '{paths[i]}'")
         logging.warning(f'{len(results)} unset global flags found.')
         raise AssertionError("Unassigned global flags that are cleared were encountered! Check console output")

@@ -6,6 +6,7 @@
 ##########################
 import glob
 import re
+import os
 from .imports.file_functions import open_text_file, clear_false_positives_flags
 import logging
 FALSE_POSITIVES = ('CHI_soong_control',        # Currently unused flags
@@ -19,6 +20,7 @@ FALSE_POSITIVES = ('CHI_soong_control',        # Currently unused flags
 def test_check_missing_country_flags(test_runner: object):
     filepath = test_runner.full_path_to_mod
     country_flags = {}
+    paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
         try:
@@ -29,19 +31,19 @@ def test_check_missing_country_flags(test_runner: object):
             continue
 
         if "has_country_flag =" in text_file:
-            country_flags_in_file = re.findall("has_country_flag = [a-zA-Z0-9_']*", text_file)
-            if len(country_flags_in_file) > 0:
-                for flag in country_flags_in_file:
-                    flag = flag[19:]
-                    flag = flag.strip()
-                    country_flags[flag] = 0
+            pattern_matches = re.findall("has_country_flag = [a-zA-Z0-9_']*", text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[19:].strip()
+                    country_flags[match] = 0
+                    paths[match] = os.path.basename(filename)
 
-            country_flags_in_file = re.findall("has_country_flag = { flag = [a-zA-Z0-9_']*", text_file)
-            if len(country_flags_in_file) > 0:
-                for flag in country_flags_in_file:
-                    flag = flag[27:]
-                    flag = flag.strip()
-                    country_flags[flag] = 0
+            pattern_matches = re.findall("has_country_flag = { flag = [a-zA-Z0-9_']*", text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[27:].strip()
+                    country_flags[match] = 0
+                    paths[match] = os.path.basename(filename)
 
 # Part 2 - clear false positives and flags with variables:
     clear_false_positives_flags(flags_dict=country_flags, false_positives=FALSE_POSITIVES)
@@ -92,6 +94,6 @@ def test_check_missing_country_flags(test_runner: object):
         # with open(f"C:\\Users\\{test_runner.username}\\Desktop\\missing_country_flags.txt", "a") as create_var:
         for i in results:
             # create_var.write(f"\n- [ ] {i}")
-            logging.error(f"- [ ] {i}")
+            logging.error(f"- [ ] {i}, - '{paths[i]}'")
         logging.warning(f"{len(results)} unset country flags found. Probably some of these are false positives, but they should be rechecked!")
         raise AssertionError("Unset country flags were encountered! Check console output")

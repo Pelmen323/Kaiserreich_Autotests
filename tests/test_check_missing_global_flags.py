@@ -5,6 +5,7 @@
 ##########################
 import glob
 import re
+import os
 from .imports.file_functions import open_text_file, clear_false_positives_flags
 import logging
 FALSE_POSITIVES = ('KR_Economy_Logging',)
@@ -13,6 +14,7 @@ FALSE_POSITIVES = ('KR_Economy_Logging',)
 def test_check_missing_global_flags(test_runner: object):
     filepath = test_runner.full_path_to_mod
     global_flags = {}
+    paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
@@ -23,19 +25,19 @@ def test_check_missing_global_flags(test_runner: object):
             continue
 
         if 'has_global_flag =' in text_file:
-            global_flags_in_file = re.findall('has_global_flag = \\b\\w*\\b', text_file)
-            if len(global_flags_in_file) > 0:
-                for flag in global_flags_in_file:
-                    flag = flag[18:]
-                    flag = flag.strip()
-                    global_flags[flag] = 0
+            pattern_matches = re.findall('has_global_flag = \\b\\w*\\b', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[18:].strip()
+                    global_flags[match] = 0
+                    paths[match] = os.path.basename(filename)
 
-            global_flags_in_file = re.findall('has_global_flag = { flag = \\b\\w*\\b', text_file)
-            if len(global_flags_in_file) > 0:
-                for flag in global_flags_in_file:
-                    flag = flag[27:]
-                    flag = flag.strip()
-                    global_flags[flag] = 0
+            pattern_matches = re.findall('has_global_flag = { flag = \\b\\w*\\b', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[27:].strip()
+                    global_flags[match] = 0
+                    paths[match] = os.path.basename(filename)
 
 # Part 2 - clear false positives and flags with variables:
     clear_false_positives_flags(flags_dict=global_flags, false_positives=FALSE_POSITIVES)
@@ -64,6 +66,6 @@ def test_check_missing_global_flags(test_runner: object):
     if results != []:
         logging.warning("Following global flags are not set via set_global_flag! Recheck them")
         for i in results:
-            logging.error(f'- [ ] {i}')
+            logging.error(f"- [ ] {i}, - '{paths[i]}'")
         logging.warning(f'{len(results)} missing global flags found.')
         raise AssertionError("Unassigned global flags were encountered! Check console output")

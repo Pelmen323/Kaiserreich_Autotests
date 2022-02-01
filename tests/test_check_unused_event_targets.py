@@ -4,6 +4,7 @@
 ##########################
 import glob
 import re
+import os
 from .imports.file_functions import open_text_file
 import logging
 
@@ -11,6 +12,7 @@ import logging
 def test_check_unused_event_targets(test_runner: object):
     filepath = test_runner.full_path_to_mod
     event_targets = {}
+    paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
@@ -21,18 +23,20 @@ def test_check_unused_event_targets(test_runner: object):
             continue
 
         if 'save_global_event_target_as =' in text_file:
-            event_targets_in_file = re.findall('save_global_event_target_as = \\w*\\b', text_file)
-            if len(event_targets_in_file) > 0:
-                for target in event_targets_in_file:
-                    target = target[29:].strip()
-                    event_targets[target] = 0
+            pattern_matches = re.findall('save_global_event_target_as = \\w*\\b', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[29:].strip()
+                    event_targets[match] = 0
+                    paths[match] = os.path.basename(filename)
 
         if 'save_event_target_as = ' in text_file:
-            event_targets_in_file = re.findall('save_event_target_as = \\w*\\b', text_file)
-            if len(event_targets_in_file) > 0:
-                for target in event_targets_in_file:
-                    target = target[22:].strip()
-                    event_targets[target] = 0
+            pattern_matches = re.findall('save_event_target_as = \\w*\\b', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[22:].strip()
+                    event_targets[match] = 0
+                    paths[match] = os.path.basename(filename)
 
 
 # Part 2 - count the number of flag occurrences
@@ -81,6 +85,6 @@ def test_check_unused_event_targets(test_runner: object):
     if results != []:
         logging.warning("Following event targets are unused:")
         for i in results:
-            logging.error(f'- [ ] {i}')
+            logging.error(f"- [ ] {i}, - '{paths[i]}'")
         logging.warning(f'{len(results)} unused targets found.')
         raise AssertionError("Unused targets were encountered! Check console output")

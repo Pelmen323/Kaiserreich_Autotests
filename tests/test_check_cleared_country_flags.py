@@ -6,14 +6,16 @@
 ##########################
 import glob
 import re
+import os
 from .imports.file_functions import open_text_file, clear_false_positives_flags
 import logging
-FALSE_POSITIVES = ('annexation_window_open')    # Commented functionality
+FALSE_POSITIVES = ('annexation_window_open',)    # Commented functionality
 
 
 def test_check_cleared_country_flags(test_runner: object):
     filepath = test_runner.full_path_to_mod
     country_flags = {}
+    paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
@@ -24,12 +26,12 @@ def test_check_cleared_country_flags(test_runner: object):
             continue
 
         if 'clr_country_flag =' in text_file:
-            country_flags_in_file = re.findall('clr_country_flag = \\b\\w*\\b', text_file)
-            if len(country_flags_in_file) > 0:
-                for flag in country_flags_in_file:
-                    flag = flag[19:]
-                    flag = flag.strip()
-                    country_flags[flag] = 0
+            pattern_matches = re.findall('clr_country_flag = \\b\\w*\\b', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[19:].strip()
+                    country_flags[match] = 0
+                    paths[match] = os.path.basename(filename)
 
 
 # Part 2 - clear false positives and flags with variables:
@@ -60,6 +62,6 @@ def test_check_cleared_country_flags(test_runner: object):
     if results != []:
         logging.warning("Following cleared country flags are not set via set_country_flag! Recheck them")
         for i in results:
-            logging.error(f'- [ ] {i}')
+            logging.error(f"- [ ] {i}, - '{paths[i]}'")
         logging.warning(f'{len(results)} unset country flags found.')
         raise AssertionError("Unset country flags were encountered! Check console output")

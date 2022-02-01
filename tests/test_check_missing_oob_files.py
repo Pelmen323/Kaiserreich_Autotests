@@ -24,20 +24,18 @@ def test_check_unused_oob_files(test_runner: object):
             continue
 
         if 'oob =' in text_file:
-            oob_invoked_file = re.findall('oob = [\\[\\]a-zA-Z0-9_"]*', text_file)
-            if len(oob_invoked_file) > 0:
-                for oob in oob_invoked_file:
-                    oob = oob[5:]
-                    oob = oob.strip().strip('"')
-                    oob_files[oob] = 0
+            pattern_matches = re.findall('oob = [\\[\\]a-zA-Z0-9_"]*', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[5:].strip().strip('"')
+                    oob_files[match] = 0
 
         if 'OOB =' in text_file:
-            oob_invoked_file2 = re.findall('oob = [\\[\\]a-zA-Z0-9_"]*', text_file)
-            if len(oob_invoked_file2) > 0:
-                for oob in oob_invoked_file2:
-                    oob = oob[5:]
-                    oob = oob.strip().strip('"')
-                    oob_files[oob] = 0
+            pattern_matches2 = re.findall('oob = [\\[\\]a-zA-Z0-9_"]*', text_file)
+            if len(pattern_matches2) > 0:
+                for match in pattern_matches2:
+                    match = match[5:].strip().strip('"')
+                    oob_files[match] = 0
 
 # Part 2 - find if oob file is present
     clear_false_positives_flags(flags_dict=oob_files, false_positives=FALSE_POSITIVES)

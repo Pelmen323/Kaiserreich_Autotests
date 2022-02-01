@@ -5,6 +5,7 @@
 ##########################
 import glob
 import re
+import os
 from .imports.file_functions import open_text_file
 import logging
 
@@ -12,6 +13,7 @@ import logging
 def test_check_missing_state_flags(test_runner: object):
     filepath = test_runner.full_path_to_mod
     state_flags = {}
+    paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:
@@ -22,19 +24,19 @@ def test_check_missing_state_flags(test_runner: object):
             continue
 
         if 'has_state_flag =' in text_file:
-            state_flags_in_file = re.findall('has_state_flag = \\b\\w*\\b', text_file)
-            if len(state_flags_in_file) > 0:
-                for flag in state_flags_in_file:
-                    flag = flag[17:]
-                    flag = flag.strip()
-                    state_flags[flag] = 0
+            pattern_matches = re.findall('has_state_flag = \\b\\w*\\b', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[17:].strip()
+                    state_flags[match] = 0
+                    paths[match] = os.path.basename(filename)
 
-            state_flags_in_file = re.findall('has_state_flag = { flag = \\b\\w*\\b', text_file)
-            if len(state_flags_in_file) > 0:
-                for flag in state_flags_in_file:
-                    flag = flag[26:]
-                    flag = flag.strip()
-                    state_flags[flag] = 0
+            pattern_matches = re.findall('has_state_flag = { flag = \\b\\w*\\b', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[26:].strip()
+                    state_flags[match] = 0
+                    paths[match] = os.path.basename(filename)
 
 
 # Part 2 - count the number of flag occurrences
@@ -59,6 +61,6 @@ def test_check_missing_state_flags(test_runner: object):
     if results != []:
         logging.warning("Following state flags are not set via set_state_flag! Recheck them")
         for i in results:
-            logging.error(f'- [ ] {i}')
+            logging.error(f"- [ ] {i}, - '{paths[i]}'")
         logging.warning(f'{len(results)} missing state flags found.')
         raise AssertionError("Unassigned state flags were encountered! Check console output")
