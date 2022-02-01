@@ -24,9 +24,9 @@ def test_check_unused_oob_files(test_runner: object):
             continue
 
         if 'oob =' in text_file:
-            oob_invoked_file2 = re.findall('oob = [\\[\\]a-zA-Z0-9_"]*', text_file)
-            if len(oob_invoked_file2) > 0:
-                for oob in oob_invoked_file2:
+            oob_invoked_file = re.findall('oob = [\\[\\]a-zA-Z0-9_"]*', text_file)
+            if len(oob_invoked_file) > 0:
+                for oob in oob_invoked_file:
                     oob = oob[5:]
                     oob = oob.strip().strip('"')
                     oob_files[oob] = 0
