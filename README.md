@@ -36,6 +36,8 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
 
 Project development timeline on Jenkins graph:
+
+
 ![Screenshot (2062)](https://user-images.githubusercontent.com/43440389/152032234-e05cf21a-fbf1-4ad1-978d-2b39ff84bc6e.png)
 
 
