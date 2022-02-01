@@ -3,14 +3,14 @@
 Repo for .py tests for Kaiserreich (can be run for every other HOI4 mod), with possibility to setup Jenkins as runner.
 It can be used 'as is' for Kaiserreich user, they only need to pass their system username in which doc folder the project is located and name of mod folder (see screenshots lower). For other HOI4 projects it can be used as well but requires manual verification of each error and adjusting FALSE_POSITIVES iterables respectively
 
-General idea of the project is to automate the scenarios testing that are almost impossible to verify otherwise (they can be checked manually via CWTools in some cases, but my solution benefits from all automation perks - it is never tired and it performs thousands of operation per second). Tests are NOT running the game, instead they parse and analyze the codebase
+General idea of the project is to automate the scenarios testing that are almost impossible to verify otherwise (they can be checked manually via CWTools in some cases, but my solution benefits from all automation perks - it is never tired and it performs thousands of operation per second). Tests are NOT running the game, instead they parse and analyze the codebase. Tests are mostly created upon finding the issue - to find all affected scenarios and to prevent bugs from reappearing in the future
 
-In-built multithreading support and high performance optimization, current full run time - around 70 seconds.
+In-built multithreading support and high performance optimization, current full run time - around 80 seconds.
 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-20 tests:
+23 tests:
 - usage of remove_all_leader_roles effect test (the effect causes CTDs. Test verifies that this effect is not used)
 - usage of remove_country_leader_role effect test (the effect causes CTDs. Test verifies that this effect is not used)
 - usage of retire_character outside of tooltip (retire_character does not remove the character from HoS slot if he is a current country leader. It should be replaced with retire = yes which removes char from all ideology slots)
@@ -31,6 +31,12 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - cleared country flags test (finds all country flags that are not set but cleared)
 - cleared state flags test (finds all state flags that are not set but cleared)
 - cleared event targets test (finds all event targets that are not set but cleared)
+- usage of outdated syntax for armor equipment bonuses test (_equipment -> _chassis)
+- usage of outdated syntax for doctrines cost reduction test (tech_bonus -> doctrine_cost_reduction)
+- missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
+
+Project development timeline on Jenkins graph:
+![Screenshot (2062)](https://user-images.githubusercontent.com/43440389/152032234-e05cf21a-fbf1-4ad1-978d-2b39ff84bc6e.png)
 
 
 ## Pytest instructions:
