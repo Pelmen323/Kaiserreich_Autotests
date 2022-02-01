@@ -23,14 +23,14 @@ def test_check_missing_characters(test_runner: object):
             continue
 
         if 'has_character =' in text_file:
-            pattern_matches = re.findall('has_character = \w*', text_file)
+            pattern_matches = re.findall('has_character = \\w*', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     match = match[15:].strip().lower()
                     characters_usages[match] = 0
 
         if 'character =' in text_file:
-            pattern_matches = re.findall('\\bcharacter = \w*', text_file)
+            pattern_matches = re.findall('\\bcharacter = \\w*', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     if 'event_target' not in match:

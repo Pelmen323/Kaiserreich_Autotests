@@ -10,7 +10,10 @@ from .imports.file_functions import open_text_file, clear_false_positives_flags
 import logging
 FALSE_POSITIVES = ('CHI_soong_control',        # Currently unused flags
                    'CHI_mingshu_control',
-                   'DEI_INS_COUP_AVOIDED',)
+                   'DEI_INS_COUP_AVOIDED',
+                   'CHI_mingshu_lkmt',
+                   'DEI_Koninkrijksstatuut_signed',
+                   'annexation_window_open',)
 
 
 def test_check_missing_country_flags(test_runner: object):
