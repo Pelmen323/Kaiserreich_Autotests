@@ -10,35 +10,57 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-23 tests:
+27 tests:
+
+*Characters tests*
+- missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
 - usage of remove_all_leader_roles effect test (the effect causes CTDs. Test verifies that this effect is not used)
 - usage of remove_country_leader_role effect test (the effect causes CTDs. Test verifies that this effect is not used)
 - usage of retire_character outside of tooltip (retire_character does not remove the character from HoS slot if he is a current country leader. It should be replaced with retire = yes which removes char from all ideology slots)
-- railways file test (verifies the expected and actual number of provinces provided in /map/railways.txt file)
-- localization files typo check (parses loc files and finds commonly misspelled words, as well as prints correct variant)
-- decisions ai factor test (verifies that decisions and selectable missions have ai factors)
-- unused global flags test (finds all global flags that are set but never checked)
+
+*Country flags tests:*
 - unused country flags test (finds all country flags that are set but never checked)
-- unused state flags test (finds all state flags that are set but never checked)
-- unused event targets test (finds all event targets that are set but never checked)
-- unused OOB files (files with unit templates and/or division/ships spawns that are not used)
-- missing global flags test (finds all global flags that are not set but checked)
 - missing country flags test (finds all country flags that are not set but checked)
-- missing state flags test (finds all state flags that are not set but checked)
-- missing event targets test (finds event targets that are not set but checked)
-- missing OOB files (files with unit templates and/or division/ships spawns that are missing)
-- cleared global flags test (finds all global flags that are not set but cleared)
 - cleared country flags test (finds all country flags that are not set but cleared)
-- cleared state flags test (finds all state flags that are not set but cleared)
+
+*Event targets tests*
+- unused event targets test (finds all event targets that are set but never checked)
+- missing event targets test (finds event targets that are not set but checked)
 - cleared event targets test (finds all event targets that are not set but cleared)
+
+*Global flags tests:*
+- unused global flags test (finds all global flags that are set but never checked)
+- missing global flags test (finds all global flags that are not set but checked)
+- cleared global flags test (finds all global flags that are not set but cleared)
+
+*Localization tests*
+- localization files typo check (parses loc files and finds commonly misspelled words, as well as prints correct variant)
+- localization files syntax violations
+- localization files unused loc entries
+
+*OOB files tests:*
+- unused OOB files (files with unit templates and/or division/ships spawns that are not used)
+- missing OOB files (files with unit templates and/or division/ships spawns that are missing)
+
+*State flags tests:*
+- unused state flags test (finds all state flags that are set but never checked)
+- missing state flags test (finds all state flags that are not set but checked)
+- cleared state flags test (finds all state flags that are not set but cleared)
+
+*Syntax tests:*
 - usage of outdated syntax for armor equipment bonuses test (_equipment -> _chassis)
+- usage of DLC-locked armor chassis for non NSB owners and vice versa test (owners of NSB have specific armor equipment available; non-DLC players have their own. Checks if these two types of equipment are not mixed)
 - usage of outdated syntax for doctrines cost reduction test (tech_bonus -> doctrine_cost_reduction)
-- missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
+- railways file test (verifies the expected and actual number of provinces provided in /map/railways.txt file)
+- decisions ai factor test (verifies that decisions and selectable missions have ai factors)
+- admirals and generals stats syntax tests (verifies generals and admirals have correct stats assigned)
 
-Project development timeline on Jenkins graph:
+
+### Project development timeline on the Jenkins graph:
+
+![Screenshot (2097)](https://user-images.githubusercontent.com/43440389/152693376-70aae182-df4f-4648-ab72-5d3a1c3b097d.png)
 
 
-![Screenshot (2062)](https://user-images.githubusercontent.com/43440389/152032234-e05cf21a-fbf1-4ad1-978d-2b39ff84bc6e.png)
 
 
 ## Pytest instructions:
