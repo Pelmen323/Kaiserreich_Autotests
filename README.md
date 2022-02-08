@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-27 tests:
+29 tests:
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
@@ -53,6 +53,8 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - usage of outdated syntax for doctrines cost reduction test (tech_bonus -> doctrine_cost_reduction)
 - railways file test (verifies the expected and actual number of provinces provided in /map/railways.txt file)
 - decisions ai factor test (verifies that decisions and selectable missions have ai factors)
+- usage of negative multiplication in ai factors test (negative multiplication is not what you want in 99% of cases)
+- usage of 4+ digits after decimal poin in ai factors test (HOI4 supports only 3 digits after decimal point)
 - admirals and generals stats syntax tests (verifies generals and admirals have correct stats assigned)
 
 
@@ -65,6 +67,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 
 ## Pytest instructions:
 It allows to run test locally, all you need is python installation and installed 'pytest' and 'pytest-xdist' plugins
+
 0. Create venv with pytest installed - 'pip install pytest' or 'pipenv install pytest' if you use pipenv
 1. Install pytest-xdist - 'pip install pytest-xdist' or 'pipenv install pytest-xdist' if you use pipenv
 2. Clone repo with tests
@@ -77,6 +80,7 @@ in console, replace **username** with your system username and **mod_name** with
 
 ## Pytest-Jenkins instructions:
 It allows to run tests automatically based on specific triggers
+
 0. Create a Python Virtual Environment, install Pytest via 'pip install pytest' or 'pipenv install pytest' if you use pipenv, install 'pytest-xdist' - 'pip install pytest-xdist' or 'pipenv install pytest-xdist' if you use pipenv
 1. Install Jenkins https://www.jenkins.io/
 2. Install **Python Plugin** and **ShiningPanda Plugin** Jenkins plugins:

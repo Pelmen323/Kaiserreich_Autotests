@@ -11,7 +11,7 @@ from .imports.file_functions import open_text_file
 import logging
 
 
-def test_check_negative_ai_factors(test_runner: object):
+def test_check_ai_factors_digits_after_decimal(test_runner: object):
     filepath = test_runner.full_path_to_mod
     results = {}
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
