@@ -17,6 +17,7 @@ def test_check_missing_characters(test_runner: object):
     paths = {}
 # Part 1 - get the dict of character usages
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
+        if "on_actions_global" in filename: continue
         try:
             text_file = open_text_file(filename)
         except Exception as ex:
