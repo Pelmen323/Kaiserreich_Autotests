@@ -11,10 +11,11 @@ from .imports.file_functions import open_text_file
 import logging
 
 
-def test_check_ai_factors_digits_after_decimal(test_runner: object):
+def test_check_values_digits_after_decimal(test_runner: object):
     filepath = test_runner.full_path_to_mod
     results = {}
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
+        if 'ambient_object' in filename: continue
         try:
             text_file = open_text_file(filename)
         except Exception as ex:
@@ -25,14 +26,14 @@ def test_check_ai_factors_digits_after_decimal(test_runner: object):
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):
             current_line = text_file_splitted[line-1]
-            if 'factor =' in current_line:
-                pattern_matches = re.findall('\tfactor = \d\.\d{4,10}', current_line)
-                if len(pattern_matches) > 0:
+            pattern_matches = re.findall('\d\.\d{4,10}', current_line)
+            if len(pattern_matches) > 0:
+                if '#' not in current_line:
                     results[f'{os.path.basename(filename)}, line {line}'] = current_line
 
     if results != {}:
-        logging.warning("Factors with 4+ digits after decimal point found!:")
+        logging.warning("Values with 4+ digits after decimal point found!:")
         for i in results.items():
             logging.error(f'- [ ] {i}')
-        logging.warning(f'{len(results)} factors with 4+ digits after decimal point found.')
-        raise AssertionError("Factors with 4+ digits after decimal point found, Hoi4 factors supports only 3 digits after decimal point! Check console output")
+        logging.warning(f'{len(results)} values with 4+ digits after decimal point found.')
+        raise AssertionError("Values with 4+ digits after decimal point found, Hoi4 factors supports only 3 digits after decimal point! Check console output")
