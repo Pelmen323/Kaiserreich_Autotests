@@ -5,9 +5,9 @@
 import glob
 import re
 import os
-from .imports.file_functions import open_text_file
+from .imports.file_functions import open_text_file, clear_false_positives_flags
 import logging
-
+FALSE_POSITIVES = ['yunnan_R_KMT_faction_leader', 'NFA_alphonse_juin_target']
 
 def test_check_unused_event_targets(test_runner: object):
     filepath = test_runner.full_path_to_mod
@@ -40,6 +40,7 @@ def test_check_unused_event_targets(test_runner: object):
 
 
 # Part 2 - count the number of flag occurrences
+    clear_false_positives_flags(flags_dict=event_targets, false_positives=FALSE_POSITIVES)
     logging.debug(f'{len(event_targets)} defined event targets found')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         try:

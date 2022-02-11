@@ -11,12 +11,13 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 
 ## Currently included tests:
 29 tests:
+*Events tests*
+- triggered-only events that are not triggered from outside test (check for events that are not triggered from outside but should)
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
 - usage of remove_all_leader_roles effect test (the effect causes CTDs. Test verifies that this effect is not used)
 - usage of remove_country_leader_role effect test (the effect causes CTDs. Test verifies that this effect is not used)
-- usage of retire_character outside of tooltip (retire_character does not remove the character from HoS slot if he is a current country leader. It should be replaced with retire = yes which removes char from all ideology slots)
 
 *Country flags tests:*
 - unused country flags test (finds all country flags that are set but never checked)
