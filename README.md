@@ -10,9 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-29 tests:
-*Events tests*
-- triggered-only events that are not triggered from outside test (check for events that are not triggered from outside but should)
+31 tests:
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
@@ -23,6 +21,9 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - unused country flags test (finds all country flags that are set but never checked)
 - missing country flags test (finds all country flags that are not set but checked)
 - cleared country flags test (finds all country flags that are not set but cleared)
+
+*Events tests*
+- triggered-only events that are not triggered from outside test (check for events that are not triggered from outside but should)
 
 *Event targets tests*
 - unused event targets test (finds all event targets that are set but never checked)
@@ -43,6 +44,10 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - unused OOB files (files with unit templates and/or division/ships spawns that are not used)
 - missing OOB files (files with unit templates and/or division/ships spawns that are missing)
 
+*Scripted triggers and effects tests:*
+- unused scripted triggers test (finds all scripted triggers that are not used)
+- unused scripted effects test (finds all scripted effects that are not used)
+
 *State flags tests:*
 - unused state flags test (finds all state flags that are set but never checked)
 - missing state flags test (finds all state flags that are not set but checked)
@@ -55,7 +60,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - railways file test (verifies the expected and actual number of provinces provided in /map/railways.txt file)
 - decisions ai factor test (verifies that decisions and selectable missions have ai factors)
 - usage of negative multiplication in ai factors test (negative multiplication is not what you want in 99% of cases)
-- usage of 4+ digits after decimal poin in ai factors test (HOI4 supports only 3 digits after decimal point)
+- usage of 4+ digits after decimal point in ai factors test (HOI4 supports only 3 digits after decimal point)
 - admirals and generals stats syntax tests (verifies generals and admirals have correct stats assigned)
 
 
