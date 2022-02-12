@@ -47,13 +47,6 @@ def test_check_missing_country_flags(test_runner: object):
 
 # Part 2 - clear false positives and flags with variables:
     clear_false_positives_flags(flags_dict=country_flags, false_positives=FALSE_POSITIVES)
-    # !-- In progress - remove after debug is finished
-    # logging.debug(f"{len(country_flags)} unique used country flags were found")
-    # debug = [i for i in country_flags]
-    # with open(f"C:\\Users\\{test_runner.username}\\Desktop\\missing_country_flags_DEBUG.txt", "a") as create_var:
-    #     for i in debug:
-    #         create_var.write(f"\n- [ ] {i}")
-
     # TEMP REMOVAL UNTIL MINISTERS ARE NOT REMOVED #
     dead_flags = []
     for flag in country_flags:

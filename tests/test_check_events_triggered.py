@@ -7,8 +7,9 @@ import glob
 import re
 from .imports.file_functions import open_text_file, clear_false_positives_flags
 import logging
-FALSE_POSITIVES = ['ace_promoted.1', 'ace_promoted.2', 'ace_died.1', \
-    'ace_killed_by_ace.1', 'ace_killed_other_ace.1', 'aces_killed_each_other.1', 'nuke_dropped.0']
+FALSE_POSITIVES = ['ace_promoted.1', 'ace_promoted.2', 'ace_died.1',
+                   'ace_killed_by_ace.1', 'ace_killed_other_ace.1',
+                   'aces_killed_each_other.1', 'nuke_dropped.0']
 
 
 def test_check_triggered_events(test_runner: object):
@@ -18,7 +19,7 @@ def test_check_triggered_events(test_runner: object):
     all_events = []
     triggered_events_id = dict()
     invoked_events_id = []
-    
+
     for filename in glob.iglob(filepath_events + '**/*.txt', recursive=True):
         try:
             text_file = open_text_file(filename)
@@ -27,20 +28,16 @@ def test_check_triggered_events(test_runner: object):
             logging.warning(f'Skipping the file {filename}')
             logging.warning(ex)
             continue
-    #1. Get list of all events in events files
-        # pattern_matches = re.findall('((?<=\n)country_event.*?\n(.|\n*?)*?\n\})', text_file)
-        pattern_matches = re.findall('((?<=\n)country_event = \{.*\n(.|\n*?)*\n\})', text_file)
+    # 1. Get list of all events in events files
+        pattern_matches = re.findall('((?<=\n)country_event = \\{.*\n(.|\n*?)*\n\\})', text_file)
         if len(pattern_matches) > 0:
             for match in pattern_matches:
                 match = match[0]                                            # Counter empty capture groups
                 all_events.append(match)
 
-    #2. Get the "triggered only events"
-    print(len(all_events))
+    # 2. Get the "triggered only events"
     for event in all_events:
-        # print(event)
         if "is_triggered_only = yes" in event:
-            # Extract event ID:
             pattern_matches = re.findall('id = .*', event)
             event_id = pattern_matches[0].strip('\t').strip()                   # Only first match is taken
             if '#' in event_id:
@@ -48,10 +45,11 @@ def test_check_triggered_events(test_runner: object):
             event_id = event_id[5:].strip()                                     # Remove "id =" part
             triggered_events_id[event_id] = 0                                   # Default value is set to zero
 
-    #3. Time to roll out - NO HISTORY FILES HERE
+    # 3. Time to roll out - NO HISTORY FILES HERE
     clear_false_positives_flags(flags_dict=triggered_events_id, false_positives=FALSE_POSITIVES)
     for filename in glob.iglob(filepath_global + '**/*.txt', recursive=True):
-        if '\\history\\' in filename: continue
+        if '\\history\\' in filename:
+            continue
         try:
             text_file = open_text_file(filename)
             text_file = text_file.lower()
@@ -59,10 +57,10 @@ def test_check_triggered_events(test_runner: object):
             logging.warning(f'Skipping the file {filename}')
             logging.warning(ex)
             continue
- 
+
         if "country_event =" in text_file:
-            #3.0 One-liners w/o brackets
-            pattern_matches = re.findall('([\t| ]country_event = ((?!\{).)*\n)', text_file)
+            # 3.0 One-liners w/o brackets
+            pattern_matches = re.findall('([\t| ]country_event = ((?!\\{).)*\n)', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     match = match[0]
@@ -70,26 +68,25 @@ def test_check_triggered_events(test_runner: object):
                     if '#' in match:
                         match = match[:match.index('#')].strip().strip('}').strip()    # Clean up comments
                     invoked_events_id.append(match)
-    
+
             # 3.1 One-liners with brackets
-            pattern_matches = re.findall('[\t| ]country_event = \{.*\}', text_file)
+            pattern_matches = re.findall('[\t| ]country_event = \\{.*\\}', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
-                    event_id_match = re.findall('id = [a-zA-Z0-9\._]*', match)
+                    event_id_match = re.findall('id = [a-zA-Z0-9\\._]*', match)
                     match = ''.join(event_id_match)[4:].strip()
                     invoked_events_id.append(match)
 
-
-            # 3.2 Multiliners        
-            pattern_matches = re.findall('([\t| ]country_event = \{((?!\}).)*\n(.|\n*?)*\n\t*\})', text_file)
+            # 3.2 Multiliners
+            pattern_matches = re.findall('([\t| ]country_event = \\{((?!\\}).)*\n(.|\n*?)*\n\t*\\})', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     if '' in match:
                         match = match[0]                                            # Counter empty capture groups
-                    event_id_match = re.findall('id = [a-zA-Z0-9\._]*', match)
+                    event_id_match = re.findall('id = [a-zA-Z0-9\\._]*', match)
                     match = ''.join(event_id_match)[4:].strip()
                     invoked_events_id.append(match)
-            
+
     for filename in glob.iglob(filepath_history + '**/*.txt', recursive=True):
         try:
             text_file = open_text_file(filename)
@@ -98,11 +95,10 @@ def test_check_triggered_events(test_runner: object):
             logging.warning(f'Skipping the file {filename}')
             logging.warning(ex)
             continue
-        
-        
+
         if "country_event =" in text_file:
             # 4.0 One-liners w/o brackets
-            pattern_matches = re.findall('(country_event = ((?!\{).)*\n)', text_file)
+            pattern_matches = re.findall('(country_event = ((?!\\{).)*\n)', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     match = match[0]
@@ -110,37 +106,30 @@ def test_check_triggered_events(test_runner: object):
                     if '#' in match:
                         match = match[:match.index('#')].strip().strip('}').strip()    # Clean up comments
                     invoked_events_id.append(match)
-    
-            #4.1 One-liners with brackets
-            pattern_matches = re.findall('country_event = \{.*\}', text_file)
+
+            # 4.1 One-liners with brackets
+            pattern_matches = re.findall('country_event = \\{.*\\}', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
-                    event_id_match = re.findall('id = [a-zA-Z0-9\._]*', match)
+                    event_id_match = re.findall('id = [a-zA-Z0-9\\._]*', match)
                     match = ''.join(event_id_match)[4:].strip()
                     invoked_events_id.append(match)
 
-            #4.2 Multiliners        
-            pattern_matches = re.findall('(country_event = \{((?!\}).)*\n(.|\n*?)*\n\t*\})', text_file)
+            # 4.2 Multiliners
+            pattern_matches = re.findall('(country_event = \\{((?!\\}).)*\n(.|\n*?)*\n\t*\\})', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     if '' in match:
                         match = match[0]                                            # Counter empty capture groups
-                    event_id_match = re.findall('id = [a-zA-Z0-9\._]*', match)
+                    event_id_match = re.findall('id = [a-zA-Z0-9\\._]*', match)
                     match = ''.join(event_id_match)[4:].strip()
                     invoked_events_id.append(match)
-
 
     for event in invoked_events_id:
         if event in triggered_events_id.keys():
             triggered_events_id[event] += 1
-            
-    
-    results = [i for i in triggered_events_id.keys() if triggered_events_id[i] == 0]
-    with open(f"C:\\Users\\{test_runner.username}\\Desktop\\events_DEBUG.txt", "a") as create_var:
-        for i in results:
-            create_var.write(f"\n- [ ] {i}")
-            # print(i)
 
+    results = [i for i in triggered_events_id.keys() if triggered_events_id[i] == 0]
     if results != []:
         logging.warning("Following events have 'is_triggered_only = yes' attr but are never triggered from outside:")
         for i in results:

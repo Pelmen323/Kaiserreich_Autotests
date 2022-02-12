@@ -22,13 +22,13 @@ def test_check_history_files_armor_techs(test_runner: object):
             logging.warning(f'Skipping the file {filename}')
             logging.warning(ex)
             continue
- 
+
         non_nsb_limit = text_file.count('limit = { NOT = { has_dlc = "No Step Back" } }')
-        gwtank = text_file.count("gwtank = 1")      
-        basic_light_tank = text_file.count("basic_light_tank = 1")    
+        gwtank = text_file.count("gwtank = 1")
+        basic_light_tank = text_file.count("basic_light_tank = 1")
         basic_heavy_tank = text_file.count("basic_heavy_tank = 1")
 
-        nsb_limit = text_file.count('limit = { has_dlc = "No Step Back" }') 
+        nsb_limit = text_file.count('limit = { has_dlc = "No Step Back" }')
         gwtank_chassis = text_file.count("gwtank_chassis = 1")
         basic_light_tank_chassis = text_file.count("basic_light_tank_chassis = 1")
         basic_heavy_tank_chassis = text_file.count("basic_heavy_tank_chassis = 1")

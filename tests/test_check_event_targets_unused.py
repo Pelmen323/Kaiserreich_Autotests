@@ -9,6 +9,7 @@ from .imports.file_functions import open_text_file, clear_false_positives_flags
 import logging
 FALSE_POSITIVES = ['yunnan_R_KMT_faction_leader', 'NFA_alphonse_juin_target']
 
+
 def test_check_unused_event_targets(test_runner: object):
     filepath = test_runner.full_path_to_mod
     event_targets = {}
