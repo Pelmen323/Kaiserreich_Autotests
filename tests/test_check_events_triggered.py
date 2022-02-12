@@ -5,8 +5,10 @@
 ##########################
 import glob
 import re
-from .imports.file_functions import open_text_file
+from .imports.file_functions import open_text_file, clear_false_positives_flags
 import logging
+FALSE_POSITIVES = ['ace_promoted.1', 'ace_promoted.2', 'ace_died.1', \
+    'ace_killed_by_ace.1', 'ace_killed_other_ace.1', 'aces_killed_each_other.1', 'nuke_dropped.0']
 
 
 def test_check_triggered_events(test_runner: object):
@@ -47,6 +49,7 @@ def test_check_triggered_events(test_runner: object):
             triggered_events_id[event_id] = 0                                   # Default value is set to zero
 
     #3. Time to roll out - NO HISTORY FILES HERE
+    clear_false_positives_flags(flags_dict=triggered_events_id, false_positives=FALSE_POSITIVES)
     for filename in glob.iglob(filepath_global + '**/*.txt', recursive=True):
         if '\\history\\' in filename: continue
         try:
@@ -133,10 +136,10 @@ def test_check_triggered_events(test_runner: object):
             
     
     results = [i for i in triggered_events_id.keys() if triggered_events_id[i] == 0]
-    # with open(f"C:\\Users\\{test_runner.username}\\Desktop\\events_DEBUG.txt", "a") as create_var:
-    #     for i in results:
-    #         create_var.write(f"\n- [ ] {i}")
-    #         # print(i)
+    with open(f"C:\\Users\\{test_runner.username}\\Desktop\\events_DEBUG.txt", "a") as create_var:
+        for i in results:
+            create_var.write(f"\n- [ ] {i}")
+            # print(i)
 
     if results != []:
         logging.warning("Following events have 'is_triggered_only = yes' attr but are never triggered from outside:")
