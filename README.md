@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-31 tests:
+32 tests:
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
@@ -62,6 +62,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - usage of negative multiplication in ai factors test (negative multiplication is not what you want in 99% of cases)
 - usage of 4+ digits after decimal point in ai factors test (HOI4 supports only 3 digits after decimal point)
 - admirals and generals stats syntax tests (verifies generals and admirals have correct stats assigned)
+- usage of vanilla .dds icons in armour variants test
 
 
 ### Project development timeline on the Jenkins graph:
