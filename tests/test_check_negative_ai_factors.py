@@ -15,12 +15,7 @@ def test_check_negative_ai_factors(test_runner: object):
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         if 'generic_leader_abilities' in filename:      # Ignore the AI abilities factors
             continue
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):

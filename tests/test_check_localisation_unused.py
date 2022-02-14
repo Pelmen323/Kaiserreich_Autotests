@@ -56,12 +56,7 @@ def test_check_unused_loc_keys(test_runner: object):
             continue
         if "Loading_Tips" in filename:
             continue
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         text_file_splitted = text_file.lower().split('\n')[1:]
         for line in range(len(text_file_splitted)):
@@ -77,12 +72,7 @@ def test_check_unused_loc_keys(test_runner: object):
     not_encountered_keys = loc_keys.copy()
     # Check events first
     for filename in glob.iglob(filepath_events + '**/*.txt', recursive=True):
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         print(f'{filename}, {len(not_encountered_keys)}')
         for key in not_encountered_keys:
@@ -121,12 +111,7 @@ def test_check_unused_loc_keys(test_runner: object):
             continue
         if '\\decisions\\' in filename:
             continue
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         print(f'{filename}, {len(not_encountered_keys)}')
         for key in not_encountered_keys:

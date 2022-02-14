@@ -19,12 +19,7 @@ def test_check_unused_country_flags(test_runner: object):
     paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         if 'set_country_flag =' in text_file:
             pattern_matches = re.findall('set_country_flag = \\b\\w*\\b', text_file)
@@ -47,12 +42,7 @@ def test_check_unused_country_flags(test_runner: object):
 # Part 3 - count the number of flag occurrences
     logging.debug(f'{len(country_flags)} set country flags found')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         not_encountered_flags = [i for i in country_flags.keys() if country_flags[i] == 0]
 

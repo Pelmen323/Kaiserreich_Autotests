@@ -16,12 +16,7 @@ def test_find_bad_words(test_runner: object):
     for filename in glob.iglob(filepath + '**/*.yml', recursive=True):        # Recursive opening of all yml files in folder and subfolders
         if filename == file_to_skip:
             continue
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         for symbol in text_file:
             if symbol in string.punctuation:

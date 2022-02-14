@@ -22,12 +22,7 @@ def test_check_scripted_triggers_unused(test_runner: object):
             continue
         if '00_resistance' in filename:
             continue
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):
@@ -40,12 +35,7 @@ def test_check_scripted_triggers_unused(test_runner: object):
 
     # 2. Find if scripted effects are used:
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         not_encountered_triggers = [i for i in dict_with_scripted_triggers.keys() if dict_with_scripted_triggers[i] == 0]
         if ' = yes' in text_file or ' = no' in text_file:

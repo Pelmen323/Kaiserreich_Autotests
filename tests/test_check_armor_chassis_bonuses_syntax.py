@@ -18,12 +18,7 @@ def test_check_armor_chassis_bonuses_syntax(test_runner: object):
     os.chdir(filepath)
 # Part 1 - Check ideas files
     for filename in glob.glob("*.txt"):
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         if '_tank_' in text_file:
             pattern_matches = re.findall('[^\t]*_tank.*_equipment', text_file)

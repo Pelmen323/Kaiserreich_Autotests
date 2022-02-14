@@ -19,12 +19,7 @@ def test_check_missing_characters(test_runner: object):
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         if "on_actions_global" in filename:
             continue
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         if 'has_character =' in text_file:
             pattern_matches = re.findall('has_character = \\w*', text_file)
@@ -48,12 +43,7 @@ def test_check_missing_characters(test_runner: object):
     logging.debug(f'{len(characters_usages)} unique character usages found')
 
     for filename in glob.iglob(path_to_character_files + '**/*.txt', recursive=True):
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         pattern_matches = re.findall('\\b[A-Z]{3}_\\w* =', text_file)
         if len(pattern_matches) > 0:

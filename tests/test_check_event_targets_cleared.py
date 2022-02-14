@@ -15,12 +15,7 @@ def test_check_cleared_event_targets(test_runner: object):
     paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         if 'event_target:' in text_file:
             pattern_matches = re.findall('clear_global_event_target = \\w*\\b', text_file)
@@ -34,12 +29,7 @@ def test_check_cleared_event_targets(test_runner: object):
 # Part 2 - count the number of flag occurrences
     logging.debug(f'{len(event_targets)} cleared event targets found')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         not_encountered_targets = [i for i in event_targets.keys() if event_targets[i] == 0]
 

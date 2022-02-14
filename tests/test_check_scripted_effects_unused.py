@@ -16,12 +16,7 @@ def test_check_scripted_effects_unused(test_runner: object):
     paths = {}
     # 1. Get the dict of all scripted effects
     for filename in glob.iglob(filepath_to_effects + '**/*.txt', recursive=True):
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):
@@ -34,12 +29,7 @@ def test_check_scripted_effects_unused(test_runner: object):
 
     # 2. Find if scripted effects are used:
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         not_encountered_effects = [i for i in dict_with_scripted_effects.keys() if dict_with_scripted_effects[i] == 0]
         if ' = yes' in text_file:

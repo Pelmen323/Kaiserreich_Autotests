@@ -31,12 +31,7 @@ def test_check_unused_oob_files(test_runner: object):
     logging.debug(f'{len(oob_files)} oob files found')
 
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         not_encountered_oob = [i for i in oob_files.keys() if oob_files[i] == 0]
 

@@ -16,12 +16,7 @@ def test_check_history_files_armor_techs(test_runner: object):
     os.chdir(filepath)
 
     for filename in glob.glob("*.txt"):
-        try:
-            text_file = open_text_file(filename)
-        except Exception as ex:
-            logging.warning(f'Skipping the file {filename}')
-            logging.warning(ex)
-            continue
+        text_file = open_text_file(filename)
 
         non_nsb_limit = text_file.count('limit = { NOT = { has_dlc = "No Step Back" } }')
         gwtank = text_file.count("gwtank = 1")
