@@ -7,7 +7,7 @@
 import glob
 import re
 import os
-from .imports.file_functions import open_text_file, clear_false_positives_flags
+from ..imports.file_functions import open_text_file, clear_false_positives_flags
 import logging
 FALSE_POSITIVES = ('is_han_chinese_tag',        # Currently unused flags
                    'is_non_han_chinese_tag',)

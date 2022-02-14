@@ -5,7 +5,7 @@
 ##########################
 import glob
 import re
-from .imports.file_functions import open_text_file, clear_false_positives_flags
+from ..imports.file_functions import open_text_file, clear_false_positives_flags
 import logging
 FALSE_POSITIVES = ['ace_promoted.1', 'ace_promoted.2', 'ace_died.1',
                    'ace_killed_by_ace.1', 'ace_killed_other_ace.1',

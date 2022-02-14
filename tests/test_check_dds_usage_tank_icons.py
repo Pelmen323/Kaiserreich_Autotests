@@ -4,7 +4,7 @@
 ##########################
 import glob
 import os
-from .imports.file_functions import open_text_file
+from ..imports.file_functions import open_text_file
 import logging
 FALSE_POSITITVES = ['ITA_basic_light_tank.dds', 'mex_basic_light_tank.dds', 'USA_basic_light_tank.dds', 
                     'USA_basic_heavy_tank.dds', 'rom_basic_light_tank.dds',]

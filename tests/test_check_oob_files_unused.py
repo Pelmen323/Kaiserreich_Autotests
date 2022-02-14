@@ -4,7 +4,7 @@
 ##########################
 import glob
 import os
-from .imports.file_functions import open_text_file, clear_false_positives_flags
+from ..imports.file_functions import open_text_file, clear_false_positives_flags
 import logging
 FALSE_POSITIVES = ('TUN_revolt',    # NFA revolt tags with non-standard syntax
                    'CHA_revolt',

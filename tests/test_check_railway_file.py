@@ -3,7 +3,7 @@
 # The error is very important as the game draws level 4 railways in half of the world if you provide less provinces than should
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-from .imports.file_functions import open_text_file
+from ..imports.file_functions import open_text_file
 import logging
 
 

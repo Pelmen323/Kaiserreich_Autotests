@@ -6,7 +6,7 @@
 ##########################
 import os
 import glob
-from .imports.file_functions import open_text_file
+from ..imports.file_functions import open_text_file
 import logging
 
 

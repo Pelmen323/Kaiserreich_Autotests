@@ -3,8 +3,8 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-from .imports.bad_words import bad_words    # Dict with wrong_word : right_word. Bad versions are keys in the dict
-from .imports.file_functions import open_text_file
+from ..imports.bad_words import bad_words    # Dict with wrong_word : right_word. Bad versions are keys in the dict
+from ..imports.file_functions import open_text_file
 import string
 import logging
 

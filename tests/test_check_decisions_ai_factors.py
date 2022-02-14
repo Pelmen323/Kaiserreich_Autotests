@@ -8,7 +8,7 @@
 import os
 import glob
 import re
-from .imports.file_functions import open_text_file
+from ..imports.file_functions import open_text_file
 import logging
 FILES_TO_SKIP = ('00_demobilization_decisions.txt',
                  'ZZ_debug_decisions.txt',
