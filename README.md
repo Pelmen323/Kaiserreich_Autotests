@@ -67,7 +67,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 
 ### Project development timeline on the Jenkins graph:
 
-![Screenshot (2097)](https://user-images.githubusercontent.com/43440389/152693376-70aae182-df4f-4648-ab72-5d3a1c3b097d.png)
+![Screenshot (2159)](https://user-images.githubusercontent.com/43440389/154126863-2af499b8-cf0b-4935-a214-924163b0e182.png)
 
 
 
@@ -98,7 +98,7 @@ It allows to run tests automatically based on specific triggers
 
 4. Create a new Job (Freestyle project)
 5. Configure the job
-- git repo - https://github.com/Pelmen323/Kaiserreich_Jenkins_PyTests, branch - main
+- git repo - https://github.com/Pelmen323/Kaiserreich_Autotests, branch - main
 - Build action - Custom Python Builder, path to your venv (not to exe), nature - Shell, command:
 ### pytest -v -s --tb=short "--username=xxx" "--mod_name=xxx" -n 6 --junitxml TestResults.xml
 (replace **username** with your system username and **mod_name** with mod folder name, -n - number of your CPU cores)
