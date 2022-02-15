@@ -3,18 +3,19 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-from ..imports.file_functions import open_text_file
+from ..test_classes.generic_test_class import TestClass
 import logging
 
 
 def test_check_remove_country_leader_role(test_runner: object):
+    test = TestClass()
     filepath = test_runner.full_path_to_mod
     file_to_skip = f'{filepath}common\\scripted_effects\\_useful_scripted_effects.txt'
     results = {}
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         if filename == file_to_skip: continue
 
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         errors_found = text_file.count('remove_country_leader_role')
         if errors_found > 0:

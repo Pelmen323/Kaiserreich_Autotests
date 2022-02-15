@@ -7,16 +7,17 @@
 import glob
 import os
 import re
-from ..imports.file_functions import open_text_file
+from ..test_classes.generic_test_class import TestClass
 import logging
 
 
 def test_check_values_digits_after_decimal(test_runner: object):
+    test = TestClass()
     filepath = test_runner.full_path_to_mod
     results = {}
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         if 'ambient_object' in filename: continue
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):

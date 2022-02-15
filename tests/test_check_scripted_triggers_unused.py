@@ -5,8 +5,7 @@
 import glob
 import os
 import re
-from ..imports.file_functions import open_text_file
-from ..test_classes.test_variable_class import TestClass
+from ..test_classes.generic_test_class import TestClass
 import logging
 FILES_TO_SKIP = ['diplomacy_scripted_triggers', 'diplo_action_valid_triggers', '00_resistance']
 
@@ -22,7 +21,7 @@ def test_check_scripted_triggers_unused(test_runner: object):
         if test.skip_files(files_to_skip=FILES_TO_SKIP, filename=filename):
             continue
 
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):
@@ -35,7 +34,7 @@ def test_check_scripted_triggers_unused(test_runner: object):
 
     # 2. Find if scripted effects are used:
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         not_encountered_triggers = [i for i in dict_with_scripted_triggers.keys() if dict_with_scripted_triggers[i] == 0]
         if ' = yes' in text_file or ' = no' in text_file:

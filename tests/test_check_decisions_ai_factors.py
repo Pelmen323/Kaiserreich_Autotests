@@ -8,7 +8,7 @@
 import os
 import glob
 import re
-from ..imports.file_functions import open_text_file
+from ..test_classes.generic_test_class import TestClass
 import logging
 FILES_TO_SKIP = ('00_demobilization_decisions.txt',
                  'ZZ_debug_decisions.txt',
@@ -20,6 +20,7 @@ FILES_TO_SKIP = ('00_demobilization_decisions.txt',
 
 
 def test_check_decisions_ai_factors(test_runner: object):
+    test = TestClass()
     filepath = f'{test_runner.full_path_to_mod}common\\decisions\\'
     results = {}
     os.chdir(filepath)
@@ -27,7 +28,7 @@ def test_check_decisions_ai_factors(test_runner: object):
     for filename in glob.glob("*.txt"):
         if filename in FILES_TO_SKIP:
             continue
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         icon_counter = len(re.findall('icon =', text_file))
         ai_will_do_counter = len(re.findall('ai_will_do =', text_file))

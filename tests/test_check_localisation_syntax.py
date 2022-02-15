@@ -4,16 +4,17 @@
 ##########################
 import glob
 import os
-from ..imports.file_functions import open_text_file
+from ..test_classes.generic_test_class import TestClass
 import logging
 
 
 def test_check_localisation_files_syntax(test_runner: object):
+    test = TestClass()
     filepath = f'{test_runner.full_path_to_mod}localisation\\'
     results = {}
     loc_keys = {}
     for filename in glob.iglob(filepath + '**/*.yml', recursive=True):
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         text_file_splitted = text_file.lower().split('\n')[1:]
         for line in range(len(text_file_splitted)):

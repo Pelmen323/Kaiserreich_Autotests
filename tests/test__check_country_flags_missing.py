@@ -7,7 +7,7 @@
 import glob
 import re
 import os
-from ..imports.file_functions import open_text_file, clear_false_positives_flags
+from ..test_classes.generic_test_class import TestClass
 import logging
 FALSE_POSITIVES = ('CHI_soong_control',        # Currently unused flags
                    'CHI_mingshu_control',
@@ -18,12 +18,13 @@ FALSE_POSITIVES = ('CHI_soong_control',        # Currently unused flags
 
 
 def test_check_missing_country_flags(test_runner: object):
+    test = TestClass()
     filepath = test_runner.full_path_to_mod
     country_flags = {}
     paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         if "has_country_flag =" in text_file:
             pattern_matches = re.findall("has_country_flag = [a-zA-Z0-9_']*", text_file)
@@ -41,7 +42,7 @@ def test_check_missing_country_flags(test_runner: object):
                     paths[match] = os.path.basename(filename)
 
 # Part 2 - clear false positives and flags with variables:
-    clear_false_positives_flags(flags_dict=country_flags, false_positives=FALSE_POSITIVES)
+    country_flags = test.clear_false_positives_dict(input_dict=country_flags, false_positives=FALSE_POSITIVES)
     # TEMP REMOVAL UNTIL MINISTERS ARE NOT REMOVED #
     dead_flags = []
     for flag in country_flags:
@@ -52,7 +53,7 @@ def test_check_missing_country_flags(test_runner: object):
 
 # Part 3 - count the number of flag occurrences
     for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         not_encountered_flags = [i for i in country_flags.keys() if country_flags[i] == 0]
 

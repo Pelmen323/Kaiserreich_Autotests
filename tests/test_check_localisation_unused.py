@@ -4,8 +4,7 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-from ..imports.file_functions import open_text_file
-from ..test_classes.test_variable_class import TestClass
+from ..test_classes.generic_test_class import TestClass
 import logging
 import pytest
 FILES_TO_SKIP = ["KR_Vanilla_Override_l_english", "ideas_l_english", "music", "lar_operations", "autonomy_l", "decisions_l_english"
@@ -29,7 +28,7 @@ def test_check_unused_loc_keys(test_runner: object):
         if test.skip_files(files_to_skip=FILES_TO_SKIP, filename=filename):
             continue
 
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         text_file_splitted = text_file.lower().split('\n')[1:]
         for line in range(len(text_file_splitted)):
@@ -45,7 +44,7 @@ def test_check_unused_loc_keys(test_runner: object):
     not_encountered_keys = loc_keys.copy()
     # Check events first
     for filename in glob.iglob(filepath_events + '**/*.txt', recursive=True):
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         for key in not_encountered_keys:
             if key in text_file.lower():
@@ -53,7 +52,7 @@ def test_check_unused_loc_keys(test_runner: object):
         not_encountered_keys = loc_keys.copy()
     # Then check decisions
     for filename in glob.iglob(filepath_decisions + '**/*.txt', recursive=True):
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         for key in not_encountered_keys:
             if key in text_file.lower():
@@ -64,7 +63,7 @@ def test_check_unused_loc_keys(test_runner: object):
         if test.skip_files(files_to_skip=FILES_TO_SKIP, filename=filename):
             continue
 
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         for key in not_encountered_keys:
             if key in text_file.lower():

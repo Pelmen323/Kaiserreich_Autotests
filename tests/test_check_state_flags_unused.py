@@ -7,7 +7,7 @@
 import glob
 import re
 import os
-from ..imports.file_functions import open_text_file, clear_false_positives_flags
+from ..test_classes.generic_test_class import TestClass
 import logging
 FALSE_POSITIVES = ('ACW_important_state_CSA',     # Wavering momentum flags that are currently unused
                    'ACW_important_state_USA',
@@ -18,12 +18,13 @@ FALSE_POSITIVES = ('ACW_important_state_CSA',     # Wavering momentum flags that
 
 
 def test_check_unused_state_flags(test_runner: object):
+    test = TestClass()
     filepath = test_runner.full_path_to_mod
     state_flags = {}
     paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         if 'set_state_flag =' in text_file:
             pattern_matches = re.findall('set_state_flag = \\b\\w*\\b', text_file)
@@ -41,12 +42,12 @@ def test_check_unused_state_flags(test_runner: object):
                     paths[match] = os.path.basename(filename)
 
 # Part 2 - clear false positives and flags with variables:
-    clear_false_positives_flags(flags_dict=state_flags, false_positives=FALSE_POSITIVES)
+    state_flags = test.clear_false_positives_dict(input_dict=state_flags, false_positives=FALSE_POSITIVES)
 
 # Part 3 - count the number of flag occurrences
     logging.debug(f'{len(state_flags)} set state flags were found')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         not_encountered_flags = [i for i in state_flags.keys() if state_flags[i] == 0]
 

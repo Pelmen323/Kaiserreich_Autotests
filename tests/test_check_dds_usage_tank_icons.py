@@ -4,13 +4,14 @@
 ##########################
 import glob
 import os
-from ..imports.file_functions import open_text_file
+from ..test_classes.generic_test_class import TestClass
 import logging
 FALSE_POSITITVES = ('ITA_basic_light_tank.dds', 'mex_basic_light_tank.dds', 'USA_basic_light_tank.dds',
                     'USA_basic_heavy_tank.dds', 'rom_basic_light_tank.dds',)
 
 
 def test_check_dds_usage_tank_icons(test_runner: object):
+    test = TestClass()
     filepath = test_runner.full_path_to_mod
     results = {}
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
@@ -18,7 +19,7 @@ def test_check_dds_usage_tank_icons(test_runner: object):
             continue
         if '00_tank_icons' in filename:                 # They can be used in general pool of icons
             continue
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):

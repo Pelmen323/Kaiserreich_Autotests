@@ -5,7 +5,7 @@
 ##########################
 import glob
 import re
-from ..imports.file_functions import open_text_file, clear_false_positives_flags
+from ..test_classes.generic_test_class import TestClass
 import logging
 FALSE_POSITIVES = ['ace_promoted.1', 'ace_promoted.2', 'ace_died.1',
                    'ace_killed_by_ace.1', 'ace_killed_other_ace.1',
@@ -13,6 +13,7 @@ FALSE_POSITIVES = ['ace_promoted.1', 'ace_promoted.2', 'ace_died.1',
 
 
 def test_check_triggered_events(test_runner: object):
+    test = TestClass()
     filepath_events = f'{test_runner.full_path_to_mod}events\\'
     filepath_global = test_runner.full_path_to_mod
     filepath_history = f'{test_runner.full_path_to_mod}history\\'
@@ -21,7 +22,7 @@ def test_check_triggered_events(test_runner: object):
     invoked_events_id = []
 
     for filename in glob.iglob(filepath_events + '**/*.txt', recursive=True):
-        text_file = open_text_file(filename).lower()
+        text_file = test.open_text_file(filename).lower()
 
     # 1. Get list of all events in events files
         pattern_matches = re.findall('((?<=\n)country_event = \\{.*\n(.|\n*?)*\n\\})', text_file)
@@ -41,11 +42,11 @@ def test_check_triggered_events(test_runner: object):
             triggered_events_id[event_id] = 0                                   # Default value is set to zero
 
     # 3. Time to roll out - NO HISTORY FILES HERE
-    clear_false_positives_flags(flags_dict=triggered_events_id, false_positives=FALSE_POSITIVES)
+    triggered_events_id = test.clear_false_positives_dict(input_dict=triggered_events_id, false_positives=FALSE_POSITIVES)
     for filename in glob.iglob(filepath_global + '**/*.txt', recursive=True):
         if '\\history\\' in filename:
             continue
-        text_file = open_text_file(filename).lower()
+        text_file = test.open_text_file(filename).lower()
 
         if "country_event =" in text_file:
             # 3.0 One-liners w/o brackets
@@ -77,7 +78,7 @@ def test_check_triggered_events(test_runner: object):
                     invoked_events_id.append(match)
 
     for filename in glob.iglob(filepath_history + '**/*.txt', recursive=True):
-        text_file = open_text_file(filename).lower()
+        text_file = test.open_text_file(filename).lower()
 
         if "country_event =" in text_file:
             # 4.0 One-liners w/o brackets

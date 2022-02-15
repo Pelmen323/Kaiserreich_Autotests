@@ -7,19 +7,20 @@
 import glob
 import re
 import os
-from ..imports.file_functions import open_text_file, clear_false_positives_flags
+from ..test_classes.generic_test_class import TestClass
 import logging
 FALSE_POSITIVES = ('is_han_chinese_tag',        # Currently unused flags
                    'is_non_han_chinese_tag',)
 
 
 def test_check_unused_country_flags(test_runner: object):
+    test = TestClass()
     filepath = test_runner.full_path_to_mod
     country_flags = {}
     paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         if 'set_country_flag =' in text_file:
             pattern_matches = re.findall('set_country_flag = \\b\\w*\\b', text_file)
@@ -37,12 +38,12 @@ def test_check_unused_country_flags(test_runner: object):
                     paths[match] = os.path.basename(filename)
 
 # Part 2 - clear false positives and flags with variables:
-    clear_false_positives_flags(flags_dict=country_flags, false_positives=FALSE_POSITIVES)
+    country_flags = test.clear_false_positives_dict(input_dict=country_flags, false_positives=FALSE_POSITIVES)
 
 # Part 3 - count the number of flag occurrences
     logging.debug(f'{len(country_flags)} set country flags found')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         not_encountered_flags = [i for i in country_flags.keys() if country_flags[i] == 0]
 

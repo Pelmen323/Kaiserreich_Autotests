@@ -5,18 +5,19 @@
 import glob
 import os
 import re
-from ..imports.file_functions import open_text_file, clear_false_positives_flags
+from ..test_classes.generic_test_class import TestClass
 import logging
 FALSE_POSITIVES = ('[OOB_NAME]',)
 
 
 def test_check_unused_oob_files(test_runner: object):
+    test = TestClass()
     filepath = test_runner.full_path_to_mod
     path_to_oob_files = f'{test_runner.full_path_to_mod}history\\units\\'
     oob_files = {}
 # Part 1 - get the dict of oob usages in files
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         if 'oob =' in text_file:
             pattern_matches = re.findall('oob = [\\[\\]a-zA-Z0-9_"]*', text_file)
@@ -33,7 +34,7 @@ def test_check_unused_oob_files(test_runner: object):
                     oob_files[match] = 0
 
 # Part 2 - find if oob file is present
-    clear_false_positives_flags(flags_dict=oob_files, false_positives=FALSE_POSITIVES)
+    oob_files = test.clear_false_positives_dict(input_dict=oob_files, false_positives=FALSE_POSITIVES)
     logging.debug(f'{len(oob_files)} unique usages of oob files found')
 
     for filename in glob.iglob(path_to_oob_files + '**/*.txt', recursive=True):

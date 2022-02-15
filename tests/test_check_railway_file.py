@@ -3,14 +3,15 @@
 # The error is very important as the game draws level 4 railways in half of the world if you provide less provinces than should
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-from ..imports.file_functions import open_text_file
+from ..test_classes.generic_test_class import TestClass
 import logging
 
 
 def test_check_railways_file(test_runner: object) -> bool:
+    test = TestClass()
     filepath = f'{test_runner.full_path_to_mod}map\\railways.txt'
     results = []
-    lines = open_text_file(filepath).split('\n')
+    lines = test.open_text_file(filepath).split('\n')
     line_counter = 0
 
     for line in lines:

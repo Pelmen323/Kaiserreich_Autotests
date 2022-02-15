@@ -3,20 +3,21 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-from ..imports.bad_words import bad_words    # Dict with wrong_word : right_word. Bad versions are keys in the dict
-from ..imports.file_functions import open_text_file
+from ..data.bad_words import bad_words    # Dict with wrong_word : right_word. Bad versions are keys in the dict
 import string
+from ..test_classes.generic_test_class import TestClass
 import logging
 
 
 def test_find_bad_words(test_runner: object):
+    test = TestClass()
     filepath = f'{test_runner.full_path_to_mod}localisation\\'
     file_to_skip = f'{filepath}english\\play_in_english_l_braz_por.yml'
     typo_list = []
     for filename in glob.iglob(filepath + '**/*.yml', recursive=True):        # Recursive opening of all yml files in folder and subfolders
         if filename == file_to_skip:
             continue
-        text_file = open_text_file(filename)
+        text_file = test.open_text_file(filename)
 
         for symbol in text_file:
             if symbol in string.punctuation:
