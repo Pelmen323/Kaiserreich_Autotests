@@ -6,22 +6,22 @@ import glob
 import os
 import re
 from ..imports.file_functions import open_text_file
+from ..test_classes.test_variable_class import TestClass
 import logging
+FILES_TO_SKIP = ['diplomacy_scripted_triggers', 'diplo_action_valid_triggers', '00_resistance']
 
 
 def test_check_scripted_triggers_unused(test_runner: object):
+    test = TestClass()
     filepath = test_runner.full_path_to_mod
     filepath_to_effects = f'{test_runner.full_path_to_mod}common\\scripted_triggers\\'
     dict_with_scripted_triggers = {}
     paths = {}
     # 1. Get the dict of all scripted effects
     for filename in glob.iglob(filepath_to_effects + '**/*.txt', recursive=True):
-        if 'diplomacy_scripted_triggers' in filename:                   # These triggers are NOT used directly
+        if test.skip_files(files_to_skip=FILES_TO_SKIP, filename=filename):
             continue
-        if 'diplo_action_valid_triggers' in filename:
-            continue
-        if '00_resistance' in filename:
-            continue
+
         text_file = open_text_file(filename)
 
         text_file_splitted = text_file.split('\n')
