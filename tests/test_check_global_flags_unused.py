@@ -47,7 +47,7 @@ def test_check_unused_global_flags(test_runner: object):
                 global_flags[flag] += text_file.count(f'has_global_flag = {flag}')
                 global_flags[flag] += text_file.count(f'has_global_flag = {{ flag = {flag}')
                 if flag[-4] == '_':
-                    global_flags[flag] += text_file.count(f'has_global_flag = {flag[:-4]}_@THIS')
+                    global_flags[flag] += text_file.count(f'has_global_flag = {flag[:-4]}_@this')
 
 # Part 3 - throw the error if flag is not used
     results = [i for i in global_flags if global_flags[i] == 0]

@@ -6,16 +6,16 @@ import glob
 import os
 from ..test_classes.generic_test_class import TestClass
 import logging
-FALSE_POSITIVES = ('TUN_revolt',    # NFA revolt tags with non-standard syntax
-                   'CHA_revolt',
-                   'NGR_revolt',
-                   'MLI_revolt',
-                   'MRT_revolt',
-                   'VOL_revolt',
-                   'GNA_revolt',
-                   'IVO_revolt',
-                   'SEN_revolt',
-                   'SIE_revolt',)
+FALSE_POSITIVES = ('tun_revolt',    # NFA revolt tags with non-standard syntax
+                   'cha_revolt',
+                   'ngr_revolt',
+                   'mli_revolt',
+                   'mrt_revolt',
+                   'vol_revolt',
+                   'gna_revolt',
+                   'ivo_revolt',
+                   'sen_revolt',
+                   'sie_revolt',)
 
 
 def test_check_unused_oob_files(test_runner: object):
@@ -25,7 +25,7 @@ def test_check_unused_oob_files(test_runner: object):
     oob_files = {}
 # Part 1 - get the dict of all oob files
     for filename in glob.iglob(path_to_oob_files + '**/*.txt', recursive=True):
-        oob_files[os.path.basename(filename)[:-4]] = 0
+        oob_files[os.path.basename(filename.lower())[:-4]] = 0
 
 # Part 2 - count the number of oob occurrences
     oob_files = test.clear_false_positives_dict(input_dict=oob_files, false_positives=FALSE_POSITIVES)

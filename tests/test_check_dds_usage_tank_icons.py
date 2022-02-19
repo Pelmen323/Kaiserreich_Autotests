@@ -6,8 +6,8 @@ import glob
 import os
 from ..test_classes.generic_test_class import TestClass
 import logging
-FALSE_POSITITVES = ('ITA_basic_light_tank.dds', 'mex_basic_light_tank.dds', 'USA_basic_light_tank.dds',
-                    'USA_basic_heavy_tank.dds', 'rom_basic_light_tank.dds',)
+FALSE_POSITITVES = ('ita_basic_light_tank.dds', 'mex_basic_light_tank.dds', 'usa_basic_light_tank.dds',
+                    'usa_basic_heavy_tank.dds', 'rom_basic_light_tank.dds',)
 
 
 def test_check_dds_usage_tank_icons(test_runner: object):

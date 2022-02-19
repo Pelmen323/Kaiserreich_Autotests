@@ -62,10 +62,10 @@ def test_check_unused_event_targets(test_runner: object):
 
         not_encountered_targets = [i for i in event_targets.keys() if event_targets[i] == 0]
 
-        if '.Get' in text_file:
+        if '.get' in text_file:
             for target in not_encountered_targets:
-                event_targets[target] += text_file.count(f'[{target}.GetName')
-                event_targets[target] += text_file.count(f'[{target}.GetAdjective')
+                event_targets[target] += text_file.count(f'[{target}.getname')
+                event_targets[target] += text_file.count(f'[{target}.getAdjective')
 
 
 # Part 3 - throw the error if flag is not used

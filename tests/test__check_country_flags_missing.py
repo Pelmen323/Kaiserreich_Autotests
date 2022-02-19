@@ -9,11 +9,11 @@ import re
 import os
 from ..test_classes.generic_test_class import TestClass
 import logging
-FALSE_POSITIVES = ('CHI_soong_control',        # Currently unused flags
-                   'CHI_mingshu_control',
-                   'DEI_INS_COUP_AVOIDED',
-                   'CHI_mingshu_lkmt',
-                   'DEI_Koninkrijksstatuut_signed',
+FALSE_POSITIVES = ('chi_soong_control',        # Currently unused flags
+                   'chi_mingshu_control',
+                   'dei_ins_coup_avoided',
+                   'chi_mingshu_lkmt',
+                   'dei_koninkrijksstatuut_signed',
                    'annexation_window_open',)
 
 
@@ -64,11 +64,11 @@ def test_check_missing_country_flags(test_runner: object):
                     country_flags[flag] += text_file.count(f"set_country_flag = {{ flag = {flag}")
                 if len(flag) > 3:
                     if flag[-4] == "_" and flag[-4:] != flag[-4:].lower():
-                        country_flags[flag] += text_file.count(f"set_country_flag = {flag[:-4]}_@ROOT")
-                        country_flags[flag] += text_file.count(f"set_country_flag = {flag[:-4]}_@FROM")
+                        country_flags[flag] += text_file.count(f"set_country_flag = {flag[:-4]}_@root")
+                        country_flags[flag] += text_file.count(f"set_country_flag = {flag[:-4]}_@from")
                         country_flags[flag] += text_file.count(f"set_country_flag = {flag[:-4]}_@var:revolter")
-                        country_flags[flag] += text_file.count(f"set_country_flag = {{ flag = {flag[:-4]}_@ROOT")
-                        country_flags[flag] += text_file.count(f"set_country_flag = {{ flag = {flag[:-4]}_@FROM")
+                        country_flags[flag] += text_file.count(f"set_country_flag = {{ flag = {flag[:-4]}_@root")
+                        country_flags[flag] += text_file.count(f"set_country_flag = {{ flag = {flag[:-4]}_@from")
 
 
 # Part 4 - throw the error if flag is not used

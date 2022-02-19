@@ -46,7 +46,7 @@ def test_check_missing_characters(test_runner: object):
     for filename in glob.iglob(path_to_character_files + '**/*.txt', recursive=True):
         text_file = test.open_text_file(filename).lower()
 
-        pattern_matches = re.findall('\\b[A-Z]{3}_\\w* =', text_file)
+        pattern_matches = re.findall('\\b[a-z]{3}_\\w* =', text_file)
         if len(pattern_matches) > 0:
             for match in pattern_matches:
                 match = match[:-1].strip().lower()

@@ -46,7 +46,7 @@ def test_check_cleared_country_flags(test_runner: object):
                     country_flags[flag] += text_file.count(f'set_country_flag = {flag}')
                     country_flags[flag] += text_file.count(f'set_country_flag = {{ flag = {flag}')
                 if flag[-4] == '_':
-                    country_flags[flag] += text_file.count(f'set_country_flag = {flag[:-4]}_@ROOT')
+                    country_flags[flag] += text_file.count(f'set_country_flag = {flag[:-4]}_@root')
 
 # Part 4 - throw the error if flag is not used
     results = [i for i in country_flags if country_flags[i] == 0]

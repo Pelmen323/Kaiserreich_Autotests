@@ -7,7 +7,7 @@ import os
 import re
 from ..test_classes.generic_test_class import TestClass
 import logging
-FALSE_POSITIVES = ('[OOB_NAME]',)
+FALSE_POSITIVES = ('[oob_name]',)
 
 
 def test_check_unused_oob_files(test_runner: object):
@@ -39,7 +39,7 @@ def test_check_unused_oob_files(test_runner: object):
 
     for filename in glob.iglob(path_to_oob_files + '**/*.txt', recursive=True):
         for oob in oob_files:
-            if oob == os.path.basename(filename)[:-4]:
+            if oob == os.path.basename(filename.lower())[:-4]:
                 oob_files[oob] += 1
 
 # Part 3 - throw the error if oob file is not found
