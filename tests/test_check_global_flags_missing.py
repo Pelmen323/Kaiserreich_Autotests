@@ -51,6 +51,7 @@ def test_check_missing_global_flags(test_runner: object):
                 global_flags[flag] += text_file.count(f'set_global_flag = {{ flag = {flag}')
                 if flag[-4] == '_':
                     global_flags[flag] += text_file.count(f'set_global_flag = {flag[:-4]}_@root')
+                    global_flags[flag] += text_file.count(f'set_global_flag = {flag[:-4]}_@from')
 
 # Part 4 - throw the error if flag is not used
     results = [i for i in global_flags if global_flags[i] == 0]

@@ -63,7 +63,7 @@ def test_check_missing_country_flags(test_runner: object):
                     country_flags[flag] += text_file.count(f"set_country_flag = {flag}")
                     country_flags[flag] += text_file.count(f"set_country_flag = {{ flag = {flag}")
                 if len(flag) > 3:
-                    if flag[-4] == "_" and flag[-4:] != flag[-4:].lower():
+                    if flag[-4] == "_":
                         country_flags[flag] += text_file.count(f"set_country_flag = {flag[:-4]}_@root")
                         country_flags[flag] += text_file.count(f"set_country_flag = {flag[:-4]}_@from")
                         country_flags[flag] += text_file.count(f"set_country_flag = {flag[:-4]}_@var:revolter")
