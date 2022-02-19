@@ -17,7 +17,7 @@ def test_check_outdated_doctrine_bonus_syntax(test_runner: object):
     results = []
     paths = {}
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = test.open_text_file(filename).lower()
 
 # Get all tech bonuses from mod files
         if 'add_tech_bonus =' in text_file:

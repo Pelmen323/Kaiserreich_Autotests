@@ -15,7 +15,7 @@ def test_check_remove_country_leader_role(test_runner: object):
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         if filename == file_to_skip: continue
 
-        text_file = test.open_text_file(filename)
+        text_file = test.open_text_file(filename).lower()
 
         errors_found = text_file.count('remove_country_leader_role')
         if errors_found > 0:

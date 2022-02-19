@@ -17,7 +17,7 @@ def test_check_unused_event_targets(test_runner: object):
     paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = test.open_text_file(filename).lower()
 
         if 'save_global_event_target_as =' in text_file:
             pattern_matches = re.findall('save_global_event_target_as = \\w*\\b', text_file)
@@ -40,7 +40,7 @@ def test_check_unused_event_targets(test_runner: object):
     event_targets = test.clear_false_positives_dict(input_dict=event_targets, false_positives=FALSE_POSITIVES)
     logging.debug(f'{len(event_targets)} defined event targets found')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = test.open_text_file(filename).lower()
 
         not_encountered_targets = [i for i in event_targets.keys() if event_targets[i] == 0]
 
@@ -58,7 +58,7 @@ def test_check_unused_event_targets(test_runner: object):
 
     # Additionally checking yml files for loc functions
     for filename in glob.iglob(filepath + '**/*.yml', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = test.open_text_file(filename).lower()
 
         not_encountered_targets = [i for i in event_targets.keys() if event_targets[i] == 0]
 

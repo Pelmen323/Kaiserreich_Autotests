@@ -19,7 +19,7 @@ def test_check_generals_and_admiral_stats(test_runner: object):
     os.chdir(filepath)
 
     for filename in glob.glob("*.txt"):
-        text_file = test.open_text_file(filename)
+        text_file = test.open_text_file(filename).lower()
 
         admirals_in_file = len(re.findall("navy_leader = \\{", text_file))
         corps_commanders_in_file = len(re.findall("corps_commander = \\{", text_file))
@@ -56,7 +56,7 @@ def test_check_generals_and_admiral_stats(test_runner: object):
             continue
         elif '_traits.txt' in filename:
             continue
-        text_file = test.open_text_file(filename)
+        text_file = test.open_text_file(filename).lower()
 
         if "add_naval_commander_role = {" in text_file or "add_field_marshal_role = {" in text_file or "add_corps_commander_role = {":
             admirals_in_file = len(re.findall("add_naval_commander_role = \\{", text_file))

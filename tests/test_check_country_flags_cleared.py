@@ -19,7 +19,7 @@ def test_check_cleared_country_flags(test_runner: object):
     paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = test.open_text_file(filename).lower()
 
         if 'clr_country_flag =' in text_file:
             pattern_matches = re.findall('clr_country_flag = \\b\\w*\\b', text_file)
@@ -36,7 +36,7 @@ def test_check_cleared_country_flags(test_runner: object):
 # Part 3 - count the number of flag occurrences
     logging.debug(f'{len(country_flags)} country flags cleared at least once')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = test.open_text_file(filename).lower()
 
         not_encountered_flags = [i for i in country_flags.keys() if country_flags[i] == 0]
 

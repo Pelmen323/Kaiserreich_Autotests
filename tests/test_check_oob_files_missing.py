@@ -17,7 +17,7 @@ def test_check_unused_oob_files(test_runner: object):
     oob_files = {}
 # Part 1 - get the dict of oob usages in files
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = test.open_text_file(filename).lower()
 
         if 'oob =' in text_file:
             pattern_matches = re.findall('oob = [\\[\\]a-zA-Z0-9_"]*', text_file)

@@ -28,7 +28,7 @@ def test_check_decisions_ai_factors(test_runner: object):
     for filename in glob.glob("*.txt"):
         if filename in FILES_TO_SKIP:
             continue
-        text_file = test.open_text_file(filename)
+        text_file = test.open_text_file(filename).lower()
 
         icon_counter = len(re.findall('icon =', text_file))
         ai_will_do_counter = len(re.findall('ai_will_do =', text_file))
