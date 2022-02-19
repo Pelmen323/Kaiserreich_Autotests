@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-32 tests:
+34 tests:
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
@@ -35,6 +35,9 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - missing global flags test (finds all global flags that are not set but checked)
 - cleared global flags test (finds all global flags that are not set but cleared)
 
+*Ideas tests:*
+- unused ideas test (finds all ideas that are set but never checked)
+
 *Localization tests*
 - localization files typo check (parses loc files and finds commonly misspelled words, as well as prints correct variant)
 - localization files syntax violations
@@ -43,6 +46,9 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 *OOB files tests:*
 - unused OOB files (files with unit templates and/or division/ships spawns that are not used)
 - missing OOB files (files with unit templates and/or division/ships spawns that are missing)
+
+*Opinion modifiers tests:*
+- unused opinion modifiers test (finds all opinion modifiers that are set but never checked)
 
 *Scripted triggers and effects tests:*
 - unused scripted triggers test (finds all scripted triggers that are not used)

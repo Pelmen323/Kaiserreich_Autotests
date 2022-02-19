@@ -8,6 +8,8 @@ import re
 from ..test_classes.generic_test_class import TestClass
 import logging
 FILES_TO_SKIP = ["Vanilla_Opinion_Modifiers",]
+FALSE_POSITIVES = ("kr_deal_with_devil", "aided_cntfai", "aided_carlist", "aided_spain",)
+
 
 def test_check_opinion_modifiers_unused(test_runner: object):
     test = TestClass()
@@ -31,6 +33,8 @@ def test_check_opinion_modifiers_unused(test_runner: object):
                 paths[match] = os.path.basename(filename)
 
     # 2. Find if modifiers are used:
+    dict_with_modifiers = test.clear_false_positives_dict(input_dict=dict_with_modifiers, false_positives=FALSE_POSITIVES)
+    
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = test.open_text_file(filename).lower()
 
