@@ -8,7 +8,7 @@ import re
 import os
 from ..test_classes.generic_test_class import TestClass
 import logging
-FALSE_POSITIVES = ('kr_economy_Logging',)
+FALSE_POSITIVES = ('kr_economy_logging',)
 
 
 def test_check_missing_global_flags(test_runner: object):
