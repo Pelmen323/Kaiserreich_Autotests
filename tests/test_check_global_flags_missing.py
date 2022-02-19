@@ -8,7 +8,7 @@ import re
 import os
 from ..test_classes.generic_test_class import TestClass
 import logging
-FALSE_POSITIVES = ('KR_Economy_Logging',)
+FALSE_POSITIVES = ('kr_economy_Logging',)
 
 
 def test_check_missing_global_flags(test_runner: object):
@@ -18,7 +18,7 @@ def test_check_missing_global_flags(test_runner: object):
     paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename).lower()
+        text_file = test.open_text_file(filename)
 
         if 'has_global_flag =' in text_file:
             pattern_matches = re.findall('has_global_flag = \\b\\w*\\b', text_file)
@@ -41,7 +41,7 @@ def test_check_missing_global_flags(test_runner: object):
 # Part 3 - count the number of flag occurrences
     logging.debug(f'{len(global_flags)} global flags used at least once')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename).lower()
+        text_file = test.open_text_file(filename)
 
         not_encountered_flags = [i for i in global_flags.keys() if global_flags[i] == 0]
 

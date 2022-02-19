@@ -13,7 +13,7 @@ class TestClass:
         '''
         try:
             with open(filename, 'r', encoding='utf-8-sig') as text_file:      # 'utf-8-sig' is mandatory for UTF-8 w/BOM
-                return text_file.read()
+                return text_file.read().lower()
         except Exception as ex:
             logging.error(f"Skipping the file {filename}, {ex}")
             raise FileNotFoundError(f"Can't open the file {filename}")

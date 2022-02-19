@@ -19,7 +19,7 @@ def test_check_opinion_modifiers_unused(test_runner: object):
     paths = {}
     # 1. Get the dict of all modifiers
     for filename in glob.iglob(filepath_to_modifiers + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename).lower()
+        text_file = test.open_text_file(filename)
         if test.skip_files(files_to_skip=FILES_TO_SKIP, filename=filename):
             continue
 
@@ -36,7 +36,7 @@ def test_check_opinion_modifiers_unused(test_runner: object):
     dict_with_modifiers = test.clear_false_positives_dict(input_dict=dict_with_modifiers, false_positives=FALSE_POSITIVES)
     
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename).lower()
+        text_file = test.open_text_file(filename)
 
         not_encountered_modifiers = [i for i in dict_with_modifiers.keys() if dict_with_modifiers[i] == 0]
         if 'modifier =' in text_file:

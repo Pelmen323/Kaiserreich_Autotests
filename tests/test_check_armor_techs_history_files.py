@@ -17,9 +17,9 @@ def test_check_history_files_armor_techs(test_runner: object):
     os.chdir(filepath)
 
     for filename in glob.glob("*.txt"):
-        text_file = test.open_text_file(filename).lower()
+        text_file = test.open_text_file(filename)
 
-        non_nsb_limit = text_file.count('limit = { NOT = { has_dlc = "no step back" } }')
+        non_nsb_limit = text_file.count('limit = { not = { has_dlc = "no step back" } }')
         gwtank = text_file.count("gwtank = 1")
         basic_light_tank = text_file.count("basic_light_tank = 1")
         basic_heavy_tank = text_file.count("basic_heavy_tank = 1")

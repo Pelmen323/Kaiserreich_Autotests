@@ -21,7 +21,7 @@ def test_check_ideas_unused(test_runner: object):
         if test.skip_files(files_to_skip=FILES_TO_SKIP, filename=filename):
             continue
 
-        text_file = test.open_text_file(filename).lower()
+        text_file = test.open_text_file(filename)
 
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):
@@ -37,7 +37,7 @@ def test_check_ideas_unused(test_runner: object):
 
     # 2. Find if ideas are used:
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename).lower()
+        text_file = test.open_text_file(filename)
 
         not_encountered_dict = [i for i in results_dict.keys() if results_dict[i] == 0]
         if 'add_ideas =' in text_file:

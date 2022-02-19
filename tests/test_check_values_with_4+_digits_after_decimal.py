@@ -17,7 +17,7 @@ def test_check_values_digits_after_decimal(test_runner: object):
     results = {}
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         if 'ambient_object' in filename: continue
-        text_file = test.open_text_file(filename).lower()
+        text_file = test.open_text_file(filename)
 
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):

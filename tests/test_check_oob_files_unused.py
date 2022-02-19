@@ -32,7 +32,7 @@ def test_check_unused_oob_files(test_runner: object):
     logging.debug(f'{len(oob_files)} oob files found')
 
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename).lower()
+        text_file = test.open_text_file(filename)
 
         not_encountered_oob = [i for i in oob_files.keys() if oob_files[i] == 0]
 

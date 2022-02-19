@@ -22,7 +22,7 @@ def test_check_triggered_events(test_runner: object):
     invoked_events_id = []
 
     for filename in glob.iglob(filepath_events + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename).lower()
+        text_file = test.open_text_file(filename)
 
     # 1. Get list of all events in events files
         pattern_matches = re.findall('((?<=\n)country_event = \\{.*\n(.|\n*?)*\n\\})', text_file)
@@ -46,7 +46,7 @@ def test_check_triggered_events(test_runner: object):
     for filename in glob.iglob(filepath_global + '**/*.txt', recursive=True):
         if '\\history\\' in filename:
             continue
-        text_file = test.open_text_file(filename).lower()
+        text_file = test.open_text_file(filename)
 
         if "country_event =" in text_file:
             # 3.0 One-liners w/o brackets
@@ -78,7 +78,7 @@ def test_check_triggered_events(test_runner: object):
                     invoked_events_id.append(match)
 
     for filename in glob.iglob(filepath_history + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename).lower()
+        text_file = test.open_text_file(filename)
 
         if "country_event =" in text_file:
             # 4.0 One-liners w/o brackets

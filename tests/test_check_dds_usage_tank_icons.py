@@ -19,7 +19,7 @@ def test_check_dds_usage_tank_icons(test_runner: object):
             continue
         if '00_tank_icons' in filename:                 # They can be used in general pool of icons
             continue
-        text_file = test.open_text_file(filename).lower()
+        text_file = test.open_text_file(filename)
 
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):

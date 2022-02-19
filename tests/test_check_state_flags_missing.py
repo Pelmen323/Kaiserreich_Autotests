@@ -17,7 +17,7 @@ def test_check_missing_state_flags(test_runner: object):
     paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename).lower()
+        text_file = test.open_text_file(filename)
 
         if 'has_state_flag =' in text_file:
             pattern_matches = re.findall('has_state_flag = \\b\\w*\\b', text_file)
@@ -38,7 +38,7 @@ def test_check_missing_state_flags(test_runner: object):
 # Part 2 - count the number of flag occurrences
     logging.debug(f'{len(state_flags)} state flags used at least once')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename).lower()
+        text_file = test.open_text_file(filename)
 
         not_encountered_flags = [i for i in state_flags.keys() if state_flags[i] == 0]
 
