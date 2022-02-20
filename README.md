@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-34 tests:
+35 tests:
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
@@ -42,6 +42,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - localization files typo check (parses loc files and finds commonly misspelled words, as well as prints correct variant)
 - localization files syntax violations
 - localization files unused loc entries
+- Scripted loc brackets usage (finds oddities with vanilla scripted loc functions usage, such as missing brackets or unexpected following characters)
 
 *OOB files tests:*
 - unused OOB files (files with unit templates and/or division/ships spawns that are not used)

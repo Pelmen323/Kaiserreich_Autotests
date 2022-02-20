@@ -17,6 +17,17 @@ class TestClass:
         except Exception as ex:
             logging.error(f"Skipping the file {filename}, {ex}")
             raise FileNotFoundError(f"Can't open the file {filename}")
+        
+    def open_text_file_non_lower(self, filename: str) -> str:
+        '''
+        Opens and returns text file in utf-8-sig encoding
+        '''
+        try:
+            with open(filename, 'r', encoding='utf-8-sig') as text_file:      # 'utf-8-sig' is mandatory for UTF-8 w/BOM
+                return text_file.read()
+        except Exception as ex:
+            logging.error(f"Skipping the file {filename}, {ex}")
+            raise FileNotFoundError(f"Can't open the file {filename}")
 
     def extract_matches(self, source_file: str, regex_pattern: str, output_dict: dict, iter_with_filepath: str, len_to_cut: int = 0):
         '''
