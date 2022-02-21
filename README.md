@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-35 tests:
+36 tests:
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
@@ -61,6 +61,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - cleared state flags test (finds all state flags that are not set but cleared)
 
 *Syntax tests:*
+- missing 'limit' expression in if/elif conditions test
 - usage of outdated syntax for armor equipment bonuses test (_equipment -> _chassis)
 - usage of DLC-locked armor chassis for non NSB owners and vice versa test (owners of NSB have specific armor equipment available; non-DLC players have their own. Checks if these two types of equipment are not mixed)
 - usage of outdated syntax for doctrines cost reduction test (tech_bonus -> doctrine_cost_reduction)
