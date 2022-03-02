@@ -7,7 +7,7 @@ import os
 import re
 from ..test_classes.generic_test_class import TestClass
 import logging
-FILES_TO_SKIP = ["Ministers_ideas", "_Generic_ideas.txt", 'army_spirits.txt', 'air_spirits.txt', 'navy_spirits.txt',]
+FILES_TO_SKIP = ["_Generic_ideas.txt", 'army_spirits.txt', 'air_spirits.txt', 'navy_spirits.txt',]
 
 
 def test_check_ideas_unused(test_runner: object):

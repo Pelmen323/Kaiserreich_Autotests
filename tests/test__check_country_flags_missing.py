@@ -43,13 +43,6 @@ def test_check_missing_country_flags(test_runner: object):
 
 # Part 2 - clear false positives and flags with variables:
     country_flags = test.clear_false_positives_dict(input_dict=country_flags, false_positives=FALSE_POSITIVES)
-    # TEMP REMOVAL UNTIL MINISTERS ARE NOT REMOVED #
-    dead_flags = []
-    for flag in country_flags:
-        if "_dead" in flag:
-            dead_flags.append(flag)
-    for flag in dead_flags:
-        country_flags.pop(flag)
 
 # Part 3 - count the number of flag occurrences
     for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
