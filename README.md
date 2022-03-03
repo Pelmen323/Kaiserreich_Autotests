@@ -10,12 +10,16 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-36 tests:
+38 tests:
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
 - usage of remove_all_leader_roles effect test (the effect causes CTDs. Test verifies that this effect is not used)
 - usage of remove_country_leader_role effect test (the effect causes CTDs. Test verifies that this effect is not used)
+
+*Cosmetic tags tests:*
+- unused cosmetic tags test (finds all cosmetic tags that are set but never checked)
+- missing cosmetic tags test (finds all cosmetic tags that are not set but checked)
 
 *Country flags tests:*
 - unused country flags test (finds all country flags that are set but never checked)
