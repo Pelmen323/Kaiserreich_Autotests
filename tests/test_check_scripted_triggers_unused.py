@@ -8,6 +8,38 @@ import re
 from ..test_classes.generic_test_class import TestClass
 import logging
 FILES_TO_SKIP = ['diplomacy_scripted_triggers', 'diplo_action_valid_triggers', '00_resistance']
+FALSE_POSITIVES = [ 'ai_is_naval_invader_trigger',
+ 'aus_has_habsburgs',
+ 'owned_by_austria_or_puppet2',
+ 'is_ger_or_ally',
+ 'is_controlled_by_ger_or_ally',
+ 'is_owned_by_ger_or_ally',
+ 'nee_is_supporting_an_american_faction',
+ 'nee_backed_faction_is_alive',
+ 'nee_backed_faction_has_won',
+ 'yun_has_federalist_government',
+ 'yun_has_lkmt_government',
+ 'yun_has_unaligned_government',
+ 'is_clear_other_claims',
+ 'totalist_plurality',
+ 'syndicalist_plurality',
+ 'radical_socialist_plurality',
+ 'social_liberal_plurality',
+ 'state_same_continent_as_state_from',
+ 'is_portugal',
+ 'is_scandinavia',
+ 'is_northern_china',
+ 'is_eastern_china',
+ 'is_southern_china',
+ 'is_in_americas',
+ 'state_same_continent_as_root',
+ 'is_arab_tag',
+ 'is_yiddish_tag',
+ 'is_actual_major_without_exceptions',
+ 'is_owned_by_root_or_war_ally',
+ 'has_specialist_level_trigger',
+ 'has_expert_level_trigger',
+ 'has_genius_level_trigger',]
 
 
 def test_check_scripted_triggers_unused(test_runner: object):
@@ -33,6 +65,8 @@ def test_check_scripted_triggers_unused(test_runner: object):
                 paths[match] = os.path.basename(filename)
 
     # 2. Find if scripted effects are used:
+    dict_with_scripted_triggers = test.clear_false_positives_dict(input_dict=dict_with_scripted_triggers, false_positives=FALSE_POSITIVES)
+    
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = test.open_text_file(filename)
 
