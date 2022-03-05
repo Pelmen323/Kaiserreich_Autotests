@@ -23,14 +23,14 @@ def test_check_unused_country_flags(test_runner: object):
         text_file = test.open_text_file(filename)
 
         if 'set_country_flag =' in text_file:
-            pattern_matches = re.findall('set_country_flag = \\b\\w*\\b', text_file)
+            pattern_matches = re.findall("set_country_flag = \\b[\\w']*\\b", text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     match = match[19:].strip()
                     country_flags[match] = 0
                     paths[match] = os.path.basename(filename)
 
-            pattern_matches2 = re.findall('set_country_flag = \\{ flag = \\b\\w*\\b', text_file)
+            pattern_matches2 = re.findall("set_country_flag = \\{ flag = \\b[\\w']*\\b", text_file)
             if len(pattern_matches2) > 0:
                 for match in pattern_matches2:
                     match = match[27:].strip()
