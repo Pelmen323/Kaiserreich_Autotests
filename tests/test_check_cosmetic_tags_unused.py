@@ -14,7 +14,7 @@ def test_check_cosmetic_tags_unused(test_runner: object):
     filepath = test_runner.full_path_to_mod
     cosmetic_tags = {}
     paths = {}
-# Part 1 - get the dict of all global flags
+# Part 1 - get the dict of all cosmetic tags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = test.open_text_file(filename)
 
@@ -26,7 +26,7 @@ def test_check_cosmetic_tags_unused(test_runner: object):
                     cosmetic_tags[match] = 0
                     paths[match] = os.path.basename(filename)
 
-# Part 2 - count the number of flag occurrences
+# Part 2 - count the number of tag occurrences
     logging.debug(f'{len(cosmetic_tags)} set cosmetic tags were found')
     # Usage directly
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
@@ -85,8 +85,9 @@ def test_check_cosmetic_tags_unused(test_runner: object):
         
     for flag in country_flags:
         not_encountered_cosmetic_tags = [i for i in cosmetic_tags.keys() if cosmetic_tags[i] == 0]
-        if flag in not_encountered_cosmetic_tags:
-            cosmetic_tags[flag] += 1
+        for remaining_flag in not_encountered_cosmetic_tags:
+            if flag in remaining_flag:
+                cosmetic_tags[remaining_flag] += 1
 
 
 # Part 4 - throw the error if tag is not used

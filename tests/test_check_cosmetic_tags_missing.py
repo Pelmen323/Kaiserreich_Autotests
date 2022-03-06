@@ -40,8 +40,8 @@ def test_check_cosmetic_tags_missing(test_runner: object):
 # Part 3 - throw the error if tag is not used
     results = [i for i in cosmetic_tags if cosmetic_tags[i] == 0]
     if results != []:
-        logging.warning("Following cosmetic tags are unused! Recheck them")
+        logging.warning("Following missing tags are unused! Recheck them")
         for i in results:
             logging.error(f"- [ ] {i}, - '{paths[i]}'")
-        logging.warning(f'{len(results)} unused cosmetic tags found.')
-        raise AssertionError("Unused cosmetic tags were encountered! Check console output")
+        logging.warning(f'{len(results)} missing cosmetic tags found.')
+        raise AssertionError("Missing cosmetic tags were encountered! Check console output")

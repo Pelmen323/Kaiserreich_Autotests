@@ -12,7 +12,7 @@ import logging
 def test_find_bad_words(test_runner: object):
     test = TestClass()
     filepath = f'{test_runner.full_path_to_mod}localisation\\'
-    file_to_skip = f'{filepath}english\\play_in_english_l_braz_por.yml'
+    file_to_skip = f'{filepath}play_in_english_l_braz_por.yml'
     typo_list = []
     for filename in glob.iglob(filepath + '**/*.yml', recursive=True):        # Recursive opening of all yml files in folder and subfolders
         if filename == file_to_skip:

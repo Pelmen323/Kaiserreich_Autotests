@@ -55,8 +55,7 @@ def test_check_missing_characters(test_runner: object):
     # Quick anti-duplicate test
     if len(characters) != len(set(characters)):
         logging.error("You have duplicated characters!")
-        logging.error(characters)
-        logging.error(set(characters))
+        logging.error([i for i in characters if characters.count(i) > 1])
 # Part 3 - find if character is present
     for item in characters_usages:
         for character in characters:

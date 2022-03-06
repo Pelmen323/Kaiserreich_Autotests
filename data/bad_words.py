@@ -338,7 +338,6 @@ bad_words = {
     "rythm": "rhythm",
     "sacriligious": "sacrilegious",
     "salavage": "salvage",
-    "sargent": "sergeant",
     "secratary": "secretary",
     "secretery": "secretary",
     "seige": "siege",

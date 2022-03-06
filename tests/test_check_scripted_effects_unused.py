@@ -7,6 +7,37 @@ import os
 import re
 from ..test_classes.generic_test_class import TestClass
 import logging
+FALSE_POSITIVES = [
+ 'destroy_all_ships',
+ 'decrease_state_category_by_one_level',
+ 'gain_random_agency_upgrade',
+ 'lec_american_fall',
+ 'ott_create_abdulmecid',
+ 'clear_sabotaged_resources_if_necesary',
+ 'reduce_conscription_to_volunteer',
+ 'reduce_conscription_to_disarmed',
+ 'decrease_mobilisation',
+ 'disband_fifty_percent_units',
+ 'ant_setpr_leaders',
+ 'cze_jiri_stribrny_sic',
+ 'cze_alois_podhajsky_sic',
+ 'cze_radola_gajda_sic',
+ 'cze_rudolf_lodgman_sic',
+ 'cze_moric_hruban_sic',
+ 'cze_premysl_samal_sic',
+ 'cze_karel_egnlis_sic',
+ 'cze_rudolf_beran_sic',
+ 'cze_rudolf_bechyne_sic',
+ 'cze_zdenek_fierlinger_sic',
+ 'cze_antonin_novotny_sic',
+ 'cze_jaroslav_hasek_sic',
+ 'cze_jan_sverma_sic',
+ 'create_snp_right',
+ 'cub_remove_autentico_generals',
+ 'fng_nupop',
+ 'fng_zppop',
+ 'gal_generals_join_ukraine',
+]
 
 
 def test_check_scripted_effects_unused(test_runner: object):
@@ -29,6 +60,7 @@ def test_check_scripted_effects_unused(test_runner: object):
                 paths[match] = os.path.basename(filename)
 
     # 2. Find if scripted effects are used:
+    dict_with_scripted_effects = test.clear_false_positives_dict(input_dict=dict_with_scripted_effects, false_positives=FALSE_POSITIVES)
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = test.open_text_file(filename)
 

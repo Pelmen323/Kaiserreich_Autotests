@@ -9,7 +9,7 @@ import re
 import os
 from ..test_classes.generic_test_class import TestClass
 import logging
-FALSE_POSITIVES = ('annexation_window_open',)    # Commented functionality
+FALSE_POSITIVES = ('annexation_window_open', 'liang_refused',)    # Commented functionality
 
 
 def test_check_cleared_country_flags(test_runner: object):
