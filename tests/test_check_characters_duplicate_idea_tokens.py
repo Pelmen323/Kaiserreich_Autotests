@@ -4,7 +4,6 @@
 ##########################
 import glob
 import re
-import os
 from ..test_classes.generic_test_class import TestClass
 import logging
 
