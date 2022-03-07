@@ -10,12 +10,13 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-39 tests:
+41 tests:
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
 - usage of remove_all_leader_roles effect test (the effect causes CTDs. Test verifies that this effect is not used)
 - usage of remove_country_leader_role effect test (the effect causes CTDs. Test verifies that this effect is not used)
+- usage of non-unique advisor tokens test (it causes bugs all over the place. Advisors should have unique tokens)
 
 *Cosmetic tags tests:*
 - unused cosmetic tags test (finds all cosmetic tags that are set but never checked)
@@ -66,6 +67,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 
 *Syntax tests:*
 - missing 'limit' expression in if/elif conditions test
+- usage of conditions that can be converted to 'is_ally_with' condition instead test
 - usage of outdated syntax for armor equipment bonuses test (_equipment -> _chassis)
 - usage of DLC-locked armor chassis for non NSB owners and vice versa test (owners of NSB have specific armor equipment available; non-DLC players have their own. Checks if these two types of equipment are not mixed)
 - usage of outdated syntax for doctrines cost reduction test (tech_bonus -> doctrine_cost_reduction)
