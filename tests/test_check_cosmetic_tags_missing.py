@@ -5,18 +5,17 @@
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import TestClass
+from ..test_classes.generic_test_class import FileOpener, DataCleaner
 import logging
 
 
 def test_check_cosmetic_tags_missing(test_runner: object):
-    test = TestClass()
     filepath = test_runner.full_path_to_mod
     cosmetic_tags = {}
     paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = FileOpener.open_text_file(filename)
 
         if 'has_cosmetic_tag =' in text_file:
             pattern_matches = re.findall('has_cosmetic_tag = \\b\\w*\\b', text_file)
@@ -30,7 +29,7 @@ def test_check_cosmetic_tags_missing(test_runner: object):
     logging.debug(f'{len(cosmetic_tags)} used cosmetic tags were found')
     # Usage directly
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = FileOpener.open_text_file(filename)
         not_encountered_cosmetic_tags = [i for i in cosmetic_tags.keys() if cosmetic_tags[i] == 0]
 
         if 'set_cosmetic_tag =' in text_file:

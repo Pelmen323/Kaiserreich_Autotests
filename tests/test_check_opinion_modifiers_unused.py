@@ -5,22 +5,21 @@
 import glob
 import os
 import re
-from ..test_classes.generic_test_class import TestClass
+from ..test_classes.generic_test_class import FileOpener, DataCleaner
 import logging
 FILES_TO_SKIP = ["Vanilla_Opinion_Modifiers",]
 FALSE_POSITIVES = ("kr_deal_with_devil", "aided_cntfai", "aided_carlist", "aided_spain",)
 
 
 def test_check_opinion_modifiers_unused(test_runner: object):
-    test = TestClass()
     filepath = test_runner.full_path_to_mod
     filepath_to_modifiers = f'{test_runner.full_path_to_mod}common\\opinion_modifiers\\'
     dict_with_modifiers = {}
     paths = {}
     # 1. Get the dict of all modifiers
     for filename in glob.iglob(filepath_to_modifiers + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename)
-        if test.skip_files(files_to_skip=FILES_TO_SKIP, filename=filename):
+        text_file = FileOpener.open_text_file(filename)
+        if DataCleaner.skip_files(files_to_skip=FILES_TO_SKIP, filename=filename):
             continue
 
         text_file_splitted = text_file.split('\n')
@@ -33,10 +32,10 @@ def test_check_opinion_modifiers_unused(test_runner: object):
                 paths[match] = os.path.basename(filename)
 
     # 2. Find if modifiers are used:
-    dict_with_modifiers = test.clear_false_positives_dict(input_dict=dict_with_modifiers, false_positives=FALSE_POSITIVES)
+    dict_with_modifiers = DataCleaner.clear_false_positives_dict(input_dict=dict_with_modifiers, false_positives=FALSE_POSITIVES)
     
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = FileOpener.open_text_file(filename)
 
         not_encountered_modifiers = [i for i in dict_with_modifiers.keys() if dict_with_modifiers[i] == 0]
         if 'modifier =' in text_file:

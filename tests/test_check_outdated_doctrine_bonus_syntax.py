@@ -6,18 +6,17 @@ import glob
 import re
 import os
 from ..data.doctrine_categories import combined_doctrines_list
-from ..test_classes.generic_test_class import TestClass
+from ..test_classes.generic_test_class import FileOpener, DataCleaner
 import logging
 
 
 def test_check_outdated_doctrine_bonus_syntax(test_runner: object):
-    test = TestClass()
     filepath = test_runner.full_path_to_mod
     all_tech_bonuses = []
     results = []
     paths = {}
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = FileOpener.open_text_file(filename)
 
 # Get all tech bonuses from mod files
         if 'add_tech_bonus =' in text_file:

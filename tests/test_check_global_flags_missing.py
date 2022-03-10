@@ -6,19 +6,18 @@
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import TestClass
+from ..test_classes.generic_test_class import FileOpener, DataCleaner
 import logging
 FALSE_POSITIVES = ('kr_economy_logging',)
 
 
 def test_check_missing_global_flags(test_runner: object):
-    test = TestClass()
     filepath = test_runner.full_path_to_mod
     global_flags = {}
     paths = {}
 # Part 1 - get the dict of all global flags
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = FileOpener.open_text_file(filename)
 
         if 'has_global_flag =' in text_file:
             pattern_matches = re.findall('has_global_flag = \\b\\w*\\b', text_file)
@@ -36,12 +35,12 @@ def test_check_missing_global_flags(test_runner: object):
                     paths[match] = os.path.basename(filename)
 
 # Part 2 - clear false positives and flags with variables:
-    global_flags = test.clear_false_positives_dict(input_dict=global_flags, false_positives=FALSE_POSITIVES)
+    global_flags = DataCleaner.clear_false_positives_dict(input_dict=global_flags, false_positives=FALSE_POSITIVES)
 
 # Part 3 - count the number of flag occurrences
     logging.debug(f'{len(global_flags)} global flags used at least once')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = FileOpener.open_text_file(filename)
 
         not_encountered_flags = [i for i in global_flags.keys() if global_flags[i] == 0]
 

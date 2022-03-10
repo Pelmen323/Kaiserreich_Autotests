@@ -5,18 +5,17 @@
 ##########################
 import glob
 import os
-from ..test_classes.generic_test_class import TestClass
+from ..test_classes.generic_test_class import FileOpener, DataCleaner
 import logging
 
 
 def test_check_negative_ai_factors(test_runner: object):
-    test = TestClass()
     filepath = test_runner.full_path_to_mod
     results = {}
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         if 'generic_leader_abilities' in filename: continue     # Ignore the AI abilities factors
       
-        text_file = test.open_text_file(filename)
+        text_file = FileOpener.open_text_file(filename)
 
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):

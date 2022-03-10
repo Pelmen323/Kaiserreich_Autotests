@@ -5,7 +5,7 @@
 import glob
 import os
 import re
-from ..test_classes.generic_test_class import TestClass
+from ..test_classes.generic_test_class import FileOpener, DataCleaner
 import logging
 FALSE_POSITIVES = [
  'destroy_all_ships',
@@ -41,14 +41,13 @@ FALSE_POSITIVES = [
 
 
 def test_check_scripted_effects_unused(test_runner: object):
-    test = TestClass()
     filepath = test_runner.full_path_to_mod
     filepath_to_effects = f'{test_runner.full_path_to_mod}common\\scripted_effects\\'
     dict_with_scripted_effects = {}
     paths = {}
     # 1. Get the dict of all scripted effects
     for filename in glob.iglob(filepath_to_effects + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = FileOpener.open_text_file(filename)
 
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):
@@ -60,9 +59,9 @@ def test_check_scripted_effects_unused(test_runner: object):
                 paths[match] = os.path.basename(filename)
 
     # 2. Find if scripted effects are used:
-    dict_with_scripted_effects = test.clear_false_positives_dict(input_dict=dict_with_scripted_effects, false_positives=FALSE_POSITIVES)
+    dict_with_scripted_effects = DataCleaner.clear_false_positives_dict(input_dict=dict_with_scripted_effects, false_positives=FALSE_POSITIVES)
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = FileOpener.open_text_file(filename)
 
         not_encountered_effects = [i for i in dict_with_scripted_effects.keys() if dict_with_scripted_effects[i] == 0]
         if ' = yes' in text_file:

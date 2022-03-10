@@ -4,17 +4,16 @@
 ##########################
 import glob
 import re
-from ..test_classes.generic_test_class import TestClass
+from ..test_classes.generic_test_class import FileOpener, DataCleaner
 import logging
 
 
 def test_check_characters_advisors_duplicate_idea_tokens(test_runner: object):
-    test = TestClass()
     filepath = test_runner.full_path_to_mod
     idea_tokens = []
 # Part 1 - get all idea tokens
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = FileOpener.open_text_file(filename)
 
         if 'idea_token' in text_file:
             pattern_matches = re.findall("idea_token = [\\w_']*", text_file)

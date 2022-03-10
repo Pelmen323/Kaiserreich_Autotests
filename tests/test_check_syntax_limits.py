@@ -5,23 +5,22 @@
 import os
 import glob
 import re
-from ..test_classes.generic_test_class import TestClass
+from ..test_classes.generic_test_class import FileOpener, DataCleaner
 import logging
 FILES_TO_SKIP = ['\\history\\', '\\tanks\\', '_rename_scripted_effects.txt',]
 re.DOTALL
 
 
 def test_check_syntax_limits(test_runner: object):
-    test = TestClass()
     filepath = test_runner.full_path_to_mod
     results = {}
     container = {}
     os.chdir(filepath)
 
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        if test.skip_files(files_to_skip=FILES_TO_SKIP, filename=filename):
+        if DataCleaner.skip_files(files_to_skip=FILES_TO_SKIP, filename=filename):
             continue
-        text_file = test.open_text_file(filename)
+        text_file = FileOpener.open_text_file(filename)
 
         if_count = re.findall('(\\bif = \\{.*\n(.|\n*?)*\n\t+\\})', text_file)
         if len(if_count) > 0:

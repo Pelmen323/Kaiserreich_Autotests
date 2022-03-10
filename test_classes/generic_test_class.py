@@ -3,11 +3,12 @@ import re
 import os
 
 
-class TestClass:
+class FileOpener:
     '''
-    Basic test class that hosts widely-used functions - work with text files, regex, clearing false-positives
+    Test class that hosts file functions - like opening text files
     '''
-    def open_text_file(self, filename: str) -> str:
+    @classmethod
+    def open_text_file(cls, filename: str) -> str:
         '''
         Opens and returns text file in utf-8-sig encoding
         '''
@@ -17,8 +18,9 @@ class TestClass:
         except Exception as ex:
             logging.error(f"Skipping the file {filename}, {ex}")
             raise FileNotFoundError(f"Can't open the file {filename}")
-        
-    def open_text_file_non_lower(self, filename: str) -> str:
+
+    @classmethod        
+    def open_text_file_non_lower(cls, filename: str) -> str:
         '''
         Opens and returns text file in utf-8-sig encoding
         '''
@@ -29,7 +31,9 @@ class TestClass:
             logging.error(f"Skipping the file {filename}, {ex}")
             raise FileNotFoundError(f"Can't open the file {filename}")
 
-    def extract_matches(self, source_file: str, regex_pattern: str, output_dict: dict, iter_with_filepath: str, len_to_cut: int = 0):
+class IterableParser:
+    @classmethod
+    def extract_matches(source_file: str, regex_pattern: str, output_dict: dict, iter_with_filepath: str, len_to_cut: int = 0):
         '''
         Function for simple extract and cut regex
         '''
@@ -39,8 +43,10 @@ class TestClass:
                 match = match[len_to_cut:].strip()
                 output_dict[match] = 0
                 iter_with_filepath[match] = os.path.basename(source_file)
-
-    def clear_false_positives_dict(self, input_dict: dict, false_positives: tuple = ()) -> dict:
+                
+class DataCleaner:
+    @classmethod
+    def clear_false_positives_dict(cls, input_dict: dict, false_positives: tuple = ()) -> dict:
         '''
         Function to clear and return dict\n
         Input - dict to clean and iterable with the items to exclude\n
@@ -54,7 +60,8 @@ class TestClass:
                     continue
             return input_dict
 
-    def skip_files(self, files_to_skip: list, filename: str) -> bool:
+    @classmethod
+    def skip_files(cls, files_to_skip: list, filename: str) -> bool:
         '''
         Function to skip the file during iteration\n
         Input - str with filename, iterable with the items to skip\n

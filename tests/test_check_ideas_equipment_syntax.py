@@ -4,12 +4,11 @@
 ##########################
 import glob
 import os
-from ..test_classes.generic_test_class import TestClass
+from ..test_classes.generic_test_class import FileOpener, DataCleaner
 import logging
 
 
 def test_check_ideas_equipment_syntax(test_runner: object):
-    test = TestClass()
     filepath = f'{test_runner.full_path_to_mod}common\\ideas'
     results = {}
     equipment_names = ('scout_plane = {',
@@ -99,7 +98,7 @@ def test_check_ideas_equipment_syntax(test_runner: object):
 )
    
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = FileOpener.open_text_file(filename)
 
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):

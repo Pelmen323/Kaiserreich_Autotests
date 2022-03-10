@@ -5,19 +5,18 @@
 import glob
 import os
 import re
-from ..test_classes.generic_test_class import TestClass
+from ..test_classes.generic_test_class import FileOpener, DataCleaner
 from ..data.scripted_localisation_functions import scripted_localisation_functions as test_data_list
 import logging
 
 
 def test_check_localisation_scripted_brackets(test_runner: object):
-    test = TestClass()
     filepath = f'{test_runner.full_path_to_mod}localisation\\'
     results = {}
     paths = {}
     test_data = [i.lower() for i in test_data_list]
     for filename in glob.iglob(filepath + '**/*.yml', recursive=True):
-        text_file = test.open_text_file(filename)
+        text_file = FileOpener.open_text_file(filename)
 
         text_file_splitted = text_file.split('\n')[1:]
         for line in range(len(text_file_splitted)):

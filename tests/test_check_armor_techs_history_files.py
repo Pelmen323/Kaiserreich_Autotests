@@ -6,18 +6,17 @@
 ##########################
 import os
 import glob
-from ..test_classes.generic_test_class import TestClass
+from ..test_classes.generic_test_class import FileOpener, DataCleaner
 import logging
 
 
 def test_check_history_files_armor_techs(test_runner: object):
-    test = TestClass()
     filepath = f'{test_runner.full_path_to_mod}history\\countries\\'
     results = {}
     os.chdir(filepath)
 
     for filename in glob.glob("*.txt"):
-        text_file = test.open_text_file(filename)
+        text_file = FileOpener.open_text_file(filename)
 
         non_nsb_limit = text_file.count('limit = { not = { has_dlc = "no step back" } }')
         gwtank = text_file.count("gwtank = 1")
