@@ -5,8 +5,7 @@
 import glob
 import os
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, DataCleaner
-import logging
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter, DataCleaner
 FILES_TO_SKIP = ['diplomacy_scripted_triggers', 'diplo_action_valid_triggers', '00_resistance']
 FALSE_POSITIVES = [ 'ai_is_naval_invader_trigger',
  'aus_has_habsburgs',
@@ -78,9 +77,4 @@ def test_check_scripted_triggers_unused(test_runner: object):
                     dict_with_scripted_triggers[key] += 1
 
     results = [i for i in dict_with_scripted_triggers.keys() if dict_with_scripted_triggers[i] == 0]
-    if results != []:
-        logging.warning("Unused scripted triggers found:")
-        for i in results:
-            logging.error(f"- [ ] {i} - '{paths[i]}'")
-        logging.warning(f'{len(results)} unused scripted triggers found.')
-        raise AssertionError("Unused scripted triggers found! Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Unused scripted triggers were encountered. Check console output")

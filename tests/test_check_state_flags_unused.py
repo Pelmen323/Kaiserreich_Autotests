@@ -7,7 +7,7 @@
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
 FALSE_POSITIVES = ('acw_important_state_csa',     # Wavering momentum flags that are currently unused
                    'acw_important_state_usa',
@@ -57,9 +57,4 @@ def test_check_unused_state_flags(test_runner: object):
 
 # Part 4 - throw the error if flag is not used
     results = [i for i in state_flags if state_flags[i] == 0]
-    if results != []:
-        logging.warning("Following state flags are not checked via has_state_flag! Recheck them")
-        for i in results:
-            logging.error(f"- [ ] {i}, - '{paths[i]}'")
-        logging.warning(f'{len(results)} unused state flags found.')
-        raise AssertionError("Unused state flags were encountered! Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Unused state flags were encountered - they are not used via 'has_state_flag' at least once. Check console output")

@@ -5,8 +5,7 @@
 import os
 import glob
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
-import logging
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 FILES_TO_SKIP = ['\\history\\', '\\tanks\\', '_rename_scripted_effects.txt',]
 re.DOTALL
 
@@ -62,8 +61,4 @@ def test_check_syntax_limits(test_runner: object):
         if 'limit = {' not in effect:
             results[effect] = container[effect]
         
-    if results != {}:
-        for i in results.items():
-            logging.error(f'- [ ] {i}')
-        logging.warning(f'{len(results)} issues found.')
-        raise AssertionError("Issues with ifs/elifs limit syntax found! Check console output")
+    ResultsReporter.report_results(results=results, message="Issues with ifs/elifs limit syntax were encountered. Check console output")

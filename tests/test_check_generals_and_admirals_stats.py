@@ -8,7 +8,7 @@
 import os
 import glob
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
 
 
@@ -86,8 +86,4 @@ def test_check_generals_and_admiral_stats(test_runner: object):
                 results[f'{os.path.basename(filename)}, coordination_skill'] = f'Num of coordination_skill encountered ({coord_skill_num}) is not equal to admirals number ({admirals_in_file})'
 
 # Part 3 - Report the results
-    if results != {}:
-        for i in results.items():
-            logging.error(f'- [ ] {i}')
-        logging.warning(f'{len(results)} times incorrect sum of stats found.')
-        raise AssertionError("These files don't have matching sums of stats - this means character characters stats is wrong! Check console output")
+    ResultsReporter.report_results(results=results, message="These files don't have matching sums of stats - this means character stats are not matching their level. Check console output")

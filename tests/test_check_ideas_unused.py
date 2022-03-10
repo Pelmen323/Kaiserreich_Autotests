@@ -5,8 +5,7 @@
 import glob
 import os
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
-import logging
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 FILES_TO_SKIP = ["_Generic_ideas.txt", 'army_spirits.txt', 'air_spirits.txt', 'navy_spirits.txt',]
 
 
@@ -68,9 +67,4 @@ def test_check_ideas_unused(test_runner: object):
 
     # 3. Report the results:
     results = [i for i in results_dict.keys() if results_dict[i] == 0]
-    if results != []:
-        logging.warning("Unused ideas found!:")
-        for i in results:
-            logging.error(f"- [ ] {i} - '{paths[i]}'")
-        logging.warning(f'{len(results)} unused ideas found.')
-        raise AssertionError("Unused ideas found! Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Unused ideas were encountered. Check console output")

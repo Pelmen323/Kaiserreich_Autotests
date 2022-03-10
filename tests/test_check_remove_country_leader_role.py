@@ -3,8 +3,7 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
-import logging
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 
 
 def test_check_remove_country_leader_role(test_runner: object):
@@ -20,8 +19,4 @@ def test_check_remove_country_leader_role(test_runner: object):
         if errors_found > 0:
             results[filename] = errors_found
 
-    if results != {}:
-        for i in results.items():
-            logging.error(f'- [ ] {i}')
-        logging.warning(f'{len(results)} times "remove_country_leader_role" is used.')
-        raise AssertionError("'remove_country_leader_role' usage has been encountered! Check console output")
+    ResultsReporter.report_results(results=results, message="'remove_country_leader_role' usage encountered - don't use it, it causes crashed. Check console output")

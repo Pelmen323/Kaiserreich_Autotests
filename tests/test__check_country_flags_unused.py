@@ -1,13 +1,12 @@
 ##########################
 # Test script to check for unused country flags
 # If flag is not used via "has_country_flag" at least once, it will appear in test results
-# Flags with values or variables (ROOT/THIS/FROM) should be added to false positives
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
 FALSE_POSITIVES = ('is_han_chinese_tag',        # Currently unused flags
                    'is_non_han_chinese_tag',)
@@ -57,9 +56,4 @@ def test_check_unused_country_flags(test_runner: object):
 
 # Part 4 - throw the error if flag is not used
     results = [i for i in country_flags if country_flags[i] == 0]
-    if results != []:
-        logging.warning("Following country flags are not checked via has_country_flag! Recheck them")
-        for i in results:
-            logging.error(f"- [ ] {i}, - '{paths[i]}'")
-        logging.warning(f'{len(results)} unused country flags found.')
-        raise AssertionError("Unused country flags were encountered! Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Unused country flags were encountered - they are not used via 'has_country_flag' at least once. Check console output")

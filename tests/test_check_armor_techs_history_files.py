@@ -6,8 +6,7 @@
 ##########################
 import os
 import glob
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
-import logging
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 
 
 def test_check_history_files_armor_techs(test_runner: object):
@@ -42,8 +41,4 @@ def test_check_history_files_armor_techs(test_runner: object):
         if sum_of_non_nsb_techs > 0 and non_nsb_limit == 0:
             results[f'{os.path.basename(filename)}, missing non-dlc limit'] = 'Missing non-NSB dlc limit!'
 
-    if results != {}:
-        for i in results.items():
-            logging.error(f'- [ ] {i}')
-        logging.warning(f'{len(results)} issues found.')
-        raise AssertionError("Issues with starting armor techs found! Check console output")
+    ResultsReporter.report_results(results=results, message="Issues with starting armor techs were encountered. Check console output")

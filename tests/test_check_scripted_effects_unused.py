@@ -5,8 +5,7 @@
 import glob
 import os
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
-import logging
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 FALSE_POSITIVES = [
  'destroy_all_ships',
  'decrease_state_category_by_one_level',
@@ -70,9 +69,4 @@ def test_check_scripted_effects_unused(test_runner: object):
                     dict_with_scripted_effects[key] += 1
 
     results = [i for i in dict_with_scripted_effects.keys() if dict_with_scripted_effects[i] == 0]
-    if results != []:
-        logging.warning("Unused scripted effects found!:")
-        for i in results:
-            logging.error(f"- [ ] {i} - '{paths[i]}'")
-        logging.warning(f'{len(results)} unused scripted effects found.')
-        raise AssertionError("Unused scripted effects found! Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Unused scripted effects were encountered. Check console output")

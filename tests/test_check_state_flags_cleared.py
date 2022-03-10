@@ -6,7 +6,7 @@
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
 
 
@@ -41,9 +41,4 @@ def test_check_cleared_state_flags(test_runner: object):
 
 # Part 3 - throw the error if flag is not used
     results = [i for i in state_flags if state_flags[i] == 0]
-    if results != []:
-        logging.warning("Following state flags are cleared but not set via set_state_flag! Recheck them")
-        for i in results:
-            logging.error(f"- [ ] {i}, - '{paths[i]}'")
-        logging.warning(f'{len(results)} unset state flags found.')
-        raise AssertionError("State flags that are cleared but not set were encountered! Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="State flags that are cleared but not set were encountered. Check console output")

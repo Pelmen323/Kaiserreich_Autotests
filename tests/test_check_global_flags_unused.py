@@ -7,7 +7,7 @@
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
 
 
@@ -50,9 +50,4 @@ def test_check_unused_global_flags(test_runner: object):
 
 # Part 3 - throw the error if flag is not used
     results = [i for i in global_flags if global_flags[i] == 0]
-    if results != []:
-        logging.warning("Following global flags are not checked via has_global_flag! Recheck them")
-        for i in results:
-            logging.error(f"- [ ] {i}, - '{paths[i]}'")
-        logging.warning(f'{len(results)} unused global flags found.')
-        raise AssertionError("Unused global flags were encountered! Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Global flags that are not used were encountered. Check console output")

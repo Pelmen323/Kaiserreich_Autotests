@@ -7,8 +7,7 @@
 import glob
 import os
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
-import logging
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 
 
 def test_check_values_digits_after_decimal(test_runner: object):
@@ -26,9 +25,4 @@ def test_check_values_digits_after_decimal(test_runner: object):
                 if '#' not in current_line:
                     results[f'{os.path.basename(filename)}, line {line}'] = current_line
 
-    if results != {}:
-        logging.warning("Values with 4+ digits after decimal point found!:")
-        for i in results.items(): 
-            logging.error(f'- [ ] {i}')
-        logging.warning(f'{len(results)} values with 4+ digits after decimal point found.')
-        raise AssertionError("Values with 4+ digits after decimal point found, Hoi4 factors supports only 3 digits after decimal point! Check console output")
+    ResultsReporter.report_results(results=results, message="Values with 4+ digits after decimal point found, Hoi4 factors supports only 3 digits after decimal point. Check console output")

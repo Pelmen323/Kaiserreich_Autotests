@@ -5,8 +5,7 @@
 ##########################
 import glob
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
-import logging
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 
 
 def test_check_negative_ai_factors(test_runner: object):
@@ -23,9 +22,4 @@ def test_check_negative_ai_factors(test_runner: object):
             if '\tfactor = -' in current_line:
                 results[f'{os.path.basename(filename)}, line {line}'] = current_line
 
-    if results != {}:
-        logging.warning("Negative AI factors found!:")
-        for i in results.items():
-            logging.error(f'- [ ] {i}')
-        logging.warning(f'{len(results)} negative factors found.')
-        raise AssertionError("Negative factors are found, factor means multiplication, multiplying a value with negative value is not what you want in 99% of the cases! Check console output")
+    ResultsReporter.report_results(results=results, message="Negative factors are found, factor means multiplication, multiplying a value with negative value is not what you want in 99% of the cases. Check console output")

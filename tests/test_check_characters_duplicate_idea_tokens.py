@@ -4,8 +4,7 @@
 ##########################
 import glob
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
-import logging
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 
 
 def test_check_characters_advisors_duplicate_idea_tokens(test_runner: object):
@@ -25,9 +24,4 @@ def test_check_characters_advisors_duplicate_idea_tokens(test_runner: object):
 
 # Part 2 - throw the error any idea token is used twice
     results = sorted(list(set([i for i in idea_tokens if idea_tokens.count(i) > 1])))
-    if results != []:
-        logging.warning("Following idea tokens are used more than once:")
-        for i in results:
-            logging.error(f"- [ ] {i}")
-        logging.warning(f'{len(results)} non-unique idea tokens found.')
-        raise AssertionError("Advisors with non-unique idea tokes found! Check console output")
+    ResultsReporter.report_results(results=results, message="Advisors with non-unique idea tokens were encountered. Check console output")

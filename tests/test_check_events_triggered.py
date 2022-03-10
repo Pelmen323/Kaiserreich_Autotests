@@ -5,7 +5,7 @@
 ##########################
 import glob
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
 FALSE_POSITIVES = ['ace_promoted.1', 'ace_promoted.2', 'ace_died.1',
                    'ace_killed_by_ace.1', 'ace_killed_other_ace.1',
@@ -113,9 +113,4 @@ def test_check_triggered_events(test_runner: object):
             triggered_events_id[event] += 1
 
     results = [i for i in triggered_events_id.keys() if triggered_events_id[i] == 0]
-    if results != []:
-        logging.warning("Following events have 'is_triggered_only = yes' attr but are never triggered from outside:")
-        for i in results:
-            logging.error(f'- [ ] {i}')
-        logging.warning(f"{len(results)} 'is_triggered_only = yes' events are not triggered from somewhere.")
-        raise AssertionError("Following events have 'is_triggered_only = yes' attr but are not triggered! Check console output")
+    ResultsReporter.report_results(results=results, message="Those events have 'is_triggered_only = yes' attr but are never triggered from outside. Check console output")

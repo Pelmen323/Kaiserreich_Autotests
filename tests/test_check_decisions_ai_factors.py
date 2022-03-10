@@ -8,8 +8,7 @@
 import os
 import glob
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
-import logging
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 FILES_TO_SKIP = ('00_demobilization_decisions.txt',
                  'ZZ_debug_decisions.txt',
                  'Cyrenaica_decisions.txt',      # Caravans empty decisions
@@ -41,8 +40,4 @@ def test_check_decisions_ai_factors(test_runner: object):
             results[filename] = f'Huh? We found {ai_will_do_counter} ai factors and only {expected_num_of_ai_factors} selectable decisions and missions. \
                 Probably not all decisions have icons or missions that are not selectable have ai factors'
 
-    if results != {}:
-        for i in results.items():
-            logging.error(f'- [ ] {i}')
-        logging.warning(f'{len(results)} decisions with issues found.')
-        raise AssertionError("Issues with decision ai factors were encountered! Check console output")
+    ResultsReporter.report_results(results=results, message="Issues with decisions AI factors encountered - either not all decisions have icons or not all decisions have AI factors. Check console output")

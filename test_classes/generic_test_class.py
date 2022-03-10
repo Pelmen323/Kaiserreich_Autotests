@@ -33,7 +33,7 @@ class FileOpener:
 
 class IterableParser:
     @classmethod
-    def extract_matches(source_file: str, regex_pattern: str, output_dict: dict, iter_with_filepath: str, len_to_cut: int = 0):
+    def extract_matches(cls, source_file: str, regex_pattern: str, output_dict: dict, iter_with_filepath: str, len_to_cut: int = 0):
         '''
         Function for simple extract and cut regex
         '''
@@ -70,3 +70,36 @@ class DataCleaner:
         for file in files_to_skip:
             if file in filename:
                 return True
+
+
+class ResultsReporter:
+    @classmethod
+    def report_results(cls, results: list, message: str, paths: dict = {}) -> None:
+        '''
+        Method to report results and print them
+        Input - list with results, dict with paths (optional), error message
+        Output - None
+        '''
+        
+        if len(results) > 0:
+            logging.warning("Following issues were encountered during test execution:")
+
+            if isinstance(results, list):
+                if paths != {}:
+                    for i in results:
+                        logging.error(f"- [ ] {i}'")
+                else:
+                    for i in results:
+                        logging.error(f"- [ ] {i}, - '{paths[i]}'")
+
+            elif isinstance(results, dict):
+                if paths != {}:
+                    for i in results.items():
+                        logging.error(f"- [ ] {i}'")
+                else:
+                    for i in results.items():
+                        logging.error(f"- [ ] {i}, - '{paths[i]}'")
+
+            logging.warning(f"{len(results)} issues found")
+            logging.warning(f"{message}")
+            raise AssertionError(message)

@@ -5,8 +5,7 @@
 import glob
 import os
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
-import logging
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 FILES_TO_SKIP = ["Vanilla_Opinion_Modifiers",]
 FALSE_POSITIVES = ("kr_deal_with_devil", "aided_cntfai", "aided_carlist", "aided_spain",)
 
@@ -44,9 +43,4 @@ def test_check_opinion_modifiers_unused(test_runner: object):
                     dict_with_modifiers[key] += 1
 
     results = [i for i in dict_with_modifiers.keys() if dict_with_modifiers[i] == 0]
-    if results != []:
-        logging.warning("Unused opinion modifiers found!:")
-        for i in results:
-            logging.error(f"- [ ] {i} - '{paths[i]}'")
-        logging.warning(f'{len(results)} unused opinion modifiers found.')
-        raise AssertionError("Unused opinion modifiers found! Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Unused opinion modifiers were found. Check console output")

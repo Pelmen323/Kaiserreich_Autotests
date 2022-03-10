@@ -5,7 +5,7 @@
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
 
 
@@ -63,9 +63,4 @@ def test_check_missing_characters(test_runner: object):
 
 # Part 4 - throw the error if character is not found
     results = [i for i in characters_usages.keys() if characters_usages[i] == 0]
-    if results != []:
-        logging.warning("Following characters are missing:")
-        for i in results:
-            logging.error(f"- [ ] {i}, - '{paths[i]}'")
-        logging.warning(f'{len(results)} missing characters found.')
-        raise AssertionError("Missing characters were encountered! Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Missing characters were encountered. Check console output")

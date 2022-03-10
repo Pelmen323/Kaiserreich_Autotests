@@ -6,7 +6,7 @@
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
 FALSE_POSITIVES = ('kr_economy_logging',)
 
@@ -54,9 +54,4 @@ def test_check_missing_global_flags(test_runner: object):
 
 # Part 4 - throw the error if flag is not used
     results = [i for i in global_flags if global_flags[i] == 0]
-    if results != []:
-        logging.warning("Following global flags are not set via set_global_flag! Recheck them")
-        for i in results:
-            logging.error(f"- [ ] {i}, - '{paths[i]}'")
-        logging.warning(f'{len(results)} missing global flags found.')
-        raise AssertionError("Unassigned global flags were encountered! Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Global flags that are used but not set were encountered. Check console output")

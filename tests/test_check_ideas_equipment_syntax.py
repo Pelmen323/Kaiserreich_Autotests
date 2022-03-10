@@ -4,8 +4,7 @@
 ##########################
 import glob
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
-import logging
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 
 
 def test_check_ideas_equipment_syntax(test_runner: object):
@@ -107,9 +106,4 @@ def test_check_ideas_equipment_syntax(test_runner: object):
                 if f'\t{equipment}' in current_line:
                     results[f'{os.path.basename(filename)}, line {line}'] = current_line.strip('\t')
 
-    if results != {}:
-        logging.warning("Invalid equipment syntax is used:")
-        for i in results.items():
-            logging.error(f'- [ ] {i}')
-        logging.warning(f'{len(results)} errors found.')
-        raise AssertionError("Invalid equipment syntax in ideas is used! Check console output")
+    ResultsReporter.report_results(results=results, message="Invalid equipment syntax in ideas was encountered. Check console output")

@@ -5,15 +5,13 @@
 import glob
 import os
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 from ..data.scripted_localisation_functions import scripted_localisation_functions as test_data_list
-import logging
 
 
 def test_check_localisation_scripted_brackets(test_runner: object):
     filepath = f'{test_runner.full_path_to_mod}localisation\\'
     results = {}
-    paths = {}
     test_data = [i.lower() for i in test_data_list]
     for filename in glob.iglob(filepath + '**/*.yml', recursive=True):
         text_file = FileOpener.open_text_file(filename)
@@ -31,10 +29,4 @@ def test_check_localisation_scripted_brackets(test_runner: object):
                         results[f'{function}, {os.path.basename(filename)}, line {line+2}'] = current_line
                 
                 
-
-    if results != {}:
-        logging.warning("Following localisation issues found:")
-        for i in results.items():
-            logging.error(f"- [ ] {i}")
-        logging.warning(f'{len(results)} issues found.')
-        raise AssertionError("Scripted loc syntax issues found! Check console output")
+    ResultsReporter.report_results(results=results, message="Scripted loc syntax issues were found. Check console output")

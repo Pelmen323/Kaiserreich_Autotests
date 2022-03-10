@@ -5,8 +5,7 @@
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
-import logging
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import pytest
 from itertools import permutations
 
@@ -14,8 +13,8 @@ from itertools import permutations
 @pytest.mark.skip(reason='Only for manual execution and reviewing')
 def test_check_conditions_is_ally_with(test_runner: object):
     filepath = test_runner.full_path_to_mod
-    conditions = []
-    paths = []
+    results = []
+    paths = {}
 
 # Part 1 - prepare the list of patterns    
     possible_parts_of_pattern = ['.*tag.*\\n', '.*is_in_faction_with.*\\n', '.*is_subject_of.*\\n']
@@ -36,15 +35,8 @@ def test_check_conditions_is_ally_with(test_runner: object):
                 pattern_matches = re.findall(pattern, text_file)
                 if len(pattern_matches) > 0:
                     for match in pattern_matches:
-                        conditions.append(match)
-                        paths.append(os.path.basename(filename))
-
+                        results.append(match)
+                        paths[match] = os.path.basename(filename)
 
 # Part 3 - throw the error if those combinations are encountered
-    results = conditions
-    if results != []:
-        logging.warning("Following files can use 'is_ally_with' condition instead:")
-        for i in results:
-            logging.error(f"- [ ] {i} - {paths[results.index(i)]}")
-        logging.warning(f'{len(results)} issues found.')
-        raise AssertionError("'is_ally_with' condition can be used in the mentioned files. Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="'is_ally_with' condition can be used in the mentioned files instead. Check console output")

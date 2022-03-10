@@ -6,8 +6,7 @@ import glob
 import re
 import os
 from ..data.doctrine_categories import combined_doctrines_list
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
-import logging
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 
 
 def test_check_outdated_doctrine_bonus_syntax(test_runner: object):
@@ -34,8 +33,4 @@ def test_check_outdated_doctrine_bonus_syntax(test_runner: object):
             if f'technology = {tech_name}' in expression:
                 results.append(f'{tech_name} doctrine/doctrine category is used in the following expression: \n{expression}')
 
-    if results != []:
-        for i in results:
-            logging.error(f"- [ ] {i}, - '{paths[i]}'")
-        logging.warning(f'{len(results)} times wrong doctrine syntax is used!')
-        raise AssertionError("'Outdated doctrine bonus syntax encountered! Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Outdated doctrine bonus syntax was found. Check console output")

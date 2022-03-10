@@ -1,14 +1,11 @@
 ##########################
-# Test script to check for decisions and selectable without ai factors
-# The decisions/missions should have icons set for script to work
-# Both missing and excessive ai factors will be reported
-# Add files with empty decisions/ missions to files_to_skip
+# Test script to check for outdated armor bonuses syntax
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import os
 import glob
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
 
 
@@ -47,8 +44,4 @@ def test_check_armor_chassis_bonuses_syntax(test_runner: object):
                         results[filename] = match
 
 # Report the results
-    if results != {}:
-        for i in results.items():
-            logging.error(f'- [ ] {i}')
-        logging.warning(f'{len(results)} violations of armor modifiers syntax encountered.')
-        raise AssertionError("Issues with armor modifiers were encountered! Check console output")
+    ResultsReporter.report_results(results=results, message="Outdated armor bonuses were encountered. Check console output")

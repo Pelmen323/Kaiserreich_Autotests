@@ -5,7 +5,7 @@
 import glob
 import os
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
 FALSE_POSITIVES = ('[oob_name]',)
 
@@ -43,9 +43,4 @@ def test_check_unused_oob_files(test_runner: object):
 
 # Part 3 - throw the error if oob file is not found
     results = [i for i in oob_files if oob_files[i] == 0]
-    if results != []:
-        logging.warning("Following oob files are missing:")
-        for i in results:
-            logging.error(f'- [ ] {i}')
-        logging.warning(f'{len(results)} missing oob files found.')
-        raise AssertionError("Missing oob files were encountered! Check console output")
+    ResultsReporter.report_results(results=results, message="Missing oob files were found. Check console output")

@@ -5,8 +5,7 @@
 import glob
 from ..data.bad_words import bad_words    # Dict with wrong_word : right_word. Bad versions are keys in the dict
 import string
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
-import logging
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 
 
 def test_find_bad_words(test_runner: object):
@@ -28,8 +27,4 @@ def test_find_bad_words(test_runner: object):
                 if word in bad_words.keys():
                     typo_list.append(f'File {filename} -- "{word}" in line {line_index + 1} - correct is "{bad_words.get(word)}"')
 
-    if typo_list != []:
-        for i in typo_list:
-            logging.error(f'- [ ] {i}')
-        logging.warning(f'{len(typo_list)} localisation issues found.')
-        raise AssertionError("Typos were encountered! Check console output")
+    ResultsReporter.report_results(results=typo_list, message="Typos were encountered. Check console output")

@@ -5,7 +5,7 @@
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
 
 
@@ -38,9 +38,4 @@ def test_check_cosmetic_tags_missing(test_runner: object):
 
 # Part 3 - throw the error if tag is not used
     results = [i for i in cosmetic_tags if cosmetic_tags[i] == 0]
-    if results != []:
-        logging.warning("Following missing tags are unused! Recheck them")
-        for i in results:
-            logging.error(f"- [ ] {i}, - '{paths[i]}'")
-        logging.warning(f'{len(results)} missing cosmetic tags found.')
-        raise AssertionError("Missing cosmetic tags were encountered! Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Missing cosmetic tags were encountered. Check console output")

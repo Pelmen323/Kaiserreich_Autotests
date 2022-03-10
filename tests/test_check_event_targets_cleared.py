@@ -5,7 +5,7 @@
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
 
 
@@ -40,8 +40,4 @@ def test_check_cleared_event_targets(test_runner: object):
 
 # Part 3 - throw the error if flag is not used
     results = [i for i in event_targets if event_targets[i] == 0]
-    if results != []:
-        logging.warning("Following event targets are cleared but never set:")
-        for i in results:
-            logging.error(f"- [ ] {i}, - '{paths[i]}'")
-        raise AssertionError("Missing event targets were encountered! Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Cleared event targets that are not set were encountered. Check console output")

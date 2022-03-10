@@ -4,7 +4,7 @@
 ##########################
 import glob
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
 FALSE_POSITIVES = ('tun_revolt',    # NFA revolt tags with non-standard syntax
                    'cha_revolt',
@@ -47,9 +47,4 @@ def test_check_unused_oob_files(test_runner: object):
 
 # Part 3 - throw the error if oob files are not used
     results = [i for i in oob_files if oob_files[i] == 0]
-    if results != []:
-        logging.warning("Following oob files are not used:")
-        for i in results:
-            logging.error(f'- [ ] {i}')
-        logging.warning(f'{len(results)} unused oob files found.')
-        raise AssertionError("Unused oob files were encountered! Check console output")
+    ResultsReporter.report_results(results=results, message="Unused oob files were found. Check console output")

@@ -5,8 +5,7 @@
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
-import logging
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 FALSE_POSITIVES = ('ger_august_von_mackensen', 'qie_wu_peifu',)
 
 
@@ -49,9 +48,4 @@ def test_check_characters_missing_idea_tokens(test_runner: object):
 
 # Part 2 - throw the error any idea token is missing
     results = [i for i in idea_tokens.keys() if idea_tokens[i] == 0]
-    if results != []:
-        logging.warning("Following idea tokens are missing:")
-        for i in results:
-            logging.error(f"- [ ] {i}, - '{paths[i]}'")
-        logging.warning(f'{len(results)} missing idea tokens found.')
-        raise AssertionError("Advisors activation with missing idea tokes found! Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Advisors activation with missing idea tokens were encountered. Check console output")

@@ -5,7 +5,7 @@
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
 FALSE_POSITIVES = ['yunnan_r_kmt_faction_leader', 'nfa_alphonse_juin_target', 'aus_otto_von_habsburg_target',]
 
@@ -69,9 +69,4 @@ def test_check_unused_event_targets(test_runner: object):
 
 # Part 3 - throw the error if flag is not used
     results = [i for i in event_targets if event_targets[i] == 0]
-    if results != []:
-        logging.warning("Following event targets are unused:")
-        for i in results:
-            logging.error(f"- [ ] {i}, - '{paths[i]}'")
-        logging.warning(f'{len(results)} unused targets found.')
-        raise AssertionError("Unused targets were encountered! Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Unused event targets were encountered. Check console output")

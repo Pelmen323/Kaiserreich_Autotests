@@ -4,8 +4,7 @@
 ##########################
 import glob
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
-import logging
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 FALSE_POSITITVES = ('ita_basic_light_tank.dds', 'mex_basic_light_tank.dds', 'usa_basic_light_tank.dds',
                     'usa_basic_heavy_tank.dds', 'rom_basic_light_tank.dds',)
 
@@ -26,9 +25,4 @@ def test_check_dds_usage_tank_icons(test_runner: object):
             if 'tank.dds"' in current_line and [i for i in FALSE_POSITITVES if i in current_line] == []:
                 results[f'{os.path.basename(filename)}, line {line}'] = current_line.strip('\t')
 
-    if results != {}:
-        logging.warning("Usage of dds icons for armor variants encountered:")
-        for i in results.items():
-            logging.error(f'- [ ] {i}')
-        logging.warning(f'{len(results)} times dds icons for armor variants are used.')
-        raise AssertionError("DDS icons are used in armour variants! Check console output")
+    ResultsReporter.report_results(results=results, message="DDS icons (vanilla ones) are used in armour variants - we should replace them with our own PNG ones where possible. Check console output")
