@@ -85,7 +85,7 @@ class ResultsReporter:
             logging.warning("Following issues were encountered during test execution:")
 
             if isinstance(results, list):
-                if paths != {}:
+                if paths == {}:
                     for i in results:
                         logging.error(f"- [ ] {i}'")
                 else:
@@ -93,7 +93,7 @@ class ResultsReporter:
                         logging.error(f"- [ ] {i}, - '{paths[i]}'")
 
             elif isinstance(results, dict):
-                if paths != {}:
+                if paths == {}:
                     for i in results.items():
                         logging.error(f"- [ ] {i}'")
                 else:
