@@ -27,7 +27,7 @@ def test_check_unused_oob_files(test_runner: object):
         oob_files[os.path.basename(filename.lower())[:-4]] = 0
 
 # Part 2 - count the number of oob occurrences
-    oob_files = DataCleaner.clear_false_positives_dict(input_dict=oob_files, false_positives=FALSE_POSITIVES)
+    oob_files = DataCleaner.clear_false_positives(input_iter=oob_files, false_positives=FALSE_POSITIVES)
     logging.debug(f'{len(oob_files)} oob files found')
 
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):

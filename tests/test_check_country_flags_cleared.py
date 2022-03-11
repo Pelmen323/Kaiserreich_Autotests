@@ -28,7 +28,7 @@ def test_check_cleared_country_flags(test_runner: object):
 
 
 # Part 2 - clear false positives and flags with variables:
-    country_flags = DataCleaner.clear_false_positives_dict(input_dict=country_flags, false_positives=FALSE_POSITIVES)
+    country_flags = DataCleaner.clear_false_positives(input_iter=country_flags, false_positives=FALSE_POSITIVES)
 
 # Part 3 - count the number of flag occurrences
     logging.debug(f'{len(country_flags)} country flags cleared at least once')

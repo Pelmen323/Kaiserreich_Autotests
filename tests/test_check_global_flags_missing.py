@@ -35,7 +35,7 @@ def test_check_missing_global_flags(test_runner: object):
                     paths[match] = os.path.basename(filename)
 
 # Part 2 - clear false positives and flags with variables:
-    global_flags = DataCleaner.clear_false_positives_dict(input_dict=global_flags, false_positives=FALSE_POSITIVES)
+    global_flags = DataCleaner.clear_false_positives(input_iter=global_flags, false_positives=FALSE_POSITIVES)
 
 # Part 3 - count the number of flag occurrences
     logging.debug(f'{len(global_flags)} global flags used at least once')

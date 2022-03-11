@@ -5,6 +5,15 @@
 import glob
 import re
 from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+FALSE_POSITIVES = (
+'nee_charles_eustis_bohlen',
+'nee_charles_woodruff_yost',
+'nee_cornelius_edward_ryan',
+'nee_jay_pierrepont_moffat',
+'nee_laurence_adolph_steinhardt',
+'nee_ray_atherton',
+'nee_william_harriman',
+)
 
 
 def test_check_characters_advisors_duplicate_idea_tokens(test_runner: object):
@@ -23,5 +32,6 @@ def test_check_characters_advisors_duplicate_idea_tokens(test_runner: object):
                         idea_tokens.append(match)
 
 # Part 2 - throw the error any idea token is used twice
+    idea_tokens = DataCleaner.clear_false_positives(input_iter=idea_tokens, false_positives=FALSE_POSITIVES)
     results = sorted(list(set([i for i in idea_tokens if idea_tokens.count(i) > 1])))
     ResultsReporter.report_results(results=results, message="Advisors with non-unique idea tokens were encountered. Check console output")

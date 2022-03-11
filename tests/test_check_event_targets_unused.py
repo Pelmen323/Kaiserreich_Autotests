@@ -36,7 +36,7 @@ def test_check_unused_event_targets(test_runner: object):
 
 
 # Part 2 - count the number of flag occurrences
-    event_targets = DataCleaner.clear_false_positives_dict(input_dict=event_targets, false_positives=FALSE_POSITIVES)
+    event_targets = DataCleaner.clear_false_positives(input_iter=event_targets, false_positives=FALSE_POSITIVES)
     logging.debug(f'{len(event_targets)} defined event targets found')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)

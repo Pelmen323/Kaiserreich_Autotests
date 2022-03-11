@@ -34,7 +34,7 @@ def test_check_characters_missing_idea_tokens(test_runner: object):
                     paths[match] = os.path.basename(filename)
 
 # Part 2 - find what idea tokens are used
-    idea_tokens = DataCleaner.clear_false_positives_dict(input_dict=idea_tokens, false_positives=FALSE_POSITIVES)
+    idea_tokens = DataCleaner.clear_false_positives(input_iter=idea_tokens, false_positives=FALSE_POSITIVES)
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
          

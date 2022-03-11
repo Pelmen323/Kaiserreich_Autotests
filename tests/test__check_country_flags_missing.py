@@ -48,7 +48,7 @@ def test_check_missing_country_flags(test_runner: object):
                     paths[match] = os.path.basename(filename)
 
 # Part 2 - clear false positives and flags with variables:
-    country_flags = DataCleaner.clear_false_positives_dict(input_dict=country_flags, false_positives=FALSE_POSITIVES)
+    country_flags = DataCleaner.clear_false_positives(input_iter=country_flags, false_positives=FALSE_POSITIVES)
 
 # Part 3 - count the number of flag occurrences
     for filename in glob.iglob(filepath + "**/*.txt", recursive=True):

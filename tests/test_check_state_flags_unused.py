@@ -41,7 +41,7 @@ def test_check_unused_state_flags(test_runner: object):
                     paths[match] = os.path.basename(filename)
 
 # Part 2 - clear false positives and flags with variables:
-    state_flags = DataCleaner.clear_false_positives_dict(input_dict=state_flags, false_positives=FALSE_POSITIVES)
+    state_flags = DataCleaner.clear_false_positives(input_iter=state_flags, false_positives=FALSE_POSITIVES)
 
 # Part 3 - count the number of flag occurrences
     logging.debug(f'{len(state_flags)} set state flags were found')

@@ -41,7 +41,7 @@ def test_check_triggered_events(test_runner: object):
             triggered_events_id[event_id] = 0                                   # Default value is set to zero
 
     # 3. Time to roll out - NO HISTORY FILES HERE
-    triggered_events_id = DataCleaner.clear_false_positives_dict(input_dict=triggered_events_id, false_positives=FALSE_POSITIVES)
+    triggered_events_id = DataCleaner.clear_false_positives(input_iter=triggered_events_id, false_positives=FALSE_POSITIVES)
     for filename in glob.iglob(filepath_global + '**/*.txt', recursive=True):
         if '\\history\\' in filename:
             continue

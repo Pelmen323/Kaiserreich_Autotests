@@ -46,19 +46,24 @@ class IterableParser:
                 
 class DataCleaner:
     @classmethod
-    def clear_false_positives_dict(cls, input_dict: dict, false_positives: tuple = ()) -> dict:
+    def clear_false_positives(cls, input_iter: dict, false_positives: tuple = ()) -> dict:
         '''
         Function to clear and return dict\n
-        Input - dict to clean and iterable with the items to exclude\n
+        Input - iterable to clean and iterable with the items to exclude\n
         Output - cleaned dict
         '''
-        if len(false_positives) > 0:
-            for key in false_positives:
-                try:
-                    input_dict.pop(key)
-                except KeyError:
-                    continue
-            return input_dict
+        if isinstance(input_iter, dict):
+            if len(false_positives) > 0:
+                for key in false_positives:
+                    try:
+                        input_iter.pop(key)
+                    except KeyError:
+                        continue
+                return input_iter
+
+        elif isinstance(input_iter, list):
+            if len(false_positives) > 0:
+                return [i for i in input_iter if i not in false_positives]
 
     @classmethod
     def skip_files(cls, files_to_skip: list, filename: str) -> bool:

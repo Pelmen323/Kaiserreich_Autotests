@@ -33,7 +33,7 @@ def test_check_unused_oob_files(test_runner: object):
                     oob_files[match] = 0
 
 # Part 2 - find if oob file is present
-    oob_files = DataCleaner.clear_false_positives_dict(input_dict=oob_files, false_positives=FALSE_POSITIVES)
+    oob_files = DataCleaner.clear_false_positives(input_iter=oob_files, false_positives=FALSE_POSITIVES)
     logging.debug(f'{len(oob_files)} unique usages of oob files found')
 
     for filename in glob.iglob(path_to_oob_files + '**/*.txt', recursive=True):

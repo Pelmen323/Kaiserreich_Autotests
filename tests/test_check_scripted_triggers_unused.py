@@ -63,7 +63,7 @@ def test_check_scripted_triggers_unused(test_runner: object):
                 paths[match] = os.path.basename(filename)
 
     # 2. Find if scripted effects are used:
-    dict_with_scripted_triggers = DataCleaner.clear_false_positives_dict(input_dict=dict_with_scripted_triggers, false_positives=FALSE_POSITIVES)
+    dict_with_scripted_triggers = DataCleaner.clear_false_positives(input_iter=dict_with_scripted_triggers, false_positives=FALSE_POSITIVES)
     
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
