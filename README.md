@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-42 tests:
+43 tests:
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
@@ -21,6 +21,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 
 *Cosmetic tags tests:*
 - unused cosmetic tags test (finds all cosmetic tags that are set but never checked)
+- unused cosmetic tags test - colors (finds all cosmetic tags colors that are never used)
 - missing cosmetic tags test (finds all cosmetic tags that are not set but checked)
 
 *Country flags tests:*

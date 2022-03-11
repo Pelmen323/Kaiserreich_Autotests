@@ -87,7 +87,7 @@ class ResultsReporter:
             if isinstance(results, list):
                 if paths == {}:
                     for i in results:
-                        logging.error(f"- [ ] {i}'")
+                        logging.error(f"- [ ] {i}")
                 else:
                     for i in results:
                         logging.error(f"- [ ] {i}, - '{paths[i]}'")
@@ -95,7 +95,7 @@ class ResultsReporter:
             elif isinstance(results, dict):
                 if paths == {}:
                     for i in results.items():
-                        logging.error(f"- [ ] {i}'")
+                        logging.error(f"- [ ] {i}")
                 else:
                     for i in results.items():
                         logging.error(f"- [ ] {i}, - '{paths[i]}'")
