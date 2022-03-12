@@ -127,5 +127,5 @@ It allows to run tests automatically based on specific triggers
 6. Setup the Build Triggers (or you can trigger the job manually)
 7. Save the job
 
-![Tests progress](tests_coverage.drawio.svg)
-<img src="tests_coverage.drawio.svg">
+![Diagram](tests_coverage.svg)
+
