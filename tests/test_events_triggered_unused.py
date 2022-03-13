@@ -6,7 +6,7 @@
 import glob
 import re
 from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
-import logging
+from ..test_classes.events_class import Events
 FALSE_POSITIVES = ['ace_promoted.1', 'ace_promoted.2', 'ace_died.1',
                    'ace_killed_by_ace.1', 'ace_killed_other_ace.1',
                    'aces_killed_each_other.1', 'nuke_dropped.0']
@@ -40,74 +40,11 @@ def test_check_triggered_events(test_runner: object):
             event_id = event_id[5:].strip()                                     # Remove "id =" part
             triggered_events_id[event_id] = 0                                   # Default value is set to zero
 
-    # 3. Time to roll out - NO HISTORY FILES HERE
+    # 3. Get all events triggered in files
     triggered_events_id = DataCleaner.clear_false_positives(input_iter=triggered_events_id, false_positives=FALSE_POSITIVES)
-    for filename in glob.iglob(filepath_global + '**/*.txt', recursive=True):
-        if '\\history\\' in filename:
-            continue
-        text_file = FileOpener.open_text_file(filename)
+    invoked_events_id = Events.get_all_events_triggered_in_files(test_runner=test_runner)
 
-        if "country_event =" in text_file:
-            # 3.0 One-liners w/o brackets
-            pattern_matches = re.findall('([\t| ]country_event = ((?!\\{).)*\n)', text_file)
-            if len(pattern_matches) > 0:
-                for match in pattern_matches:
-                    match = match[0]
-                    match = match[16:].strip().strip('}').strip().strip('}').strip()
-                    if '#' in match:
-                        match = match[:match.index('#')].strip().strip('}').strip()    # Clean up comments
-                    invoked_events_id.append(match)
-
-            # 3.1 One-liners with brackets
-            pattern_matches = re.findall('[\t| ]country_event = \\{.*\\}', text_file)
-            if len(pattern_matches) > 0:
-                for match in pattern_matches:
-                    event_id_match = re.findall('id = [a-zA-Z0-9\\._]*', match)
-                    match = ''.join(event_id_match)[4:].strip()
-                    invoked_events_id.append(match)
-
-            # 3.2 Multiliners
-            pattern_matches = re.findall('([\t| ]country_event = \\{((?!\\}).)*\n(.|\n*?)*\n\t*\\})', text_file)
-            if len(pattern_matches) > 0:
-                for match in pattern_matches:
-                    if '' in match:
-                        match = match[0]                                            # Counter empty capture groups
-                    event_id_match = re.findall('id = [a-zA-Z0-9\\._]*', match)
-                    match = ''.join(event_id_match)[4:].strip()
-                    invoked_events_id.append(match)
-
-    for filename in glob.iglob(filepath_history + '**/*.txt', recursive=True):
-        text_file = FileOpener.open_text_file(filename)
-
-        if "country_event =" in text_file:
-            # 4.0 One-liners w/o brackets
-            pattern_matches = re.findall('(country_event = ((?!\\{).)*\n)', text_file)
-            if len(pattern_matches) > 0:
-                for match in pattern_matches:
-                    match = match[0]
-                    match = match[16:].strip().strip('}').strip().strip('}').strip()
-                    if '#' in match:
-                        match = match[:match.index('#')].strip().strip('}').strip()    # Clean up comments
-                    invoked_events_id.append(match)
-
-            # 4.1 One-liners with brackets
-            pattern_matches = re.findall('country_event = \\{.*\\}', text_file)
-            if len(pattern_matches) > 0:
-                for match in pattern_matches:
-                    event_id_match = re.findall('id = [a-zA-Z0-9\\._]*', match)
-                    match = ''.join(event_id_match)[4:].strip()
-                    invoked_events_id.append(match)
-
-            # 4.2 Multiliners
-            pattern_matches = re.findall('(country_event = \\{((?!\\}).)*\n(.|\n*?)*\n\t*\\})', text_file)
-            if len(pattern_matches) > 0:
-                for match in pattern_matches:
-                    if '' in match:
-                        match = match[0]                                            # Counter empty capture groups
-                    event_id_match = re.findall('id = [a-zA-Z0-9\\._]*', match)
-                    match = ''.join(event_id_match)[4:].strip()
-                    invoked_events_id.append(match)
-
+    # 4. Check if events are used
     for event in invoked_events_id:
         if event in triggered_events_id.keys():
             triggered_events_id[event] += 1

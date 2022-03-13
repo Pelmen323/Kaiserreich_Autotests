@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-47 tests:
+48 tests:
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
@@ -38,6 +38,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 
 *Events tests*
 - triggered-only events that are not triggered from outside test (check for events that are not triggered from outside but should)
+- missing triggered events test
 
 *Event targets tests*
 - unused event targets test (finds all event targets that are set but never checked)
