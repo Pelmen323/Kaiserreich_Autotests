@@ -13,6 +13,11 @@ FALSE_POSITIVES = (
 'nee_laurence_adolph_steinhardt',
 'nee_ray_atherton',
 'nee_william_harriman',
+'gbr_anthony_eden',
+'gbr_austen_chamberlain',
+'gbr_henry_page_croft',
+'gbr_robert_gascoyne_cecil',
+'gbr_robert_vansittart',
 )
 
 

@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-48 tests:
+50 tests:
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
@@ -35,6 +35,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - decisions ai factor test (verifies that decisions and selectable missions have ai factors)
 - unused decisions categories test
 - duplicated decisions categories test
+- duplicated decisions test
 
 *Events tests*
 - triggered-only events that are not triggered from outside test (check for events that are not triggered from outside but should)
