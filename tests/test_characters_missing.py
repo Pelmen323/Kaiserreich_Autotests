@@ -42,25 +42,25 @@ def test_check_missing_characters(test_runner: object):
 # Part 2 - get list of all characters
     logging.debug(f'{len(characters_usages)} unique character usages found')
 
+# Part 3 - get the dict of character usages
     for filename in glob.iglob(path_to_character_files + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 
-        pattern_matches = re.findall('\\b[a-z]{3}_\\w* =', text_file)
-        if len(pattern_matches) > 0:
-            for match in pattern_matches:
-                match = match[:-1].strip().lower()
-                characters.append(match)
+        text_file_splitted = text_file.split('\n')[1:]
+        for line in range(len(text_file_splitted)):
+            current_line = text_file_splitted[line]
+            pattern_matches = re.findall('^\t\\w+ =', current_line)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[:-1].strip('\t').strip().lower()
+                    characters.append(match)
 
-    # Quick anti-duplicate test
-    if len(characters) != len(set(characters)):
-        logging.error("You have duplicated characters!")
-        logging.error([i for i in characters if characters.count(i) > 1])
-# Part 3 - find if character is present
+# Part 4 - find if character is present
     for item in characters_usages:
         for character in characters:
             if character in item:
                 characters_usages[item] += 1
 
-# Part 4 - throw the error if character is not found
+# Part 5 - throw the error if character is not found
     results = [i for i in characters_usages.keys() if characters_usages[i] == 0]
     ResultsReporter.report_results(results=results, paths=paths, message="Missing characters were encountered. Check console output")
