@@ -34,7 +34,7 @@ def test_check_unused_global_flags(test_runner: object):
                     global_flags[match] = 0
                     paths[match] = os.path.basename(filename)
 
-# Part 2 - count the number of flag occurrences
+# Part 2 - count the number of entity occurrences
     logging.debug(f'{len(global_flags)} set global flags found')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
@@ -48,6 +48,6 @@ def test_check_unused_global_flags(test_runner: object):
                 if flag[-4] == '_':
                     global_flags[flag] += text_file.count(f'has_global_flag = {flag[:-4]}_@this')
 
-# Part 3 - throw the error if flag is not used
+# Part 3 - throw the error if entity is not used
     results = [i for i in global_flags if global_flags[i] == 0]
     ResultsReporter.report_results(results=results, paths=paths, message="Global flags that are not used were encountered. Check console output")

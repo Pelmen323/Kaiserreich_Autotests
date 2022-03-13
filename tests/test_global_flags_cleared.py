@@ -26,7 +26,7 @@ def test_check_cleared_global_flags(test_runner: object):
                     global_flags[match] = 0
                     paths[match] = os.path.basename(filename)
 
-# Part 2 - count the number of flag occurrences
+# Part 2 - count the number of entity occurrences
     logging.debug(f'{len(global_flags)} state flags cleared at least once')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
@@ -38,6 +38,6 @@ def test_check_cleared_global_flags(test_runner: object):
                 global_flags[flag] += text_file.count(f'set_global_flag = {flag}')
                 global_flags[flag] += text_file.count(f'set_global_flag = {{ flag = {flag}')
 
-# Part 4 - throw the error if flag is not used
+# Part 4 - throw the error if entity is not used
     results = [i for i in global_flags if global_flags[i] == 0]
     ResultsReporter.report_results(results=results, paths=paths, message="Global flags that are cleared but not set were encountered. Check console output")

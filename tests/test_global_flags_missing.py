@@ -37,7 +37,7 @@ def test_check_missing_global_flags(test_runner: object):
 # Part 2 - clear false positives and flags with variables:
     global_flags = DataCleaner.clear_false_positives(input_iter=global_flags, false_positives=FALSE_POSITIVES)
 
-# Part 3 - count the number of flag occurrences
+# Part 3 - count the number of entity occurrences
     logging.debug(f'{len(global_flags)} global flags used at least once')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
@@ -52,6 +52,6 @@ def test_check_missing_global_flags(test_runner: object):
                     global_flags[flag] += text_file.count(f'set_global_flag = {flag[:-4]}_@root')
                     global_flags[flag] += text_file.count(f'set_global_flag = {flag[:-4]}_@from')
 
-# Part 4 - throw the error if flag is not used
+# Part 4 - throw the error if entity is not used
     results = [i for i in global_flags if global_flags[i] == 0]
     ResultsReporter.report_results(results=results, paths=paths, message="Global flags that are used but not set were encountered. Check console output")

@@ -43,7 +43,7 @@ def test_check_unused_state_flags(test_runner: object):
 # Part 2 - clear false positives and flags with variables:
     state_flags = DataCleaner.clear_false_positives(input_iter=state_flags, false_positives=FALSE_POSITIVES)
 
-# Part 3 - count the number of flag occurrences
+# Part 3 - count the number of entity occurrences
     logging.debug(f'{len(state_flags)} set state flags were found')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
@@ -55,6 +55,6 @@ def test_check_unused_state_flags(test_runner: object):
                 state_flags[flag] += text_file.count(f'has_state_flag = {flag}')
                 state_flags[flag] += text_file.count(f'has_state_flag = {{ flag = {flag}')
 
-# Part 4 - throw the error if flag is not used
+# Part 4 - throw the error if entity is not used
     results = [i for i in state_flags if state_flags[i] == 0]
     ResultsReporter.report_results(results=results, paths=paths, message="Unused state flags were encountered - they are not used via 'has_state_flag' at least once. Check console output")

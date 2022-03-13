@@ -34,7 +34,7 @@ def test_check_missing_state_flags(test_runner: object):
                     paths[match] = os.path.basename(filename)
 
 
-# Part 2 - count the number of flag occurrences
+# Part 2 - count the number of entity occurrences
     logging.debug(f'{len(state_flags)} state flags used at least once')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
@@ -46,6 +46,6 @@ def test_check_missing_state_flags(test_runner: object):
                 state_flags[flag] += text_file.count(f'set_state_flag = {flag}')
                 state_flags[flag] += text_file.count(f'set_state_flag = {{ flag = {flag}')
 
-# Part 3 - throw the error if flag is not used
+# Part 3 - throw the error if entity is not used
     results = [i for i in state_flags if state_flags[i] == 0]
     ResultsReporter.report_results(results=results, paths=paths, message="Missing state flags were encountered. Check console output")

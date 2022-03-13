@@ -35,7 +35,7 @@ def test_check_unused_event_targets(test_runner: object):
                     paths[match] = os.path.basename(filename)
 
 
-# Part 2 - count the number of flag occurrences
+# Part 2 - count the number of entity occurrences
     event_targets = DataCleaner.clear_false_positives(input_iter=event_targets, false_positives=FALSE_POSITIVES)
     logging.debug(f'{len(event_targets)} defined event targets found')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
@@ -67,6 +67,6 @@ def test_check_unused_event_targets(test_runner: object):
                 event_targets[target] += text_file.count(f'[{target}.getadjective')
 
 
-# Part 3 - throw the error if flag is not used
+# Part 3 - throw the error if entity is not used
     results = [i for i in event_targets if event_targets[i] == 0]
     ResultsReporter.report_results(results=results, paths=paths, message="Unused event targets were encountered. Check console output")

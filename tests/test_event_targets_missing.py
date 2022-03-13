@@ -26,7 +26,7 @@ def test_check_missing_event_targets(test_runner: object):
                     paths[match] = os.path.basename(filename)
 
 
-# Part 2 - count the number of flag occurrences
+# Part 2 - count the number of entity occurrences
     logging.debug(f'{len(event_targets)} used event targets found')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
@@ -40,6 +40,6 @@ def test_check_missing_event_targets(test_runner: object):
             for target in not_encountered_targets:
                 event_targets[target] += text_file.count(f'save_event_target_as = {target}')
 
-# Part 3 - throw the error if flag is not used
+# Part 3 - throw the error if entity is not used
     results = [i for i in event_targets if event_targets[i] == 0]
     ResultsReporter.report_results(results=results, paths=paths, message="Used event targets that are not set were encountered. Check console output")

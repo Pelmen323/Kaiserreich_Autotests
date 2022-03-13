@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-45 tests:
+47 tests:
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
@@ -30,6 +30,11 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - unused country flags test (finds all country flags that are set but never checked)
 - missing country flags test (finds all country flags that are not set but checked)
 - cleared country flags test (finds all country flags that are not set but cleared)
+
+*Decisions tests:*
+- decisions ai factor test (verifies that decisions and selectable missions have ai factors)
+- unused decisions categories test
+- duplicated decisions categories test
 
 *Events tests*
 - triggered-only events that are not triggered from outside test (check for events that are not triggered from outside but should)
@@ -76,7 +81,6 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - usage of DLC-locked armor chassis for non NSB owners and vice versa test (owners of NSB have specific armor equipment available; non-DLC players have their own. Checks if these two types of equipment are not mixed)
 - usage of outdated syntax for doctrines cost reduction test (tech_bonus -> doctrine_cost_reduction)
 - railways file test (verifies the expected and actual number of provinces provided in /map/railways.txt file)
-- decisions ai factor test (verifies that decisions and selectable missions have ai factors)
 - usage of negative multiplication in ai factors test (negative multiplication is not what you want in 99% of cases)
 - usage of 4+ digits after decimal point in ai factors test (HOI4 supports only 3 digits after decimal point)
 - admirals and generals stats syntax tests (verifies generals and admirals have correct stats assigned)

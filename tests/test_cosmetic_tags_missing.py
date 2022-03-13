@@ -25,7 +25,7 @@ def test_check_cosmetic_tags_missing(test_runner: object):
                     cosmetic_tags[match] = 0
                     paths[match] = os.path.basename(filename)
 
-# Part 2 - count the number of flag occurrences
+# Part 2 - count the number of entity occurrences
     logging.debug(f'{len(cosmetic_tags)} used cosmetic tags were found')
     # Usage directly
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):

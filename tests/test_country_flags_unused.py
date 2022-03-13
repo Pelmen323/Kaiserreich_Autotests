@@ -38,7 +38,7 @@ def test_check_unused_country_flags(test_runner: object):
 # Part 2 - clear false positives and flags with variables:
     country_flags = DataCleaner.clear_false_positives(input_iter=country_flags, false_positives=FALSE_POSITIVES)
 
-# Part 3 - count the number of flag occurrences
+# Part 3 - count the number of entity occurrences
     logging.debug(f'{len(country_flags)} set country flags found')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
@@ -54,6 +54,6 @@ def test_check_unused_country_flags(test_runner: object):
                         pattern = 'has_country_flag = \\{\\n\\t*flag = ' + flag
                         country_flags[flag] += len(re.findall(pattern, text_file))
 
-# Part 4 - throw the error if flag is not used
+# Part 4 - throw the error if entity is not used
     results = [i for i in country_flags if country_flags[i] == 0]
     ResultsReporter.report_results(results=results, paths=paths, message="Unused country flags were encountered - they are not used via 'has_country_flag' at least once. Check console output")
