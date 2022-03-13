@@ -9,9 +9,17 @@ class FileOpener:
     '''
     @classmethod
     def open_text_file(cls, filename: str) -> str:
-        '''
-        Opens and returns text file in utf-8-sig encoding
-        '''
+        """Opens and returns text file in utf-8-sig encoding
+
+        Args:
+            filename (str): text file to open
+
+        Raises:
+            FileNotFoundError: if file is not found
+
+        Returns:
+            str: contents of the text file converted to lowercase
+        """
         try:
             with open(filename, 'r', encoding='utf-8-sig') as text_file:      # 'utf-8-sig' is mandatory for UTF-8 w/BOM
                 return text_file.read().lower()
@@ -21,9 +29,17 @@ class FileOpener:
 
     @classmethod        
     def open_text_file_non_lower(cls, filename: str) -> str:
-        '''
-        Opens and returns text file in utf-8-sig encoding
-        '''
+        """Opens and returns text file in utf-8-sig encoding
+
+        Args:
+            filename (str): text file to open
+
+        Raises:
+            FileNotFoundError: if file is not found
+
+        Returns:
+            str: contents of the text file
+        """
         try:
             with open(filename, 'r', encoding='utf-8-sig') as text_file:      # 'utf-8-sig' is mandatory for UTF-8 w/BOM
                 return text_file.read()
@@ -47,11 +63,15 @@ class IterableParser:
 class DataCleaner:
     @classmethod
     def clear_false_positives(cls, input_iter: dict, false_positives: tuple = ()) -> dict:
-        '''
-        Function to clear and return dict\n
-        Input - iterable to clean and iterable with the items to exclude\n
-        Output - cleaned dict
-        '''
+        """Removes items from iterable
+
+        Args:
+            input_iter (dict): dict/list to remove items from
+            false_positives (tuple, optional): iterable with items to remove. Defaults to ().
+
+        Returns:
+            dict: cleaned list/disc
+        """
         if isinstance(input_iter, dict):
             if len(false_positives) > 0:
                 for key in false_positives:
@@ -67,11 +87,15 @@ class DataCleaner:
 
     @classmethod
     def skip_files(cls, files_to_skip: list, filename: str) -> bool:
-        '''
-        Function to skip the file during iteration\n
-        Input - str with filename, iterable with the items to skip\n
-        Output - bool (True if the file should be skipped)
-        '''
+        """Skip files in the list
+
+        Args:
+            files_to_skip (list): list with filenames
+            filename (str): list with filenames
+
+        Returns:
+            bool: True if file should be skipped
+        """
         for file in files_to_skip:
             if file in filename:
                 return True
@@ -80,11 +104,16 @@ class DataCleaner:
 class ResultsReporter:
     @classmethod
     def report_results(cls, results: list, message: str, paths: dict = {}) -> None:
-        '''
-        Method to report results and print them
-        Input - list with results, dict with paths (optional), error message
-        Output - None
-        '''
+        """Report results and print them
+
+        Args:
+            results (list): iterable with results. If not empty - thr items are printed and error raised
+            message (str): what to print as error message
+            paths (dict, optional): dict with paths for tests that need filepaths printing. Defaults to {}.
+
+        Raises:
+            AssertionError: Raised if passed iterable is not empty
+        """
         
         if len(results) > 0:
             logging.warning("Following issues were encountered during test execution:")
