@@ -5,7 +5,7 @@ from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsRe
 
 class Decisions:
     @classmethod
-    def get_all_decisions(cls, test_runner) -> list:
+    def get_all_decisions_names(cls, test_runner) -> list:
         """Parse decisions file and and return the list of all decisions
 
         Args:
@@ -35,7 +35,7 @@ class Decisions:
     
     
     @classmethod
-    def get_all_activated_decisions(cls, test_runner) -> list:
+    def get_all_activated_decisions_names(cls, test_runner) -> list:
         """Parse mod files and and return the list of all activated decisions
 
         Args:

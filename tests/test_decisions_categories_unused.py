@@ -6,6 +6,10 @@ import glob
 import re
 from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
+FALSE_POSITIVES = (
+    'ott_congress_independents',
+    'rom_great_game_start_category',
+)
 
 
 def test_check_unused_decisions_categories(test_runner: object):
@@ -28,6 +32,7 @@ def test_check_unused_decisions_categories(test_runner: object):
 
 # Part 2 - count the number of entity occurrences
     logging.debug(f'{len(decision_categories)} decision categories found')
+    decision_categories = DataCleaner.clear_false_positives(input_iter=decision_categories, false_positives=FALSE_POSITIVES)
     for filename in glob.iglob(filepath_to_decisions + '**/*.txt', recursive=True):
         if '\\categories' in filename:
             continue

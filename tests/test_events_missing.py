@@ -9,10 +9,10 @@ import glob
 
 def test_check_missing_events(test_runner: object):
 # Part 1 - get list of all events
-    events = Events.get_all_events(test_runner=test_runner)
+    events = Events.get_all_events_names(test_runner=test_runner)
     
 # Part 2 - get triggered events
-    triggered_events = Events.get_all_events_triggered_in_files(test_runner=test_runner)
+    triggered_events = Events.get_all_triggered_events_names(test_runner=test_runner)
 
 # Part 3 - throw the error if entity is missing
     results = [i for i in triggered_events if events.count(i) == 0]

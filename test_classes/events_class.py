@@ -5,7 +5,7 @@ from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsRe
 
 class Events:
     @classmethod
-    def get_all_events(cls, test_runner) -> list:
+    def get_all_events_names(cls, test_runner) -> list:
         """Parse events file and return the list of all events
 
         Args:
@@ -35,7 +35,7 @@ class Events:
 
 
     @classmethod
-    def get_all_events_triggered_in_files(cls, test_runner) -> list:
+    def get_all_triggered_events_names(cls, test_runner) -> list:
         """Parse all files and return the list of all events that are directly triggered
 
         Args:

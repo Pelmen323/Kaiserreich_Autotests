@@ -42,7 +42,7 @@ def test_check_triggered_events(test_runner: object):
 
     # 3. Get all events triggered in files
     triggered_events_id = DataCleaner.clear_false_positives(input_iter=triggered_events_id, false_positives=FALSE_POSITIVES)
-    invoked_events_id = Events.get_all_events_triggered_in_files(test_runner=test_runner)
+    invoked_events_id = Events.get_all_triggered_events_names(test_runner=test_runner)
 
     # 4. Check if events are used
     for event in invoked_events_id:
