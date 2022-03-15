@@ -6,7 +6,7 @@ import glob
 import os
 import re
 from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
-FILES_TO_SKIP = ["_Generic_ideas.txt", 'Army Spirits.txt', 'Air Spirits.txt', 'Navy Spirits.txt',]
+FILES_TO_SKIP = ["_Generic_ideas.txt", 'Army Spirits.txt', 'air_spirits.txt', 'Navy Spirits.txt',]
 
 
 def test_check_ideas_unused(test_runner: object):
