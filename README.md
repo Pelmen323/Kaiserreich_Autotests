@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-51 tests:
+52 tests:
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
@@ -21,6 +21,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - unused characters test (characters that exist but never recruited)
 - duplicated characters test
 - invalid advisors costs test
+- invalid advisors ledger lines test
 
 *Cosmetic tags tests:*
 - unused cosmetic tags test (finds all cosmetic tags that are set but never checked)
