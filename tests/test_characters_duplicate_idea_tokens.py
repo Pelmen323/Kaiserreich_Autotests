@@ -19,6 +19,7 @@ FALSE_POSITIVES = (
 'gbr_robert_gascoyne_cecil',
 'gbr_robert_vansittart',
 'tur_halide_edip_adivar',
+'rus_mikhail_tukhachevsky_army_chief',
 )
 
 

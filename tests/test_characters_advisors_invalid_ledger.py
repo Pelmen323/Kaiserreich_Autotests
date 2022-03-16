@@ -1,5 +1,5 @@
 ##########################
-# Test script to check for characters that exist but never recruited
+# Test script to check for advisors having invalid ledger line
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import re
@@ -7,7 +7,7 @@ from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsRe
 from ..test_classes.characters_class import Characters
 
 
-def test_check_unused_characters(test_runner: object):
+def test_check_advisors_invalid_ledger(test_runner: object):
     advisors = Characters.get_all_advisors(test_runner=test_runner)
     results = []
             

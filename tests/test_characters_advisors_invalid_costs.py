@@ -1,5 +1,5 @@
 ##########################
-# Test script to check for characters that exist but never recruited
+# Test script to check for advisors that have incorrect costs
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import re
@@ -8,7 +8,7 @@ from ..test_classes.characters_class import Characters
 import re
 
 
-def test_check_unused_characters(test_runner: object):
+def test_check_advisors_invalid_costs(test_runner: object):
     advisors = Characters.get_all_advisors(test_runner=test_runner)
     results = []
     special_theorists = (
