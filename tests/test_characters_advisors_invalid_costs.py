@@ -42,17 +42,17 @@ def test_check_unused_characters(test_runner: object):
         if specialist_role:
             if 'cost =' in adv: 
                 if 'cost = 50' not in adv:
-                    results.append((advisor_name, adv, "Specialist level - should cost 50"))
+                    results.append((advisor_name, "Specialist level - should cost 50"))
                     
         elif expert_role:
             if 'cost =' in adv: 
                 if 'cost = 100' not in adv:
-                    results.append((advisor_name, adv, "Expert level - should cost 100"))
+                    results.append((advisor_name, "Expert level - should cost 100"))
                     
         elif genius_role:
             if 'cost =' in adv: 
                 if 'cost = 200' not in adv:
-                    results.append((advisor_name, adv, "Genius level - should cost 200"))
+                    results.append((advisor_name, "Genius level - should cost 200"))
                     
         elif theorist_role:
             for role in special_theorists:
@@ -61,10 +61,10 @@ def test_check_unused_characters(test_runner: object):
             
             if spec_role:
                 if 'cost = 150' not in adv:
-                    results.append((advisor_name, adv, "Special theorist - should cost 150"))
+                    results.append((advisor_name, "Special theorist - should cost 150"))
 
             elif 'cost = 100' not in adv and 'cost =' in adv:
-                    results.append((advisor_name, adv, "Non-special theorist - should cost 100"))
+                    results.append((advisor_name, "Non-special theorist - should cost 100"))
      
     if results != []:           
         ResultsReporter.report_results(results=results, message="Non-conventional advisor cost (should be 50, 100 or 200 for military advisors, 150 for doctrine theorists and 100 for other theorists) encountered. Check console output")

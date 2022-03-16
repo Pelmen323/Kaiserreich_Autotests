@@ -7,6 +7,7 @@ import os
 import re
 from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 FILES_TO_SKIP = ["_Generic_ideas.txt", 'Army Spirits.txt', 'air_spirits.txt', 'Navy Spirits.txt',]
+FALSE_POSITIVES = ('hai_foreign_control_dummy',)
 
 
 def test_check_ideas_unused(test_runner: object):
@@ -34,6 +35,7 @@ def test_check_ideas_unused(test_runner: object):
                 paths[match] = os.path.basename(filename)
 
     # 2. Find if ideas are used:
+    results_dict = DataCleaner.clear_false_positives(input_iter=results_dict, false_positives=FALSE_POSITIVES)
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 

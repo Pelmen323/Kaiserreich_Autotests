@@ -20,11 +20,11 @@ def test_check_unused_characters(test_runner: object):
 
         if not theorist_role and not hc_role:
             if 'ledger =' in adv:
-                results.append((advisor_name, adv, "Ledger slot is not needed here"))
+                results.append((advisor_name, "Ledger slot is not needed here"))
                 
         if theorist_role or hc_role:
             if 'ledger =' not in adv:
-                results.append((advisor_name, adv, "Ledger slot is required here"))
+                results.append((advisor_name, "Ledger slot is required here"))
      
     if results != []:           
         ResultsReporter.report_results(results=results, message="Missing/excessive ledger line encountered. Check console output")
