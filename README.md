@@ -10,14 +10,14 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-54 tests:
+55 tests:
 
 *Advisors tests*
 - usage of non-unique advisor tokens test (it causes bugs all over the place. Advisors should have unique tokens)
 - usage of missing idea tokens in advisors activation
 - invalid advisors costs test
 - invalid advisors ledger lines test
-
+- invalid advisors `not_already_hired_except_as` lines values
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
@@ -27,7 +27,6 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - duplicated characters test
 - characters without loc keys in their names test
 - characters with several advisor roles and missing `not_already_hired_except_as` lines
-
 
 *Cosmetic tags tests:*
 - unused cosmetic tags test (finds all cosmetic tags that are set but never checked)

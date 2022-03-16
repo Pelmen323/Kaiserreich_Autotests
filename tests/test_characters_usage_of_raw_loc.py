@@ -8,14 +8,15 @@ from ..test_classes.characters_class import Characters
 
 
 def test_check_characters_raw_loc(test_runner: object):
-    characters, paths = Characters.get_all_characters_with_paths(test_runner=test_runner)
+    characters, paths = Characters.get_all_characters_with_paths(test_runner=test_runner, lowercase=False)
     results = []
             
     for char in characters:
-        char_name = re.findall('name = .*', char)
+        char_name = re.findall('name = (.*)', char)
+        char_code = re.findall('^\t(\w.+) = \{', char)
         
         if 'name = "' in char:
-            results.append((char_name, paths[char]))
-     
-    if results != []:           
+            results.append((f'{"".join(char_code)}: {"".join(char_name)}', paths[char])) 
+   
+    if results != []:
         ResultsReporter.report_results(results=results, message="Usage of raw loc in name line of characters was encountered. Check console output")

@@ -7,7 +7,7 @@ from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsRe
 class Characters:
 
     @classmethod
-    def get_all_characters(cls, test_runner) -> list[str]:
+    def get_all_characters(cls, test_runner, lowercase: bool) -> list[str]:
         """Parse all files and return the list with all characters code
 
         Args:
@@ -20,7 +20,10 @@ class Characters:
         characters = []
         
         for filename in glob.iglob(filepath_to_characters + '**/*.txt', recursive=True):
-            text_file = FileOpener.open_text_file(filename)
+            if lowercase:
+                text_file = FileOpener.open_text_file(filename)
+            else:
+                text_file = FileOpener.open_text_file_non_lower(filename)
 
             pattern_matches = re.findall('((?<=\n)\t\w.* = \{.*\n(.|\n*?)*\n\t\})', text_file)
             if len(pattern_matches) > 0:
@@ -32,7 +35,7 @@ class Characters:
     
     
     @classmethod
-    def get_all_characters_with_paths(cls, test_runner) -> tuple[list, dict]:
+    def get_all_characters_with_paths(cls, test_runner, lowercase: bool) -> tuple[list, dict]:
         """Parse all files and return the list with all characters code
 
         Args:
@@ -46,7 +49,10 @@ class Characters:
         paths = {}
         
         for filename in glob.iglob(filepath_to_characters + '**/*.txt', recursive=True):
-            text_file = FileOpener.open_text_file(filename)
+            if lowercase:
+                text_file = FileOpener.open_text_file(filename)
+            else:
+                text_file = FileOpener.open_text_file_non_lower(filename)
 
             pattern_matches = re.findall('((?<=\n)\t\w.* = \{.*\n(.|\n*?)*\n\t\})', text_file)
             if len(pattern_matches) > 0:
@@ -59,7 +65,7 @@ class Characters:
     
 
     @classmethod
-    def get_all_advisors(cls, test_runner) -> list[str]:
+    def get_all_advisors(cls, test_runner, lowercase: bool) -> list[str]:
         """Parse all files and return the list with all advisors code
 
         Args:
@@ -72,7 +78,10 @@ class Characters:
         advisors = []
         
         for filename in glob.iglob(filepath_to_characters + '**/*.txt', recursive=True):
-            text_file = FileOpener.open_text_file(filename)
+            if lowercase:
+                text_file = FileOpener.open_text_file(filename)
+            else:
+                text_file = FileOpener.open_text_file_non_lower(filename)
 
             pattern_matches = re.findall('((?<=\n)\t\tadvisor = \{.*\n(.|\n*?)*\n\t\t\})', text_file)
             if len(pattern_matches) > 0:
@@ -81,3 +90,33 @@ class Characters:
                     advisors.append(match)
 
         return advisors
+
+   
+    @classmethod
+    def get_all_advisors_with_paths(cls, test_runner, lowercase: bool) -> tuple[list, dict]:
+        """Parse all files and return the list with all advisors code anjd their paths
+
+        Args:
+            test_runner (test_runner): Contains filepaths
+
+        Returns:
+            list: all advisors roles captured for each character (not including non-advisor code) and their paths
+        """
+        filepath_to_characters = f'{test_runner.full_path_to_mod}common\\characters\\'
+        advisors = []
+        paths = {}
+        
+        for filename in glob.iglob(filepath_to_characters + '**/*.txt', recursive=True):
+            if lowercase:
+                text_file = FileOpener.open_text_file(filename)
+            else:
+                text_file = FileOpener.open_text_file_non_lower(filename)
+
+            pattern_matches = re.findall('((?<=\n)\t\tadvisor = \{.*\n(.|\n*?)*\n\t\t\})', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[0]
+                    advisors.append(match)
+                    paths[match] = os.path.basename(filename)
+
+        return (advisors, paths)

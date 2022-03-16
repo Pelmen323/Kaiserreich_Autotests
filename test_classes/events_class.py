@@ -5,7 +5,7 @@ from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsRe
 
 class Events:
     @classmethod
-    def get_all_events_names(cls, test_runner) -> list:
+    def get_all_events_names(cls, test_runner, lowercase: bool) -> list:
         """Parse events file and return the list of all events
 
         Args:
@@ -20,7 +20,10 @@ class Events:
         for filename in glob.iglob(filepath_to_events + '**/*.txt', recursive=True):
             if '\\categories' in filename:
                 continue
-            text_file = FileOpener.open_text_file(filename)
+            if lowercase:
+                text_file = FileOpener.open_text_file(filename)
+            else:
+                text_file = FileOpener.open_text_file_non_lower(filename)
 
             text_file_splitted = text_file.split('\n')[1:]
             for line in range(len(text_file_splitted)):
@@ -35,7 +38,7 @@ class Events:
 
 
     @classmethod
-    def get_all_triggered_events_names(cls, test_runner) -> list:
+    def get_all_triggered_events_names(cls, test_runner, lowercase: bool) -> list:
         """Parse all files and return the list of all events that are directly triggered
 
         Args:
@@ -52,7 +55,10 @@ class Events:
         for filename in glob.iglob(filepath_global + '**/*.txt', recursive=True):
             if '\\history\\' in filename:
                 continue
-            text_file = FileOpener.open_text_file(filename)
+            if lowercase:
+                text_file = FileOpener.open_text_file(filename)
+            else:
+                text_file = FileOpener.open_text_file_non_lower(filename)
 
             if "country_event =" in text_file:
                 # 3.0 One-liners w/o brackets
