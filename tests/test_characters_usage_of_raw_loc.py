@@ -1,0 +1,21 @@
+##########################
+# Test script to check for characters that use raw loc for name instead of keys
+# By Pelmen, https://github.com/Pelmen323
+##########################
+import re
+from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+from ..test_classes.characters_class import Characters
+
+
+def test_check_characters_raw_loc(test_runner: object):
+    characters, paths = Characters.get_all_characters_with_paths(test_runner=test_runner)
+    results = []
+            
+    for char in characters:
+        char_name = re.findall('name = .*', char)
+        
+        if 'name = "' in char:
+            results.append((char_name, paths[char]))
+     
+    if results != []:           
+        ResultsReporter.report_results(results=results, message="Usage of raw loc in name line of characters was encountered. Check console output")
