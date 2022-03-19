@@ -120,3 +120,82 @@ class Characters:
                     paths[match] = os.path.basename(filename)
 
         return (advisors, paths)
+    
+    @classmethod
+    def get_all_sic_traits(cls, test_runner, lowercase: bool) -> list[str]:
+        """Parse common\country_leader\KR_second_in_command_traits.txt and return the list with all sic traits
+
+        Args:
+            test_runner (test_runner): Contains filepaths
+
+        Returns:
+            list: all sic traits
+        """
+        filepath_to_traits = f'{test_runner.full_path_to_mod}common\\country_leader\\KR_second_in_command_traits.txt'
+        traits = []
+        
+        if lowercase:
+            text_file = FileOpener.open_text_file(filepath_to_traits)
+        else:
+            text_file = FileOpener.open_text_file_non_lower(filepath_to_traits)
+
+        pattern_matches = re.findall('((?<=\n)\t\w* = \{)', text_file)
+        if len(pattern_matches) > 0:
+            for match in pattern_matches:
+                match = match[1:-4]
+                traits.append(match)
+
+        traits.append('second_in_command_trait')
+        return traits
+    
+    @classmethod
+    def get_all_political_traits(cls, test_runner, lowercase: bool) -> list[str]:
+        """Parse common\country_leader\KR_political_advisor_traits.txt and return the list with all political traits
+
+        Args:
+            test_runner (test_runner): Contains filepaths
+
+        Returns:
+            list: all political traits
+        """
+        filepath_to_traits = f'{test_runner.full_path_to_mod}common\\country_leader\\KR_political_advisor_traits.txt'
+        traits = []
+        
+        if lowercase:
+            text_file = FileOpener.open_text_file(filepath_to_traits)
+        else:
+            text_file = FileOpener.open_text_file_non_lower(filepath_to_traits)
+
+        pattern_matches = re.findall('((?<=\n)\t\w* = \{)', text_file)
+        if len(pattern_matches) > 0:
+            for match in pattern_matches:
+                match = match[1:-4]
+                traits.append(match)
+
+        return traits
+    
+    @classmethod
+    def get_all_military_traits(cls, test_runner, lowercase: bool) -> list[str]:
+        """Parse common\country_leader\KR_military_advisor_traits.txt and return the list with all political traits
+
+        Args:
+            test_runner (test_runner): Contains filepaths
+
+        Returns:
+            list: all military traits
+        """
+        filepath_to_traits = f'{test_runner.full_path_to_mod}common\\country_leader\\KR_military_advisor_traits.txt'
+        traits = []
+        
+        if lowercase:
+            text_file = FileOpener.open_text_file(filepath_to_traits)
+        else:
+            text_file = FileOpener.open_text_file_non_lower(filepath_to_traits)
+
+        pattern_matches = re.findall('((?<=\n)\t\w* = \{)', text_file)
+        if len(pattern_matches) > 0:
+            for match in pattern_matches:
+                match = match[1:-4]
+                traits.append(match)
+
+        return traits
