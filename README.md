@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-62 tests:
+63 tests:
 
 *Advisors tests*
 - usage of non-unique advisor tokens test (it causes bugs all over the place. Advisors should have unique tokens)
@@ -70,6 +70,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - localization files syntax violations
 - localization files unused loc entries
 - Scripted loc brackets usage (finds oddities with vanilla scripted loc functions usage, such as missing brackets or unexpected following characters)
+- Unused scripted loc test
 
 *OOB files tests:*
 - unused OOB files (files with unit templates and/or division/ships spawns that are not used)
