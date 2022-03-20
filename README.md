@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-58 tests:
+62 tests:
 
 *Advisors tests*
 - usage of non-unique advisor tokens test (it causes bugs all over the place. Advisors should have unique tokens)
@@ -20,7 +20,8 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - invalid advisors `not_already_hired_except_as` lines values
 - SIC advisors with invalid traits test
 - political advisors with invalid traits test
-- military advisors with invalid traits test
+- military advisors with invalid traits test (hc, air chief, army chief, navy chief)
+- theorists advisors with invalid traits test
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)

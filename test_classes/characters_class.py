@@ -25,7 +25,7 @@ class Characters:
             else:
                 text_file = FileOpener.open_text_file_non_lower(filename)
 
-            pattern_matches = re.findall('((?<=\n)\t\w.* = \{.*\n(.|\n*?)*\n\t\})', text_file)
+            pattern_matches = re.findall('((?<=\n)\t\\w.* = \\{.*\n(.|\n*?)*\n\t\\})', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     match = match[0]
@@ -54,7 +54,7 @@ class Characters:
             else:
                 text_file = FileOpener.open_text_file_non_lower(filename)
 
-            pattern_matches = re.findall('((?<=\n)\t\w.* = \{.*\n(.|\n*?)*\n\t\})', text_file)
+            pattern_matches = re.findall('((?<=\n)\t\\w.* = \\{.*\n(.|\n*?)*\n\t\\})', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     match = match[0]
@@ -83,7 +83,7 @@ class Characters:
             else:
                 text_file = FileOpener.open_text_file_non_lower(filename)
 
-            pattern_matches = re.findall('((?<=\n)\t\tadvisor = \{.*\n(.|\n*?)*\n\t\t\})', text_file)
+            pattern_matches = re.findall('((?<=\n)\t\tadvisor = \\{.*\n(.|\n*?)*\n\t\t\\})', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     match = match[0]
@@ -112,7 +112,7 @@ class Characters:
             else:
                 text_file = FileOpener.open_text_file_non_lower(filename)
 
-            pattern_matches = re.findall('((?<=\n)\t\tadvisor = \{.*\n(.|\n*?)*\n\t\t\})', text_file)
+            pattern_matches = re.findall('((?<=\n)\t\tadvisor = \\{.*\n(.|\n*?)*\n\t\t\\})', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     match = match[0]
@@ -120,18 +120,21 @@ class Characters:
                     paths[match] = os.path.basename(filename)
 
         return (advisors, paths)
+
     
     @classmethod
-    def get_all_sic_traits(cls, test_runner, lowercase: bool) -> list[str]:
-        """Parse common\country_leader\KR_second_in_command_traits.txt and return the list with all sic traits
+    def get_advisors_traits(cls, test_runner, trait_type: str, lowercase: bool) -> list[str]:
+        """Parse common\\country_leader\\xxx.txt and return the list with all advisor traits
 
         Args:
-            test_runner (test_runner): Contains filepaths
+            test_runner (_type_): Contains filepaths
+            trait_type (str): Str - any of (second_in_command, political_advisor, high_command, theorist, air_chief, army_chief, navy_chief)
+            lowercase (bool): if returned str is lowercase or not
 
         Returns:
-            list: all sic traits
+            list[str]: all traits from a file (only traits names)
         """
-        filepath_to_traits = f'{test_runner.full_path_to_mod}common\\country_leader\\KR_second_in_command_traits.txt'
+        filepath_to_traits = f'{test_runner.full_path_to_mod}common\\country_leader\\KR_{trait_type}_traits.txt'
         traits = []
         
         if lowercase:
@@ -139,63 +142,12 @@ class Characters:
         else:
             text_file = FileOpener.open_text_file_non_lower(filepath_to_traits)
 
-        pattern_matches = re.findall('((?<=\n)\t\w* = \{)', text_file)
+        pattern_matches = re.findall('((?<=\n)\t\\w* = \\{)', text_file)
         if len(pattern_matches) > 0:
             for match in pattern_matches:
                 match = match[1:-4]
                 traits.append(match)
 
-        traits.append('second_in_command_trait')
-        return traits
-    
-    @classmethod
-    def get_all_political_traits(cls, test_runner, lowercase: bool) -> list[str]:
-        """Parse common\country_leader\KR_political_advisor_traits.txt and return the list with all political traits
-
-        Args:
-            test_runner (test_runner): Contains filepaths
-
-        Returns:
-            list: all political traits
-        """
-        filepath_to_traits = f'{test_runner.full_path_to_mod}common\\country_leader\\KR_political_advisor_traits.txt'
-        traits = []
-        
-        if lowercase:
-            text_file = FileOpener.open_text_file(filepath_to_traits)
-        else:
-            text_file = FileOpener.open_text_file_non_lower(filepath_to_traits)
-
-        pattern_matches = re.findall('((?<=\n)\t\w* = \{)', text_file)
-        if len(pattern_matches) > 0:
-            for match in pattern_matches:
-                match = match[1:-4]
-                traits.append(match)
-
-        return traits
-    
-    @classmethod
-    def get_all_military_traits(cls, test_runner, lowercase: bool) -> list[str]:
-        """Parse common\country_leader\KR_military_advisor_traits.txt and return the list with all political traits
-
-        Args:
-            test_runner (test_runner): Contains filepaths
-
-        Returns:
-            list: all military traits
-        """
-        filepath_to_traits = f'{test_runner.full_path_to_mod}common\\country_leader\\KR_military_advisor_traits.txt'
-        traits = []
-        
-        if lowercase:
-            text_file = FileOpener.open_text_file(filepath_to_traits)
-        else:
-            text_file = FileOpener.open_text_file_non_lower(filepath_to_traits)
-
-        pattern_matches = re.findall('((?<=\n)\t\w* = \{)', text_file)
-        if len(pattern_matches) > 0:
-            for match in pattern_matches:
-                match = match[1:-4]
-                traits.append(match)
-
+        if trait_type == "second_in_command":
+            traits.append('second_in_command_trait')
         return traits

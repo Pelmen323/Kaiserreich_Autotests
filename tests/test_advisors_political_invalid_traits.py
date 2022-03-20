@@ -9,9 +9,9 @@ from ..test_classes.characters_class import Characters
 
 def test_check_advisors_political_invalid_traits(test_runner: object):
     advisors, paths = Characters.get_all_advisors_with_paths(test_runner=test_runner, lowercase=True)
-    advisor_traits = Characters.get_all_political_traits(test_runner=test_runner, lowercase=True)
+    advisor_traits = Characters.get_advisors_traits(test_runner=test_runner, trait_type="political_advisor" , lowercase=True)
     results = []
-    print(advisor_traits)        
+       
     for adv in advisors:
         if adv.count('slot = political_advisor') > 0:
             try:
