@@ -1,12 +1,49 @@
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+from ..test_classes.generic_test_class import FileOpener
 
 
 class Events:
     @classmethod
-    def get_all_events_names(cls, test_runner, lowercase: bool) -> list:
+    def get_all_events(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> list:
+        """Parse all files in events and return the list with all events code
+
+        Args:
+            test_runner (_type_): test runner obj
+            lowercase (bool, optional): defines if returned list contains lowercase str or not. Defaults to True.
+            return_paths (bool, optional): defines if events code is returned with dict that contains their filenames. Defaults to False.
+
+        Returns:
+            if lowercase - tuple[list, dict]: list with events code and dict with events filenames
+            else - list: list with events code
+        """
+        filepath_to_events = f'{test_runner.full_path_to_mod}events\\'
+        events = []
+        paths = {}
+
+        for filename in glob.iglob(filepath_to_events + '**/*.txt', recursive=True):
+            if '\\categories' in filename:
+                continue
+            if lowercase:
+                text_file = FileOpener.open_text_file(filename)
+            else:
+                text_file = FileOpener.open_text_file_non_lower(filename)
+
+            pattern_matches = re.findall('((?<=\n)country_event = \\{.*\n(.|\n*?)*\n\\})', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[0]
+                    events.append(match)
+                    paths[match] = os.path.basename(filename)
+
+        if return_paths:
+            return (events, paths)
+        else:
+            return events
+
+    @classmethod
+    def get_all_events_names(cls, test_runner, lowercase: bool = True) -> list:
         """Parse events file and return the list of all events
 
         Args:
@@ -17,7 +54,7 @@ class Events:
         """
         filepath_to_events = f'{test_runner.full_path_to_mod}events\\'
         events = []
-        
+
         for filename in glob.iglob(filepath_to_events + '**/*.txt', recursive=True):
             if '\\categories' in filename:
                 continue
@@ -36,43 +73,9 @@ class Events:
                         events.append(match)
 
         return events
-    
-    
-    @classmethod
-    def get_all_events_with_paths(cls, test_runner, lowercase: bool) -> list:
-        """Parse events file and return the list of all events code
-
-        Args:
-            test_runner (test_runner): Contains filepaths
-
-        Returns:
-            list: all events code in mod folder
-            dict: paths for events
-        """
-        filepath_to_events = f'{test_runner.full_path_to_mod}events\\'
-        events = []
-        paths = {}
-        
-        for filename in glob.iglob(filepath_to_events + '**/*.txt', recursive=True):
-            if '\\categories' in filename:
-                continue
-            if lowercase:
-                text_file = FileOpener.open_text_file(filename)
-            else:
-                text_file = FileOpener.open_text_file_non_lower(filename)
-
-            pattern_matches = re.findall('((?<=\n)country_event = \\{.*\n(.|\n*?)*\n\\})', text_file)
-            if len(pattern_matches) > 0:
-                for match in pattern_matches:
-                    match = match[0]
-                    events.append(match)
-                    paths[match] = os.path.basename(filename)
-
-        return (events, paths)
-
 
     @classmethod
-    def get_all_triggered_events_names(cls, test_runner, lowercase: bool) -> list:
+    def get_all_triggered_events_names(cls, test_runner, lowercase: bool = True) -> list:
         """Parse all files and return the list of all events that are directly triggered
 
         Args:
@@ -81,11 +84,10 @@ class Events:
         Returns:
             list: all events in mod folder that are triggered by something
         """
-        filepath_to_events = f'{test_runner.full_path_to_mod}events\\'
         filepath_global = test_runner.full_path_to_mod
         filepath_history = f'{test_runner.full_path_to_mod}history\\'
         events = []
-        
+
         for filename in glob.iglob(filepath_global + '**/*.txt', recursive=True):
             if '\\history\\' in filename:
                 continue
@@ -154,6 +156,6 @@ class Events:
                         event_id_match = re.findall('id = [a-zA-Z0-9\\._]*', match)
                         match = ''.join(event_id_match)[4:].strip()
                         events.append(match)
-        
+
         events = [i for i in events if '[' not in i and i != '']
         return events

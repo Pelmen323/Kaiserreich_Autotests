@@ -8,7 +8,7 @@ from ..test_classes.characters_class import Characters
 
 
 def test_check_advisors_military_air_chief_invalid_traits(test_runner: object):
-    advisors, paths = Characters.get_all_advisors_with_paths(test_runner=test_runner, lowercase=True)
+    advisors, paths = Characters.get_all_advisors(test_runner=test_runner, return_paths=True)
     advisor_traits = Characters.get_advisors_traits(test_runner=test_runner, trait_type="air_chief", lowercase=True)
     results = []
       
@@ -33,7 +33,7 @@ def test_check_advisors_military_air_chief_invalid_traits(test_runner: object):
 
 
 def test_check_advisors_military_army_chief_invalid_traits(test_runner: object):
-    advisors, paths = Characters.get_all_advisors_with_paths(test_runner=test_runner, lowercase=True)
+    advisors, paths = Characters.get_all_advisors(test_runner=test_runner, return_paths=True)
     advisor_traits = Characters.get_advisors_traits(test_runner=test_runner, trait_type="army_chief", lowercase=True)
     results = []
       
@@ -58,7 +58,7 @@ def test_check_advisors_military_army_chief_invalid_traits(test_runner: object):
 
 
 def test_check_advisors_military_high_command_invalid_traits(test_runner: object):
-    advisors, paths = Characters.get_all_advisors_with_paths(test_runner=test_runner, lowercase=True)
+    advisors, paths = Characters.get_all_advisors(test_runner=test_runner, return_paths=True)
     advisor_traits = Characters.get_advisors_traits(test_runner=test_runner, trait_type="high_command", lowercase=True)
     results = []
       
@@ -83,7 +83,7 @@ def test_check_advisors_military_high_command_invalid_traits(test_runner: object
 
 
 def test_check_advisors_military_navy_chief_invalid_traits(test_runner: object):
-    advisors, paths = Characters.get_all_advisors_with_paths(test_runner=test_runner, lowercase=True)
+    advisors, paths = Characters.get_all_advisors(test_runner=test_runner, return_paths=True)
     advisor_traits = Characters.get_advisors_traits(test_runner=test_runner, trait_type="navy_chief", lowercase=True)
     results = []
       
@@ -108,7 +108,7 @@ def test_check_advisors_military_navy_chief_invalid_traits(test_runner: object):
 
 
 def test_check_advisors_military_theorist_invalid_traits(test_runner: object):
-    advisors, paths = Characters.get_all_advisors_with_paths(test_runner=test_runner, lowercase=True)
+    advisors, paths = Characters.get_all_advisors(test_runner=test_runner, return_paths=True)
     advisor_traits = Characters.get_advisors_traits(test_runner=test_runner, trait_type="theorist", lowercase=True)
     results = []
       

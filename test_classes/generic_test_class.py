@@ -5,7 +5,7 @@ import os
 
 class FileOpener:
     '''
-    Test class that hosts file functions - like opening text files
+    Test class that hosts common file functions like opening text files
     '''
     @classmethod
     def open_text_file(cls, filename: str) -> str:
@@ -27,7 +27,7 @@ class FileOpener:
             logging.error(f"Skipping the file {filename}, {ex}")
             raise FileNotFoundError(f"Can't open the file {filename}")
 
-    @classmethod        
+    @classmethod
     def open_text_file_non_lower(cls, filename: str) -> str:
         """Opens and returns text file in utf-8-sig encoding
 
@@ -47,6 +47,7 @@ class FileOpener:
             logging.error(f"Skipping the file {filename}, {ex}")
             raise FileNotFoundError(f"Can't open the file {filename}")
 
+
 class IterableParser:
     @classmethod
     def extract_matches(cls, source_file: str, regex_pattern: str, output_dict: dict, iter_with_filepath: str, len_to_cut: int = 0):
@@ -59,7 +60,8 @@ class IterableParser:
                 match = match[len_to_cut:].strip()
                 output_dict[match] = 0
                 iter_with_filepath[match] = os.path.basename(source_file)
-                
+
+
 class DataCleaner:
     @classmethod
     def clear_false_positives(cls, input_iter: dict, false_positives: tuple = ()) -> dict:
@@ -114,7 +116,7 @@ class ResultsReporter:
         Raises:
             AssertionError: Raised if passed iterable is not empty
         """
-        
+
         if len(results) > 0:
             logging.warning("Following issues were encountered during test execution:")
 

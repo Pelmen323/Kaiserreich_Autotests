@@ -8,7 +8,7 @@ from ..test_classes.characters_class import Characters
 
 
 def test_check_characters_alredy_hired(test_runner: object):
-    characters, paths = Characters.get_all_characters_with_paths(test_runner=test_runner, lowercase=True)
+    characters, paths = Characters.get_all_characters(test_runner=test_runner, return_paths=True)
     results = []
             
     for char in characters:

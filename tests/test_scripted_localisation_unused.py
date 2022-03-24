@@ -8,7 +8,7 @@ from ..test_classes.scripted_loc_class import Scripted_localisation
 
 
 def test_check_localisation_scripted_brackets(test_runner: object):
-    scripted_loc, paths = Scripted_localisation.get_scripted_loc_names_with_paths(test_runner=test_runner, lowercase=True)
+    scripted_loc, paths = Scripted_localisation.get_scripted_loc_names_with_paths(test_runner=test_runner, lowercase=True, return_paths=True)
     filepath = test_runner.full_path_to_mod
     results = {i:0 for i in scripted_loc}
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):

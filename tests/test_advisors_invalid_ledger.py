@@ -8,7 +8,7 @@ from ..test_classes.characters_class import Characters
 
 
 def test_check_advisors_invalid_ledger(test_runner: object):
-    advisors = Characters.get_all_advisors(test_runner=test_runner, lowercase=True)
+    advisors = Characters.get_all_advisors(test_runner=test_runner)
     results = []
             
     for adv in advisors:

@@ -11,7 +11,7 @@ from ..data.ideologies import ideology_bundles
 
 
 def test_check_focuses_ideology_optimisations(test_runner: object):
-    focuses, paths = National_focus.get_all_national_focuses_with_paths(test_runner=test_runner, lowercase=True)
+    focuses, paths = National_focus.get_all_national_focuses_with_paths(test_runner=test_runner, lowercase=True, return_paths=True)
     results = []
     
     for focus in focuses:
@@ -26,7 +26,7 @@ def test_check_focuses_ideology_optimisations(test_runner: object):
 
 
 def test_check_events_ideology_optimisations(test_runner: object):
-    events, paths = Events.get_all_events_with_paths(test_runner=test_runner, lowercase=True)
+    events, paths = Events.get_all_events(test_runner=test_runner, lowercase=True, return_paths=True)
     results = []
     
     for event in events:

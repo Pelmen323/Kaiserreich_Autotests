@@ -1,4 +1,5 @@
 # Template: "incorrect_version": "correct_version"
+# Used for typos test
 bad_words = {
     "abcense": "absence",
     "absance": "absence",

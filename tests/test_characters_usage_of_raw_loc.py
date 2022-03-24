@@ -8,7 +8,7 @@ from ..test_classes.characters_class import Characters
 
 
 def test_check_characters_raw_loc(test_runner: object):
-    characters, paths = Characters.get_all_characters_with_paths(test_runner=test_runner, lowercase=False)
+    characters, paths = Characters.get_all_characters(test_runner=test_runner, lowercase=False, return_paths=True)
     results = []
             
     for char in characters:

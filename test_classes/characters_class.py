@@ -1,53 +1,28 @@
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+from ..test_classes.generic_test_class import FileOpener
 
 
 class Characters:
 
     @classmethod
-    def get_all_characters(cls, test_runner, lowercase: bool) -> list[str]:
-        """Parse all files and return the list with all characters code
+    def get_all_characters(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> tuple[list, dict]:
+        """Parse all files in common/characters and return the list with all characters code
 
         Args:
-            test_runner (test_runner): Contains filepaths
+            test_runner (_type_): test runner obj
+            lowercase (bool, optional): defines if returned list contains lowercase str or not. Defaults to True.
+            return_paths (bool, optional): defines if characters code is returned with dict that contains their filenames. Defaults to False.
 
         Returns:
-            list: all characters code captured for each character
-        """
-        filepath_to_characters = f'{test_runner.full_path_to_mod}common\\characters\\'
-        characters = []
-        
-        for filename in glob.iglob(filepath_to_characters + '**/*.txt', recursive=True):
-            if lowercase:
-                text_file = FileOpener.open_text_file(filename)
-            else:
-                text_file = FileOpener.open_text_file_non_lower(filename)
-
-            pattern_matches = re.findall('((?<=\n)\t\\w.* = \\{.*\n(.|\n*?)*\n\t\\})', text_file)
-            if len(pattern_matches) > 0:
-                for match in pattern_matches:
-                    match = match[0]
-                    characters.append(match)
-
-        return characters
-    
-    
-    @classmethod
-    def get_all_characters_with_paths(cls, test_runner, lowercase: bool) -> tuple[list, dict]:
-        """Parse all files and return the list with all characters code
-
-        Args:
-            test_runner (test_runner): Contains filepaths
-
-        Returns:
-            list: all characters code captured for each character and dict with their filenames in a tuple
+            if lowercase - tuple[list, dict]: list with characters code and dict with characters filenames
+            else - list: list with characters code
         """
         filepath_to_characters = f'{test_runner.full_path_to_mod}common\\characters\\'
         characters = []
         paths = {}
-        
+
         for filename in glob.iglob(filepath_to_characters + '**/*.txt', recursive=True):
             if lowercase:
                 text_file = FileOpener.open_text_file(filename)
@@ -61,51 +36,28 @@ class Characters:
                     characters.append(match)
                     paths[match] = os.path.basename(filename)
 
-        return (characters, paths)
-    
+        if return_paths:
+            return (characters, paths)
+        else:
+            return characters
 
     @classmethod
-    def get_all_advisors(cls, test_runner, lowercase: bool) -> list[str]:
-        """Parse all files and return the list with all advisors code
+    def get_all_advisors(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> tuple[list, dict]:
+        """Parse all files in common/characters and return the list with all advisors code
 
         Args:
-            test_runner (test_runner): Contains filepaths
+            test_runner (_type_): test runner obj
+            lowercase (bool, optional): defines if returned list contains lowercase str or not. Defaults to True.
+            return_paths (bool, optional): defines if advisors code is returned with dict that contains their filenames. Defaults to False.
 
         Returns:
-            list: all advisors roles captured for each character (not including non-advisor code)
-        """
-        filepath_to_characters = f'{test_runner.full_path_to_mod}common\\characters\\'
-        advisors = []
-        
-        for filename in glob.iglob(filepath_to_characters + '**/*.txt', recursive=True):
-            if lowercase:
-                text_file = FileOpener.open_text_file(filename)
-            else:
-                text_file = FileOpener.open_text_file_non_lower(filename)
-
-            pattern_matches = re.findall('((?<=\n)\t\tadvisor = \\{.*\n(.|\n*?)*\n\t\t\\})', text_file)
-            if len(pattern_matches) > 0:
-                for match in pattern_matches:
-                    match = match[0]
-                    advisors.append(match)
-
-        return advisors
-
-   
-    @classmethod
-    def get_all_advisors_with_paths(cls, test_runner, lowercase: bool) -> tuple[list, dict]:
-        """Parse all files and return the list with all advisors code anjd their paths
-
-        Args:
-            test_runner (test_runner): Contains filepaths
-
-        Returns:
-            list: all advisors roles captured for each character (not including non-advisor code) and their paths
+            if lowercase - tuple[list, dict]: list with advisors code and dict with advisors filenames
+            else - list: list with advisors code
         """
         filepath_to_characters = f'{test_runner.full_path_to_mod}common\\characters\\'
         advisors = []
         paths = {}
-        
+
         for filename in glob.iglob(filepath_to_characters + '**/*.txt', recursive=True):
             if lowercase:
                 text_file = FileOpener.open_text_file(filename)
@@ -119,11 +71,13 @@ class Characters:
                     advisors.append(match)
                     paths[match] = os.path.basename(filename)
 
-        return (advisors, paths)
+        if return_paths:
+            return (advisors, paths)
+        else:
+            return advisors
 
-    
     @classmethod
-    def get_advisors_traits(cls, test_runner, trait_type: str, lowercase: bool) -> list[str]:
+    def get_advisors_traits(cls, test_runner, trait_type: str, lowercase: bool = True) -> list[str]:
         """Parse common\\country_leader\\xxx.txt and return the list with all advisor traits
 
         Args:
@@ -136,7 +90,7 @@ class Characters:
         """
         filepath_to_traits = f'{test_runner.full_path_to_mod}common\\country_leader\\KR_{trait_type}_traits.txt'
         traits = []
-        
+
         if lowercase:
             text_file = FileOpener.open_text_file(filepath_to_traits)
         else:

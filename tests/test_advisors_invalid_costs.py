@@ -9,7 +9,7 @@ import re
 
 
 def test_check_advisors_invalid_costs(test_runner: object):
-    advisors = Characters.get_all_advisors(test_runner=test_runner, lowercase=True)
+    advisors = Characters.get_all_advisors(test_runner=test_runner)
     results = []
     special_theorists = (
         'kr_mobile_warfare_expert',
