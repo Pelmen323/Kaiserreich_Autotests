@@ -24,7 +24,7 @@ def test_check_characters_missing_idea_tokens(test_runner: object):
                     match = match[19:].strip().lower()
                     idea_tokens[match] = 0
                     paths[match] = os.path.basename(filename)
-                    
+
         if 'deactivate_advisor' in text_file:
             pattern_matches = re.findall("deactivate_advisor = [\\w_']*", text_file)
             if len(pattern_matches) > 0:
@@ -37,8 +37,8 @@ def test_check_characters_missing_idea_tokens(test_runner: object):
     idea_tokens = DataCleaner.clear_false_positives(input_iter=idea_tokens, false_positives=FALSE_POSITIVES)
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
-         
-        not_encountered_tokens = [i for i in idea_tokens.keys() if idea_tokens[i] == 0]         
+
+        not_encountered_tokens = [i for i in idea_tokens.keys() if idea_tokens[i] == 0]
         if 'idea_token' in text_file:
             for token in not_encountered_tokens:
                 pattern = f'idea_token = {token}\\b'

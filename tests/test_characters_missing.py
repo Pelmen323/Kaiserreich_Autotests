@@ -5,7 +5,7 @@
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 import logging
 
 

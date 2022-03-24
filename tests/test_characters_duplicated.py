@@ -2,34 +2,32 @@
 # Test script to check for duplicated characters
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-import glob
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
-import os
-import logging
+from ..test_classes.generic_test_class import ResultsReporter
+from ..test_classes.characters_class import Characters
+FALSE_POSITIVES = (
+    'abdallah_ibn_mitab_ibn_abd_al_aziz_al_rashid',
+    'abdallah_ibn_talal_al_rashid',
+    'clement_attlee',
+    'hugh_gaitskell',
+    'george_v',
+    'saud_al_subhan',
+    'muhammad_ibn_talil_al_rashid',
+    'parliament',
+)
 
 
 def test_check_duplicated_characters(test_runner: object):
-    path_to_character_files = f'{test_runner.full_path_to_mod}common\\characters\\'
-    characters = []
-    characters_full = []
-# Part 1 - get the dict of character usages
-    for filename in glob.iglob(path_to_character_files + '**/*.txt', recursive=True):
-        text_file = FileOpener.open_text_file(filename)
+    characters, paths = Characters.get_all_characters(test_runner=test_runner, return_paths=True)
+    character_names = []
+    character_names_full_data = []
 
-        text_file_splitted = text_file.split('\n')[1:]
-        for line in range(len(text_file_splitted)):
-            current_line = text_file_splitted[line]
-            pattern_matches = re.findall('^\t\\w+ =', current_line)
-            if len(pattern_matches) > 0:
-                for match in pattern_matches:
-                    match = match[:-1].strip('\t').strip().lower()
-                    characters.append(match[4:])
-                    characters_full.append((match[4:], match, os.path.basename(filename)))
+    for char in characters:
+        char_name = re.findall('^\\t(.+) =', char)[0]
+        char_name_short = char_name[4:]
+        character_names.append(char_name_short)
+        character_names_full_data.append((char_name_short, char_name, paths[char]))
 
-# Part 2 - get duplicates
-    logging.debug(f'{len(characters)} characters found')  
-    results = sorted([(value, characters_full[i]) for i, value in enumerate(characters) if characters.count(value) > 1])
+    results = sorted([character_names_full_data[i] for i, value in enumerate(character_names) if character_names.count(value) > 1 and value not in FALSE_POSITIVES])
 
-# Part 3 - throw the error if character is not found
     ResultsReporter.report_results(results=results, message="Duplicated characters were encountered. Check console output")

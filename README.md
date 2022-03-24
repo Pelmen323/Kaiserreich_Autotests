@@ -18,10 +18,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - invalid advisors costs test
 - invalid advisors ledger lines test
 - invalid advisors `not_already_hired_except_as` lines values
-- SIC advisors with invalid traits test
-- political advisors with invalid traits test
-- military advisors with invalid traits test (hc, air chief, army chief, navy chief)
-- theorists advisors with invalid traits test
+- advisors with invalid traits tests (all advisors slots)
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
