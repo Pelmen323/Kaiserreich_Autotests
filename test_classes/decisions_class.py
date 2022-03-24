@@ -1,5 +1,6 @@
 import glob
 import re
+import os
 from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 
 
@@ -66,3 +67,37 @@ class Decisions:
                             match = match[10:].strip()
                             decisions.append(match)
         return decisions
+
+    @classmethod
+    def get_all_decisions_with_paths(cls, test_runner, lowercase: bool) -> list:
+        """Parse decisions file and return the list of all decisions code
+
+        Args:
+            test_runner (test_runner): Contains filepaths
+
+        Returns:
+            list: all decisions code in mod folder
+            dict: paths for decisions
+        """
+        filepath_to_events = f'{test_runner.full_path_to_mod}common\\decisions\\'
+        decisions = []
+        paths = {}
+        
+        for filename in glob.iglob(filepath_to_events + '**/*.txt', recursive=True):
+            if '\\categories' in filename:
+                continue
+            if lowercase:
+                text_file = FileOpener.open_text_file(filename)
+            else:
+                text_file = FileOpener.open_text_file_non_lower(filename)
+
+            pattern_matches = re.findall('((?<=\n)\\t\\w* = \\{.*\n(.|\n*?)*\n\\t\\})', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[0]
+                    decisions.append(match)
+                    paths[match] = os.path.basename(filename)
+
+        return (decisions, paths)
+
+

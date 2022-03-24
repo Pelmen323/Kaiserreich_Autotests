@@ -1,5 +1,6 @@
 import glob
 import re
+import os
 from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 
 
@@ -35,6 +36,39 @@ class Events:
                         events.append(match)
 
         return events
+    
+    
+    @classmethod
+    def get_all_events_with_paths(cls, test_runner, lowercase: bool) -> list:
+        """Parse events file and return the list of all events code
+
+        Args:
+            test_runner (test_runner): Contains filepaths
+
+        Returns:
+            list: all events code in mod folder
+            dict: paths for events
+        """
+        filepath_to_events = f'{test_runner.full_path_to_mod}events\\'
+        events = []
+        paths = {}
+        
+        for filename in glob.iglob(filepath_to_events + '**/*.txt', recursive=True):
+            if '\\categories' in filename:
+                continue
+            if lowercase:
+                text_file = FileOpener.open_text_file(filename)
+            else:
+                text_file = FileOpener.open_text_file_non_lower(filename)
+
+            pattern_matches = re.findall('((?<=\n)country_event = \\{.*\n(.|\n*?)*\n\\})', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    match = match[0]
+                    events.append(match)
+                    paths[match] = os.path.basename(filename)
+
+        return (events, paths)
 
 
     @classmethod

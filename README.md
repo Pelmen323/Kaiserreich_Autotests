@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-64 tests:
+67 tests:
 
 *Advisors tests*
 - usage of non-unique advisor tokens test (it causes bugs all over the place. Advisors should have unique tokens)
@@ -80,6 +80,10 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 *Opinion modifiers tests:*
 - unused opinion modifiers test (finds all opinion modifiers that are set but never checked)
 
+*Performance tests*
+- usage of conditions that can be converted to 'is_ally_with' condition instead test
+- focuses/decisions/events that can be optimized by using ideology flags tests
+
 *Scripted triggers and effects tests:*
 - unused scripted triggers test (finds all scripted triggers that are not used)
 - unused scripted effects test (finds all scripted effects that are not used)
@@ -91,7 +95,6 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 
 *Syntax tests:*
 - missing 'limit' expression in if/elif conditions test
-- usage of conditions that can be converted to 'is_ally_with' condition instead test
 - usage of outdated syntax for armor equipment bonuses test (_equipment -> _chassis)
 - usage of DLC-locked armor chassis for non NSB owners and vice versa test (owners of NSB have specific armor equipment available; non-DLC players have their own. Checks if these two types of equipment are not mixed)
 - usage of outdated syntax for doctrines cost reduction test (tech_bonus -> doctrine_cost_reduction)
