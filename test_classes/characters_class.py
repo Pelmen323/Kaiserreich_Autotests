@@ -77,18 +77,22 @@ class Characters:
             return advisors
 
     @classmethod
-    def get_advisors_traits(cls, test_runner, trait_type: str, lowercase: bool = True) -> list[str]:
+    def get_advisors_traits(cls, test_runner, trait_type: str = None, lowercase: bool = True, path: str = None) -> list[str]:
         """Parse common\\country_leader\\xxx.txt and return the list with all advisor traits
 
         Args:
             test_runner (_type_): Contains filepaths
             trait_type (str): Str - any of (second_in_command, political_advisor, high_command, theorist, air_chief, army_chief, navy_chief)
             lowercase (bool): if returned str is lowercase or not
+            path(str): optional path to file with traits
 
         Returns:
             list[str]: all traits from a file (only traits names)
         """
-        filepath_to_traits = f'{test_runner.full_path_to_mod}common\\country_leader\\KR_{trait_type}_traits.txt'
+        if path is None:
+            filepath_to_traits = f'{test_runner.full_path_to_mod}common\\country_leader\\KR_{trait_type}_traits.txt'
+        else:
+            filepath_to_traits = path
         traits = []
 
         if lowercase:

@@ -21,6 +21,7 @@ def test_check_advisors_invalid_costs(test_runner: object):
         'kr_naval_aviation_pioneer',
         'kr_grand_fleet_proponent',
         'kr_submarine_specialist',
+        'fra_atomic_pair',
     )
 
     for adv in advisors:
@@ -34,21 +35,26 @@ def test_check_advisors_invalid_costs(test_runner: object):
         genius_role = adv.count('_3') > 0
         theorist_role = adv.count('slot = theorist') > 0
         advisor_name = re.findall('idea_token = .*', adv)
+        defined_cost = adv.count('cost =') > 0
 
         if specialist_role:
-            if 'cost =' in adv:
+            if defined_cost:
                 if 'cost = 50' not in adv:
                     results.append((advisor_name, "Specialist level - should cost 50"))
 
         elif expert_role:
-            if 'cost =' in adv:
+            if defined_cost:
                 if 'cost = 100' not in adv:
                     results.append((advisor_name, "Expert level - should cost 100"))
+            else:
+                results.append((advisor_name, "Expert level - should cost 100"))
 
         elif genius_role:
-            if 'cost =' in adv:
+            if defined_cost:
                 if 'cost = 200' not in adv:
                     results.append((advisor_name, "Genius level - should cost 200"))
+            else:
+                results.append((advisor_name, "Genius level - should cost 200"))
 
         elif theorist_role:
             for role in special_theorists:
@@ -56,10 +62,15 @@ def test_check_advisors_invalid_costs(test_runner: object):
                     spec_role = True
 
             if spec_role:
-                if 'cost = 150' not in adv:
+                if defined_cost:
+                    if 'cost = 150' not in adv:
+                        results.append((advisor_name, "Special theorist - should cost 150"))
+                else:
                     results.append((advisor_name, "Special theorist - should cost 150"))
 
-            elif 'cost = 100' not in adv and 'cost =' in adv:
-                results.append((advisor_name, "Non-special theorist - should cost 100"))
+            else:
+                if defined_cost:
+                    if 'cost = 100' not in adv:
+                        results.append((advisor_name, "Non-special theorist - should cost 100"))
 
     ResultsReporter.report_results(results=results, message="Non-conventional advisor cost (should be 50, 100 or 200 for military advisors, 150 for doctrine theorists and 100 for other theorists) encountered. Check console output")

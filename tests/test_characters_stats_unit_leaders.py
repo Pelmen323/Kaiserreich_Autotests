@@ -1,89 +1,75 @@
 ##########################
 # Test script to check if generals and admirals have relevant stats
 # If admiral uses general stats, the game will not throw an error :pdx: pls
-# Checks if generals/admirals use correct stats
-# Checks both character files and each other file
+# Checks if generals/admirals use correct stats and correct sums of stats
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-import os
-import glob
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
-import logging
+from ..test_classes.generic_test_class import ResultsReporter
+from ..test_classes.characters_class import Characters
 
 
 def test_check_generals_and_admiral_stats(test_runner: object):
-    filepath = f'{test_runner.full_path_to_mod}common\\characters\\'
+    characters, paths = Characters.get_all_characters(test_runner=test_runner, return_paths=True)
     results = {}
-    os.chdir(filepath)
 
-    for filename in glob.glob("*.txt"):
-        text_file = FileOpener.open_text_file(filename)
+    # Check stats in characters files
+    for char in characters:
 
-        admirals_in_file = len(re.findall("navy_leader = \\{", text_file))
-        corps_commanders_in_file = len(re.findall("corps_commander = \\{", text_file))
-        field_marshals_in_file = len(re.findall("field_marshal = \\{", text_file))
-
-        atk_skill_num = len(re.findall("attack_skill = ", text_file))
-        dfs_skill_num = len(re.findall("defense_skill = ", text_file))
-        pln_skill_num = len(re.findall("planning_skill = ", text_file))
-        log_skill_num = len(re.findall("logistics_skill = ", text_file))
-        mnvr_skill_num = len(re.findall("maneuvering_skill = ", text_file))
-        coord_skill_num = len(re.findall("coordination_skill = ", text_file))
-
-        total_num_of_commanders = admirals_in_file + corps_commanders_in_file + field_marshals_in_file
-        total_num_of_land_commanders = corps_commanders_in_file + field_marshals_in_file
-
-        if atk_skill_num != total_num_of_commanders:
-            results[f'{os.path.basename(filename)}, attack_skill'] = f'Num of attack_skill encountered ({atk_skill_num}) is not equal to commanders number ({total_num_of_commanders})'
-        if dfs_skill_num != total_num_of_commanders:
-            results[f'{os.path.basename(filename)}, defense_skill'] = f'Num of defense_skill encountered ({dfs_skill_num}) is not equal to commanders number ({total_num_of_commanders})'
-        if pln_skill_num != total_num_of_land_commanders:
-            results[f'{os.path.basename(filename)}, planning_skill'] = f'Num of planning_skill encountered ({pln_skill_num}) is not equal to commanders number ({total_num_of_land_commanders})'
-        if log_skill_num != total_num_of_land_commanders:
-            results[f'{os.path.basename(filename)}, logistics_skill'] = f'Num of logistics_skill encountered ({log_skill_num}) is not equal to commanders number ({total_num_of_land_commanders})'
-        if mnvr_skill_num != admirals_in_file:
-            results[f'{os.path.basename(filename)}, maneuvering_skill'] = f'Num of maneuvering_skill encountered ({mnvr_skill_num}) is not equal to admirals number ({admirals_in_file})'
-        if coord_skill_num != admirals_in_file:
-            results[f'{os.path.basename(filename)}, coordination_skill'] = f'Num of coordination_skill encountered ({coord_skill_num}) is not equal to admirals number ({admirals_in_file})'
-
-
-# Part 2 - check add_naval_commander_role
-    filepath = test_runner.full_path_to_mod
-    for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
-        if '\\characters\\' in filename:
+        char_name = re.findall('^\\t(.+) =', char)[0]
+        admiral_role = char.count("navy_leader =") > 0
+        corps_commander_role = char.count("corps_commander =") > 0
+        field_marshal_role = char.count("field_marshal =") > 0
+        if not any([corps_commander_role, field_marshal_role, admiral_role]):
             continue
-        elif '_traits.txt' in filename:
+        # Check if unit leaders have relevant stats
+        if any([corps_commander_role, field_marshal_role]):
+            try:
+                atk_skill = re.findall("attack_skill = (\\d+)", char)[0]
+                dfs_skill = re.findall("defense_skill = (\\d+)", char)[0]
+                pln_skill = re.findall("planning_skill = (\\d+)", char)[0]
+                log_skill = re.findall("logistics_skill = (\\d+)", char)[0]
+                sum_of_stats = int(atk_skill) + int(dfs_skill) + int(pln_skill) + int(log_skill)
+            except IndexError:
+                results[(char_name, paths[char])] = 'Unit leader is missing skills'
+                continue
+
+        elif admiral_role:
+            try:
+                atk_skill = re.findall("attack_skill = (\\d+)", char)[0]
+                dfs_skill = re.findall("defense_skill = (\\d+)", char)[0]
+                mnvr_skill = re.findall("maneuvering_skill = (\\d+)", char)[0]
+                coord_skill = re.findall("coordination_skill = (\\d+)", char)[0]
+                sum_of_stats = int(atk_skill) + int(dfs_skill) + int(mnvr_skill) + int(coord_skill)
+            except IndexError:
+                results[(char_name, paths[char])] = 'Admiral is missing skills'
+                continue
+
+        try:
+            skill_level = int(re.findall("skill = (\\d+)", char)[0])
+        except IndexError:
+            results[(char_name, paths[char])] = 'Character is missing skill level'
             continue
-        text_file = FileOpener.open_text_file(filename)
 
-        if "add_naval_commander_role = {" in text_file or "add_field_marshal_role = {" in text_file or "add_corps_commander_role = {":
-            admirals_in_file = len(re.findall("add_naval_commander_role = \\{", text_file))
-            corps_commanders_in_file = len(re.findall("add_field_marshal_role = \\{", text_file))
-            field_marshals_in_file = len(re.findall("add_corps_commander_role = \\{", text_file))
+        # Check sums of stats
+        if skill_level < 1:
+            results[(char_name, paths[char])] = 'Unit leader has < 1 level'
+        if skill_level == 1:
+            if sum_of_stats != 4:
+                results[(char_name, paths[char])] = 'Level 1 unit leader has more or less than 4 skill points'
+        if skill_level == 2:
+            if sum_of_stats != 7:
+                results[(char_name, paths[char])] = 'Level 2 unit leader has more or less than 7 skill points'
+        if skill_level == 3:
+            if sum_of_stats != 10:
+                results[(char_name, paths[char])] = 'Level 3 unit leader has more or less than 10 skill points'
+        if skill_level == 4:
+            if sum_of_stats != 13:
+                results[(char_name, paths[char])] = 'Level 4 unit leader has more or less than 13 skill points'
+        if skill_level == 5:
+            if sum_of_stats != 16:
+                results[(char_name, paths[char])] = 'Level 5 unit leader has more or less than 16 skill points'
+        if skill_level > 5:
+            results[(char_name, paths[char])] = 'This unit leader level is > 5'
 
-            atk_skill_num = len(re.findall("attack_skill = ", text_file))
-            dfs_skill_num = len(re.findall("defense_skill = ", text_file))
-            pln_skill_num = len(re.findall("planning_skill = ", text_file))
-            log_skill_num = len(re.findall("logistics_skill = ", text_file))
-            mnvr_skill_num = len(re.findall("maneuvering_skill = ", text_file))
-            coord_skill_num = len(re.findall("coordination_skill = ", text_file))
-
-            total_num_of_commanders = admirals_in_file + corps_commanders_in_file + field_marshals_in_file
-            total_num_of_land_commanders = corps_commanders_in_file + field_marshals_in_file
-
-            if atk_skill_num != total_num_of_commanders:
-                results[f'{os.path.basename(filename)}, attack_skill'] = f'Num of attack_skill encountered ({atk_skill_num}) is not equal to commanders number ({total_num_of_commanders})'
-            if dfs_skill_num != total_num_of_commanders:
-                results[f'{os.path.basename(filename)}, defense_skill'] = f'Num of defense_skill encountered ({dfs_skill_num}) is not equal to commanders number ({total_num_of_commanders})'
-            if pln_skill_num != total_num_of_land_commanders:
-                results[f'{os.path.basename(filename)}, planning_skill'] = f'Num of planning_skill encountered ({pln_skill_num}) is not equal to commanders number ({total_num_of_land_commanders})'
-            if log_skill_num != total_num_of_land_commanders:
-                results[f'{os.path.basename(filename)}, logistics_skill'] = f'Num of logistics_skill encountered ({log_skill_num}) is not equal to commanders number ({total_num_of_land_commanders})'
-            if mnvr_skill_num != admirals_in_file:
-                results[f'{os.path.basename(filename)}, maneuvering_skill'] = f'Num of maneuvering_skill encountered ({mnvr_skill_num}) is not equal to admirals number ({admirals_in_file})'
-            if coord_skill_num != admirals_in_file:
-                results[f'{os.path.basename(filename)}, coordination_skill'] = f'Num of coordination_skill encountered ({coord_skill_num}) is not equal to admirals number ({admirals_in_file})'
-
-# Part 3 - Report the results
-    ResultsReporter.report_results(results=results, message="These files don't have matching sums of stats - this means character stats are not matching their level. Check console output")
+    ResultsReporter.report_results(results=results, message="Issues with characters stats sums encountered. Check console output")

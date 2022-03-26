@@ -14,6 +14,9 @@ FALSE_POSITIVES = (
     'saud_al_subhan',
     'muhammad_ibn_talil_al_rashid',
     'parliament',
+    'augusto_barcia_trelles',
+    'dolores_ibarruri_gomez',
+    'juan_iii',
 )
 
 
