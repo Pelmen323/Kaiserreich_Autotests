@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-67 tests:
+66 tests:
 
 *Advisors tests*
 - usage of non-unique advisor tokens test (it causes bugs all over the place. Advisors should have unique tokens)
@@ -22,8 +22,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 
 *Characters tests*
 - missing characters test (finds all characters that are checked via 'character =' or 'has_character =' but never defined)
-- usage of remove_all_leader_roles effect test (the effect causes CTDs. Test verifies that this effect is not used)
-- usage of remove_country_leader_role effect test (the effect causes CTDs. Test verifies that this effect is not used)
+- missing gfx portraits files test
 - unused characters test (characters that exist but never recruited)
 - duplicated characters test
 - characters without loc keys in their names test
