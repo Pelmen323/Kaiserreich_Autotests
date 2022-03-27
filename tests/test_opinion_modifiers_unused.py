@@ -6,7 +6,7 @@ import glob
 import os
 import re
 from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
-FILES_TO_SKIP = ["Vanilla_Opinion_Modifiers",]
+FILES_TO_SKIP = ["Vanilla_Opinion_Modifiers"]
 FALSE_POSITIVES = ("kr_deal_with_devil", "aided_cntfai", "aided_carlist", "aided_spain",)
 
 
@@ -32,7 +32,7 @@ def test_check_opinion_modifiers_unused(test_runner: object):
 
     # 2. Find if modifiers are used:
     dict_with_modifiers = DataCleaner.clear_false_positives(input_iter=dict_with_modifiers, false_positives=FALSE_POSITIVES)
-    
+
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 

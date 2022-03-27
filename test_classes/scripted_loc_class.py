@@ -15,7 +15,7 @@ class Scripted_localisation:
             return_paths (bool, optional): defines if scripted_localisation code is returned with dict that contains their filenames. Defaults to False.
 
         Returns:
-            if lowercase - tuple[list, dict]: list with scripted_localisation names and dict with filenames
+            if return_paths - tuple[list, dict]: list with scripted_localisation names and dict with filenames
             else - list: list with scripted_localisation code
         """
         filepath_to_decisions = f'{test_runner.full_path_to_mod}common\\scripted_localisation\\'
@@ -25,7 +25,7 @@ class Scripted_localisation:
             if lowercase:
                 text_file = FileOpener.open_text_file(filename)
             else:
-                text_file = FileOpener.open_text_file_non_lower(filename)
+                text_file = FileOpener.open_text_file(filename, lowercase=False)
 
             text_file_splitted = text_file.split('\n')[1:]
             for line in range(len(text_file_splitted)):

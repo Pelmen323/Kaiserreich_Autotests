@@ -8,7 +8,7 @@
 import os
 import glob
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 FILES_TO_SKIP = ('00_demobilization_decisions.txt',
                  'ZZ_debug_decisions.txt',
                  'Cyrenaica_decisions.txt',      # Caravans empty decisions

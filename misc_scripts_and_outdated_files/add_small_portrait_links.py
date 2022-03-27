@@ -1,16 +1,16 @@
 ##########################
 # By Pelmen, https://github.com/Pelmen323
+# Only to be run via pytest due to relative imports errors
 ##########################
-import re
-from ..test_classes.generic_test_class import FileOpener
-from ..test_classes.characters_class import Characters
-from ..core.runner import TestRunner
-import glob
 import os
+import re
 import shutil
+import logging
+from ..test_classes.characters_class import Characters
+from ..test_classes.generic_test_class import FileOpener
 
 
-def add_missing_small_portraits(test_runner):
+def test_add_missing_small_portraits(test_runner):
     """Function to:
     1. Check all characters and detect if they are unit leaders
     2. Check if unit leaders have small portraits links
@@ -21,8 +21,8 @@ def add_missing_small_portraits(test_runner):
         test_runner (_type_): test runner obj that contains filepath
     """
     characters, paths = Characters.get_all_characters(test_runner=test_runner, lowercase=False, return_paths=True)
-    results = []
-    results2 = {}
+    path_to_character_files = f'{test_runner.full_path_to_mod}common\\characters\\'
+    dict_with_strings_to_replace = {}
     backslash_char = "\\"
 
     for char in characters:
@@ -31,10 +31,11 @@ def add_missing_small_portraits(test_runner):
         try:
             char_name = re.findall('name = (\\w*)', char)[0]
         except Exception:
-            results.append((char, paths[char], "Missing char name"))
+            logging.error((char, paths[char], "Missing char name"))
             continue
         if unit_leader_role:
-            pattern_matches = re.findall('portraits = \\{.*army = \\{.*small =.*\\}.*\\}', char.replace("\n", "").replace('\t', ""))
+            pattern_matches = re.findall('portraits = \\{.*army = \\{.*small =.*\\}.*\\}', char.replace("\n", "").replace('\t', "")) + \
+                re.findall('portraits = \\{.*navy = \\{.*small =.*\\}.*\\}', char.replace("\n", "").replace('\t', ""))
             if len(pattern_matches) < 1:
                 try:
                     char_tag = char_name[:3]
@@ -63,24 +64,11 @@ def add_missing_small_portraits(test_runner):
                     else:
                         str_to_insert = f"army = {{\n\t\t\t\tsmall = {small_path_write}\n\t\t\t\tlarge = {large_portrait_to_copy_raw}"
                         string_to_replace = f'army = {{\n\t\t\t\tlarge = {large_portrait_to_copy_raw}'
-                    results2[string_to_replace] = str_to_insert
+                    dict_with_strings_to_replace[string_to_replace] = str_to_insert
                 except Exception as ex:
-                    print(ex)
-                    print(char)
-                    continue
+                    logging.error((char, ex))
+                    raise AssertionError
 
-    path_to_character_files = f'{test_runner.full_path_to_mod}common\\characters\\'
-    characters = {}
-    # Get all existing characters and apply changes
-    for filename in glob.iglob(path_to_character_files + '**/*.txt', recursive=True):
-        text_file = FileOpener.open_text_file_non_lower(filename)
-        for key, value in results2.items():
-            if key in text_file:
-                text_file = text_file.replace(key, value)
-
-        with open(filename, 'w', encoding='utf-8') as text_file_write:
-            text_file_write.write(text_file)
-
-if __name__ == '__main__':
-    test_runner = TestRunner(username="Vadzim", mod_name="Kaiserreich Dev Build")
-    add_missing_small_portraits(test_runner=test_runner)
+    FileOpener.replace_all_keys_in_file_with_values(path_to_files=path_to_character_files, dict_with_strings_to_replace=dict_with_strings_to_replace, lowercase=False)
+    for key, value in dict_with_strings_to_replace.items():
+        logging.debug(f'{key} - replaced with {value}')

@@ -16,7 +16,7 @@ class National_focus:
             return_paths (bool, optional): defines if national_focus code is returned with dict that contains their filenames. Defaults to False.
 
         Returns:
-            if lowercase - tuple[list, dict]: list with national_focus code and dict with national_focus filenames
+            if return_paths - tuple[list, dict]: list with national_focus code and dict with national_focus filenames
             else - list: list with national_focus code
         """
         filepath = f'{test_runner.full_path_to_mod}common\\national_focus\\'
@@ -27,7 +27,7 @@ class National_focus:
             if lowercase:
                 text_file = FileOpener.open_text_file(filename)
             else:
-                text_file = FileOpener.open_text_file_non_lower(filename)
+                text_file = FileOpener.open_text_file(filename, lowercase=False)
 
             pattern_matches = re.findall('((?<=\n)\\tfocus = \\{.*\n(.|\n*?)*\n\\t\\})', text_file)
             if len(pattern_matches) > 0:

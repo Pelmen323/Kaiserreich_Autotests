@@ -6,7 +6,7 @@
 ##########################
 import os
 import glob
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_history_files_armor_techs(test_runner: object):

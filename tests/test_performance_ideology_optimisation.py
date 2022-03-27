@@ -3,7 +3,7 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+from ..test_classes.generic_test_class import ResultsReporter
 from ..test_classes.national_focus_class import National_focus
 from ..test_classes.events_class import Events
 from ..test_classes.decisions_class import Decisions
@@ -15,14 +15,13 @@ def test_check_focuses_ideology_optimisations(test_runner: object):
     results = []
 
     for focus in focuses:
-        focus_name = re.findall('\\bid = (\w*)', focus)[0]
+        focus_name = re.findall('\\bid = (\\w*)', focus)[0]
         for bundle in ideology_bundles:
             is_valid_candidate = len([i for i in ideology_bundles[bundle] if i in focus]) == len(ideology_bundles[bundle])
             if is_valid_candidate:
                 results.append((focus_name, paths[focus], f'{bundle} can be used here'))
 
-    if results != []:
-        ResultsReporter.report_results(results=results, message="Focuses - possible candidates for has_xxx_government scripted triggers usage found. Check console output")
+    ResultsReporter.report_results(results=results, message="Focuses - possible candidates for has_xxx_government scripted triggers usage found. Check console output")
 
 
 def test_check_events_ideology_optimisations(test_runner: object):
@@ -38,8 +37,7 @@ def test_check_events_ideology_optimisations(test_runner: object):
                 if is_valid_candidate:
                     results.append((event_name, paths[event], f'{bundle} can be used here'))
 
-    if results != []:
-        ResultsReporter.report_results(results=results, message="Events - possible candidates for has_xxx_government scripted triggers usage found. Check console output")
+    ResultsReporter.report_results(results=results, message="Events - possible candidates for has_xxx_government scripted triggers usage found. Check console output")
 
 
 def test_check_decisions_ideology_optimisations(test_runner: object):
@@ -49,15 +47,12 @@ def test_check_decisions_ideology_optimisations(test_runner: object):
     for decision in decisions:
         try:
             decision_name = re.findall('^\\t(\\b.*\\b) = \\{', decision)[0]
-        except:
-            print(decision)
+        except IndexError:
+            results.append(decision, "Missing decision name?")
             continue
         for bundle in ideology_bundles:
             is_valid_candidate = len([i for i in ideology_bundles[bundle] if i in decision]) == len(ideology_bundles[bundle])
             if is_valid_candidate:
                 results.append((decision_name, paths[decision], f'{bundle} can be used here'))
-     
-    if results != []:           
-        ResultsReporter.report_results(results=results, message="Decisions - possible candidates for has_xxx_government scripted triggers usage found. Check console output")
 
-
+    ResultsReporter.report_results(results=results, message="Decisions - possible candidates for has_xxx_government scripted triggers usage found. Check console output")

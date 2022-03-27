@@ -2,24 +2,24 @@
 # Test script to check for missing events
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 from ..test_classes.events_class import Events
 import glob
 
 
 def test_check_missing_events(test_runner: object):
-# Part 1 - get list of all events
+    # Part 1 - get list of all events
     events = Events.get_all_events_names(test_runner=test_runner, lowercase=True)
-    
-# Part 2 - get triggered events
+
+    # Part 2 - get triggered events
     triggered_events = Events.get_all_triggered_events_names(test_runner=test_runner, lowercase=True)
 
-# Part 3 - throw the error if entity is missing
+    # Part 3 - throw the error if entity is missing
     results = [i for i in triggered_events if events.count(i) == 0]
     results_to_exclude = []
     filepath = test_runner.full_path_to_mod
-    
-    # exclude commented events    
+
+    # exclude commented events
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 

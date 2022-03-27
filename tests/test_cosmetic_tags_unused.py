@@ -5,7 +5,7 @@
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 import logging
 
 
@@ -36,7 +36,7 @@ def test_check_cosmetic_tags_unused(test_runner: object):
             for flag in not_encountered_cosmetic_tags:
                 cosmetic_tags[flag] += text_file.count(f'has_cosmetic_tag = {flag}')
 
-    # Usage in loc           
+    # Usage in loc
     for filename in glob.iglob(filepath + '**/*.yml', recursive=True):
         text_file = FileOpener.open_text_file(filename)
         not_encountered_cosmetic_tags = [i for i in cosmetic_tags.keys() if cosmetic_tags[i] == 0]
@@ -65,23 +65,22 @@ def test_check_cosmetic_tags_unused(test_runner: object):
             if f'{flag}_totalist:' in text_file:
                 cosmetic_tags[flag] += 1
 
-
-    # Usage in country colors       
+    # Usage in country colors
     filepath_cosmetic = f'{test_runner.full_path_to_mod}common\\countries\\cosmetic.txt'
     text_file = FileOpener.open_text_file(filepath_cosmetic)
-    
+
     for flag in not_encountered_cosmetic_tags:
         not_encountered_cosmetic_tags = [i for i in cosmetic_tags.keys() if cosmetic_tags[i] == 0]
         if f'{flag} =' in text_file:
             cosmetic_tags[flag] += 1
-     
+
     # Usage in flags
     country_flags = []
     path_to_flags = f'{test_runner.full_path_to_mod}gfx\\flags\\'
-   
+
     for filename in glob.iglob(path_to_flags + '**/*.tga', recursive=True):
         country_flags.append(os.path.basename(filename.lower())[:-4])
-        
+
     for flag in country_flags:
         not_encountered_cosmetic_tags = [i for i in cosmetic_tags.keys() if cosmetic_tags[i] == 0]
         for remaining_flag in not_encountered_cosmetic_tags:

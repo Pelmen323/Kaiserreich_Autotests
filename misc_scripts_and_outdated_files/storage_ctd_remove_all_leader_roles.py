@@ -3,7 +3,7 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_remove_all_country_leader_roles(test_runner: object):
@@ -11,7 +11,8 @@ def test_check_remove_all_country_leader_roles(test_runner: object):
     file_to_skip = f'{filepath}common\\scripted_effects\\_useful_scripted_effects.txt'
     results = {}
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        if filename == file_to_skip: continue
+        if filename == file_to_skip:
+            continue
 
         text_file = FileOpener.open_text_file(filename)
 

@@ -14,7 +14,7 @@ def test_check_unused_event_targets(test_runner: object):
     filepath = test_runner.full_path_to_mod
     event_targets = {}
     paths = {}
-# Part 1 - get the dict of all global flags
+# Part 1 - get the dict of entities
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 

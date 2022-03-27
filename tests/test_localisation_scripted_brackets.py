@@ -5,7 +5,7 @@
 import glob
 import os
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 from ..data.scripted_localisation_functions import scripted_localisation_functions as test_data_list
 
 
@@ -19,7 +19,7 @@ def test_check_localisation_scripted_brackets(test_runner: object):
         text_file_splitted = text_file.split('\n')[1:]
         for line in range(len(text_file_splitted)):
             current_line = text_file_splitted[line]
-                  
+
             for function in test_data:
                 if function in current_line:
                     num_of_functions_in_line = current_line.count(function)
@@ -27,6 +27,5 @@ def test_check_localisation_scripted_brackets(test_runner: object):
                     pattern_matches = re.findall(pattern, current_line)
                     if num_of_functions_in_line != len(pattern_matches):
                         results[f'{function}, {os.path.basename(filename)}, line {line+2}'] = current_line
-                
-                
+
     ResultsReporter.report_results(results=results, message="Scripted loc syntax issues were found. Check console output")

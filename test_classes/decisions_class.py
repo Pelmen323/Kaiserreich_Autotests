@@ -15,7 +15,7 @@ class Decisions:
             return_paths (bool, optional): defines if decisions code is returned with dict that contains their filenames. Defaults to False.
 
         Returns:
-            if lowercase - tuple[list, dict]: list with decisions code and dict with decisions filenames
+            if return_paths - tuple[list, dict]: list with decisions code and dict with decisions filenames
             else - list: list with decisions code
         """
         filepath_to_events = f'{test_runner.full_path_to_mod}common\\decisions\\'
@@ -28,7 +28,7 @@ class Decisions:
             if lowercase:
                 text_file = FileOpener.open_text_file(filename)
             else:
-                text_file = FileOpener.open_text_file_non_lower(filename)
+                text_file = FileOpener.open_text_file(filename, lowercase=False)
 
             pattern_matches = re.findall('((?<=\n)\\t\\w* = \\{.*\n(.|\n*?)*\n\\t\\})', text_file)
             if len(pattern_matches) > 0:
@@ -61,7 +61,7 @@ class Decisions:
             if lowercase:
                 text_file = FileOpener.open_text_file(filename)
             else:
-                text_file = FileOpener.open_text_file_non_lower(filename)
+                text_file = FileOpener.open_text_file(filename, lowercase=False)
 
             text_file_splitted = text_file.split('\n')[1:]
             for line in range(len(text_file_splitted)):
@@ -91,7 +91,7 @@ class Decisions:
             if lowercase:
                 text_file = FileOpener.open_text_file(filename)
             else:
-                text_file = FileOpener.open_text_file_non_lower(filename)
+                text_file = FileOpener.open_text_file(filename, lowercase=False)
 
             if 'decision =' in text_file:
                 text_file_splitted = text_file.split('\n')[1:]

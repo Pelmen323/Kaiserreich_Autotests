@@ -7,7 +7,7 @@
 import glob
 import re
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 import logging
 
 
@@ -15,7 +15,7 @@ def test_check_unused_global_flags(test_runner: object):
     filepath = test_runner.full_path_to_mod
     global_flags = {}
     paths = {}
-# Part 1 - get the dict of all global flags
+# Part 1 - get the dict of entities
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 

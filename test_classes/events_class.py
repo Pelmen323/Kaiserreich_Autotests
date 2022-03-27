@@ -15,7 +15,7 @@ class Events:
             return_paths (bool, optional): defines if events code is returned with dict that contains their filenames. Defaults to False.
 
         Returns:
-            if lowercase - tuple[list, dict]: list with events code and dict with events filenames
+            if return_paths - tuple[list, dict]: list with events code and dict with events filenames
             else - list: list with events code
         """
         filepath_to_events = f'{test_runner.full_path_to_mod}events\\'
@@ -28,7 +28,7 @@ class Events:
             if lowercase:
                 text_file = FileOpener.open_text_file(filename)
             else:
-                text_file = FileOpener.open_text_file_non_lower(filename)
+                text_file = FileOpener.open_text_file(filename, lowercase=False)
 
             pattern_matches = re.findall('((?<=\n)country_event = \\{.*\n(.|\n*?)*\n\\})', text_file)
             if len(pattern_matches) > 0:
@@ -61,7 +61,7 @@ class Events:
             if lowercase:
                 text_file = FileOpener.open_text_file(filename)
             else:
-                text_file = FileOpener.open_text_file_non_lower(filename)
+                text_file = FileOpener.open_text_file(filename, lowercase=False)
 
             text_file_splitted = text_file.split('\n')[1:]
             for line in range(len(text_file_splitted)):
@@ -94,7 +94,7 @@ class Events:
             if lowercase:
                 text_file = FileOpener.open_text_file(filename)
             else:
-                text_file = FileOpener.open_text_file_non_lower(filename)
+                text_file = FileOpener.open_text_file(filename, lowercase=False)
 
             if "country_event =" in text_file:
                 # 3.0 One-liners w/o brackets

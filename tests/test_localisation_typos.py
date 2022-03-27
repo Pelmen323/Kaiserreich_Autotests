@@ -5,7 +5,7 @@
 import glob
 from ..data.bad_words import bad_words    # Dict with wrong_word : right_word. Bad versions are keys in the dict
 import string
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_find_bad_words(test_runner: object):

@@ -16,7 +16,7 @@ class Characters:
             return_paths (bool, optional): defines if characters code is returned with dict that contains their filenames. Defaults to False.
 
         Returns:
-            if lowercase - tuple[list, dict]: list with characters code and dict with characters filenames
+            if return_paths - tuple[list, dict]: list with characters code and dict with characters filenames
             else - list: list with characters code
         """
         filepath_to_characters = f'{test_runner.full_path_to_mod}common\\characters\\'
@@ -27,7 +27,7 @@ class Characters:
             if lowercase:
                 text_file = FileOpener.open_text_file(filename)
             else:
-                text_file = FileOpener.open_text_file_non_lower(filename)
+                text_file = FileOpener.open_text_file(filename, lowercase=False)
 
             pattern_matches = re.findall('((?<=\n)\t\\w.* = \\{.*\n(.|\n*?)*\n\t\\})', text_file)
             if len(pattern_matches) > 0:
@@ -42,6 +42,32 @@ class Characters:
             return characters
 
     @classmethod
+    def get_all_characters_names(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> tuple[list, dict]:
+        """Parse all files in common/characters and return the list with all characters names
+
+        Args:
+            test_runner (_type_): test runner obj
+            lowercase (bool, optional): defines if returned list contains lowercase str or not. Defaults to True.
+            return_paths (bool, optional): defines if characters names are returned with dict that contains their filenames. Defaults to False.
+
+        Returns:
+            if return_paths - tuple[list, dict]: list with characters names and dict with characters filenames
+            else - list: list with characters names
+        """
+        characters, paths = Characters.get_all_characters(test_runner=test_runner, lowercase=lowercase, return_paths=True)
+        characters_names = []
+        characters_names_paths = {}
+        for char in characters:
+            name = re.findall('^\\t(.+) =', char)[0]
+            characters_names.append(name)       # get all char names
+            characters_names_paths[name] = paths[char]
+
+        if return_paths:
+            return (characters_names, characters_names_paths)
+        else:
+            return characters_names
+
+    @classmethod
     def get_all_advisors(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> tuple[list, dict]:
         """Parse all files in common/characters and return the list with all advisors code
 
@@ -51,7 +77,7 @@ class Characters:
             return_paths (bool, optional): defines if advisors code is returned with dict that contains their filenames. Defaults to False.
 
         Returns:
-            if lowercase - tuple[list, dict]: list with advisors code and dict with advisors filenames
+            if return_paths - tuple[list, dict]: list with advisors code and dict with advisors filenames
             else - list: list with advisors code
         """
         filepath_to_characters = f'{test_runner.full_path_to_mod}common\\characters\\'
@@ -62,7 +88,7 @@ class Characters:
             if lowercase:
                 text_file = FileOpener.open_text_file(filename)
             else:
-                text_file = FileOpener.open_text_file_non_lower(filename)
+                text_file = FileOpener.open_text_file(filename, lowercase=False)
 
             pattern_matches = re.findall('((?<=\n)\t\tadvisor = \\{.*\n(.|\n*?)*\n\t\t\\})', text_file)
             if len(pattern_matches) > 0:
@@ -98,7 +124,7 @@ class Characters:
         if lowercase:
             text_file = FileOpener.open_text_file(filepath_to_traits)
         else:
-            text_file = FileOpener.open_text_file_non_lower(filepath_to_traits)
+            text_file = FileOpener.open_text_file(filepath_to_traits, lowercase=False)
 
         pattern_matches = re.findall('((?<=\n)\t\\w* = \\{)', text_file)
         if len(pattern_matches) > 0:

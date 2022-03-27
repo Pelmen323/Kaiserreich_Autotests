@@ -44,18 +44,18 @@ def test_check_ideas_unused(test_runner: object):
             for key in not_encountered_dict:
                 if f'add_ideas = {key}' in text_file:
                     results_dict[key] += 1
-                    
+
         if 'idea =' in text_file:
             for key in not_encountered_dict:
                 if f'idea = {key}' in text_file:
                     results_dict[key] += 1
-                    
+
         if 'token:' in text_file:
             for key in not_encountered_dict:
                 if f'token:{key}' in text_file:
                     results_dict[key] += 1
-                    
-        if 'add_ideas = {' in text_file:          
+
+        if 'add_ideas = {' in text_file:
             pattern_matches = re.findall('((?<=\n)[ |\t]*add_ideas = \\{.*\n(.|\n*?)*\n\\})', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:

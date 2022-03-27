@@ -21,7 +21,7 @@ def test_check_unused_state_flags(test_runner: object):
     filepath = test_runner.full_path_to_mod
     state_flags = {}
     paths = {}
-# Part 1 - get the dict of all global flags
+# Part 1 - get the dict of entities
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 

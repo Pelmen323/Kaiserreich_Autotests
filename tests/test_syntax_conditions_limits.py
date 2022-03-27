@@ -6,7 +6,7 @@ import os
 import glob
 import re
 from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
-FILES_TO_SKIP = ['\\history\\', '\\tanks\\', '_rename_scripted_effects.txt',]
+FILES_TO_SKIP = ['\\history\\', '\\tanks\\', '_rename_scripted_effects.txt']
 re.DOTALL
 
 
@@ -32,7 +32,7 @@ def test_check_syntax_limits(test_runner: object):
             for match in else_if_count:
                 match = match[0]                                            # Counter empty capture groups
                 container[match] = os.path.basename(filename)
-            
+
         every_state_count = re.findall('(\\bevery_state = \\{.*\n(.|\n*?)*\n\t+\\})', text_file)
         if len(every_state_count) > 0:
             for match in every_state_count:
@@ -60,5 +60,5 @@ def test_check_syntax_limits(test_runner: object):
     for effect in container.keys():
         if 'limit = {' not in effect:
             results[effect] = container[effect]
-        
+
     ResultsReporter.report_results(results=results, message="Issues with ifs/elifs limit syntax were encountered. Check console output")
