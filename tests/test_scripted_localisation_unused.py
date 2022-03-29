@@ -18,6 +18,8 @@ def test_check_localisation_scripted_brackets(test_runner: object):
         for loc in not_encountered_results:
             if f'{loc}]' in text_file:
                 results[loc] += 1
+            elif f'{loc}|' in text_file:
+                results[loc] += 1
 
     for filename in glob.iglob(filepath + '**/*.yml', recursive=True):
         text_file = FileOpener.open_text_file(filename)
