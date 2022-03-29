@@ -6,7 +6,7 @@ import glob
 import os
 import re
 from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
-FILES_TO_SKIP = ["_Generic_ideas.txt", 'Army Spirits.txt', 'air_spirits.txt', 'Navy Spirits.txt',]
+FILES_TO_SKIP = ["00 Generic Ideas.txt", '01 Army Spirits.txt', '01 Air Spirits.txt', '01 Navy Spirits.txt']
 FALSE_POSITIVES = ('hai_foreign_control_dummy',)
 
 

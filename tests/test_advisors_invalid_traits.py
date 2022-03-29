@@ -21,7 +21,6 @@ def test_check_advisors_military_invalid_traits(test_runner: object, trait_type)
     advisors, paths = Characters.get_all_advisors(test_runner=test_runner, return_paths=True)
     advisor_traits = Characters.get_advisors_traits(test_runner=test_runner, trait_type=trait_type, lowercase=True)
     if trait_type == "political_advisor":
-        advisor_traits += Characters.get_advisors_traits(test_runner=test_runner, lowercase=True, path=f'{test_runner.full_path_to_mod}common\\country_leader\\GBR_advisors.txt')
         advisor_traits += Characters.get_advisors_traits(test_runner=test_runner, lowercase=True, path=f'{test_runner.full_path_to_mod}common\\country_leader\\head_of_state.txt')
         advisor_traits += Characters.get_advisors_traits(test_runner=test_runner, lowercase=True, path=f'{test_runner.full_path_to_mod}common\\country_leader\\USA_head_of_state.txt')
     results = []
@@ -47,8 +46,7 @@ def test_check_advisors_military_invalid_traits(test_runner: object, trait_type)
 
 def test_check_advisors_sic_invalid_traits(test_runner: object):
     advisors, paths = Characters.get_all_advisors(test_runner=test_runner, return_paths=True)
-    advisor_traits = Characters.get_advisors_traits(test_runner=test_runner, trait_type="second_in_command", lowercase=True) + \
-        Characters.get_advisors_traits(test_runner=test_runner, lowercase=True, path=f'{test_runner.full_path_to_mod}common\\country_leader\\GBR_advisors.txt')
+    advisor_traits = Characters.get_advisors_traits(test_runner=test_runner, trait_type="second_in_command", lowercase=True)
     results = []
 
     for adv in advisors:

@@ -18,6 +18,7 @@ FALSE_POSITIVES = (
     'dolores_ibarruri_gomez',
     'juan_iii',
     'national_congress',
+    'army_council',
 )
 
 
