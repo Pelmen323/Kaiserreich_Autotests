@@ -6,7 +6,7 @@ from ..test_classes.generic_test_class import FileOpener
 
 class Scripted_localisation:
     @classmethod
-    def get_scripted_loc_names_with_paths(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> list:
+    def get_scripted_loc_names(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> list:
         """Parse all files in common/scripted_localisation and return the list with all scripted_localisation names
 
         Args:

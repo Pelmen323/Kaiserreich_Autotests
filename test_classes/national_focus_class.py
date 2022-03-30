@@ -7,7 +7,7 @@ from ..test_classes.generic_test_class import FileOpener
 class National_focus:
 
     @classmethod
-    def get_all_national_focuses_with_paths(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> list[str]:
+    def get_all_national_focuses(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> list[str]:
         """Parse all files in common/national_focus and return the list with all national_focus code
 
         Args:

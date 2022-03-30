@@ -69,5 +69,7 @@ def test_check_advisors_sic_invalid_traits(test_runner: object):
                 for trait in two_traits[0]:
                     if trait not in advisor_traits:
                         results.append((advisor_name, paths[adv], f'Invalid SIC trait encountered - {trait}'))
+            if "removal_cost = -1" not in adv:
+                results.append((advisor_name, paths[adv], f'This SIC doesnt have "removal cost = -1" line'))
 
     ResultsReporter.report_results(results=results, message="SIC without second_in_command_trait trait encountered. Check console output")
