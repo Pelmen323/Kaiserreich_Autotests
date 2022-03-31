@@ -9,13 +9,13 @@ import os
 import glob
 import re
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
-FILES_TO_SKIP = ('00_demobilization_decisions.txt',
-                 'ZZ_debug_decisions.txt',
-                 'Cyrenaica_decisions.txt',      # Caravans empty decisions
-                 'Germany_decisions.txt',        # Empty decisions with modifier
-                 'Hunan_decisions.txt',          # Missing icons
-                 'Intermarium_decisions.txt',    # 2 non-ai decisions
-                 'New_England_decisions.txt',)   # 9 empty decisions
+FILES_TO_SKIP = ('00 demobilization decisions.txt',
+                 'ZZ debug decisions.txt',
+                 'LBA decisions (Cyrenaica).txt',      # Caravans empty decisions
+                 'GER decisions (Germany).txt',        # Empty decisions with modifier
+                 'HNN decisions (Hunan).txt',          # Missing icons
+                 '01 Intermarium decisions.txt',    # 2 non-ai decisions
+                 'NEE decisions (New England).txt',)   # 9 empty decisions
 
 
 def test_check_decisions_ai_factors(test_runner: object):
