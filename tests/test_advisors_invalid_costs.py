@@ -44,7 +44,7 @@ def test_check_advisors_invalid_costs(test_runner: object):
         try:
             advisor_name = re.findall('idea_token = (.+)', adv)[0]
         except IndexError:
-            results.append((advisor_name, "Missing advisor token"))
+            results.append((adv, "Missing advisor token"))
 
         if specialist_role:
             if defined_cost:

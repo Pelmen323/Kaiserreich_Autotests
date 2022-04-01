@@ -4,7 +4,7 @@
 ##########################
 import glob
 import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_ideas_equipment_syntax(test_runner: object):

@@ -8,7 +8,7 @@ from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 def test_check_remove_country_leader_role(test_runner: object):
     filepath = test_runner.full_path_to_mod
-    file_to_skip = f'{filepath}common\\scripted_effects\\_useful_scripted_effects.txt'
+    file_to_skip = f'{filepath}common\\scripted_effects\\00_useful_scripted_effects.txt'
     results = {}
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         if filename == file_to_skip:
