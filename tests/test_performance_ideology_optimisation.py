@@ -4,7 +4,6 @@
 ##########################
 import re
 from ..test_classes.generic_test_class import ResultsReporter
-from ..test_classes.national_focus_class import National_focus
 from ..test_classes.events_class import Events
 from ..test_classes.decisions_class import Decisions
 from ..data.ideologies import ideology_bundles
@@ -19,15 +18,19 @@ def test_check_events_ideology_optimisations(test_runner: object):
         if "is_triggered_only = yes" in event:
             continue        # Low prio
         event_name = re.findall('\\bid = (\\b.*\\b)', event)[0]
-
         if event_name in false_positives:
             continue
         trigger_part = re.findall('((?<=\n)\\ttrigger = \\{.*\n(.|\n*?)*\n\\t\\})', event)
         if trigger_part != []:
+            # if "tag = " not in trigger_part[0][0]:
+            #     results.append((event_name, paths[event], 'For some reason this event a tag defined in trigger part'))
             for bundle in ideology_bundles:
                 is_valid_candidate = len([i for i in ideology_bundles[bundle] if i in trigger_part[0][0]]) == len(ideology_bundles[bundle])
                 if is_valid_candidate:
                     results.append((event_name, paths[event], f'{bundle} can be used here'))
+
+        else:
+            results.append((event_name, paths[event], 'For some reason this event doesnt have a trigger part'))
 
     ResultsReporter.report_results(results=results, message="Events - possible candidates for has_xxx_government scripted triggers usage found. Check console output")
 

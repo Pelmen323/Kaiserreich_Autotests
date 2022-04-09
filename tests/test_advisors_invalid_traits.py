@@ -30,7 +30,7 @@ def test_check_advisors_military_invalid_traits(test_runner: object, trait_type)
         adv = Advisors(adv=advisor_code)
         if adv.slot == trait_type:
             if adv.traits == []:
-                results.append((adv.token, paths[adv], 'This advisor trait syntax is multiline - single-line syntax is strongly recommended'))
+                results.append((adv.token, paths[advisor_code], 'This advisor trait syntax is multiline - single-line syntax is strongly recommended'))
                 continue
 
             if not adv.sic_role:
