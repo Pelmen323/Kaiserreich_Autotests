@@ -10,50 +10,6 @@ from ..test_classes.decisions_class import Decisions
 from ..data.ideologies import ideology_bundles
 
 
-def test_check_focuses_ideology_optimisations(test_runner: object):
-    focuses, paths = National_focus.get_all_national_focuses(test_runner=test_runner, lowercase=True, return_paths=True)
-    results = []
-
-    for focus in focuses:
-        available_part = None
-        visible_part = None
-        is_valid_candidate_available = False
-        is_valid_candidate_visible = False
-        try:
-            focus_name = re.findall('\\bid = (\\w*)', focus)[0]
-        except IndexError:
-            results.append(focus, "Missing focus name?")
-            continue
-        try:
-            if "available = {" in focus:
-                available_part = re.findall('((?<=\n)\\t\\tavailable = \\{.*\n(.|\n*?)*\n\\t\\t\\})', focus)
-                available_part2 = re.findall('((?<=\n)\\t\\tavailable = \\{.*\\})', focus)
-                if available_part2 != []:
-                    available_part = available_part2[0][0]
-                else:
-                    available_part = available_part[0][0]
-            if "visible = {" in focus:
-                visible_part = re.findall('((?<=\n)\\t\\tvisible = \\{.*\n(.|\n*?)*\n\\t\\t\\})', focus)
-                visible_part2 = re.findall('((?<=\n)\\t\\tvisible = \\{.*\\})', focus)
-                if visible_part != []:
-                    visible_part = visible_part2[0][0]
-                else:
-                    visible_part = visible_part[0][0]
-            for bundle in ideology_bundles:
-                if available_part is not None:
-                    is_valid_candidate_available = len([i for i in ideology_bundles[bundle] if i in available_part]) == len(ideology_bundles[bundle])
-                if visible_part is not None:
-                    is_valid_candidate_visible = len([i for i in ideology_bundles[bundle] if i in visible_part]) == len(ideology_bundles[bundle])
-                if any([is_valid_candidate_available, is_valid_candidate_visible]):
-                    results.append((focus_name, paths[focus], f'{bundle} can be used here'))
-        except IndexError:
-            print(focus)
-            results.append((focus_name, paths[focus], 'Visible/available parts are commented or empty'))
-            raise
-
-    ResultsReporter.report_results(results=results, message="Focuses - possible candidates for has_xxx_government scripted triggers usage found. Check console output")
-
-
 def test_check_events_ideology_optimisations(test_runner: object):
     events, paths = Events.get_all_events(test_runner=test_runner, lowercase=True, return_paths=True)
     results = []
