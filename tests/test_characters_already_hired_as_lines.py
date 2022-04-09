@@ -5,6 +5,7 @@
 import re
 from ..test_classes.generic_test_class import ResultsReporter
 from ..test_classes.characters_class import Characters
+FALSE_POSITIVES = 'eth_'                     # convert to list if more added here
 
 
 def test_check_characters_already_hired(test_runner: object):
@@ -18,6 +19,8 @@ def test_check_characters_already_hired(test_runner: object):
         sic_status = char.count('slot = second_in_command')
         not_already_hired_status = char.count('not_already_hired_except_as')
 
+        if FALSE_POSITIVES in char_name:
+            continue
         if two_advisor_roles:
             if sic_status == 0:
                 if not_already_hired_status < 2:

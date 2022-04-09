@@ -4,6 +4,7 @@
 ##########################
 from ..test_classes.generic_test_class import ResultsReporter
 from ..test_classes.characters_class import Characters, Advisors
+from ..data.advisor_traits import air_theorists_traits, army_theorists_traits, navy_theorists_traits
 
 
 def test_check_advisors_invalid_ledger(test_runner: object):
@@ -21,21 +22,38 @@ def test_check_advisors_invalid_ledger(test_runner: object):
                 results.append((adv.token, "Ledger slot is not needed here"))
 
         else:
-            if "KR_council_of_theorists" in advisor_code:
-                if "ledger = military" not in advisor_code:
-                    results.append((adv.token, "Ledger slot 'military' is required here"))
+            if adv.hc_role:
+                if len(adv.traits) == 1:
+                    found_trait = ''.join(adv.traits)
+                    if found_trait in army_hc_advisor_traits:
+                        if adv.ledger_slot != "army":
+                            results.append((adv.token, f"Ledger slot 'army' is required here, found trait - {found_trait}"))
+                    elif found_trait in navy_hc_advisor_traits:
+                        if adv.ledger_slot != "navy":
+                            results.append((adv.token, f"Ledger slot 'navy' is required here, found trait - {found_trait}"))
+                    elif found_trait in air_hc_advisor_traits:
+                        if adv.ledger_slot != "air":
+                            results.append((adv.token, f"Ledger slot 'air' is required here, found trait - {found_trait}"))
 
-            if len(adv.traits) == 1:
-                found_trait = ''.join(adv.traits)
-                if found_trait in army_hc_advisor_traits:
-                    if adv.ledger_slot != "army":
-                        results.append((adv.token, "Ledger slot 'army' is required here"))
-                elif found_trait in navy_hc_advisor_traits:
-                    if adv.ledger_slot != "navy":
-                        results.append((adv.token, "Ledger slot 'navy' is required here"))
-                elif found_trait in air_hc_advisor_traits:
-                    if adv.ledger_slot != "air":
-                        results.append((adv.token, "Ledger slot 'air' is required here"))
+            elif adv.theorist_role:
+                if "kr_council_of_theorists" in advisor_code:
+                    if "ledger = military" not in advisor_code:
+                        results.append((adv.token, f"Ledger slot 'military' is required here, found trait - {found_trait}"))
+
+                else:
+                    found_trait = ''.join(adv.traits)
+                    if found_trait in army_theorists_traits:
+                        if adv.ledger_slot != "army":
+                            results.append((adv.token, f"Ledger slot 'army' is required here, found trait - {found_trait}"))
+                    elif found_trait in navy_theorists_traits:
+                        if adv.ledger_slot != "navy":
+                            results.append((adv.token, f"Ledger slot 'navy' is required here, found trait - {found_trait}"))
+                    elif found_trait in air_theorists_traits:
+                        if adv.ledger_slot != "air":
+                            results.append((adv.token, f"Ledger slot 'air' is required here, found trait - {found_trait}"))
+                    else:
+                        if adv.ledger_slot != "civilian":
+                            results.append((adv.token, f"Ledger slot 'civilian' is required here, found trait - {found_trait}"))
 
             if not adv.has_ledger_slot:
                 results.append((adv.token, "Ledger slot is required here"))
