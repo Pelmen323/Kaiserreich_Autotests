@@ -221,11 +221,6 @@ class Advisors:
         self.sic_role = adv.count('slot = second_in_command') == 1
         self.unknown_role = any([self.military_role, self.political_role, self.sic_role]) is False
 
-        # Advisor_level - military
-        self.specialist_lvl = adv.count('_1') == 1
-        self.expert_lvl = adv.count('_2') == 1
-        self.genius_lvl = adv.count('_3') == 1
-
         # Ledger
         self.has_ledger_slot = adv.count('ledger =') > 0
         if self.has_ledger_slot:
@@ -286,3 +281,14 @@ class Advisors:
                 self.traits = [i for i in traits_code.split(" ")]
             else:
                 self.traits.append(traits_code)
+
+        # Advisor_level - military
+        self.military_trait_lvl = None
+        if len([i for i in self.traits if '_1' in i]) > 0 and self.military_role:
+            self.military_trait_lvl = "specialist"
+        if len([i for i in self.traits if '_2' in i]) > 0 and self.military_role:
+            self.military_trait_lvl = "expert"
+        if len([i for i in self.traits if '_3' in i]) > 0 and self.military_role:
+            self.military_trait_lvl = "genius"
+        if self.military_role and self.military_trait_lvl is None:
+            self.military_trait_lvl = "specialist"

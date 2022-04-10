@@ -19,17 +19,20 @@ def test_check_advisors_invalid_costs(test_runner: object):
 
         # Costs checks #
         # Costs check - military
-        if adv.specialist_lvl:
-            if adv.cost != 50:
-                results.append((adv.token, f"Specialist level - should cost 50, but got {adv.cost}"))
+        if adv.military_role and not adv.theorist_role:
+            if adv.military_trait_lvl == "specialist":
+                if adv.cost != 50:
+                    results.append((adv.token, f"Specialist level - should cost 50, but got {adv.cost}"))
 
-        elif adv.expert_lvl:
-            if adv.cost != 100:
-                results.append((adv.token, f"Expert level - should cost 100, but got {adv.cost}"))
+            elif adv.military_trait_lvl == "expert":
+                if adv.cost != 100:
+                    results.append((adv.token, f"Expert level - should cost 100, but got {adv.cost}"))
 
-        elif adv.genius_lvl:
-            if adv.cost != 200:
-                results.append((adv.token, f"Genius level - should cost 200, but got {adv.cost}"))
+            elif adv.military_trait_lvl == "genius":
+                if adv.cost != 200:
+                    results.append((adv.token, f"Genius level - should cost 200, but got {adv.cost}"))
+            else:
+                results.append((adv.token, f"Unknown advisor level - got {adv.cost} cost"))
 
         # Costs check - theorists
         elif adv.theorist_role:
@@ -46,6 +49,10 @@ def test_check_advisors_invalid_costs(test_runner: object):
                 results.append((adv.token, f"SIC - should have 'cost = 0' line, but got {adv.cost}"))
             if adv.sic_has_correct_removal_cost is False:
                 results.append((adv.token, "SIC - should have 'removal_cost = -1' line"))
+
+        elif adv.political_role:
+            if 0 > adv.cost < 50:
+                results.append((adv.token, f"This political advisor costs {adv.cost} - are you sure this is correct?"))
 
         # Unknown role check
         if adv.unknown_role:
