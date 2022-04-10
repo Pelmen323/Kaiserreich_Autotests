@@ -13,7 +13,7 @@ def test_check_characters_already_hired(test_runner: object):
     results = []
 
     for char in characters:
-        char_name = re.findall('name = .*', char)
+        char_name = re.findall('name = (.*)', char)[0]
         two_advisor_roles = char.count('advisor = {') == 2
         three_advisor_roles = char.count('advisor = {') == 3
         sic_status = char.count('slot = second_in_command')

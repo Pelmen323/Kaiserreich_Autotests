@@ -230,6 +230,8 @@ class Advisors:
         self.has_ledger_slot = adv.count('ledger =') > 0
         if self.has_ledger_slot:
             self.ledger_slot = re.findall('ledger = (\\w+)', adv)[0]
+        else:
+            self.ledger_slot = None
 
         # Theorists
         special_theorists_traits = (
