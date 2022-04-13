@@ -68,6 +68,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - localization files unused loc entries
 - Scripted loc brackets usage (finds oddities with vanilla scripted loc functions usage, such as missing brackets or unexpected following characters)
 - Unused scripted loc test
+- Usage of inline loc in scripted localisation files
 
 *OOB files tests:*
 - unused OOB files (files with unit templates and/or division/ships spawns that are not used)

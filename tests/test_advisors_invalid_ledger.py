@@ -40,6 +40,10 @@ def test_check_advisors_invalid_ledger(test_runner: object):
                     if "ledger = military" not in advisor_code:
                         results.append((adv.token, f"Ledger slot 'military' is required here, found trait - {found_trait}"))
 
+                elif any(["fng_the_old_marshals_clique" in advisor_code, "fng_on_daring_wings" in advisor_code, "fng_the_shikan_clique" in advisor_code]):
+                    if "ledger = army" not in advisor_code:
+                        results.append((adv.token, f"Ledger slot 'army' is required here, found trait - {found_trait}"))
+
                 else:
                     found_trait = ''.join(adv.traits)
                     if found_trait in army_theorists_traits:

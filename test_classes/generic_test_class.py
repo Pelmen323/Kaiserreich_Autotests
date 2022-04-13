@@ -121,7 +121,7 @@ class ResultsReporter:
         """
 
         if len(results) > 0:
-            logging.warning("Following issues were encountered during test execution:")
+            logging.warning("The following issues were encountered during test execution:")
 
             if isinstance(results, list):
                 if paths == {}:
