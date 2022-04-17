@@ -6,7 +6,7 @@ import glob
 import re
 import os
 from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
-FALSE_POSITIVES = ('ger_august_von_mackensen', 'qie_wu_peifu',)
+FALSE_POSITIVES = ('ger_august_von_mackensen', 'qie_wu_peifu', 'empowered_trade_unions_sic', 'empowered_executive_sic', 'empowered_legislative_sic')
 
 
 def test_check_characters_missing_idea_tokens(test_runner: object):
