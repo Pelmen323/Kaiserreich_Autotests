@@ -38,6 +38,14 @@ def test_check_missing_characters(test_runner: object):
                         characters_usages.append(match)
                         paths[match] = os.path.basename(filename)
 
+            pattern_matches = re.findall('\\bis_character = \\w*', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    if 'event_target' not in match:
+                        match = match[14:].strip().lower()
+                        characters_usages.append(match)
+                        paths[match] = os.path.basename(filename)
+
     logging.debug(f'{len(characters_usages)} character usages found')
 
     # Get all characters names
