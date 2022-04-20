@@ -256,8 +256,10 @@ class Advisors:
                 self.cost = int(re.findall('cost = (\\d+)', adv)[0])
             except Exception:
                 self.cost = -1
-        elif self.theorist_role or self.political_role:
+        elif self.theorist_role:
             self.cost = 100
+        elif self.political_role:
+            self.cost = 150
         elif self.military_role:
             self.cost = 50
         else:

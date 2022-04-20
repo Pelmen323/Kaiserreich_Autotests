@@ -36,7 +36,7 @@ def test_check_events_ideology_optimisations(test_runner: object):
 
 
 def test_check_decisions_ideology_optimisations(test_runner: object):
-    decisions, paths = Decisions.get_all_decisions_with_paths(test_runner=test_runner, lowercase=True, return_paths=True)
+    decisions, paths = Decisions.get_all_decisions(test_runner=test_runner, lowercase=True, return_paths=True)
     results = []
     false_positives = ('bul_join_reichspakt', 'can_support_government', 'lat_visit_to_rus', 'wif_combat_illegal_french_activity',)
     for decision in decisions:

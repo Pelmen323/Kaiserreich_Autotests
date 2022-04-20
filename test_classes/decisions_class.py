@@ -2,11 +2,12 @@ import glob
 import re
 import os
 from ..test_classes.generic_test_class import FileOpener
+import logging
 
 
 class Decisions:
     @classmethod
-    def get_all_decisions_with_paths(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> list:
+    def get_all_decisions(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> list:
         """Parse all files in common/decisions and return the list with all decisions code
 
         Args:
@@ -103,3 +104,33 @@ class Decisions:
                             match = match[10:].strip()
                             decisions.append(match)
         return decisions
+
+
+class DecisionsFactory:
+    def __init__(self, dec: str) -> None:
+        # Decision token
+        try:
+            self.token = re.match('(.+) = \\{', dec).group(1)
+        except AttributeError:
+            self.token = None
+            logging.error(f"Missing decision token, {dec}")
+
+        try:
+            self.icon = re.findall('icon = (.+)', dec)[0]
+        except IndexError:
+            self.icon = None
+            logging.error(f"Missing decision icon, {self.token}")
+
+        self.allowed = re.findall('\\t\\t+allowed = (\\{.*\\}|\\{.*\n(.|\n*?)*?\n\\t\\t\\})', dec)[0][0] if '	allowed =' in dec else "Missing"
+        self.available = re.findall('\\t\\t+available = (\\{.*\\}|\\{.*\n(.|\n*?)*?\n\\t\\t\\})', dec)[0][0] if '	available =' in dec else "Missing"
+        self.visible = re.findall('\\t\\t+visible = (\\{.*\\}|\\{.*\n(.|\n*?)*?\n\\t\\t\\})', dec)[0][0] if '	visible =' in dec else "Missing"
+
+        self.cancel_effect = re.findall('\\t\\t+cancel_effect = (\\{.*\\}|\\{.*\n(.|\n*?)*?\n\\t\\t\\})', dec)[0][0] if 'cancel_effect =' in dec else "Missing"
+        self.complete_effect = re.findall('\\t\\t+complete_effect = (\\{.*\\}|\\{.*\n(.|\n*?)*?\n\\t\\t\\})', dec)[0][0] if 'complete_effect =' in dec else "Missing"
+        self.remove_effect = re.findall('\\t\\t+remove_effect = (\\{.*\\}|\\{.*\n(.|\n*?)*?\n\\t\\t\\})', dec)[0][0] if 'remove_effect =' in dec else "Missing"
+
+        self.cancel_is_not_visible = "cancel_if_not_visible = yes" in dec
+        self.cancel_trigger = re.findall('\\t\\t+cancel_trigger = (\\{.*\\}|\\{.*\n(.|\n*?)*?\n\\t\\t\\})', dec)[0][0] if 'cancel_trigger =' in dec else "Missing"
+
+        self.war_with_on_remove = "war_with_on_remove =" in dec
+        self.war_with_target_on_remove = "war_with_target_on_remove = yes" in dec

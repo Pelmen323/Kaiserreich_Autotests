@@ -51,8 +51,9 @@ def test_check_advisors_invalid_costs(test_runner: object):
                 results.append((adv.token, "SIC - should have 'removal_cost = -1' line"))
 
         elif adv.political_role:
-            if 0 > adv.cost < 50:
-                results.append((adv.token, f"This political advisor costs {adv.cost} - are you sure this is correct?"))
+            if adv.cost != 150 and adv.cost != 0 and 'nee_' not in adv.token:
+                if 'kr_plodding_bureaucrat' not in adv.traits:
+                    results.append((adv.token, f"Political advisor - should cost 150, but got {adv.cost}"))
 
         # Unknown role check
         if adv.unknown_role:

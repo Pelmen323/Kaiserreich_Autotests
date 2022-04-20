@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-66 tests:
+67 tests:
 
 *Advisors tests*
 - usage of non-unique advisor tokens test (it causes bugs all over the place. Advisors should have unique tokens)
@@ -44,6 +44,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - unused decisions categories test
 - duplicated decisions categories test
 - duplicated decisions test
+- war declaration decisions AI code test (checks if decisions have required AI code so AI performs better)
 
 *Events tests*
 - triggered-only events that are not triggered from outside test (check for events that are not triggered from outside but should)
