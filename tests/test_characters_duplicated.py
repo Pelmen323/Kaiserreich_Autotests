@@ -8,17 +8,17 @@ from ..test_classes.characters_class import Characters
 FALSE_POSITIVES = (
     'abdallah_ibn_mitab_ibn_abd_al_aziz_al_rashid',
     'abdallah_ibn_talal_al_rashid',
-    'clement_attlee',
-    'hugh_gaitskell',
-    'george_v',
     'saud_al_subhan',
     'muhammad_ibn_talil_al_rashid',
-    'parliament',
-    'augusto_barcia_trelles',
-    'dolores_ibarruri_gomez',
-    'juan_iii',
-    'national_congress',
-    'army_council',
+    # 'clement_attlee',
+    # 'hugh_gaitskell',
+    # 'george_v',
+    # 'parliament',
+    # 'augusto_barcia_trelles',
+    # 'dolores_ibarruri_gomez',
+    # 'juan_iii',
+    # 'national_congress',
+    # 'army_council',
 )
 
 

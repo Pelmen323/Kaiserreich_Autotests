@@ -190,7 +190,7 @@ class Characters:
 
         elif trait_type == "navy":
             for i in adv_code:
-                if "experience_gain_navy" in i:
+                if "experience_gain_navy" in i or 'naval_doctrine_cost_factor' in i:
                     list_to_return.append(re.findall('\t(.*) = \\{', i)[0])
 
         elif trait_type == "air":
@@ -241,6 +241,8 @@ class Advisors:
             'kr_grand_fleet_proponent',
             'kr_submarine_specialist',
             'fra_atomic_pair',
+            'kr_leapfrog_advocate',
+            'kr_rifleman_superiority',
         )
 
         if self.theorist_role:
