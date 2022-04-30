@@ -243,6 +243,7 @@ class Advisors:
             'fra_atomic_pair',
             'kr_leapfrog_advocate',
             'kr_rifleman_superiority',
+            'kr_night_attack_theorist',
         )
 
         if self.theorist_role:

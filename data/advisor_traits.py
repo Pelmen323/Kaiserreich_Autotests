@@ -11,6 +11,7 @@ navy_theorists_traits = [
     "kr_naval_aviation_pioneer",
     "kr_grand_fleet_proponent",
     "kr_submarine_specialist",
+    "kr_leapfrog_advocate",
 ]
 
 army_theorists_traits = [
@@ -25,4 +26,6 @@ army_theorists_traits = [
     "kr_nuclear_scientist",
     "kr_rocket_scientist",
     "fra_atomic_pair",
+    "kr_rifleman_superiority",
+    "kr_night_attack_theorist",
 ]
