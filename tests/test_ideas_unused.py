@@ -6,33 +6,21 @@ import glob
 import os
 import re
 from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
-FILES_TO_SKIP = ["00 Generic Ideas.txt", '01 Army Spirits.txt', '01 Air Spirits.txt', '01 Navy Spirits.txt']
+from ..test_classes.ideas_class import Ideas
+FILES_TO_SKIP = ["00 Generic ideas.txt", '01 Army Spirits.txt', '01 Air Spirits.txt', '01 Navy Spirits.txt']
 FALSE_POSITIVES = ('hai_foreign_control_dummy',)
 
 
 def test_check_ideas_unused(test_runner: object):
     filepath = test_runner.full_path_to_mod
-    filepath_to_ideas = f'{test_runner.full_path_to_mod}common\\ideas\\'
     results_dict = {}
     paths = {}
     # 1. Get the dict of all ideas
-    for filename in glob.iglob(filepath_to_ideas + '**/*.txt', recursive=True):
-        if DataCleaner.skip_files(files_to_skip=FILES_TO_SKIP, filename=filename):
+    ideas, paths = Ideas.get_all_ideas_names(test_runner=test_runner, lowercase=True, return_paths=True, include_country_ideas=True, include_manufacturers=False, include_characters_tokens=False)
+    for i in ideas:
+        if paths[i] in FILES_TO_SKIP:
             continue
-
-        text_file = FileOpener.open_text_file(filename)
-
-        text_file_splitted = text_file.split('\n')
-        for line in range(len(text_file_splitted)):
-            current_line = text_file_splitted[line-1]
-            if [i for i in ['industrial_concern = {', 'materiel_manufacturer = {', 'tank_manufacturer = {', 
-                            'naval_manufacturer = {', 'aircraft_manufacturer = {'] if i in current_line] != []:
-                break
-            pattern_matches = re.findall('^\t\t[a-zA-Z0-9_\\.]* = \\{', current_line)
-            if len(pattern_matches) > 0:
-                match = pattern_matches[0][:-4].strip('\t').strip()
-                results_dict[match] = 0
-                paths[match] = os.path.basename(filename)
+        results_dict[i] = 0
 
     # 2. Find if ideas are used:
     results_dict = DataCleaner.clear_false_positives(input_iter=results_dict, false_positives=FALSE_POSITIVES)
