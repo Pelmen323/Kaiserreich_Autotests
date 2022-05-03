@@ -15,6 +15,7 @@ FALSE_POSITIVES = (
     'luigi_gasparotto',
     'reform_council',
     'united_states_congress',
+    'john_anderson',
 )
 
 

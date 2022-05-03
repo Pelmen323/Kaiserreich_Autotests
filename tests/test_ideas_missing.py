@@ -29,12 +29,34 @@ def test_check_ideas_missing(test_runner: object):
                     used_ideas.append(match)
                     paths[match] = os.path.basename(filename)
 
+        if 'add_ideas = {' in text_file:
+            pattern_matches = re.findall("add_ideas = \\{.*\n((.|\n*?)*)\n\t*\\}", text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    ideas_code = match[0].split('\n')
+                    for idea in ideas_code:
+                        idea = idea.strip('\t')
+                        if "#" not in idea and len(idea) > 0:
+                            used_ideas.append(idea)
+                        paths[idea] = os.path.basename(filename)
+
         if 'remove_ideas =' in text_file:
             pattern_matches = re.findall("remove_ideas = ([\\w':-]+)", text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     used_ideas.append(match)
                     paths[match] = os.path.basename(filename)
+
+        if 'remove_ideas = {' in text_file:
+            pattern_matches = re.findall("remove_ideas = \\{.*\n((.|\n*?)*)\n\t*\\}", text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    ideas_code = match[0].split('\n')
+                    for idea in ideas_code:
+                        idea = idea.strip('\t')
+                        if "#" not in idea and len(idea) > 0:
+                            used_ideas.append(idea)
+                        paths[idea] = os.path.basename(filename)
 
         if 'has_idea =' in text_file:
             pattern_matches = re.findall("has_idea = ([\\w':-]+)", text_file)
@@ -43,26 +65,34 @@ def test_check_ideas_missing(test_runner: object):
                     used_ideas.append(match)
                     paths[match] = os.path.basename(filename)
 
-        # if 'idea =' in text_file:
-        #     pattern_matches = re.findall('idea = (\\w+)', text_file)
-        #     if len(pattern_matches) > 0:
-        #         for match in pattern_matches:
-        #             match = match[0]
-        #             used_ideas.append(match)
-        #             paths[match] = os.path.basename(filename)
+        if 'add_idea =' in text_file:
+            pattern_matches = re.findall("add_idea = ([\\w':-]+)", text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    used_ideas.append(match)
+                    paths[match] = os.path.basename(filename)
 
-        # if 'add_ideas = {' in text_file:
-        #     pattern_matches = re.findall('((?<=\n)[ |\t]*add_ideas = \\{.*\n(.|\n*?)*\n\\})', text_file)
-        #     if len(pattern_matches) > 0:
-        #         for match in pattern_matches:
-        #             match = match[0].split('\n')
-        #             for line in match:
-        #                 if '}' not in line and '{' not in line:
-        #                     line = line.strip('\t').strip()
-        #                     match = line
-        #                     used_ideas.append(match)
-        #                     paths[match] = os.path.basename(filename)
+        if 'remove_idea =' in text_file:
+            pattern_matches = re.findall("remove_idea = ([\\w':-]+)", text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    used_ideas.append(match)
+                    paths[match] = os.path.basename(filename)
+
+        if 'show_ideas_tooltip =' in text_file:
+            pattern_matches = re.findall("show_ideas_tooltip = ([\\w':-]+)", text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    used_ideas.append(match)
+                    paths[match] = os.path.basename(filename)
+
+        if '\tidea =' in text_file:
+            pattern_matches = re.findall("\tidea = ([\\w':-]+)", text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    used_ideas.append(match)
+                    paths[match] = os.path.basename(filename)
 
     # 3. Report the results:
-    results = [i for i in used_ideas if i not in defined_ideas and "var:" not in i]
-    ResultsReporter.report_results(results=results, paths=paths, message="Unused ideas were encountered. Check console output")
+    results = [i for i in used_ideas if i not in defined_ideas and "var:" not in i and i not in FALSE_POSITIVES]
+    ResultsReporter.report_results(results=results, paths=paths, message="Missing ideas were encountered. Check console output")
