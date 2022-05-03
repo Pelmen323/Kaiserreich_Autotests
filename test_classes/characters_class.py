@@ -82,6 +82,8 @@ class Characters:
             else - list: list with advisors code
         """
         filepath_to_characters = f'{test_runner.full_path_to_mod}common\\characters\\'
+        filepath_common = f'{test_runner.full_path_to_mod}common\\'
+        filepath_events = f'{test_runner.full_path_to_mod}events\\'
         advisors = []
         paths = {}
 
@@ -97,6 +99,48 @@ class Characters:
                     match = match[0]
                     advisors.append(match)
                     paths[match] = os.path.basename(filename)
+
+        for filename in glob.iglob(filepath_common + '**/*.txt', recursive=True):
+            if "characters" in filename:
+                continue
+            if lowercase:
+                text_file = FileOpener.open_text_file(filename)
+            else:
+                text_file = FileOpener.open_text_file(filename, lowercase=False)
+
+            if 'add_advisor_role = {' in text_file:
+                pattern_matches = re.findall('((?<=\n)\t\tadvisor = \\{.*\n(.|\n*?)*\n\t\t\\})', text_file)
+                pattern_matches += re.findall('((?<=\n)\t\t\tadvisor = \\{.*\n(.|\n*?)*\n\t\t\t\\})', text_file)
+                pattern_matches += re.findall('((?<=\n)\t\t\t\tadvisor = \\{.*\n(.|\n*?)*\n\t\t\t\t\\})', text_file)
+                pattern_matches += re.findall('((?<=\n)\t\t\t\t\tadvisor = \\{.*\n(.|\n*?)*\n\t\t\t\t\t\\})', text_file)
+                pattern_matches += re.findall('((?<=\n)\t\t\t\t\t\tadvisor = \\{.*\n(.|\n*?)*\n\t\t\t\t\t\t\\})', text_file)
+                pattern_matches += re.findall('((?<=\n)\t\t\t\t\t\t\tadvisor = \\{.*\n(.|\n*?)*\n\t\t\t\t\t\t\t\\})', text_file)
+                # print(pattern_matches)
+                if len(pattern_matches) > 0:
+                    for match in pattern_matches:
+                        match = match[0]
+                        advisors.append(match)
+                        paths[match] = os.path.basename(filename)
+
+        for filename in glob.iglob(filepath_events + '**/*.txt', recursive=True):
+            if lowercase:
+                text_file = FileOpener.open_text_file(filename)
+            else:
+                text_file = FileOpener.open_text_file(filename, lowercase=False)
+
+            if 'add_advisor_role = {' in text_file:
+                pattern_matches = re.findall('((?<=\n)\t\tadvisor = \\{.*\n(.|\n*?)*\n\t\t\\})', text_file)
+                pattern_matches += re.findall('((?<=\n)\t\t\tadvisor = \\{.*\n(.|\n*?)*\n\t\t\t\\})', text_file)
+                pattern_matches += re.findall('((?<=\n)\t\t\t\tadvisor = \\{.*\n(.|\n*?)*\n\t\t\t\t\\})', text_file)
+                pattern_matches += re.findall('((?<=\n)\t\t\t\t\tadvisor = \\{.*\n(.|\n*?)*\n\t\t\t\t\t\\})', text_file)
+                pattern_matches += re.findall('((?<=\n)\t\t\t\t\t\tadvisor = \\{.*\n(.|\n*?)*\n\t\t\t\t\t\t\\})', text_file)
+                pattern_matches += re.findall('((?<=\n)\t\t\t\t\t\t\tadvisor = \\{.*\n(.|\n*?)*\n\t\t\t\t\t\t\t\\})', text_file)
+                # print(pattern_matches)
+                if len(pattern_matches) > 0:
+                    for match in pattern_matches:
+                        match = match[0]
+                        advisors.append(match)
+                        paths[match] = os.path.basename(filename)
 
         if return_paths:
             return (advisors, paths)

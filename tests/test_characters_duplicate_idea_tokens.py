@@ -13,6 +13,8 @@ def test_check_advisors_duplicate_idea_tokens(test_runner: object):
     results = []
 
     for adv in advisors:
+        if "characters" not in paths[adv]:      # Workaround for advisors from not characters file that can be defined multiple times
+            continue
         try:
             token = re.findall("idea_token = (.+)", adv)[0]
         except IndexError:

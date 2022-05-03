@@ -28,11 +28,21 @@ def apply_linting(filename, encoding="utf-8"):
     # replace_string(filename=filename, pattern='[ \t]+$', replace_with="", encoding=encoding)                    # Remove last line spaces
 
 
+def apply_linting_loc(filename, encoding="utf-8-sig"):
+    replace_string(filename=filename, pattern='[ \\t]{1,}\\n', replace_with='\\n', encoding=encoding)           # Remove trailing whitespaces
+    replace_string(filename=filename, pattern='\\{(?=[\\w_\\"=])', replace_with='{ ', encoding=encoding)        # Add spaces between symbol and {
+    replace_string(filename=filename, pattern='(?<=[\\w_\\"=])\\}', replace_with=' }', encoding=encoding)       # Add spaces between symbol and }
+    replace_string(filename=filename, pattern='(?<=[^\\n])\\Z', replace_with='\\n', encoding=encoding)          # Add last line if file is missing
+    replace_string(filename=filename, pattern='^$\\n{2,}', replace_with='\\n', encoding=encoding, flag=re.MULTILINE)          # Add last line if file is missing
+    # replace_string(filename=filename, pattern='[ \t]+$', replace_with="", encoding=encoding)                    # Remove last line spaces
+
+
 def lint_kaiserreich(username, mod_name):
     runner = TestRunner(username, mod_name)
     filepath_common = f'{runner.full_path_to_mod}common\\'
     filepath_history = f'{runner.full_path_to_mod}history\\'
     filepath_events = f'{runner.full_path_to_mod}events\\'
+    filepath_loc = f'{runner.full_path_to_mod}localisation\\'
     filepath_unit_names_divisions = f'{runner.full_path_to_mod}common\\units\\names_divisions\\'
     filepath_unit_names_ships = f'{runner.full_path_to_mod}common\\units\\names_ships\\'
     print(filepath_common)
@@ -54,6 +64,9 @@ def lint_kaiserreich(username, mod_name):
 
     for filename in glob.iglob(filepath_unit_names_ships + '**/*.txt', recursive=True):
         apply_linting(filename=filename, encoding="utf-8-sig")
+
+    for filename in glob.iglob(filepath_loc + '**/*.yml', recursive=True):
+        apply_linting_loc(filename=filename, encoding="utf-8-sig")
 
 
 if __name__ == '__main__':
