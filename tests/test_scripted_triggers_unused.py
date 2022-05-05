@@ -39,7 +39,9 @@ FALSE_POSITIVES = ['ai_is_naval_invader_trigger',
                    'is_owned_by_root_or_war_ally',
                    'has_specialist_level_trigger',
                    'has_expert_level_trigger',
-                   'has_genius_level_trigger', ]
+                   'has_genius_level_trigger',
+                   'has_enough_reserve_manpower_per_battalion',
+                   ]
 
 
 def test_check_scripted_triggers_unused(test_runner: object):

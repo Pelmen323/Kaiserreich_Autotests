@@ -7,6 +7,7 @@ import os
 import re
 from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 FALSE_POSITIVES = [
+ 'generate_generic_sics_and_activate',
  'destroy_all_ships',
  'decrease_state_category_by_one_level',
  'gain_random_agency_upgrade',
@@ -31,11 +32,15 @@ FALSE_POSITIVES = [
  'cze_antonin_novotny_sic',
  'cze_jaroslav_hasek_sic',
  'cze_jan_sverma_sic',
+ 'cze_bohumil_stasek_sic',
+ 'cze_frantisek_hodac_sic',
+ 'cze_emanuel_vajtauer_sic',
  'create_snp_right',
  'cub_remove_autentico_generals',
  'fng_nupop',
  'fng_zppop',
  'gal_generals_join_ukraine',
+ 'gal_characters_join_ukraine_immediate',
 ]
 
 
