@@ -6,6 +6,9 @@ import re
 from ..test_classes.generic_test_class import ResultsReporter
 from ..test_classes.characters_class import Characters, Advisors
 import pytest
+FALSE_POSITIVES = [
+    "PAP_eugenio_pacelli_sic",
+]
 list_of_trait_types = [
     "air_chief",
     "army_chief",
@@ -24,11 +27,14 @@ def test_check_advisors_military_invalid_traits(test_runner: object, trait_type)
     if trait_type == "political_advisor":
         allowed_advisor_traits += Characters.get_advisors_traits(test_runner=test_runner, lowercase=True, path=f'{test_runner.full_path_to_mod}common\\country_leader\\head_of_state.txt')
         allowed_advisor_traits += Characters.get_advisors_traits(test_runner=test_runner, lowercase=True, path=f'{test_runner.full_path_to_mod}common\\country_leader\\USA_head_of_state.txt')
+        allowed_advisor_traits += Characters.get_advisors_traits(test_runner=test_runner, lowercase=True, path=f'{test_runner.full_path_to_mod}common\\country_leader\\RUS_head_of_state.txt')
         allowed_advisor_traits += Characters.get_advisors_traits(test_runner=test_runner, lowercase=True, path=f'{test_runner.full_path_to_mod}common\\country_leader\\FNG_political_advisor_traits.txt')
     results = []
 
     for advisor_code in advisors:
         adv = Advisors(adv=advisor_code)
+        if adv.token in FALSE_POSITIVES:
+            continue
         if adv.slot == trait_type:
             if adv.traits == []:
                 results.append((adv.token, paths[advisor_code], 'This advisor trait syntax is multiline - single-line syntax is strongly recommended'))
