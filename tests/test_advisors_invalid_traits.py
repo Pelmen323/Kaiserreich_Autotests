@@ -2,12 +2,11 @@
 # Test script to check for military having invalid traits
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-import re
 from ..test_classes.generic_test_class import ResultsReporter
 from ..test_classes.characters_class import Characters, Advisors
 import pytest
 FALSE_POSITIVES = [
-    "PAP_eugenio_pacelli_sic",
+    "pap_eugenio_pacelli_sic",
 ]
 list_of_trait_types = [
     "air_chief",
