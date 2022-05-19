@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-67 tests:
+74 tests, including:
 
 *Advisors tests*
 - usage of non-unique advisor tokens test (it causes bugs all over the place. Advisors should have unique tokens)
@@ -34,6 +34,11 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - unused cosmetic tags test - colors (finds all cosmetic tags colors that are never used)
 - missing cosmetic tags test (finds all cosmetic tags that are not set but checked)
 
+*Character flags tests:*
+- unused character flags test (finds all character flags that are set but never checked)
+- missing character flags test (finds all character flags that are not set but checked)
+- cleared character flags test (finds all character flags that are not set but cleared)
+
 *Country flags tests:*
 - unused country flags test (finds all country flags that are set but never checked)
 - missing country flags test (finds all country flags that are not set but checked)
@@ -49,6 +54,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 *Events tests*
 - triggered-only events that are not triggered from outside test (check for events that are not triggered from outside but should)
 - missing triggered events test
+- events with no pictures
 
 *Event targets tests*
 - unused event targets test (finds all event targets that are set but never checked)
