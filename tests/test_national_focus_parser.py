@@ -54,8 +54,14 @@ def test_check_national_focus_contents(test_runner: object):
         if 'completion_reward = {' not in focus:
             results.append((focus_id, paths[focus], "Missing completion reward"))
         # Logging
-        if 'log = "' not in focus:
-            results.append((focus_id, paths[focus], "Missing logging"))
+        try:
+            focus_logging = re.findall('log = ".*"', focus)[0]
+        except IndexError:
+            results.append((focus, paths[focus], "Missing logging"))
+            continue
+        if f'focus {focus_id}' not in focus_logging:
+            results.append((focus_id, focus_logging, paths[focus], "Logging line doesn't contain focus id"))
+
         # Prerequisites and dependencies
         if focus.count('focus =') > 1:
             try:

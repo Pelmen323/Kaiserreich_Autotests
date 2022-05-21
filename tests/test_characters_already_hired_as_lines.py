@@ -14,6 +14,7 @@ def test_check_characters_already_hired(test_runner: object):
 
     for char in characters:
         char_name = re.findall('name = (.*)', char)[0]
+        one_advisor_role = char.count('advisor = {') == 1
         two_advisor_roles = char.count('advisor = {') == 2
         three_advisor_roles = char.count('advisor = {') == 3
         sic_status = char.count('slot = second_in_command')
@@ -21,7 +22,11 @@ def test_check_characters_already_hired(test_runner: object):
 
         if FALSE_POSITIVES in char_name:
             continue
-        if two_advisor_roles:
+        if one_advisor_role:
+            if not_already_hired_status > 0:
+                results.append((char_name, paths[char], "Character has 1 advisor role and has 'not_already_hired_except_as' line"))
+
+        elif two_advisor_roles:
             if sic_status == 0:
                 if not_already_hired_status < 2:
                     results.append((char_name, paths[char], "Character has 2 advisor roles but doesn't have 2 'not_already_hired_except_as' lines"))

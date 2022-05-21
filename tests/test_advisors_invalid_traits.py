@@ -57,4 +57,8 @@ def test_check_advisors_military_invalid_traits(test_runner: object, trait_type)
             else:
                 results.append((adv.token, paths[advisor_code], 'Huh?'))
 
+            if "kr_head_of_intelligence" in adv.traits:
+                if "la resistance" not in advisor_code:
+                    results.append((adv.token, paths[advisor_code], "Head of intelligence doesn't have LaR check"))
+
     ResultsReporter.report_results(results=results, message=f"{trait_type} advisors with invalid traits encountered. Check console output")
