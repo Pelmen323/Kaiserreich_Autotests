@@ -28,4 +28,5 @@ army_theorists_traits = [
     "fra_atomic_pair",
     "kr_rifleman_superiority",
     "kr_night_attack_theorist",
+    "kr_ottoman_attache"
 ]

@@ -4,7 +4,7 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+from ..test_classes.generic_test_class import FileOpener, DataCleaner
 import logging
 import pytest
 FILES_TO_SKIP = ["KR_Vanilla_Override_l_english", "ideas_l_english", "music", "lar_operations", "autonomy_l", "decisions_l_english"
