@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-74 tests, including:
+78 tests, including:
 
 *Advisors tests*
 - usage of non-unique advisor tokens test (it causes bugs all over the place. Advisors should have unique tokens)
@@ -85,7 +85,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - unused opinion modifiers test (finds all opinion modifiers that are set but never checked)
 
 *Performance tests*
-- usage of conditions that can be converted to 'is_ally_with' condition instead test
+- a lot of tests related to unoptimized triggers usage
 - focuses/decisions/events that can be optimized by using ideology flags tests
 
 *Scripted triggers and effects tests:*
