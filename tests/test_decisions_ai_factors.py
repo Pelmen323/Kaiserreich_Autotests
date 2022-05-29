@@ -10,6 +10,7 @@ import glob
 import re
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 FILES_TO_SKIP = ('00 demobilization decisions.txt',
+                 '00 exiled governments decisions.txt',
                  'ZZ debug decisions.txt',
                  'LBA decisions (Cyrenaica).txt',      # Caravans empty decisions
                  'GER decisions (Germany).txt',        # Empty decisions with modifier
