@@ -163,3 +163,30 @@ def test_check_syntax_xxx_owned_state(test_runner: object, trigger):
                         results.append((match[1], os.path.basename(filename)))
 
     ResultsReporter.report_results(results=results, message="Is owned by root is redundant here. Check console output")
+
+
+@pytest.mark.skip(reason="Disabled for now")
+def test_check_is_ally_with(test_runner: object):
+    filepath = test_runner.full_path_to_mod
+    results = []
+
+# Part 1 - prepare the list of patterns
+    list1 = ['has_capitulated', 'has_war =']
+    all_regex_patterns = []
+    for i in list1:
+        all_regex_patterns.append(f'\\t+{i}.*\\n\\t+surrender_progress.*\\n')
+        all_regex_patterns.append(f'\\t+surrender_progress.*\\n\\t+{i}.*\\n')
+
+# Part 2 - perform search
+    for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
+        text_file = FileOpener.open_text_file(filename)
+
+        if 'is_ally_with' in text_file:
+            pattern_matches = re.findall('.*\\n.*is_ally_with.*\\n.*', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    if 'country_exists =' not in match and 'exists = yes' not in match:
+                        results.append((match.replace('\t', '').replace('\n', '  '), os.path.basename(filename)))
+
+# Part 3 - throw the error if those combinations are encountered
+    ResultsReporter.report_results(results=results, message="is_ally_with w/o 'country_exists =' or 'exists = yes' is encountered. Check console output")
