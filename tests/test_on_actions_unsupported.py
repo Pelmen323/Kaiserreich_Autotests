@@ -23,10 +23,10 @@ def test_check_unsupported_on_actions(test_runner: object):
                 for match in pattern_matches:
                     results.append((match, os.path.basename(filename), "use on_offer_join_faction instead"))
 
-        if 'on_capitulation' in text_file:
-            pattern_matches = re.findall("on_capitulation = \\{", text_file)
-            if len(pattern_matches) > 0:
-                for match in pattern_matches:
-                    results.append((match, os.path.basename(filename), "use on_capitulation_immediate instead"))
+        # if 'on_capitulation' in text_file:
+        #     pattern_matches = re.findall("on_capitulation = \\{", text_file)
+        #     if len(pattern_matches) > 0:
+        #         for match in pattern_matches:
+        #             results.append((match, os.path.basename(filename), "use on_capitulation_immediate instead"))
 
     ResultsReporter.report_results(results=results, message="Unsupported on_actions found. Check console output")

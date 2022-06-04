@@ -78,4 +78,4 @@ def test_check_national_focus_contents(test_runner: object):
                     if i not in national_focuses_id:
                         results.append((focus_id, paths[focus], f"Focus dependency {i} is not existing"))
 
-    ResultsReporter.report_results(results=results, message="Missing/excessive ledger line encountered. Check console output")
+    ResultsReporter.report_results(results=results, message="Issues during focus parsing encountered. Check console output")
