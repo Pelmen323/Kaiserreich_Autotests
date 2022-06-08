@@ -10,7 +10,7 @@ In-built multithreading support and high performance optimization, current full 
 Requirements - Python installation with pytest and pytest-xdist plugins installed
 
 ## Currently included tests:
-78 tests, including:
+80+ tests, including:
 
 *Advisors tests*
 - usage of non-unique advisor tokens test (it causes bugs all over the place. Advisors should have unique tokens)
@@ -28,6 +28,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - characters without loc keys in their names test
 - characters with several advisor roles and missing `not_already_hired_except_as` lines
 - characters (unit leaders) with missing small portrait links
+- corps commanders with field marshal traits
 
 *Cosmetic tags tests:*
 - unused cosmetic tags test (finds all cosmetic tags that are set but never checked)
