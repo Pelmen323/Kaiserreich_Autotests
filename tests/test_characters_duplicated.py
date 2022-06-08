@@ -17,6 +17,7 @@ FALSE_POSITIVES = (
     'united_states_congress',
     'john_anderson',
     'army_reform_group',
+    'army_council',
 )
 
 
