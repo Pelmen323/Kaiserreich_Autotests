@@ -28,7 +28,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - characters without loc keys in their names test
 - characters with several advisor roles and missing `not_already_hired_except_as` lines
 - characters (unit leaders) with missing small portrait links
-- corps commanders with field marshal traits
+- unit leaders with traits of unsupported type
 
 *Cosmetic tags tests:*
 - unused cosmetic tags test (finds all cosmetic tags that are set but never checked)
