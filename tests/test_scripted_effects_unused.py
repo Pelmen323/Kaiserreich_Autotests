@@ -41,6 +41,7 @@ FALSE_POSITIVES = [
  'fng_zppop',
  'gal_generals_join_ukraine',
  'gal_characters_join_ukraine_immediate',
+ 'clear_relations_with_prev',
 ]
 
 
