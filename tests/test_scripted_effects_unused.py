@@ -42,6 +42,7 @@ FALSE_POSITIVES = [
  'gal_generals_join_ukraine',
  'gal_characters_join_ukraine_immediate',
  'clear_relations_with_prev',
+ 'generate_generic_military_advisors_low_level',
 ]
 
 
