@@ -3,11 +3,9 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import re
-import pytest
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
-@pytest.mark.skip(reason="ENABLE AFTER MERGING TO MASTER")
 def test_check_endonyms_scripted_loc(test_runner: object):
     filepath_to_scripted_loc_state = f'{test_runner.full_path_to_mod}common\\scripted_localisation\\00 - Scripted State Endonyms.txt'
     filepath_to_scripted_loc_vp = f'{test_runner.full_path_to_mod}common\\scripted_localisation\\00 - Scripted VP Endonyms.txt'

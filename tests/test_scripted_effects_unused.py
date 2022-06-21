@@ -43,6 +43,10 @@ FALSE_POSITIVES = [
  'gal_characters_join_ukraine_immediate',
  'clear_relations_with_prev',
  'generate_generic_military_advisors_low_level',
+ 'remove_civilian_advisor_roles',
+ 'remove_military_advisor_roles',
+ 'log_rp_eastern_military',
+ 'log_aus_full_empire',
 ]
 
 

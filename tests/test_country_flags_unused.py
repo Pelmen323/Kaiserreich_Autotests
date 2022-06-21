@@ -9,7 +9,9 @@ import os
 from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
 FALSE_POSITIVES = ('is_han_chinese_tag',        # Currently unused flags
-                   'is_non_han_chinese_tag',)
+                   'is_non_han_chinese_tag',
+                   'saf_antagonise_maf',
+                   'saf_antagonise_nmb')
 
 
 def test_check_unused_country_flags(test_runner: object):
