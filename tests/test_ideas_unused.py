@@ -8,7 +8,7 @@ import re
 from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 from ..test_classes.ideas_class import Ideas
 FILES_TO_SKIP = ["00 Generic ideas.txt", '01 Army Spirits.txt', '01 Air Spirits.txt', '01 Navy Spirits.txt']
-FALSE_POSITIVES = ('hai_foreign_control_dummy',)
+FALSE_POSITIVES = ('hai_foreign_control_dummy', 'maf_colonial_budget_idea_dummy',)
 
 
 def test_check_ideas_unused(test_runner: object):

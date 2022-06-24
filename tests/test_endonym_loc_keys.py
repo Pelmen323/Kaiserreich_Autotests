@@ -19,14 +19,14 @@ def test_check_endonyms_scripted_loc(test_runner: object):
 
     # 1. Get states scripted loc used keys
     states_scripted_loc_file = FileOpener.open_text_file(filepath_to_scripted_loc_state, lowercase=False)
-    pattern_matches = re.findall("localization_key = (STATE_\\d+.*)", states_scripted_loc_file)
+    pattern_matches = re.findall("localization_key = (STATE_\\S*)", states_scripted_loc_file)
     if len(pattern_matches) > 0:
         for match in pattern_matches:
             states_scripted_loc.append(match)
 
     # 1.1 Get states scripted loc defined keys
     states_loc_file = FileOpener.open_text_file(filepath_to_keys_states, lowercase=False)
-    pattern_matches = re.findall("(STATE_\\d+.*):", states_loc_file)
+    pattern_matches = re.findall("(STATE_\\S*):", states_loc_file)
     if len(pattern_matches) > 0:
         for match in pattern_matches:
             defined_state_loc_keys.append(match)
@@ -41,14 +41,14 @@ def test_check_endonyms_scripted_loc(test_runner: object):
 
     # 2. Get vp scripted loc used keys
     vp_scripted_loc_file = FileOpener.open_text_file(filepath_to_scripted_loc_vp, lowercase=False)
-    pattern_matches = re.findall("localization_key = (VICTORY_POINTS_\\d+.*)", vp_scripted_loc_file)
+    pattern_matches = re.findall("localization_key = (VICTORY_POINTS_\\S*)", vp_scripted_loc_file)
     if len(pattern_matches) > 0:
         for match in pattern_matches:
             vp_scripted_loc.append(match)
 
     # 2.1 Get vp scripted loc defined keys
     vp_loc_file = FileOpener.open_text_file(filepath_to_keys_vp, lowercase=False)
-    pattern_matches = re.findall("(VICTORY_POINTS_\\d+.*):", vp_loc_file)
+    pattern_matches = re.findall("(VICTORY_POINTS_\\S*):", vp_loc_file)
     if len(pattern_matches) > 0:
         for match in pattern_matches:
             defined_vp_loc_keys.append(match)

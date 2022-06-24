@@ -47,6 +47,8 @@ FALSE_POSITIVES = [
  'remove_military_advisor_roles',
  'log_rp_eastern_military',
  'log_aus_full_empire',
+ 'add_research_slot_until_six',
+ 'transfer_control_during_war',
 ]
 
 

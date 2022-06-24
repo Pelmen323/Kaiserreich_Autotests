@@ -3,6 +3,7 @@ import re
 import os
 import logging
 from ..test_classes.generic_test_class import FileOpener
+from ..data.advisor_traits import genius_traits, special_theorists_traits
 
 
 class Characters:
@@ -69,7 +70,7 @@ class Characters:
             return characters_names
 
     @classmethod
-    def get_all_advisors(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> tuple[list, dict]:
+    def get_all_advisors(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> list[str]:
         """Parse all files in common/characters and return the list with all advisors code
 
         Args:
@@ -273,23 +274,6 @@ class Advisors:
             self.ledger_slot = None
 
         # Theorists
-        special_theorists_traits = (
-            'kr_mobile_warfare_expert',
-            'kr_superior_firepower_expert',
-            'kr_grand_battle_plan_expert',
-            'kr_mass_assault_expert',
-            'kr_victory_through_airpower',
-            'kr_close_air_support_proponent',
-            'kr_assault_aviation',
-            'kr_naval_aviation_pioneer',
-            'kr_grand_fleet_proponent',
-            'kr_submarine_specialist',
-            'fra_atomic_pair',
-            'kr_leapfrog_advocate',
-            'kr_rifleman_superiority',
-            'kr_night_attack_theorist',
-        )
-
         if self.theorist_role:
             for i in special_theorists_traits:
                 if i in adv:
@@ -337,7 +321,7 @@ class Advisors:
             self.military_trait_lvl = "specialist"
         if len([i for i in self.traits if '_2' in i]) > 0 and self.military_role:
             self.military_trait_lvl = "expert"
-        if len([i for i in self.traits if '_3' in i]) > 0 and self.military_role:
+        if (len([i for i in self.traits if '_3' in i]) > 0 or len([i for i in self.traits if i in genius_traits]) > 0) and self.military_role:
             self.military_trait_lvl = "genius"
         if self.military_role and self.military_trait_lvl is None:
             self.military_trait_lvl = "specialist"

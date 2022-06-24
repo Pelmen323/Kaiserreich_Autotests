@@ -6,6 +6,7 @@ import glob
 import re
 from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
+FALSE_POSITIVES = ["cro_habsburg",]
 
 
 def test_check_cosmetic_tags_colors_unused(test_runner: object):
@@ -34,5 +35,6 @@ def test_check_cosmetic_tags_colors_unused(test_runner: object):
                 cosmetic_tags[flag] += text_file.count(f'set_cosmetic_tag = {flag}')
 
 # Part 4 - throw the error if tag is not used
+    cosmetic_tags = DataCleaner.clear_false_positives(input_iter=cosmetic_tags, false_positives=FALSE_POSITIVES)
     results = [i for i in cosmetic_tags if cosmetic_tags[i] == 0]
-    ResultsReporter.report_results(results=results, message="common\\countries\\cosmetic.txt - unused cosmetic tags were encountered. Check console output")
+    ResultsReporter.report_results(results=results, message="common\\countries\\cosmetic.txt - unused cosmetic tags colors were encountered. Check console output")
