@@ -57,7 +57,7 @@ def test_check_national_focus_contents(test_runner: object):
         try:
             focus_logging = re.findall('log = ".*"', focus)[0]
         except IndexError:
-            results.append((focus.replace('\t', '').replace('\n', '  '), paths[focus], "Missing logging"))
+            results.append((focus_id, paths[focus], "Missing logging"))
             continue
         if f'focus {focus_id}' not in focus_logging:
             results.append((focus_id, focus_logging, paths[focus], "Logging line doesn't contain focus id"))

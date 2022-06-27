@@ -19,7 +19,7 @@ def test_check_outdated_doctrine_bonus_syntax(test_runner: object):
 
 # Get all tech bonuses from mod files
         if 'add_tech_bonus =' in text_file:
-            tech_bonuses_in_file = re.findall('add_tech_bonus = \\{[ \\w\r\n\t=.]*\\}', text_file)
+            tech_bonuses_in_file = re.findall('add_tech_bonus = \\{(.*?\\})', text_file, flags=re.DOTALL | re.MULTILINE)
             if len(tech_bonuses_in_file) > 0:
                 for expression in tech_bonuses_in_file:
                     all_tech_bonuses.append(expression)
