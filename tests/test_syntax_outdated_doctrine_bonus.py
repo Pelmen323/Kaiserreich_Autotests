@@ -23,11 +23,12 @@ def test_check_outdated_doctrine_bonus_syntax(test_runner: object):
                     all_tech_bonuses.append(expression)
 
 # Verify if doctrines/doctrine categories are used in the tech files
+    trimmed_expression = expression.replace('\t', '').replace('\n', '  ')
     for expression in all_tech_bonuses:
         for tech_name in combined_doctrines_list:
             if f'category = {tech_name}' in expression:
-                results.append(f"{tech_name} doctrine/doctrine category is used in the following expression: \n{expression.replace('\t', '').replace('\n', '  ')}")
+                results.append(f"{tech_name} doctrine/doctrine category is used in the following expression: \n{trimmed_expression}")
             if f'technology = {tech_name}' in expression:
-                results.append(f"{tech_name} doctrine/doctrine category is used in the following expression: \n{expression.replace('\t', '').replace('\n', '  ')}")
+                results.append(f"{tech_name} doctrine/doctrine category is used in the following expression: \n{trimmed_expression}")
 
     ResultsReporter.report_results(results=results, message="Outdated doctrine bonus syntax was found. Check console output")
