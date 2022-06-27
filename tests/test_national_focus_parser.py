@@ -24,13 +24,13 @@ def test_check_national_focus_contents(test_runner: object):
             try:
                 focus_id = re.findall('\\tid = \\b([^ \n\t]+)\\b', focus)[0]
             except IndexError:
-                results.append((focus, paths[focus], "Missing focus id"))
+                results.append((focus.replace('\t', '').replace('\n', '  '), paths[focus], "Missing focus id"))
                 continue
         elif 'focus = {' in focus:
             try:
                 focus_id = re.findall('\\t\\tid = \\b([^ \n\t]+)\\b', focus)[0]
             except IndexError:
-                results.append((focus, paths[focus], "Missing focus id"))
+                results.append((focus.replace('\t', '').replace('\n', '  '), paths[focus], "Missing focus id"))
                 continue
 
         # Skips
@@ -57,7 +57,7 @@ def test_check_national_focus_contents(test_runner: object):
         try:
             focus_logging = re.findall('log = ".*"', focus)[0]
         except IndexError:
-            results.append((focus, paths[focus], "Missing logging"))
+            results.append((focus.replace('\t', '').replace('\n', '  '), paths[focus], "Missing logging"))
             continue
         if f'focus {focus_id}' not in focus_logging:
             results.append((focus_id, focus_logging, paths[focus], "Logging line doesn't contain focus id"))
