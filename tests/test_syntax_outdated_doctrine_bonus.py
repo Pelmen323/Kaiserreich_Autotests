@@ -4,7 +4,6 @@
 ##########################
 import glob
 import re
-import os
 from ..data.doctrine_categories import combined_doctrines_list
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
@@ -13,7 +12,6 @@ def test_check_outdated_doctrine_bonus_syntax(test_runner: object):
     filepath = test_runner.full_path_to_mod
     all_tech_bonuses = []
     results = []
-    paths = {}
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 
@@ -23,14 +21,13 @@ def test_check_outdated_doctrine_bonus_syntax(test_runner: object):
             if len(tech_bonuses_in_file) > 0:
                 for expression in tech_bonuses_in_file:
                     all_tech_bonuses.append(expression)
-                    paths[expression] = os.path.basename(filename)
 
 # Verify if doctrines/doctrine categories are used in the tech files
     for expression in all_tech_bonuses:
         for tech_name in combined_doctrines_list:
             if f'category = {tech_name}' in expression:
-                results.append(f'{tech_name} doctrine/doctrine category is used in the following expression: \n{expression}')
+                results.append(f"{tech_name} doctrine/doctrine category is used in the following expression: \n{expression.replace('\t', '').replace('\n', '  ')}")
             if f'technology = {tech_name}' in expression:
-                results.append(f'{tech_name} doctrine/doctrine category is used in the following expression: \n{expression}')
+                results.append(f"{tech_name} doctrine/doctrine category is used in the following expression: \n{expression.replace('\t', '').replace('\n', '  ')}")
 
-    ResultsReporter.report_results(results=results, paths=paths, message="Outdated doctrine bonus syntax was found. Check console output")
+    ResultsReporter.report_results(results=results, message="Outdated doctrine bonus syntax was found. Check console output")
