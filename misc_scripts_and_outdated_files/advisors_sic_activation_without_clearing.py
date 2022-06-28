@@ -1,5 +1,5 @@
 ##########################
-# Test script to check for advisors having invalid ledger line
+# Test script to check for sic ativation without clearing slot
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
@@ -10,7 +10,7 @@ from ..test_classes.characters_class import Characters, Advisors
 from ..test_classes.events_class import Events
 
 
-def test_check_advisors_invalid_ledger(test_runner: object):
+def test_check_advisors_activation_without_clearing_slot(test_runner: object):
     filepath = test_runner.full_path_to_mod
     advisors = Characters.get_all_advisors(test_runner=test_runner)
     sic = []
@@ -38,29 +38,17 @@ def test_check_advisors_invalid_ledger(test_runner: object):
                         results.append((f'activate_advisor = {sic_advisor}', os.path.basename(filename)))
 
     for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
-        if "on_actions" not in filename:
+        if "on_actions" not in filename and "effects" not in filename:
             continue
         text_file = FileOpener.open_text_file(filename)
 
         if 'activate_advisor' in text_file:
             for sic_advisor in sic:
                 if f'	activate_advisor = {sic_advisor}' in text_file:
-                    pattern_matches = re.findall('^\\ton_\\w+ = \\{.*?^\\t\\}', text_file, flags=re.DOTALL | re.MULTILINE)
-                    if len(pattern_matches) > 0:
-                        for match in pattern_matches:
-                            if f'	activate_advisor = {sic_advisor}' in match:
-                                if 'clear_sic_slot = yes' not in match:
-                                    results.append((f'activate_advisor = {sic_advisor}', os.path.basename(filename)))
-
-    for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
-        if "effects" not in filename:
-            continue
-        text_file = FileOpener.open_text_file(filename)
-
-        if 'activate_advisor' in text_file:
-            for sic_advisor in sic:
-                if f'	activate_advisor = {sic_advisor}' in text_file:
-                    pattern_matches = re.findall('^\\w+ = \\{.*?^\\}', text_file, flags=re.DOTALL | re.MULTILINE)
+                    if "on_actions" in filename:
+                        pattern_matches = re.findall('^\\ton_\\w+ = \\{.*?^\\t\\}', text_file, flags=re.DOTALL | re.MULTILINE)
+                    elif "effects" in filename:
+                        pattern_matches = re.findall('^\\w+ = \\{.*?^\\}', text_file, flags=re.DOTALL | re.MULTILINE)
                     if len(pattern_matches) > 0:
                         for match in pattern_matches:
                             if f'	activate_advisor = {sic_advisor}' in match:
