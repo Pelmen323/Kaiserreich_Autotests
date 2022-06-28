@@ -97,7 +97,6 @@ class Characters:
                 if len(pattern_matches) > 0:
                     for match in pattern_matches:
                         match = match[1]
-                        print(match)
                         advisors.append(match)
                         paths[match] = os.path.basename(filename)
 
