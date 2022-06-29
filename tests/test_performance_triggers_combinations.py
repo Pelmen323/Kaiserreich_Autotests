@@ -84,7 +84,7 @@ def test_check_conditions_exists_yes(test_runner: object):
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 
-        if 'is_faction_leader = yes' in text_file:
+        if 'exists = yes' in text_file:
             for pattern in all_regex_patterns:
                 pattern_matches = re.findall(pattern, text_file)
                 if len(pattern_matches) > 0:

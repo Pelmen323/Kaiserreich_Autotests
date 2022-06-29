@@ -219,6 +219,81 @@ class Ideas:
             return ideas
 
     @classmethod
+    def get_all_used_ideas(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> tuple[list, dict]:
+        """Parse all files in common/ideas and return the list with all used ideas names
+
+        Args:
+            test_runner (_type_): test runner obj
+            lowercase (bool, optional): defines if returned list contains lowercase str or not. Defaults to True.
+            return_paths (bool, optional): defines if ideas names are returned with dict that contains their filenames. Defaults to False.
+
+        Returns:
+            if return_paths - tuple[list, dict]: list with ideas names and dict with ideas filenames
+            else - list: list with ideas names
+        """
+        filepath = test_runner.full_path_to_mod
+        used_ideas = []
+        paths = {}
+
+        for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
+            if lowercase:
+                text_file = FileOpener.open_text_file(filename)
+            else:
+                text_file = FileOpener.open_text_file(filename, lowercase=False)
+
+            # No brackets
+            if '_ideas =' in text_file:
+                pattern_matches = re.findall("add_ideas = ([\\w':-]+)", text_file)
+                pattern_matches += re.findall("remove_ideas = ([\\w':-]+)", text_file)
+                if len(pattern_matches) > 0:
+                    for match in pattern_matches:
+                        used_ideas.append(match)
+                        paths[match] = os.path.basename(filename)
+
+            if '_idea =' in text_file:
+                pattern_matches = re.findall("has_idea = ([\\w':-]+)", text_file)
+                pattern_matches += re.findall("add_idea = ([\\w':-]+)", text_file)
+                pattern_matches += re.findall("remove_idea = ([\\w':-]+)", text_file)
+                pattern_matches += re.findall("add_timed_idea = .*idea = ([\\w':-]+).*", text_file)
+                if len(pattern_matches) > 0:
+                    for match in pattern_matches:
+                        used_ideas.append(match)
+                        paths[match] = os.path.basename(filename)
+
+            # Brackets
+            if '_ideas = {' in text_file:
+                pattern_matches = re.findall("add_ideas = \\{.*\n((.|\n*?)*)\n\t*\\}", text_file)
+                pattern_matches += re.findall("remove_ideas = \\{.*\n((.|\n*?)*)\n\t*\\}", text_file)
+                if len(pattern_matches) > 0:
+                    for match in pattern_matches:
+                        ideas_code = match[0].split('\n')
+                        for idea in ideas_code:
+                            idea = idea.strip('\t')
+                            if "#" not in idea and len(idea) > 0:
+                                used_ideas.append(idea)
+                            paths[idea] = os.path.basename(filename)
+
+            if 'show_ideas_tooltip =' in text_file:
+                pattern_matches = re.findall("show_ideas_tooltip = ([\\w':-]+)", text_file)
+                if len(pattern_matches) > 0:
+                    for match in pattern_matches:
+                        used_ideas.append(match)
+                        paths[match] = os.path.basename(filename)
+
+            # Timed ideas
+            if '\tidea =' in text_file:
+                pattern_matches = re.findall("\tidea = ([\\w':-]+)", text_file)
+                if len(pattern_matches) > 0:
+                    for match in pattern_matches:
+                        used_ideas.append(match)
+                        paths[match] = os.path.basename(filename)
+
+        if return_paths:
+            return (used_ideas, paths)
+        else:
+            return used_ideas
+
+    @classmethod
     def get_all_ideas_names(cls, test_runner, lowercase: bool = True, return_paths: bool = False, include_country_ideas: bool = True, include_manufacturers: bool = True, include_characters_tokens: bool = True, include_laws: bool = False, include_army_spirits: bool = False) -> tuple[list, dict]:
         """Parse all files in common/ideas and return the list with all ideas code
 

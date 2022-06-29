@@ -51,18 +51,10 @@ class Events:
         Returns:
             list: all events in mod folder
         """
-        filepath_to_events = f'{test_runner.full_path_to_mod}events\\'
-        events = []
+        events = Events.get_all_events(test_runner=test_runner, lowercase=lowercase)
 
-        for filename in glob.iglob(filepath_to_events + '**/*.txt', recursive=True):
-            if '\\categories' in filename:
-                continue
-            if lowercase:
-                text_file = FileOpener.open_text_file(filename)
-            else:
-                text_file = FileOpener.open_text_file(filename, lowercase=False)
-
-            pattern_matches = re.findall('^\\tid = ([^ \\n\\t]+)', text_file, flags=re.MULTILINE)
+        for event in events:
+            pattern_matches = re.findall('^\\tid = ([^ \\n\\t]+)', event, flags=re.MULTILINE)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     events.append(match)
