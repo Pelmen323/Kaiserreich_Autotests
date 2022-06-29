@@ -8,10 +8,9 @@ import os
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
-def test_decisions_without_allowed_check(test_runner: object):
+def test_states_used_nonexisting(test_runner: object):
+    filepath = test_runner.full_path_to_mod
     filepath_to_states = f'{test_runner.full_path_to_mod}history\\states\\'
-    filepath_common = f'{test_runner.full_path_to_mod}common\\'
-    filepath_events = f'{test_runner.full_path_to_mod}events\\'
     valid_states = []
     results = []
     paths = {}
@@ -24,34 +23,19 @@ def test_decisions_without_allowed_check(test_runner: object):
         valid_states.append(states_matches[0])
 
     # 2. Check states in code:
-    # Common
-    for filename in glob.iglob(filepath_common + '**/*.txt', recursive=True):
-        if "names" in filename:
+    for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
+        if "common" not in filename and "events" not in filename:   # Skip files that are not important
+            continue
+        if "names" in filename:                                     # Names files are using the same syntax - don't check them
             continue
         text_file = FileOpener.open_text_file(filename)
 
         pattern_matches = re.findall("\\t(\\d+) = \\{", text_file)
+        pattern_matches += re.findall("target = (\\d+)", text_file)
+        pattern_matches += re.findall("state = (\\d+)", text_file)
         if len(pattern_matches) > 0:
             for match in pattern_matches:
-                if match not in valid_states:
-                    results.append(match)
-                    paths[match] = os.path.basename(filename)
-
-    # Events
-    for filename in glob.iglob(filepath_events + '**/*.txt', recursive=True):
-        text_file = FileOpener.open_text_file(filename)
-
-        pattern_matches = re.findall("\\t(\\d+) = \\{", text_file)
-        if len(pattern_matches) > 0:
-            for match in pattern_matches:
-                if match not in valid_states:
-                    results.append(match)
-                    paths[match] = os.path.basename(filename)
-
-        pattern_matches = re.findall("target = (\\d+)", text_file)
-        if len(pattern_matches) > 0:
-            for match in pattern_matches:
-                if match not in valid_states:
+                if match not in valid_states and match != "0":      # Don't report `0`
                     results.append(match)
                     paths[match] = os.path.basename(filename)
 
