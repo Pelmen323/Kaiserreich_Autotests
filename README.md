@@ -3,8 +3,8 @@
 Repository for .py tests for [Kaiserreich](https://steamcommunity.com/workshop/filedetails/?id=1521695605) with the possibility to set up Jenkins as a runner.
 It can be used 'as is' for Kaiserreich users, they only need to pass their system username in which doc folder the project is located and the name of the mod folder (see screenshots lower). For other HOI4 projects, it can be used as well but no support is provided.
 
-The general idea of the project is to automate the scenarios testing that is almost impossible to verify otherwise (they can be checked manually via CWTools in some cases, but my solution benefits from all automation perks - it is never tired, fast and provides almost instant feedback). 
-Tests are NOT running the game, instead, they parse and analyze the codebase. 
+The general idea of the project is to automate the scenarios testing that is almost impossible to verify otherwise (they can be checked manually via CWTools in some cases, but my solution benefits from all automation perks - it is never tired, fast and provides almost instant feedback).
+Tests are NOT running the game, instead, they parse and analyze the codebase.
 Repository is constantly updated - tests are mostly created upon finding bugs.
 
 In-built multithreading support and high-performance optimization, current full runtime - around 3 minutes with 6 cores utilised.
@@ -146,7 +146,7 @@ It allows to run tests automatically based on specific triggers
 
 4. Create a new Job (Freestyle project)
 5. Configure the job
-- [github repository](https://github.com/Pelmen323/Kaiserreich_Autotests), branch - main
+- [GitHub repository](https://github.com/Pelmen323/Kaiserreich_Autotests), branch - main
 - Build action - Custom Python Builder, path to your venv (not to exe), nature - Shell, command:
 ### pytest -v -s --tb=short "--username=xxx" "--mod_name=xxx" -n 6 --junitxml TestResults.xml
 (replace **username** with your system username and **mod_name** with mod folder name, -n - number of your CPU cores)

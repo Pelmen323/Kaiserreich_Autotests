@@ -27,12 +27,7 @@ def test_replace_char_raw_names_with_keys(test_runner: object):
 
         if adv.sic_role:
             if "_sic" not in adv.token and "_second_in_command" not in adv.token:
-                # advisor_code_copy = copy.copy(advisor_code)
-                x = f'idea_token = {adv.token}'
-                y = f'idea_token = {adv.token}_sic'
-                to_replace = advisor_code
-                to_replace_with = advisor_code.replace(x, y)
-                lines_to_replace[to_replace] = to_replace_with
+                lines_to_replace[advisor_code] = advisor_code.replace(f'idea_token = {adv.token}', f'idea_token = {adv.token}_sic')
 
     # Replace name lines with newly generated ones
     FileOpener.replace_all_keys_in_file_with_values(path_to_files=path_to_character_files, dict_with_strings_to_replace=lines_to_replace, lowercase=False)
