@@ -7,8 +7,11 @@ import logging
 import os
 import re
 
-from ..test_classes.generic_test_class import (DataCleaner, FileOpener,
-                                               ResultsReporter)
+from ..test_classes.generic_test_class import (
+    DataCleaner,
+    FileOpener,
+    ResultsReporter,
+)
 
 FALSE_POSITIVES = ['yunnan_r_kmt_faction_leader', 'nfa_alphonse_juin_target', 'aus_otto_von_habsburg_target']
 

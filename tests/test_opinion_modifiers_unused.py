@@ -6,8 +6,11 @@ import glob
 import os
 import re
 
-from ..test_classes.generic_test_class import (DataCleaner, FileOpener,
-                                               ResultsReporter)
+from ..test_classes.generic_test_class import (
+    DataCleaner,
+    FileOpener,
+    ResultsReporter,
+)
 
 FILES_TO_SKIP = ["Vanilla_Opinion_Modifiers"]
 FALSE_POSITIVES = ("kr_deal_with_devil", "aided_cntfai", "aided_carlist", "aided_spain",)

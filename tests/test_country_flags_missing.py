@@ -7,8 +7,11 @@ import glob
 import os
 import re
 
-from ..test_classes.generic_test_class import (DataCleaner, FileOpener,
-                                               ResultsReporter)
+from ..test_classes.generic_test_class import (
+    DataCleaner,
+    FileOpener,
+    ResultsReporter,
+)
 
 FALSE_POSITIVES = ('chi_soong_control',        # Currently unused flags
                    'chi_mingshu_control',

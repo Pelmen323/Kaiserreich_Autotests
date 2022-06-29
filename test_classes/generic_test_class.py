@@ -51,20 +51,6 @@ class FileOpener:
                 text_file_write.write(text_file)
 
 
-class IterableParser:
-    @classmethod
-    def extract_matches(cls, source_file: str, regex_pattern: str, output_dict: dict, iter_with_filepath: str, len_to_cut: int = 0):
-        '''
-        Function for simple extract and cut regex
-        '''
-        pattern_matches = re.findall(regex_pattern, source_file)
-        if len(pattern_matches) > 0:
-            for match in pattern_matches:
-                match = match[len_to_cut:].strip()
-                output_dict[match] = 0
-                iter_with_filepath[match] = os.path.basename(source_file)
-
-
 class DataCleaner:
     @classmethod
     def clear_false_positives(cls, input_iter: dict, false_positives: tuple = ()) -> dict:

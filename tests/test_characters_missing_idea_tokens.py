@@ -6,8 +6,11 @@ import glob
 import os
 import re
 
-from ..test_classes.generic_test_class import (DataCleaner, FileOpener,
-                                               ResultsReporter)
+from ..test_classes.generic_test_class import (
+    DataCleaner,
+    FileOpener,
+    ResultsReporter,
+)
 
 FALSE_POSITIVES = ('ger_august_von_mackensen', 'qie_wu_peifu', 'empowered_trade_unions_sic', 'empowered_executive_sic', 'empowered_legislative_sic')
 

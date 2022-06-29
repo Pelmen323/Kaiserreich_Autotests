@@ -5,8 +5,11 @@
 import glob
 import re
 
-from ..test_classes.generic_test_class import (DataCleaner, FileOpener,
-                                               ResultsReporter)
+from ..test_classes.generic_test_class import (
+    DataCleaner,
+    FileOpener,
+    ResultsReporter,
+)
 
 FALSE_POSITIVES = [
     "war_propaganda",

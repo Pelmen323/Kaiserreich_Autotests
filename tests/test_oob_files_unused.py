@@ -6,8 +6,11 @@ import glob
 import logging
 import os
 
-from ..test_classes.generic_test_class import (DataCleaner, FileOpener,
-                                               ResultsReporter)
+from ..test_classes.generic_test_class import (
+    DataCleaner,
+    FileOpener,
+    ResultsReporter,
+)
 
 FALSE_POSITIVES = ('tun_revolt',    # NFA revolt tags with non-standard syntax
                    'cha_revolt',

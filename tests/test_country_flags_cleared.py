@@ -7,8 +7,11 @@ import logging
 import os
 import re
 
-from ..test_classes.generic_test_class import (DataCleaner, FileOpener,
-                                               ResultsReporter)
+from ..test_classes.generic_test_class import (
+    DataCleaner,
+    FileOpener,
+    ResultsReporter,
+)
 
 FALSE_POSITIVES = ('annexation_window_open', 'liang_refused',)    # Commented functionality
 

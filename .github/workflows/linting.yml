@@ -31,5 +31,6 @@ jobs:
         uses: github/super-linter/slim@v4
         env:
           VALIDATE_PYTHON_BLACK: false
+          VALIDATE_PYTHON_MYPY: false
           PYTHON_FLAKE8_CONFIG_FILE: config.flake8
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

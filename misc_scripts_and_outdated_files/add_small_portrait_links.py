@@ -55,7 +55,7 @@ def test_add_missing_small_portraits(test_runner):
                     large_portrait_to_copy_stripped = large_portrait_to_copy_raw.strip('"')
                     large_portrait_to_copy_path = f"C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\{large_portrait_to_copy_stripped.replace('/', backslash_char)}"
 
-                    source_path_dir = ('C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\gfx\\interface\\advisors\\'+char_tag)
+                    source_path_dir = ('C:\\Users\\VADIM\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\gfx\\interface\\advisors\\' + char_tag)
                     if os.path.exists(source_path_dir) is False:
                         os.mkdir(source_path_dir)
                     shutil.copyfile(large_portrait_to_copy_path, small_path_paste)
