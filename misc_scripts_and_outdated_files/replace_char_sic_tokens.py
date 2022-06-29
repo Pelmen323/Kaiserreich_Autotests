@@ -2,11 +2,8 @@
 # By Pelmen, https://github.com/Pelmen323
 # Only to be run via pytest due to relative imports errors
 ##########################
-import re
-import copy
+from ..test_classes.characters_class import Advisors, Characters
 from ..test_classes.generic_test_class import FileOpener
-from ..test_classes.characters_class import Characters, Advisors
-import logging
 
 
 def test_replace_char_raw_names_with_keys(test_runner: object):

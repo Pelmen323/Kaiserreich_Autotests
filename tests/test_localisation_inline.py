@@ -1,11 +1,11 @@
 import glob
-import re
 import os
-import py
+import re
+
 import pytest
-from ..test_classes.modifiers_loc_class import Modifiers
-from ..test_classes.generic_test_class import FileOpener, ResultsReporter, DataCleaner
-FILES_TO_SKIP = []#['localisation', 'game_rules', 'names', 'names_ships', 'names_divsions']
+
+from ..test_classes.generic_test_class import FileOpener, ResultsReporter
+
 LINES_TO_SKIP = ['log =', 'division_template', 'gfx', '19', '18', 'transfer_ship =', '_desc',
                  'waking the tiger', 'together for victory', 'la resistance', 'man the guns',
                  'no step back', 'death or dishonor', 'window_name = ', '[', '#']
@@ -13,7 +13,6 @@ LINES_TO_SKIP = ['log =', 'division_template', 'gfx', '19', '18', 'transfer_ship
 
 list_of_filepaths_to_check = [
     "common\\scripted_localisation\\",
-    # "events\\",
 ]
 
 
@@ -24,8 +23,6 @@ def test_loc_references_to_keys(test_runner: object, filepath_to_check):
     paths = {}
 
     for filename in glob.iglob(filepath_test + '**/*.txt', recursive=True):
-        if DataCleaner.skip_files(files_to_skip=FILES_TO_SKIP, filename=filename):
-            continue
         text_file = FileOpener.open_text_file(filename)
 
         text_file_splitted = text_file.split('\n')[1:]

@@ -3,11 +3,14 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import re
-import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
-FALSE_POSITIVES = ['yunnan_r_kmt_faction_leader', 'nfa_alphonse_juin_target', 'aus_otto_von_habsburg_target',]
+import os
+import re
+
+from ..test_classes.generic_test_class import (DataCleaner, FileOpener,
+                                               ResultsReporter)
+
+FALSE_POSITIVES = ['yunnan_r_kmt_faction_leader', 'nfa_alphonse_juin_target', 'aus_otto_von_habsburg_target']
 
 
 def test_check_unused_event_targets(test_runner: object):

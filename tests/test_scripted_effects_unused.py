@@ -5,50 +5,56 @@
 import glob
 import os
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+
+from ..test_classes.generic_test_class import (
+    DataCleaner,
+    FileOpener,
+    ResultsReporter,
+)
+
 FALSE_POSITIVES = [
- 'generate_generic_sics_and_activate',
- 'destroy_all_ships',
- 'decrease_state_category_by_one_level',
- 'gain_random_agency_upgrade',
- 'lec_american_fall',
- 'ott_create_abdulmecid',
- 'clear_sabotaged_resources_if_necesary',
- 'reduce_conscription_to_volunteer',
- 'reduce_conscription_to_disarmed',
- 'decrease_mobilisation',
- 'disband_fifty_percent_units',
- 'ant_setpr_leaders',
- 'cze_jiri_stribrny_sic',
- 'cze_alois_podhajsky_sic',
- 'cze_radola_gajda_sic',
- 'cze_rudolf_lodgman_sic',
- 'cze_moric_hruban_sic',
- 'cze_premysl_samal_sic',
- 'cze_karel_egnlis_sic',
- 'cze_rudolf_beran_sic',
- 'cze_rudolf_bechyne_sic',
- 'cze_zdenek_fierlinger_sic',
- 'cze_antonin_novotny_sic',
- 'cze_jaroslav_hasek_sic',
- 'cze_jan_sverma_sic',
- 'cze_bohumil_stasek_sic',
- 'cze_frantisek_hodac_sic',
- 'cze_emanuel_vajtauer_sic',
- 'create_snp_right',
- 'cub_remove_autentico_generals',
- 'fng_nupop',
- 'fng_zppop',
- 'gal_generals_join_ukraine',
- 'gal_characters_join_ukraine_immediate',
- 'clear_relations_with_prev',
- 'generate_generic_military_advisors_low_level',
- 'remove_civilian_advisor_roles',
- 'remove_military_advisor_roles',
- 'log_rp_eastern_military',
- 'log_aus_full_empire',
- 'add_research_slot_until_six',
- 'transfer_control_during_war',
+    'generate_generic_sics_and_activate',
+    'destroy_all_ships',
+    'decrease_state_category_by_one_level',
+    'gain_random_agency_upgrade',
+    'lec_american_fall',
+    'ott_create_abdulmecid',
+    'clear_sabotaged_resources_if_necesary',
+    'reduce_conscription_to_volunteer',
+    'reduce_conscription_to_disarmed',
+    'decrease_mobilisation',
+    'disband_fifty_percent_units',
+    'ant_setpr_leaders',
+    'cze_jiri_stribrny_sic',
+    'cze_alois_podhajsky_sic',
+    'cze_radola_gajda_sic',
+    'cze_rudolf_lodgman_sic',
+    'cze_moric_hruban_sic',
+    'cze_premysl_samal_sic',
+    'cze_karel_egnlis_sic',
+    'cze_rudolf_beran_sic',
+    'cze_rudolf_bechyne_sic',
+    'cze_zdenek_fierlinger_sic',
+    'cze_antonin_novotny_sic',
+    'cze_jaroslav_hasek_sic',
+    'cze_jan_sverma_sic',
+    'cze_bohumil_stasek_sic',
+    'cze_frantisek_hodac_sic',
+    'cze_emanuel_vajtauer_sic',
+    'create_snp_right',
+    'cub_remove_autentico_generals',
+    'fng_nupop',
+    'fng_zppop',
+    'gal_generals_join_ukraine',
+    'gal_characters_join_ukraine_immediate',
+    'clear_relations_with_prev',
+    'generate_generic_military_advisors_low_level',
+    'remove_civilian_advisor_roles',
+    'remove_military_advisor_roles',
+    'log_rp_eastern_military',
+    'log_aus_full_empire',
+    'add_research_slot_until_six',
+    'transfer_control_during_war',
 ]
 
 
@@ -63,7 +69,7 @@ def test_check_scripted_effects_unused(test_runner: object):
 
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):
-            current_line = text_file_splitted[line-1]
+            current_line = text_file_splitted[line - 1]
             pattern_matches = re.findall('^[a-zA-Z0-9_\\.]* = \\{', current_line)
             if len(pattern_matches) > 0:
                 match = pattern_matches[0][:-4].strip()

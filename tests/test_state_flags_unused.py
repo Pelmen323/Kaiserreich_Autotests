@@ -5,10 +5,16 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import re
-import os
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
+import os
+import re
+
+from ..test_classes.generic_test_class import (
+    DataCleaner,
+    FileOpener,
+    ResultsReporter,
+)
+
 FALSE_POSITIVES = ('acw_important_state_csa',     # Wavering momentum flags that are currently unused
                    'acw_important_state_usa',
                    'acw_important_state_tex',

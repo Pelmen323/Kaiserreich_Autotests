@@ -1,7 +1,9 @@
 import glob
 import re
-from test_classes.generic_test_class import FileOpener, DataCleaner
+
 from core.runner import TestRunner
+from test_classes.generic_test_class import DataCleaner, FileOpener
+
 FILES_TO_SKIP = ['localisation', 'interface', 'gfx', 'map', 'common\\units', 'names', 'states']
 
 

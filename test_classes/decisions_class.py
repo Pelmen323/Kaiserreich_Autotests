@@ -1,8 +1,9 @@
 import glob
-import re
-import os
-from ..test_classes.generic_test_class import FileOpener
 import logging
+import os
+import re
+
+from ..test_classes.generic_test_class import FileOpener
 
 
 class Decisions:

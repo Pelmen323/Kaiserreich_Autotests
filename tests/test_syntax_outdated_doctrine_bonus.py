@@ -4,6 +4,7 @@
 ##########################
 import glob
 import re
+
 from ..data.doctrine_categories import combined_doctrines_list
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 

@@ -2,9 +2,10 @@
 # Test script to check for missing events
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-from ..test_classes.generic_test_class import FileOpener, ResultsReporter
-from ..test_classes.events_class import Events
 import glob
+
+from ..test_classes.events_class import Events
+from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_missing_events(test_runner: object):

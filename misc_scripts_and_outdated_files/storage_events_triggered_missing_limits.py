@@ -4,8 +4,10 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import re
-from ..test_classes.generic_test_class import DataCleaner, ResultsReporter
+
 from ..test_classes.events_class import Events
+from ..test_classes.generic_test_class import ResultsReporter
+
 FALSE_POSITIVES = ['ace_promoted.1', 'ace_promoted.2', 'ace_died.1',
                    'ace_killed_by_ace.1', 'ace_killed_other_ace.1',
                    'aces_killed_each_other.1', 'nuke_dropped.0']

@@ -5,10 +5,12 @@
 # Add files with empty decisions/ missions to files_to_skip
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-import os
 import glob
+import os
 import re
+
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
+
 FILES_TO_SKIP = ('00 demobilization decisions.txt',
                  '00 exiled governments decisions.txt',
                  'ZZ debug decisions.txt',

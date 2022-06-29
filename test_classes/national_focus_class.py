@@ -1,6 +1,7 @@
 import glob
-import re
 import os
+import re
+
 from ..test_classes.generic_test_class import FileOpener
 
 

@@ -2,11 +2,13 @@
 # Test script to check for duplicated characters
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-import re
-import pytest
 import os
-from ..test_classes.generic_test_class import ResultsReporter
+import re
+
+import pytest
+
 from ..test_classes.characters_class import Characters
+from ..test_classes.generic_test_class import ResultsReporter
 
 
 @pytest.mark.skip(reason="Currently disabled")

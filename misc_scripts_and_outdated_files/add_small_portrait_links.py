@@ -2,10 +2,11 @@
 # By Pelmen, https://github.com/Pelmen323
 # Only to be run via pytest due to relative imports errors
 ##########################
+import logging
 import os
 import re
 import shutil
-import logging
+
 from ..test_classes.characters_class import Characters
 from ..test_classes.generic_test_class import FileOpener
 

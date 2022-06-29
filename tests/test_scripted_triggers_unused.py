@@ -5,7 +5,13 @@
 import glob
 import os
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+
+from ..test_classes.generic_test_class import (
+    DataCleaner,
+    FileOpener,
+    ResultsReporter,
+)
+
 FILES_TO_SKIP = ['diplomacy_scripted_triggers',
                  'diplo_action_valid_triggers', '00_resistance']
 FALSE_POSITIVES = ['ai_is_naval_invader_trigger',
@@ -61,7 +67,7 @@ def test_check_scripted_triggers_unused(test_runner: object):
 
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):
-            current_line = text_file_splitted[line-1]
+            current_line = text_file_splitted[line - 1]
             pattern_matches = re.findall(
                 '^[a-zA-Z0-9_\\.]* = \\{', current_line)
             if len(pattern_matches) > 0:

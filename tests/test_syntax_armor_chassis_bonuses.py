@@ -2,11 +2,16 @@
 # Test script to check for outdated armor bonuses syntax
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-import os
 import glob
-import re
-from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 import logging
+import os
+import re
+
+from ..test_classes.generic_test_class import (
+    DataCleaner,
+    FileOpener,
+    ResultsReporter,
+)
 
 
 def test_check_armor_chassis_bonuses_syntax(test_runner: object):

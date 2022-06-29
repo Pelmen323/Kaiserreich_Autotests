@@ -3,11 +3,12 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import re
-import os
-from ..test_classes.generic_test_class import FileOpener, ResultsReporter
-from ..test_classes.characters_class import Characters
 import logging
+import os
+import re
+
+from ..test_classes.characters_class import Characters
+from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_missing_characters(test_runner: object):

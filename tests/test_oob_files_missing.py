@@ -3,10 +3,13 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
+import logging
 import os
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
-import logging
+
+from ..test_classes.generic_test_class import (DataCleaner, FileOpener,
+                                               ResultsReporter)
+
 FALSE_POSITIVES = ('[oob_name]',)
 
 

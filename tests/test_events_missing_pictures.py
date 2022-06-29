@@ -2,10 +2,12 @@
 # Test script to check for events with missing pics
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-import pytest
-from ..test_classes.generic_test_class import ResultsReporter
-from ..test_classes.events_class import Events
 import re
+
+import pytest
+
+from ..test_classes.events_class import Events
+from ..test_classes.generic_test_class import ResultsReporter
 
 
 @pytest.mark.skip(reason="Disabled for now")

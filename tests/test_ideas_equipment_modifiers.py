@@ -2,9 +2,9 @@
 # Test script to check if equipment modifiers have instant application
 # By Pelmen, https://github.com/Pelmen323
 ##########################
+from ..test_classes.characters_class import Characters
 from ..test_classes.generic_test_class import ResultsReporter
 from ..test_classes.ideas_class import Ideas
-from ..test_classes.characters_class import Characters
 
 
 def test_equipment_bonus_without_instant_application(test_runner: object):

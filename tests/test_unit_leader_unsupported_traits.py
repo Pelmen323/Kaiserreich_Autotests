@@ -3,8 +3,9 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import re
 import os
+import re
+
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 from ..test_classes.unit_leader_traits_class import Traits
 

@@ -4,9 +4,12 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-from ..test_classes.generic_test_class import FileOpener, DataCleaner
 import logging
+
 import pytest
+
+from ..test_classes.generic_test_class import DataCleaner, FileOpener
+
 FILES_TO_SKIP = ["KR_Vanilla_Override_l_english", "ideas_l_english", "music", "lar_operations", "autonomy_l", "decisions_l_english"
                  "events_l_english", "factions_l_english", "focus_l_english", "technology_sharing", "00_General_l_english",
                  "War_l_english", "war_l_english", "00_Map_Victory", "00_Map_States", "_Equip", "_Adjacency", "st_manager",

@@ -3,11 +3,12 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import re
 import os
-from ..test_classes.generic_test_class import ResultsReporter, FileOpener
-from ..test_classes.characters_class import Characters, Advisors
+import re
+
+from ..test_classes.characters_class import Advisors, Characters
 from ..test_classes.events_class import Events
+from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_advisors_activation_without_clearing_slot(test_runner: object):
@@ -23,10 +24,8 @@ def test_check_advisors_activation_without_clearing_slot(test_runner: object):
             sic.append(adv.token)
 
     for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
-        if "history" in filename: continue
-        if "effects" in filename: continue
-        if "on_actions" in filename: continue
-        if "events" in filename: continue
+        if len([i for i in ["history", "effects", "on_actions", "events"] if i in filename]) > 0:
+            continue
         text_file = FileOpener.open_text_file(filename)
 
         if 'activate_advisor' in text_file:

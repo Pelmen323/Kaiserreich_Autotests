@@ -3,10 +3,13 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
 import logging
-FALSE_POSITIVES = ["cro_habsburg",]
+import re
+
+from ..test_classes.generic_test_class import (DataCleaner, FileOpener,
+                                               ResultsReporter)
+
+FALSE_POSITIVES = ["cro_habsburg"]
 
 
 def test_check_cosmetic_tags_colors_unused(test_runner: object):

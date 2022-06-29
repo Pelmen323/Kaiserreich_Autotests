@@ -5,6 +5,7 @@
 ##########################
 import glob
 import os
+
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
@@ -19,7 +20,7 @@ def test_check_negative_ai_factors(test_runner: object):
 
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):
-            current_line = text_file_splitted[line-1]
+            current_line = text_file_splitted[line - 1]
             if '\tfactor = -' in current_line:
                 results[f'{os.path.basename(filename)}, line {line}'] = current_line
 

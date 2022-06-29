@@ -3,10 +3,12 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import os
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+
+from ..test_classes.generic_test_class import (DataCleaner, FileOpener,
+                                               ResultsReporter)
 from ..test_classes.ideas_class import Ideas
+
 FILES_TO_SKIP = ["00 Generic ideas.txt", '01 Army Spirits.txt', '01 Air Spirits.txt', '01 Navy Spirits.txt']
 FALSE_POSITIVES = ('hai_foreign_control_dummy', 'maf_colonial_budget_idea_dummy',)
 

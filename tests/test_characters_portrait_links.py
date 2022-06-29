@@ -3,8 +3,9 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import re
-from ..test_classes.generic_test_class import ResultsReporter
+
 from ..test_classes.characters_class import Characters
+from ..test_classes.generic_test_class import ResultsReporter
 
 
 def test_check_characters_already_hired(test_runner: object):

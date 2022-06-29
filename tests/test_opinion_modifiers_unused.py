@@ -5,7 +5,10 @@
 import glob
 import os
 import re
-from ..test_classes.generic_test_class import FileOpener, DataCleaner, ResultsReporter
+
+from ..test_classes.generic_test_class import (DataCleaner, FileOpener,
+                                               ResultsReporter)
+
 FILES_TO_SKIP = ["Vanilla_Opinion_Modifiers"]
 FALSE_POSITIVES = ("kr_deal_with_devil", "aided_cntfai", "aided_carlist", "aided_spain",)
 
@@ -23,7 +26,7 @@ def test_check_opinion_modifiers_unused(test_runner: object):
 
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):
-            current_line = text_file_splitted[line-1]
+            current_line = text_file_splitted[line - 1]
             pattern_matches = re.findall('^\t[a-zA-Z0-9_\\.]* = \\{', current_line)
             if len(pattern_matches) > 0:
                 match = pattern_matches[0][:-4].strip('\t').strip()

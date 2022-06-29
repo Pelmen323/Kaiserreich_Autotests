@@ -3,11 +3,12 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import pytest
-import re
 import os
-from ..test_classes.generic_test_class import FileOpener, ResultsReporter
+import re
 
+import pytest
+
+from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 list_of_triggers = [
     "every_owned_state",
@@ -26,7 +27,7 @@ def test_check_syntax_xxx_owned_state(test_runner: object, trigger):
         text_file = FileOpener.open_text_file(filename)
 
         if trigger in text_file:
-            pattern = f'^(\\t*?){trigger}'+' = (\\{\n.*?^\\1\\})'
+            pattern = f'^(\\t*?){trigger}' + ' = (\\{\n.*?^\\1\\})'
             pattern_matches = re.findall(pattern, text_file, flags=re.DOTALL | re.MULTILINE)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:

@@ -2,8 +2,9 @@
 # Test script to check for advisors that don't have _sic or _second_in_command in their SIC idea tokens
 # By Pelmen, https://github.com/Pelmen323
 ##########################
+from ..test_classes.characters_class import Advisors, Characters
 from ..test_classes.generic_test_class import ResultsReporter
-from ..test_classes.characters_class import Characters, Advisors
+
 FALSE_POSITIVES = [
     "gbr_austen_chamberlain",
     "gbr_anthony_eden",

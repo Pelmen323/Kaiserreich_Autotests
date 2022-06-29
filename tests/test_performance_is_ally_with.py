@@ -3,10 +3,11 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import re
 import os
-from ..test_classes.generic_test_class import FileOpener, ResultsReporter
+import re
 from itertools import permutations
+
+from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_conditions_is_ally_with(test_runner: object):

@@ -3,8 +3,10 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import re
+
 from ..test_classes.generic_test_class import ResultsReporter
 from ..test_classes.national_focus_class import National_focus
+
 FALSE_POSITIVES = ['nee_country_select_screen', 'nee_blank']
 
 

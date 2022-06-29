@@ -1,6 +1,8 @@
 import logging
 from timeit import default_timer as timer
+
 import pytest
+
 from ..core.runner import TestRunner
 
 

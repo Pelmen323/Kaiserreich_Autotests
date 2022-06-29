@@ -1,7 +1,7 @@
-import logging
-import re
-import os
 import glob
+import logging
+import os
+import re
 
 
 class FileOpener:

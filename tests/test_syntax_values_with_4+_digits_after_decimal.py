@@ -7,6 +7,7 @@
 import glob
 import os
 import re
+
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
@@ -20,7 +21,7 @@ def test_check_values_digits_after_decimal(test_runner: object):
 
         text_file_splitted = text_file.split('\n')
         for line in range(len(text_file_splitted)):
-            current_line = text_file_splitted[line-1]
+            current_line = text_file_splitted[line - 1]
             pattern_matches = re.findall('\\d\\.\\d{4,10}', current_line)
             if len(pattern_matches) > 0:
                 if '#' not in current_line:

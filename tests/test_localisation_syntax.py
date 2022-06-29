@@ -4,6 +4,7 @@
 ##########################
 import glob
 import os
+
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 

@@ -3,10 +3,11 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import re
-from ..test_classes.generic_test_class import ResultsReporter
-from ..test_classes.events_class import Events
-from ..test_classes.decisions_class import Decisions
+
 from ..data.ideologies import ideology_bundles
+from ..test_classes.decisions_class import Decisions
+from ..test_classes.events_class import Events
+from ..test_classes.generic_test_class import ResultsReporter
 
 
 def test_check_events_ideology_optimisations(test_runner: object):

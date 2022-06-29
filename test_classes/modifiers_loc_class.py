@@ -28,13 +28,13 @@ class Modifiers:
 
         text_file_splitted = text_file.split('\n')[1:]
         for line in range(len(text_file_splitted)):
-            current_line = text_file_splitted[line-1]
+            current_line = text_file_splitted[line - 1]
             if ':' in current_line:
                 try:
                     value = current_line[:current_line.index(":")].strip()
                     key = current_line[current_line.index('"'):].strip('"')
                     modifiers_dict[key] = value
-                except Exception as ex:
+                except Exception:
                     print(current_line)
 
         return modifiers_dict
