@@ -1,16 +1,18 @@
 # Pytest Tests for Kaiserreich
 
-Repo for .py tests for Kaiserreich (can be run for every other HOI4 mod), with possibility to setup Jenkins as runner.
-It can be used 'as is' for Kaiserreich user, they only need to pass their system username in which doc folder the project is located and name of mod folder (see screenshots lower). For other HOI4 projects it can be used as well but requires manual verification of each error and adjusting FALSE_POSITIVES iterables respectively
+Repository for .py tests for [Kaiserreich](https://steamcommunity.com/workshop/filedetails/?id=1521695605) with the possibility to set up Jenkins as a runner.
+It can be used 'as is' for Kaiserreich users, they only need to pass their system username in which doc folder the project is located and the name of the mod folder (see screenshots lower). For other HOI4 projects, it can be used as well but no support is provided.
 
-General idea of the project is to automate the scenarios testing that are almost impossible to verify otherwise (they can be checked manually via CWTools in some cases, but my solution benefits from all automation perks - it is never tired and it performs thousands of operation per second). Tests are NOT running the game, instead they parse and analyze the codebase. Tests are mostly created upon finding the issue - to find all affected scenarios and to prevent bugs from reappearing in the future
+The general idea of the project is to automate the scenarios testing that is almost impossible to verify otherwise (they can be checked manually via CWTools in some cases, but my solution benefits from all automation perks - it is never tired, fast and provides almost instant feedback). 
+Tests are NOT running the game, instead, they parse and analyze the codebase. 
+Repository is constantly updated - tests are mostly created upon finding bugs.
 
-In-built multithreading support and high performance optimization, current full run time - around 80 seconds.
+In-built multithreading support and high-performance optimization, current full runtime - around 3 minutes with 6 cores utilised.
 
-Requirements - Python installation with pytest and pytest-xdist plugins installed
+Requirements - Python installation with pytest and pytest-xdist plugins.
 
-## Currently included tests:
-80+ tests, including:
+## Currently included tests
+90+ tests, including:
 
 *Advisors tests*
 - usage of non-unique advisor tokens test (it causes bugs all over the place. Advisors should have unique tokens)
@@ -100,7 +102,7 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 
 *Syntax tests:*
 - missing 'limit' expression in if/elif conditions test
-- usage of outdated syntax for armor equipment bonuses test (_equipment -> _chassis)
+- usage of outdated syntax for armor equipment bonuses test (equipment -> chassis)
 - usage of DLC-locked armor chassis for non NSB owners and vice versa test (owners of NSB have specific armor equipment available; non-DLC players have their own. Checks if these two types of equipment are not mixed)
 - usage of outdated syntax for doctrines cost reduction test (tech_bonus -> doctrine_cost_reduction)
 - railways file test (verifies the expected and actual number of provinces provided in /map/railways.txt file)
@@ -111,31 +113,31 @@ Requirements - Python installation with pytest and pytest-xdist plugins installe
 - usage of incorrect equipment type in modifiers
 
 
-### Project development timeline on the Jenkins graph:
+### Project development timeline on the Jenkins graph
 
 ![Screenshot (2159)](https://user-images.githubusercontent.com/43440389/154126863-2af499b8-cf0b-4935-a214-924163b0e182.png)
 
 
 
 
-## Pytest instructions:
+## Pytest instructions
 It allows to run test locally, all you need is python installation and installed 'pytest' and 'pytest-xdist' plugins
 
 0. Create venv with pytest installed - 'pip install pytest' or 'pipenv install pytest' if you use pipenv
 1. Install pytest-xdist - 'pip install pytest-xdist' or 'pipenv install pytest-xdist' if you use pipenv
-2. Clone repo with tests
-3. Change directory to repo directory
+2. Clone repository with tests
+3. Change directory to repository directory
 4. Run:
 ### pytest -v -s --tb=short "--username=xxx" "--mod_name=xxx" -n 6"
 in console, replace **username** with your system username and **mod_name** with mod folder name, -n - number of your CPU cores
 ![Screenshot (1959)](https://user-images.githubusercontent.com/43440389/151341518-cf21b401-3c90-459d-80ce-02385a0166fe.png)
 
 
-## Pytest-Jenkins instructions:
+## Pytest-Jenkins instructions
 It allows to run tests automatically based on specific triggers
 
 0. Create a Python Virtual Environment, install Pytest via 'pip install pytest' or 'pipenv install pytest' if you use pipenv, install 'pytest-xdist' - 'pip install pytest-xdist' or 'pipenv install pytest-xdist' if you use pipenv
-1. Install Jenkins https://www.jenkins.io/
+1. Install [Jenkins](https://www.jenkins.io/)
 2. Install **Python Plugin** and **ShiningPanda Plugin** Jenkins plugins:
 ![Screenshot (1782)](https://user-images.githubusercontent.com/43440389/148402585-b2eaa6d6-7496-4b11-8643-1b1b17fa87ff.png)
 
@@ -144,7 +146,7 @@ It allows to run tests automatically based on specific triggers
 
 4. Create a new Job (Freestyle project)
 5. Configure the job
-- git repo - https://github.com/Pelmen323/Kaiserreich_Autotests, branch - main
+- [github repository](https://github.com/Pelmen323/Kaiserreich_Autotests), branch - main
 - Build action - Custom Python Builder, path to your venv (not to exe), nature - Shell, command:
 ### pytest -v -s --tb=short "--username=xxx" "--mod_name=xxx" -n 6 --junitxml TestResults.xml
 (replace **username** with your system username and **mod_name** with mod folder name, -n - number of your CPU cores)
