@@ -9,6 +9,8 @@ from ..test_classes.generic_test_class import ResultsReporter
 
 FALSE_POSITIVES = [
     "pap_eugenio_pacelli_sic",
+    "asy_malik_qambar_political_advisor_lar",
+    "irq_hashim_al_alawi_political_advisor_lar",
 ]
 list_of_trait_types = [
     "air_chief",

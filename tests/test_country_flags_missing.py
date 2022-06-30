@@ -53,6 +53,13 @@ def test_check_missing_country_flags(test_runner: object):
                     country_flags[match] = 0
                     paths[match] = os.path.basename(filename)
 
+        if "modify_country_flag =" in text_file:
+            pattern_matches = re.findall("modify_country_flag = \\{.*?flag = ([a-zA-Z0-9_']*).*?\\}", text_file, flags=re.DOTALL | re.MULTILINE)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    country_flags[match] = 0
+                    paths[match] = os.path.basename(filename)
+
 # Part 2 - clear false positives and flags with variables:
     country_flags = DataCleaner.clear_false_positives(input_iter=country_flags, false_positives=FALSE_POSITIVES)
 
