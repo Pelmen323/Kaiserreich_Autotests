@@ -111,7 +111,7 @@ class DecisionsFactory:
     def __init__(self, dec: str) -> None:
         # Decision token
         try:
-            self.token = re.match('(.+) = \\{', dec).group(1)
+            self.token = re.findall('^\\t*(.+) = \\{', dec, flags=re.MULTILINE)[0]
         except AttributeError:
             self.token = None
             logging.error(f"Missing decision token, {dec}")
