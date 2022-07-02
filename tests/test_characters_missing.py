@@ -47,6 +47,12 @@ def test_check_missing_characters(test_runner: object):
                         characters_usages.append(match)
                         paths[match] = os.path.basename(filename)
 
+            pattern_matches = re.findall('promote_character = (\\w{3}_\\w+)', text_file)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    characters_usages.append(match)
+                    paths[match] = os.path.basename(filename)
+
     logging.debug(f'{len(characters_usages)} character usages found')
 
     # Get all characters names
