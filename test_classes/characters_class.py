@@ -107,6 +107,42 @@ class Characters:
             return advisors
 
     @classmethod
+    def get_all_add_advisor_effects(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> list[str]:
+        """Parse all files in common/characters and return the list with all advisors code
+
+        Args:
+            test_runner (_type_): test runner obj
+            lowercase (bool, optional): defines if returned list contains lowercase str or not. Defaults to True.
+            return_paths (bool, optional): defines if advisors code is returned with dict that contains their filenames. Defaults to False.
+
+        Returns:
+            if return_paths - tuple[list, dict]: list with advisors code and dict with advisors filenames
+            else - list: list with advisors code
+        """
+        filepath = test_runner.full_path_to_mod
+        advisors = []
+        paths = {}
+
+        for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
+            if lowercase:
+                text_file = FileOpener.open_text_file(filename)
+            else:
+                text_file = FileOpener.open_text_file(filename, lowercase=False)
+
+            if 'add_advisor_role = {' in text_file:
+                pattern_matches = re.findall('^(\\t*?)add_advisor_role = \\{(.*?^)\\1\\}', text_file, flags=re.DOTALL | re.MULTILINE)
+                if len(pattern_matches) > 0:
+                    for match in pattern_matches:
+                        match = match[1]
+                        advisors.append(match)
+                        paths[match] = os.path.basename(filename)
+
+        if return_paths:
+            return (advisors, paths)
+        else:
+            return advisors
+
+    @classmethod
     def get_advisors_traits(cls, test_runner, trait_type: str = None, lowercase: bool = True, path: str = None) -> list[str]:
         """Parse common\\country_leader\\xxx.txt and return the list with all advisor traits
 
