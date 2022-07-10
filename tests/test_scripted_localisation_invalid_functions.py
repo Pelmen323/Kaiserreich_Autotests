@@ -29,8 +29,8 @@ def test_check_unsupported_scripted_loc(test_runner: object):
                 scripted_loc_pattern = re.findall("\\[.*?\\]", current_line)
                 if len(scripted_loc_pattern) > 0:
                     for func in scripted_loc_pattern:
-                        func = func[1:-1]                                                       # 2. Cut brackets ( [ ] )                    
-                        if func[0] != "?" and func[0] != "!":                                   # 3. Variables (?) and gui (!) - ignore those instances                      
+                        func = func[1:-1]                                                       # 2. Cut brackets ( [ ] )
+                        if func[0] != "?" and func[0] != "!":                                   # 3. Variables (?) and gui (!) - ignore those instances
                             if "." in func:                                                     # 4. Scoping - cut it
                                 func = func[func.rindex(".", ) + 1:]
                             if func not in test_data_list and func not in custom_scripted_loc:  # 5. Check if func is present in vanilla scripted loc and in custom scripted loc

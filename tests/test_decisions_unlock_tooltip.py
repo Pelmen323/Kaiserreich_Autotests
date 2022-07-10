@@ -8,6 +8,16 @@ import re
 
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
+FALSE_POSITIVES = [
+    # AST - not possible to convert
+    "unlock_decision_category_tooltip = ast_anderson_policy_decisions"
+    # BAT - Already converted
+    "unlock_decision_tooltip = bat_zersetzung_decision",
+    "unlock_decision_tooltip = bat_banderbekampfung_decision",
+    "unlock_decision_tooltip = bat_zerstorungsbataillons_decision",
+    "unlock_decision_category_tooltip = bat_eastern_vanguard_decision_category",
+]
+
 
 def test_non_targeted_decisions(test_runner: object):
     filepath = test_runner.full_path_to_mod
@@ -21,7 +31,8 @@ def test_non_targeted_decisions(test_runner: object):
             pattern_matches = re.findall('.*unlock_decision.*', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
-                    results.append((match.replace('\t', ''), os.path.basename(filename)))
+                    if match.replace('\t', '') not in FALSE_POSITIVES:
+                        results.append((match.replace('\t', ''), os.path.basename(filename)))
 
 # Part 2 - throw the error if those combinations are encountered
-    ResultsReporter.report_results(results=results, message="Recheck the piece of code and convert to targeted decision if possible. Check console output")
+    ResultsReporter.report_results(results=sorted(results), message="Recheck the piece of code and convert to targeted decision if possible. Check console output")
