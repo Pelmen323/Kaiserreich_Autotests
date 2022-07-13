@@ -8,15 +8,13 @@ import re
 
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
-FALSE_POSITIVES = ()
-
 
 def test_advisors_removal(test_runner: object):
     filepath = test_runner.full_path_to_mod
     results = []
 
     for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
-        if '00_advisor_scripted_effects' in filename:
+        if '00_character_scripted_effects' in filename:
             continue
         text_file = FileOpener.open_text_file(filename)
 

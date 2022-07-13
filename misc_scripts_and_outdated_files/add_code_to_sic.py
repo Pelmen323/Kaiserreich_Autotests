@@ -41,6 +41,7 @@ def test_add_code_to_sic(test_runner):
                                                     + tabs_to_extract + "}\n" \
                                                     + tabs_to_extract + "on_remove = {\n" \
                                                     + tabs_to_extract + "\t" + char_id + " = { clr_character_flag = is_second_in_command }\n" \
+                                                    + tabs_to_extract + "\tclear_variable = current_second_in_command_character\n" \
                                                     + tabs_to_extract + "}"
             advisor_code_new = advisor_code.replace("removal_cost = -1", line_to_insert)
             results_dict[advisor_code] = advisor_code_new

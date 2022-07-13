@@ -55,6 +55,8 @@ FALSE_POSITIVES = [
     'log_aus_full_empire',
     'add_research_slot_until_six',
     'transfer_control_during_war',
+    'puppet_country_without_changing_government',
+    'puppet_country_without_changing_government_from',
 ]
 
 
