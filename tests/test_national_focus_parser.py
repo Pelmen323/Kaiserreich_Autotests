@@ -5,6 +5,7 @@
 import re
 
 from ..test_classes.generic_test_class import ResultsReporter
+from ..test_classes.localization_class import Localization
 from ..test_classes.national_focus_class import National_focus
 
 FALSE_POSITIVES = ['nee_country_select_screen', 'nee_blank']
@@ -17,6 +18,7 @@ def test_check_national_focus_contents(test_runner: object):
     """
     national_focuses, paths = National_focus.get_all_national_focuses(test_runner=test_runner, return_paths=True)
     national_focuses_id = National_focus.get_all_national_focuses_names(test_runner=test_runner)
+    loc_keys = Localization.get_all_loc_keys(test_runner=test_runner)
     results = []
     print(len(national_focuses))
 
@@ -79,5 +81,11 @@ def test_check_national_focus_contents(test_runner: object):
                 for i in focuses_found:
                     if i not in national_focuses_id:
                         results.append((focus_id, paths[focus], f"Focus dependency {i} is not existing"))
+
+        # Check for dynamic loc in focus name loc
+        if focus_id in loc_keys.keys():
+            if "[" in loc_keys[focus_id]:       # Either scripted loc or variable
+                if "dynamic = yes" not in focus:
+                    results.append((focus_id, paths[focus], "Missing `dynamic = yes` - scripted loc/variable in focus name"))
 
     ResultsReporter.report_results(results=results, message="Issues during focus parsing encountered. Check console output")
