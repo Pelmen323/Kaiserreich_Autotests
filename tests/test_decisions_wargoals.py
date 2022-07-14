@@ -27,12 +27,16 @@ def test_check_decisions_wargoals(test_runner: object):
                 results.append(f'{decision.token}, {paths[i]} - Missing "clear_decision_attack_ai" in "cancel_effect"')
 
             # 4 - Does the decision have a cancel_trigger or cancel_if_not_visible?
-            if decision.cancel_effect == "Missing" and decision.cancel_is_not_visible is False:
-                results.append(f'{decision.token}, {paths[i]} - The decision dont have either "cancel_effect" or "cancel_is_not_visible = yes"')
+            if decision.cancel_effect == "Missing" and decision.cancel_if_not_visible is False:
+                results.append(f'{decision.token}, {paths[i]} - The decision doesnt have either "cancel_effect" or "cancel_if_not_visible = yes"')
 
             # 5 - Does the decision have war_with_on_remove = TAG or war_with_target_on_remove = yes?
             if decision.war_with_on_remove is False and decision.war_with_target_on_remove is False:
-                results.append(f'{decision.token}, {paths[i]} - The decision dont have either "war_with_on_remove" or "war_with_target_on_remove = yes"')
+                results.append(f'{decision.token}, {paths[i]} - The decision doesnt have either "war_with_on_remove" or "war_with_target_on_remove = yes"')
+
+            # 6. Notifications
+            if "warning event" not in decision.complete_effect and "kr.political.30" not in decision.complete_effect:
+                results.append(f'{decision.token}, {paths[i]} - The decision doesnt contain notification for a target. If it is - add #warning event comment to complete_effect section"')
 
     # Part 2 - throw the error if entity is duplicated
     ResultsReporter.report_results(results=results, message="Issues with decisions that start wars were encountered. Check console output")
