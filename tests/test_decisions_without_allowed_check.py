@@ -12,6 +12,9 @@ from ..test_classes.generic_test_class import (
 )
 
 FALSE_POSITIVES = [
+    "promises_of_peace",
+    "generic_raise_stability",
+    "generic_raise_support",
     "war_propaganda",
     "war_propaganda_against_warmonger",
     "return_cores_to_ally",

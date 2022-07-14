@@ -7,6 +7,7 @@ import glob
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 from ..test_classes.scripted_loc_class import Scripted_localisation
 
+FALSE_POSITIVES = ("getsecondincommand")
 
 def test_check_localisation_scripted_brackets(test_runner: object):
     scripted_loc, paths = Scripted_localisation.get_scripted_loc_names(test_runner=test_runner, lowercase=True, return_paths=True)
@@ -38,5 +39,5 @@ def test_check_localisation_scripted_brackets(test_runner: object):
             if loc in text_file:
                 results[loc] += 1
 
-    results = [i for i in results if results[i] == 0]
+    results = [i for i in results if results[i] == 0 and i not in FALSE_POSITIVES]
     ResultsReporter.report_results(results=results, paths=paths, message="Unused scripted loc was found. Check console output")
