@@ -135,3 +135,7 @@ class DecisionsFactory:
 
         self.war_with_on_remove = "war_with_on_remove =" in dec
         self.war_with_target_on_remove = "war_with_target_on_remove = yes" in dec
+
+        self.mission_subtype = "\tdays_mission_timeout =" in dec
+        self.selectable_mission = "\tdays_mission_timeout =" in dec and "selectable_mission = yes" in dec
+        self.has_ai_factor = "\tai_will_do =" in dec

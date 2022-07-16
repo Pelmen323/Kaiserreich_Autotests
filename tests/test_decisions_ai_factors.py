@@ -5,42 +5,33 @@
 # Add files with empty decisions/ missions to files_to_skip
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-import glob
-import os
-import re
 
-from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
-FILES_TO_SKIP = ('00 demobilization decisions.txt',
-                 '00 exiled governments decisions.txt',
-                 'ZZ debug decisions.txt',
-                 'LBA decisions (Cyrenaica).txt',      # Caravans empty decisions
-                 'GER decisions (Germany).txt',        # Empty decisions with modifier
-                 'HNN decisions (Hunan).txt',          # Missing icons
-                 '01 Intermarium decisions.txt',    # 2 non-ai decisions
-                 'NEE decisions (New England).txt',)   # 9 empty decisions
+from ..test_classes.decisions_class import Decisions, DecisionsFactory
+from ..test_classes.generic_test_class import ResultsReporter
+
+NON_AI_DECISIONS = (
+    "turn_off_plpc_debug",
+    "turn_on_plpc_debug",
+)
 
 
 def test_check_decisions_ai_factors(test_runner: object):
-    filepath = f'{test_runner.full_path_to_mod}common\\decisions\\'
-    results = {}
-    os.chdir(filepath)
+    results = []
+    decisions, paths = Decisions.get_all_decisions(test_runner=test_runner, lowercase=True, return_paths=True)
 
-    for filename in glob.glob("*.txt"):
-        if filename in FILES_TO_SKIP:
+    for i in decisions:
+        decision = DecisionsFactory(dec=i)
+        if decision.token in NON_AI_DECISIONS:
             continue
-        text_file = FileOpener.open_text_file(filename)
+        if decision.mission_subtype:
+            if decision.selectable_mission:
+                if not decision.has_ai_factor:
+                    results.append((decision.token, paths[i], "Selectable mission doesn't have AI factor"))
+            elif decision.has_ai_factor:
+                results.append((decision.token, paths[i], "Non-selectable mission has AI factor"))
 
-        icon_counter = len(re.findall('icon =', text_file))
-        ai_will_do_counter = len(re.findall('ai_will_do =', text_file))
-        missions_counter = len(re.findall('\\bdays_mission_timeout ', text_file))
-        selectable_missions_counter = len(re.findall('selectable_mission = yes', text_file))
-        advisors_ai_factors_counter = len(re.findall('\\badvisor = \\{', text_file))
-        expected_num_of_ai_factors = icon_counter - missions_counter + selectable_missions_counter + advisors_ai_factors_counter
-        if expected_num_of_ai_factors > ai_will_do_counter:
-            results[filename] = f'There are more decisions and selectable missions in the file ({expected_num_of_ai_factors}) than ai factors ({ai_will_do_counter})!)'
-        elif expected_num_of_ai_factors < ai_will_do_counter:
-            results[filename] = f'Huh? We found {ai_will_do_counter} ai factors and only {expected_num_of_ai_factors} selectable decisions and missions. \
-                Probably not all decisions have icons or missions that are not selectable have ai factors'
+        elif not decision.has_ai_factor:
+            results.append((decision.token, paths[i], "Regular decision doesn't have AI factor"))
 
-    ResultsReporter.report_results(results=results, message="Issues with decisions AI factors encountered - either not all decisions have icons or not all decisions have AI factors. Check console output")
+    ResultsReporter.report_results(results=results, message="Issues with decisions AI factors encountered. Check console output")
