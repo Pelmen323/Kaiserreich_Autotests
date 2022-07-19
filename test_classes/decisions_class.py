@@ -107,6 +107,67 @@ class Decisions:
         return decisions
 
 
+    @classmethod
+    def get_all_decisions_categories(cls, test_runner, lowercase: bool = True) -> dict:
+        """Parse mod files and and return the dict of category: code of this category
+        Args:
+            test_runner (_type_): test runner obj
+            lowercase (bool, optional): defines if returned list contains lowercase str or not. Defaults to True
+
+        Returns:
+            dict: all decision categories and their code
+        """
+        filepath_to_categories = f'{test_runner.full_path_to_mod}common\\decisions\\categories\\'
+        categories = {}
+
+        for filename in glob.iglob(filepath_to_categories + '**/*.txt', recursive=True):
+            if lowercase:
+                text_file = FileOpener.open_text_file(filename)
+            else:
+                text_file = FileOpener.open_text_file(filename, lowercase=False)
+
+            pattern_matches = re.findall("^\\w* = \\{.*?^\\}", text_file, flags=re.DOTALL | re.MULTILINE)
+            if len(pattern_matches) > 0:
+                for match in pattern_matches:
+                    category_name = re.findall("^(.*) = \\{", match)[0]
+                    categories[category_name] = [match]
+
+        return categories
+
+    @classmethod
+    def get_decisions_categories_dict(cls, test_runner, lowercase: bool = True) -> dict:
+        """Parse mod files and and return the dict of category: decisions of this category
+        Args:
+            test_runner (_type_): test runner obj
+            lowercase (bool, optional): defines if returned list contains lowercase str or not. Defaults to True
+
+        Returns:
+            dict: all decision categories and decisions of those categories
+        """
+        filepath_to_decisions = f'{test_runner.full_path_to_mod}common\\decisions\\'
+        decision_categories = Decisions.get_all_decisions_categories(test_runner=test_runner, lowercase=lowercase)
+        categories_decisions_dict = {i: [] for i in decision_categories.keys()}
+
+        for filename in glob.iglob(filepath_to_decisions + '**/*.txt', recursive=True):
+            if "categories" in filename:
+                continue
+            if lowercase:
+                text_file = FileOpener.open_text_file(filename)
+            else:
+                text_file = FileOpener.open_text_file(filename, lowercase=False)
+
+            for category in decision_categories.keys():
+                if category in text_file:
+                    pattern = '^' + category + ' = \\{.*?^\\}'
+                    pattern_matches = re.findall(pattern, text_file, flags=re.DOTALL | re.MULTILINE)
+                    if len(pattern_matches) > 0:
+                        for match in pattern_matches:
+                            decision_name_pattern = re.findall("^\\t([^ \\t]+) = \\{", match, flags=re.MULTILINE)
+                            for i in decision_name_pattern:
+                                categories_decisions_dict[category].append(i)
+        return categories_decisions_dict
+
+
 class DecisionsFactory:
     def __init__(self, dec: str) -> None:
         # Decision token

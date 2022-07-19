@@ -109,7 +109,6 @@ bad_words = {
     "contiune": "continue",
     "contraversy": "controversy",
     "cooly": "coolly",
-    "counterrevolutionaries": "conterrevolutionaries",
     "curiousity": "curiosity",
     "dacquiri": "daiquiri",
     "daquiri": "daiquiri",
