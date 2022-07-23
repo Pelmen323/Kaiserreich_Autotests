@@ -200,3 +200,9 @@ class DecisionsFactory:
         self.mission_subtype = "\tdays_mission_timeout =" in dec
         self.selectable_mission = "\tdays_mission_timeout =" in dec and "selectable_mission = yes" in dec
         self.has_ai_factor = "\tai_will_do =" in dec
+
+        self.days_remove = re.findall('\\t+days_remove = (.*)', dec)[0] if '\tdays_remove =' in dec else False
+        try:
+            self.days_remove = int(self.days_remove)
+        except ValueError:
+            self.days_remove = False
