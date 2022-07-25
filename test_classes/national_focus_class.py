@@ -1,4 +1,5 @@
 import glob
+import logging
 import os
 import re
 
@@ -80,3 +81,27 @@ class National_focus:
             return (focuses_names, paths)
         else:
             return focuses_names
+
+
+class NationalFocusFactory:
+    def __init__(self, focus: str) -> None:
+        # Focus id
+        try:
+            self.id = re.findall('^\\t+id = ([^ \n\t]+)', focus, flags=re.MULTILINE)[0]
+        except IndexError:
+            self.id = False
+            logging.error(f"Missing focus token, {focus}")
+
+        self.text = re.findall('^\\t+text = ([^ \n\t]+)', focus, flags=re.MULTILINE)[0] if "	text =" in focus else False
+        self.icon = re.findall('icon = (.+)', focus)[0] if 'icon =' in focus else False
+
+        # Focus .cost
+        self.cost = re.findall('\\t+cost = (\\d+)', focus)[0] if '	cost =' in focus else False
+        self.available = re.findall('(\\t+)available = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if '	available =' in focus else False
+
+        self.select_effect = re.findall('(\\t+)select_effect = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'select_effect =' in focus else False
+        self.completion_reward = re.findall('(\\t+)completion_reward = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'completion_reward =' in focus else False
+        self.ai_will_do = re.findall('(\\t+)ai_will_do = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'ai_will_do =' in focus else False
+
+        self.will_lead_to_war_with = "will_lead_to_war_with =" in focus
+        self.dynamic = "dynamic = yes" in focus
