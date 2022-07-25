@@ -5,6 +5,8 @@
 from ..test_classes.decisions_class import Decisions, DecisionsFactory
 from ..test_classes.generic_test_class import ResultsReporter
 
+FALSE_POSITIVES = ['mex_reconquista_decision', 'acw_federal_deadline_looms', 'ser_attack_austria']
+
 
 def test_check_decisions_wargoals(test_runner: object):
     # Part 1 - get the dict of all decisions
@@ -14,6 +16,8 @@ def test_check_decisions_wargoals(test_runner: object):
     for i in decisions:
         if 'create_wargoal' in i or 'declare_war_on = {' in i:
             decision = DecisionsFactory(dec=i)
+            if decision.token in FALSE_POSITIVES:
+                continue
             # 1 - Does the remove_effect have clear_decision_attack_AI?
             if decision.remove_effect:
                 if "clear_decision_attack_ai" not in decision.remove_effect:
@@ -57,6 +61,7 @@ def test_check_decisions_wargoals(test_runner: object):
                 if decision.days_remove > 50 and "set_country_flag = { flag = imminent_war days = " + str(decision.days_remove) not in decision.complete_effect:
                     results.append(f'{decision.token}, {paths[i]} - The decision is removed more than in 50 days but doesnt have custom imminent_war flag setup')
 
-
+                if decision.days_remove < 25:
+                    results.append(f'{decision.token}, {paths[i]} - The decision is removed in {decision.days_remove} days, 25 days is a minimum')
     # Part 2 - throw the error if entity is duplicated
     ResultsReporter.report_results(results=results, message="Issues with decisions that start wars were encountered. Check console output")
