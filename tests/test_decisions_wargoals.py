@@ -5,7 +5,18 @@
 from ..test_classes.decisions_class import Decisions, DecisionsFactory
 from ..test_classes.generic_test_class import ResultsReporter
 
-FALSE_POSITIVES = ['mex_reconquista_decision', 'acw_federal_deadline_looms', 'ser_attack_austria']
+FALSE_POSITIVES = ['mex_reconquista_decision',
+                   'acw_federal_deadline_looms',
+                   'ser_attack_austria',
+                   'ott_alliance_with_azerbaijan',
+                   'cos_legion_del_caribe_attack',
+                   'per_sulaymaniyah_revolt',
+                   'sri_attack_italy',
+                   'ita_attack_italy',
+                   'srd_attack_sri',
+                   'srd_attack_italy',
+                   'pap_attack_sri',
+                   ]
 
 
 def test_check_decisions_wargoals(test_runner: object):
