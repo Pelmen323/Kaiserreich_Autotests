@@ -5,7 +5,7 @@
 # Add files with empty decisions/ missions to files_to_skip
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-
+import re
 
 from ..test_classes.decisions_class import Decisions, DecisionsFactory
 from ..test_classes.generic_test_class import ResultsReporter
@@ -45,5 +45,24 @@ def test_check_decisions_ai_factors(test_runner: object):
 
         elif not decision.has_ai_factor:
             results.append((decision.token, paths[i], "Regular decision doesn't have AI factor"))
+
+        if decision.has_ai_factor:
+            ai_factors_found = re.findall("(base = [^ \\t\\n]+|factor = [^ \\t\\n]+|add = [^ \\t\\n]+)", decision.ai_factor)
+            # Base and factor
+            if len(ai_factors_found) > 0 and "base =" in decision.ai_factor:
+                if "factor = 0" in ai_factors_found:
+                    num_of_zeroed_factors = ai_factors_found.count("factor = 0")
+                    for d in range(1, num_of_zeroed_factors):
+                        if ai_factors_found[d] != "factor = 0":
+                            results.append((decision.token, paths[i], f"{ai_factors_found} -Zeroed ai factors that are not evaluated immediately"))
+                            break
+            # Factor and factor
+            elif len(ai_factors_found) > 1:
+                if "factor = 0" in ai_factors_found:
+                    num_of_zeroed_factors = ai_factors_found.count("factor = 0")
+                    for d in range(1, num_of_zeroed_factors):
+                        if ai_factors_found[d] != "factor = 0":
+                            results.append((decision.token, paths[i], f"{ai_factors_found} - Zeroed ai factors that are not evaluated immediately"))
+                            break
 
     ResultsReporter.report_results(results=results, message="Issues with decisions AI factors encountered. Check console output")
