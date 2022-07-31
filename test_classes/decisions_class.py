@@ -194,6 +194,11 @@ class DecisionsFactory:
         self.cancel_if_not_visible = "cancel_if_not_visible = yes" in dec
         self.cancel_trigger = re.findall('(\\t+)cancel_trigger = \\{([^\\n]*|.*?^\\1)\\}', dec, flags=re.DOTALL | re.MULTILINE)[0][1] if 'cancel_trigger =' in dec else False
 
+        self.target_root_trigger = re.findall('(\\t+)target_root_trigger = \\{([^\\n]*|.*?^\\1)\\}', dec, flags=re.DOTALL | re.MULTILINE)[0][1] if 'target_root_trigger =' in dec else False
+        self.target_trigger = re.findall('(\\t+)target_trigger = \\{([^\\n]*|.*?^\\1)\\}', dec, flags=re.DOTALL | re.MULTILINE)[0][1] if 'target_trigger =' in dec else False
+        self.targets = re.findall('(\\t+)targets = \\{([^\\n]*|.*?^\\1)\\}', dec, flags=re.DOTALL | re.MULTILINE)[0][1] if '	targets = {' in dec else False
+        self.target_array = re.findall('(\\t+)target_array = ([^\\n]*)', dec, flags=re.DOTALL | re.MULTILINE)[0][1] if 'target_array =' in dec else False
+
         self.war_with_on_remove = "war_with_on_remove =" in dec
         self.war_with_target_on_remove = "war_with_target_on_remove = yes" in dec
 
