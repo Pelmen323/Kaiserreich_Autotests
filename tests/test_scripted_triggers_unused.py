@@ -51,6 +51,9 @@ FALSE_POSITIVES = ['ai_is_naval_invader_trigger',
                    'will_have_left_democratic_government',
                    'will_have_any_authoritarian_government',
                    'is_second_in_command',
+                   'has_free_political_advisor_slot',
+                   'has_two_political_advisors',
+                   'has_any_political_advisor',
                    ]
 
 

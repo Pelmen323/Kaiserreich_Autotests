@@ -57,6 +57,9 @@ FALSE_POSITIVES = [
     'transfer_control_during_war',
     'puppet_country_without_changing_government',
     'puppet_country_without_changing_government_from',
+    'clear_army_chief',
+    'clear_navy_chief',
+    'clear_air_chief',
 ]
 
 
