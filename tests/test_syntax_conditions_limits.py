@@ -12,7 +12,7 @@ from ..test_classes.generic_test_class import (
     ResultsReporter,
 )
 
-FILES_TO_SKIP = ['\\history\\', '\\tanks\\', '_rename_scripted_effects.txt', '00_renaming_toggle.txt', 'MAF effects']
+FILES_TO_SKIP = ['\\history\\', '\\tanks\\', '_rename_scripted_effects.txt', '00_renaming_toggle.txt', 'MAF effects, on_actions_Entente']
 re.DOTALL
 
 
