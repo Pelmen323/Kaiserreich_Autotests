@@ -6,6 +6,7 @@ import re
 import glob
 
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
+from ..test_classes.states_class import States
 
 
 def test_check_endonyms_scripted_loc(test_runner: object):
@@ -13,10 +14,6 @@ def test_check_endonyms_scripted_loc(test_runner: object):
     filepath_to_scripted_loc_vp = f'{test_runner.full_path_to_mod}common\\scripted_localisation\\00 - Scripted VP Endonyms.txt'
     filepath_to_keys_states = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00_Map_States_l_english.yml'
     filepath_to_keys_vp = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00_Map_Victory_Points_l_english.yml'
-
-    filepath_to_states = f'{test_runner.full_path_to_mod}history\\states'
-    states_provinces_dict = {}
-    states_vp_dict = {}
 
     states_scripted_loc = []
     defined_state_loc_keys = []
@@ -71,22 +68,7 @@ def test_check_endonyms_scripted_loc(test_runner: object):
             results.append(f"{i} - this key is not DEFINED in VP loc file")
 
     # 3 - Check if correct state is scoped
-    for filename in glob.iglob(filepath_to_states + '**/*.txt', recursive=True):
-        text_file = FileOpener.open_text_file(filename)
-
-        state_id = re.findall('	id = (\\d*)', text_file)[0]
-        provinces = re.findall('provinces = \\{\\n\\t*(.*?)\\n\\t\\}', text_file, flags=re.MULTILINE)[0].split()
-        states_provinces_dict[state_id] = [provinces]
-        vp = re.findall('victory_points = \\{ (.*) \\}', text_file)
-        if vp != []:
-            victory_points_for_state = []
-            for point in vp:
-                victory_points_for_state.append(point.split()[0])
-            states_vp_dict[state_id] = victory_points_for_state
-        else:
-            states_vp_dict[state_id] = []
-
-    # # 3.1
+    states_vp_dict = States.get_states_vps_dict(test_runner=test_runner)
     for i in defined_vp_loc_keys_full:
         if "ENDONYM" in i:
             vp_from_key = i[i.index("POINTS_") + 7: i.index("_ENDONYM")]
