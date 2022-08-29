@@ -39,36 +39,6 @@ def test_check_syntax_limits(test_runner: object):
                 match = match[0]                                            # Counter empty capture groups
                 container[match] = os.path.basename(filename)
 
-        every_state_count = re.findall('(\\bevery_state = \\{.*\n(.|\n*?)*\n\t+\\})', text_file)
-        if len(every_state_count) > 0:
-            for match in every_state_count:
-                match = match[0]                                            # Counter empty capture groups
-                container[match] = os.path.basename(filename)
-
-        every_country_count = re.findall('(\\bevery_country = \\{.*\n(.|\n*?)*\n\t+\\})', text_file)
-        if len(every_country_count) > 0:
-            for match in every_country_count:
-                match = match[0]                                            # Counter empty capture groups
-                if 'reverse_add_opinion_modifier' in match:
-                    continue
-                if '#unit limits setup' in match:
-                    continue
-                if 'former_reichspakt_member' in match:
-                    continue
-                container[match] = os.path.basename(filename)
-
-        every_other_country_count = re.findall('(\\bevery_other_country = \\{.*\n(.|\n*?)*\n\t+\\})', text_file)
-        if len(every_country_count) > 0:
-            for match in every_other_country_count:
-                match = match[0]                                            # Counter empty capture groups
-                if 'kr_similar_ideology_close' in match:
-                    continue
-                if 'ai_events.100' in match:
-                    continue
-                if 'ai_events.101' in match:
-                    continue
-                container[match] = os.path.basename(filename)
-
     for effect in container.keys():
         if 'limit = {' not in effect:
             results[effect] = container[effect]
