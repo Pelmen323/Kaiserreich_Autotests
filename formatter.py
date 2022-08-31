@@ -38,6 +38,15 @@ def apply_formatting(filename, encoding="utf-8"):
     replace_string(filename=filename, pattern='activate_targeted_decision = \\{\\n\\t+(decision = .*?)\\n\\t+(target = .*?)\\n\\t+\\}', replace_with='activate_targeted_decision = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)
     replace_string(filename=filename, pattern='remove_targeted_decision = \\{\\n\\t+(target = .*?)\\n\\t+(decision = .*?)\\n\\t+\\}', replace_with='remove_targeted_decision = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
     replace_string(filename=filename, pattern='remove_targeted_decision = \\{\\n\\t+(decision = .*?)\\n\\t+(target = .*?)\\n\\t+\\}', replace_with='remove_targeted_decision = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)
+    replace_string(filename=filename, pattern='set_variable = \\{\\n\\t+(var = .*?)\\n\\t+(value = .*?)\\n\\t+\\}', replace_with='set_variable = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
+    replace_string(filename=filename, pattern='set_variable = \\{\\n\\t+(.*?) = (.*?)\\n\\t+\\}', replace_with='set_variable = { \\1 = \\2 }', encoding=encoding, flag=re.MULTILINE)
+    replace_string(filename=filename, pattern='set_variable = \\{ var = (.*?) value = (.*?) \\}', replace_with='set_variable = { \\1 = \\2 }', encoding=encoding, flag=re.MULTILINE)
+    replace_string(filename=filename, pattern='add_to_variable = \\{\\n\\t+(var = .*?)\\n\\t+(value = .*?)\\n\\t+\\}', replace_with='add_to_variable = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
+    replace_string(filename=filename, pattern='add_to_variable = \\{\\n\\t+(.*?) = (.*?)\\n\\t+\\}', replace_with='add_to_variable = { \\1 = \\2 }', encoding=encoding, flag=re.MULTILINE)
+    replace_string(filename=filename, pattern='add_to_variable = \\{ var = (.*?) value = (.*?) \\}', replace_with='add_to_variable = { \\1 = \\2 }', encoding=encoding, flag=re.MULTILINE)
+    replace_string(filename=filename, pattern='subtract_from_variable = \\{\\n\\t+(var = .*?)\\n\\t+(value = .*?)\\n\\t+\\}', replace_with='subtract_from_variable = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
+    replace_string(filename=filename, pattern='subtract_from_variable = \\{\\n\\t+(.*?) = (.*?)\\n\\t+\\}', replace_with='subtract_from_variable = { \\1 = \\2 }', encoding=encoding, flag=re.MULTILINE)
+    replace_string(filename=filename, pattern='subtract_from_variable = \\{ var = (.*?) value = (.*?) \\}', replace_with='subtract_from_variable = { \\1 = \\2 }', encoding=encoding, flag=re.MULTILINE)
     # replace_string(filename=filename, pattern='[ \t]+$', replace_with="", encoding=encoding)                    # Remove last line spaces
 
 
