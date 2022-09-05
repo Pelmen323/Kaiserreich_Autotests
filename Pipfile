@@ -7,6 +7,12 @@ name = "pypi"
 pytest = "*"
 pytest-xdist = "*"
 flake8 = "*"
+numpy = "*"
+plotly = "*"
+cufflinks = "*"
+matplotlib = "*"
+nbformat = "*"
+nbconvert = "*"
 
 [dev-packages]
 autopep8 = "*"
