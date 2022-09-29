@@ -27,6 +27,7 @@ FALSE_POSITIVES = ('chi_soong_control',        # Currently unused flags
                    'juan_lopez_sanchez_dead',
                    'juan_peiro_belis_dead',
                    'lit_factory_opened',
+                   'cannot_produce_ships',
                    )
 
 
