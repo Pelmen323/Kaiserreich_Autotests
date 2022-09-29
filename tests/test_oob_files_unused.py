@@ -50,6 +50,7 @@ def test_check_unused_oob_files(test_runner: object):
             for file in not_encountered_oob:
                 oob_files[file] += text_file.count(f'oob = "{file}"')
                 oob_files[file] += text_file.count(f'set_naval_oob = "{file}"')
+                oob_files[file] += text_file.count(f'set_air_oob = "{file}"')
 
 # Part 3 - throw the error if oob files are not used
     results = [i for i in oob_files if oob_files[i] == 0]
