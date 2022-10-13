@@ -13,7 +13,16 @@ from ..test_classes.generic_test_class import (
 from ..test_classes.ideas_class import Ideas
 
 FILES_TO_SKIP = ["00 Generic ideas.txt", '01 Army Spirits.txt', '01 Air Spirits.txt', '01 Navy Spirits.txt']
-FALSE_POSITIVES = ('hai_foreign_control_dummy', 'maf_colonial_budget_idea_dummy',)
+FALSE_POSITIVES = (
+    'hai_foreign_control_dummy', 
+    'maf_colonial_budget_idea_dummy',
+    'maf_belgians_are_gone',
+    'bat_lit_mission',          # Added by meta effect thus skipped by test
+    'bat_pol_mission',
+    'bat_whr_mission',
+    'bat_ukr_mission',
+    'bat_fin_mission',
+    )
 
 
 def test_check_ideas_unused(test_runner: object):
