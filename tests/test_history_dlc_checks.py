@@ -22,7 +22,7 @@ def test_check_history_files_armor_techs(test_runner: object):
         mtg_limit = text_file.count('limit = { has_dlc = "man the guns" }')
         non_bba_limit = text_file.count('limit = { not = { has_dlc = "by blood alone" } }')
         bba_limit = text_file.count('limit = { has_dlc = "by blood alone" }')
-        
+
         gwtank = text_file.count("gwtank = 1")
         basic_light_tank = text_file.count("basic_light_tank = 1")
         basic_heavy_tank = text_file.count("basic_heavy_tank = 1")
