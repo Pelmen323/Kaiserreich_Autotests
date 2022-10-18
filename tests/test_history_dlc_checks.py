@@ -16,12 +16,12 @@ def test_check_history_files_armor_techs(test_runner: object):
     for filename in glob.glob("*.txt"):
         text_file = FileOpener.open_text_file(filename)
 
-        non_nsb_limit = text_file.count('limit = { not = { has_dlc = "no step back" } }')
-        nsb_limit = text_file.count('limit = { has_dlc = "no step back" }')
-        non_mtg_limit = text_file.count('limit = { not = { has_dlc = "man the guns" } }')
-        mtg_limit = text_file.count('limit = { has_dlc = "man the guns" }')
-        non_bba_limit = text_file.count('limit = { not = { has_dlc = "by blood alone" } }')
-        bba_limit = text_file.count('limit = { has_dlc = "by blood alone" }')
+        non_nsb_limit = text_file.count('limit = { not = { has_dlc_nsb = yes } }')
+        nsb_limit = text_file.count('limit = { has_dlc_nsb = yes }')
+        non_mtg_limit = text_file.count('limit = { not = { has_dlc_mtg = yes } }')
+        mtg_limit = text_file.count('limit = { has_dlc_mtg = yes }')
+        non_bba_limit = text_file.count('limit = { not = { has_dlc_bba = yes } }')
+        bba_limit = text_file.count('limit = { has_dlc_bba = yes }')
 
         gwtank = text_file.count("gwtank = 1")
         basic_light_tank = text_file.count("basic_light_tank = 1")
