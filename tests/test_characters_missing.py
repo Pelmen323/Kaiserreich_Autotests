@@ -66,5 +66,5 @@ def test_check_missing_characters(test_runner: object):
     # Get all characters names
     characters_names = Characters.get_all_characters_names(test_runner=test_runner, return_paths=False)
 
-    results = [i for i in characters_usages if i not in characters_names and i in FALSE_POSITIVES]
+    results = [i for i in characters_usages if i not in characters_names and i not in FALSE_POSITIVES]
     ResultsReporter.report_results(results=results, paths=paths, message="Missing characters were encountered. Check console output")
