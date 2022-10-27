@@ -17,6 +17,6 @@ def test_check_localisation_mandatory_line(test_runner: object):
             continue
         text_file = [i for i in text_file if "#" not in i]                          # Exclude comments
         if text_file[0] != "l_english:" and "play_in_english" not in filename:
-            results[os.path.basename(filename)]
+            results.append(os.path.basename(filename))
 
     ResultsReporter.report_results(results=results, message="l_xxx: line is absent in localisation file. Check console output")

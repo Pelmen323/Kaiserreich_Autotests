@@ -10,6 +10,8 @@ import re
 from ..test_classes.characters_class import Characters
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
+FALSE_POSITIVES = ["var", "prev", "empowered_legislative"]
+
 
 def test_check_missing_characters(test_runner: object):
     filepath = test_runner.full_path_to_mod
@@ -64,5 +66,5 @@ def test_check_missing_characters(test_runner: object):
     # Get all characters names
     characters_names = Characters.get_all_characters_names(test_runner=test_runner, return_paths=False)
 
-    results = [i for i in characters_usages if i not in characters_names and i != "var"]
+    results = [i for i in characters_usages if i not in characters_names and i in FALSE_POSITIVES]
     ResultsReporter.report_results(results=results, paths=paths, message="Missing characters were encountered. Check console output")

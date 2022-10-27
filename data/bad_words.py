@@ -26,7 +26,6 @@ bad_words = {
     "aggresive": "aggressive",
     "agression": "aggression",
     "agressive": "aggressive",
-    "aircrafts": "aircraft",
     "aknowledge": "acknowledge",
     "alegiance": "allegiance",
     "allegaince": "allegiance",

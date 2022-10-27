@@ -26,6 +26,13 @@ FALSE_POSITIVES = [
     "turn_on_plpc_debug",
     "turn_off_stt_debug",
     "turn_on_stt_debug",
+    "war_propaganda_casualties",
+    "war_propaganda_convoys",
+    "war_propaganda_bombing",
+    "can_invite_into_iedc",
+    "can_iedc_economic_investment_home",
+    "can_iedc_economic_investment",
+    "can_join_isac_decision",
 ]
 
 
