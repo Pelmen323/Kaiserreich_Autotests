@@ -23,5 +23,6 @@ def format_vp_endonym_file(username, mod_name):
         with open(filename, 'w', encoding="utf-8") as text_file_write:
             text_file_write.write(text_file_new)
 
+
 if __name__ == '__main__':
     format_vp_endonym_file(username="VADIM", mod_name="Kaiserreich Dev Build")

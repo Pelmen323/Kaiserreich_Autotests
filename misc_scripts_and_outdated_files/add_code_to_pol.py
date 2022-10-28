@@ -13,8 +13,7 @@ def test_add_code_to_sic(test_runner):
         adv = Advisors(adv=advisor_code)
         if adv.political_role:
             tabs_to_extract = re.findall("(\\t+)slot = political_advisor", advisor_code)[0]
-            line_to_insert = "slot = political_advisor\n" + tabs_to_extract + "on_add = { add_to_variable = { amount_hired_political_advisors = 1 } }\n" \
-                                                    + tabs_to_extract + "on_remove = { add_to_variable = { amount_hired_political_advisors = -1 } }"
+            line_to_insert = "slot = political_advisor\n" + tabs_to_extract + "on_add = { add_to_variable = { amount_hired_political_advisors = 1 } }\n" + tabs_to_extract + "on_remove = { add_to_variable = { amount_hired_political_advisors = -1 } }"
             advisor_code_new = advisor_code.replace("slot = political_advisor", line_to_insert)
             results_dict[advisor_code] = advisor_code_new
 

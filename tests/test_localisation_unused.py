@@ -17,7 +17,7 @@ def test_check_unused_loc_keys(test_runner: object):
     loc_keys = Localization.get_all_loc_keys(test_runner=test_runner)
     results = {}
     exceptions = ['_adj', '_def', '_liberal', '_democrat', '_syndicalist', '_totalist',
-                    '_conservative', '_autocrat', '_populist', '_socialist', '_party_long', '_party', '_blocked', '_not', '_desc']
+                  '_conservative', '_autocrat', '_populist', '_socialist', '_party_long', '_party', '_blocked', '_not', '_desc']
     for key in loc_keys:
         if len([i for i in exceptions if i in key]) == 0:
             results[key] = 0

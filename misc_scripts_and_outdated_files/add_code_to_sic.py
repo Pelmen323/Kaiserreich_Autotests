@@ -25,7 +25,7 @@ def test_add_code_to_sic(test_runner):
                     if advisor_code in item:
                         try:
                             char_id = re.findall('\\t+character = (.+)', item)[0]
-                        except:
+                        except Exception:
                             char_id = adv.token
                         break
 
@@ -33,16 +33,16 @@ def test_add_code_to_sic(test_runner):
             #     print(advisor_code)
             tabs_to_extract = re.findall("(\\t+)removal_cost = -1", advisor_code)[0]
             line_to_insert = "removal_cost = -1\n" + tabs_to_extract + "on_add = {\n" \
-                                                    + tabs_to_extract + "\trandom_character = {\n" \
-                                                    + tabs_to_extract + "\t\tlimit = { is_character = " + char_id + " }\n" \
-                                                    + tabs_to_extract + "\t\tset_character_flag = is_second_in_command\n" \
-                                                    + tabs_to_extract + "\t\tset_variable = { PREV.current_second_in_command_character = THIS }\n" \
-                                                    + tabs_to_extract + "\t}\n" \
-                                                    + tabs_to_extract + "}\n" \
-                                                    + tabs_to_extract + "on_remove = {\n" \
-                                                    + tabs_to_extract + "\t" + char_id + " = { clr_character_flag = is_second_in_command }\n" \
-                                                    + tabs_to_extract + "\tclear_variable = current_second_in_command_character\n" \
-                                                    + tabs_to_extract + "}"
+                                                   + tabs_to_extract + "\trandom_character = {\n" \
+                                                   + tabs_to_extract + "\t\tlimit = { is_character = " + char_id + " }\n" \
+                                                   + tabs_to_extract + "\t\tset_character_flag = is_second_in_command\n" \
+                                                   + tabs_to_extract + "\t\tset_variable = { PREV.current_second_in_command_character = THIS }\n" \
+                                                   + tabs_to_extract + "\t}\n" \
+                                                   + tabs_to_extract + "}\n" \
+                                                   + tabs_to_extract + "on_remove = {\n" \
+                                                   + tabs_to_extract + "\t" + char_id + " = { clr_character_flag = is_second_in_command }\n" \
+                                                   + tabs_to_extract + "\tclear_variable = current_second_in_command_character\n" \
+                                                   + tabs_to_extract + "}"
             advisor_code_new = advisor_code.replace("removal_cost = -1", line_to_insert)
             results_dict[advisor_code] = advisor_code_new
 

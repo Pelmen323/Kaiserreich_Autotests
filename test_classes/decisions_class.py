@@ -106,7 +106,6 @@ class Decisions:
                             decisions.append(match)
         return decisions
 
-
     @classmethod
     def get_all_decisions_categories(cls, test_runner, lowercase: bool = True) -> dict:
         """Parse mod files and and return the dict of category: code of this category

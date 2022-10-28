@@ -3,7 +3,6 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import re
-import glob
 
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 from ..test_classes.states_class import States
