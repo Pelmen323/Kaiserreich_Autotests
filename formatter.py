@@ -59,7 +59,6 @@ def apply_formatting(filename, encoding="utf-8"):
     # replace_string(filename=filename, pattern='subtract_from_variable = \\{\\n\\t+(var = .*?)\\n\\t+(value = .*?)\\n\\t+\\}', replace_with='subtract_from_variable = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
     # replace_string(filename=filename, pattern='subtract_from_variable = \\{\\n\\t+(.*?) = (.*?)\\n\\t+\\}', replace_with='subtract_from_variable = { \\1 = \\2 }', encoding=encoding, flag=re.MULTILINE)
     # replace_string(filename=filename, pattern='subtract_from_variable = \\{ var = (.*?) value = (.*?) \\}', replace_with='subtract_from_variable = { \\1 = \\2 }', encoding=encoding, flag=re.MULTILINE)
-    # replace_string(filename=filename, pattern='[ \t]+$', replace_with="", encoding=encoding)                    # Remove last line spaces
 
 
 def apply_formatting_loc(filename, encoding="utf-8-sig"):
@@ -70,7 +69,6 @@ def apply_formatting_loc(filename, encoding="utf-8-sig"):
     replace_string(filename=filename, pattern=':[0-9] ', replace_with=': ', encoding=encoding)                      # Purge version control
     replace_string(filename=filename, pattern='^$\\n{2,}', replace_with='\\n', encoding=encoding, flag=re.MULTILINE)          # Add last line if file is missing
     replace_string(filename=filename, pattern='^([^ #\\n]+?:) ', replace_with=' \\1 ', encoding=encoding, flag=re.MULTILINE)  # Add whitespace if the line doesn't start with
-    # replace_string(filename=filename, pattern='[ \t]+$', replace_with="", encoding=encoding)                    # Remove last line spaces
 
 
 def apply_formatting_characters(filename, encoding="utf-8"):

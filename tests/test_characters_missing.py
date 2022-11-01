@@ -25,7 +25,7 @@ def test_check_missing_characters(test_runner: object):
         text_file = FileOpener.open_text_file(filename)
 
         if 'has_character =' in text_file:
-            pattern_matches = re.findall('has_character = \\w*', text_file)
+            pattern_matches = re.findall('(?<=[^\\#])has_character = \\w*', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     match = match[15:].strip().lower()
@@ -33,7 +33,7 @@ def test_check_missing_characters(test_runner: object):
                     paths[match] = os.path.basename(filename)
 
         if 'character =' in text_file:
-            pattern_matches = re.findall('\\bcharacter = \\w*', text_file)
+            pattern_matches = re.findall('(?<=[^\\#])\\bcharacter = \\w*', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     if 'event_target' not in match:
@@ -41,7 +41,7 @@ def test_check_missing_characters(test_runner: object):
                         characters_usages.append(match)
                         paths[match] = os.path.basename(filename)
 
-            pattern_matches = re.findall('\\bis_character = \\w*', text_file)
+            pattern_matches = re.findall('(?<=[^\\#])\\bis_character = \\w*', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     if 'event_target' not in match:
@@ -49,13 +49,13 @@ def test_check_missing_characters(test_runner: object):
                         characters_usages.append(match)
                         paths[match] = os.path.basename(filename)
 
-            pattern_matches = re.findall('promote_character = (\\w{3}_\\w+)', text_file)
+            pattern_matches = re.findall('(?<=[^\\#])promote_character = (\\w{3}_\\w+)', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     characters_usages.append(match)
                     paths[match] = os.path.basename(filename)
 
-            pattern_matches = re.findall('retire_character = (\\w{3}_\\w+)', text_file)
+            pattern_matches = re.findall('(?<=[^\\#])retire_character = (\\w{3}_\\w+)', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     characters_usages.append(match)
