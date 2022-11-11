@@ -12,7 +12,7 @@ from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 input_list = [
     ["set_state_category", ".*set_state_category =.*", "Singleline", "set_state_category is encountered - use 'increase_state_category_by_one_level = yes' instead"],
-    ["add_research_slot", ".*add_research_slot =.*", "Singleline", "add_research_slot usage is encountered - use 'add_research_slot_until_four/five/six = yes' instead"],
+    ["add_research_slot", ".*add_research_slot = 1.*", "Singleline", "add_research_slot usage is encountered - use 'add_research_slot_until_four/five/six = yes' instead"],
     ["restore_previous_government_type", ".*restore_previous_government_type =.*", "Singleline", "restore_previous_government_type usage is encountered - use 'puppet_country_without_changing_government/puppet_country_without_changing_government_FROM' if possible"],
     ["modifier = embargo", ".*modifier = embargo.*", "Singleline", "modifier = embargo usage is encountered - use 'embargo_ROOT/clear_embargo_ROOT/embargo_PREV/clear_embargo_PREV/embargo_FROM/clear_embargo_FROM' instead"],
 ]

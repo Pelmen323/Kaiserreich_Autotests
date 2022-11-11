@@ -55,6 +55,15 @@ FALSE_POSITIVES = ['ai_is_naval_invader_trigger',
                    'has_two_political_advisors',
                    'has_any_political_advisor',
                    'has_dlc_bftb',
+                   'is_in_coalition_with_totalist',
+                   'is_in_coalition_with_syndicalist',
+                   'is_in_coalition_with_radical_socialist',
+                   'is_in_coalition_with_social_democrat',
+                   'is_in_coalition_with_social_liberal',
+                   'is_in_coalition_with_market_liberal',
+                   'is_in_coalition_with_social_conservative',
+                   'is_in_coalition_with_paternal_autocrat',
+                   'is_in_coalition_with_national_populist',
                    ]
 
 

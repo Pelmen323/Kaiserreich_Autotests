@@ -61,6 +61,7 @@ FALSE_POSITIVES = [
     'clear_navy_chief',
     'clear_air_chief',
     'remove_all_ai_templates',
+    'occupy_huge_country',
 ]
 
 
