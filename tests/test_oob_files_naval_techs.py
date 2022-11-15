@@ -154,7 +154,7 @@ def test_check_naval_oob_files(test_runner: object):
             oob_files[os.path.basename(filename)[:-4]] = [os.path.basename(filename)[:3], set(temp_list)]
 
     for key in oob_files:
-        if oob_files[key][0] == "SOV":
+        if oob_files[key][0] in ["SOV", "WLS", "SCO"]:
             continue
 
         if oob_files[key][0] in ["ACW", "USA", "CSA", "PSA", "TEX", "NEE"]:
