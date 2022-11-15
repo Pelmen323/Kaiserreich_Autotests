@@ -62,6 +62,12 @@ FALSE_POSITIVES = [
     'clear_air_chief',
     'remove_all_ai_templates',
     'occupy_huge_country',
+    'prioritize_state',
+    'add_one_random_civilian_factory',
+    'add_one_random_military_factory',
+    'add_one_random_dockyard',
+    'add_one_random_synthetic_refinery',
+    'add_one_random_fuel_silo',
 ]
 
 
