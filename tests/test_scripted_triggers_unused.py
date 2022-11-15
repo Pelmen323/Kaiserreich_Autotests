@@ -66,6 +66,7 @@ FALSE_POSITIVES = ['ai_is_naval_invader_trigger',
                    'is_in_coalition_with_national_populist',
                    'is_in_coalition_with_authoritarian_democrat',
                    'ott_revolt_risk_low',
+                   'spa_spr_swf_has_fervor_idea',
                    ]
 
 
