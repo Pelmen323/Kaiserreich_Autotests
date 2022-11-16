@@ -56,7 +56,7 @@ def test_check_history_files_armor_techs(test_runner: object):
 
         if bba_limit > 0 and non_bba_limit == 0:
             results[f'{os.path.basename(filename)}, DLC'] = 'Expected both bba- and non-bba dlc limits to be present. BBA is present, non-BBA is not present'
-        elif bba_limit == 0 and non_bba_limit > 0:
-            results[f'{os.path.basename(filename)}, DLC'] = 'Expected both bba- and non-bba dlc limits to be present. BBA is not present, non-BBA is present'
+        # elif bba_limit == 0 and non_bba_limit > 0:
+        #     results[f'{os.path.basename(filename)}, DLC'] = 'Expected both bba- and non-bba dlc limits to be present. BBA is not present, non-BBA is present'
 
     ResultsReporter.report_results(results=results, message="Issues with DLCs in history files were encountered. Check console output")
