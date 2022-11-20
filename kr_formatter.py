@@ -4,7 +4,7 @@ import re
 from core.runner import TestRunner
 from test_classes.generic_test_class import DataCleaner, FileOpener
 
-FILES_TO_SKIP = ['localisation', 'interface', 'gfx', 'map', 'common\\units', 'names', 'states']
+FILES_TO_SKIP = ['localisation', 'interface', 'gfx', 'map', 'common\\units', 'names', 'states', '00_construction_scripted_effects']
 
 
 def replace_string(filename, pattern, replace_with, encoding="utf-8", flag=None):
@@ -73,6 +73,40 @@ def apply_formatting(filename, encoding="utf-8"):
     replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?) (days = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)                                         # id and days on the same line
     replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?) (days = [^ #]*?) .*?(#.*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\2 } \\3', encoding=encoding, flag=re.MULTILINE)                           # id and days and comments on the same line
 
+    replace_string(filename=filename,
+                   pattern='random_owned_controlled_state = \\{\\n(\\t+)limit = \\{\\n(\\1.*\\n)*?\\1\\}\\n(\\1.*\\n)*?\\t+add_building_construction = \\{\\n\\t+type = industrial_complex\\n\\t+level = 1(\\n\\1.*\\n)*?\\t+\\}\\n\\t+\\}',
+                   replace_with='add_one_random_civilian_factory = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
+    # replace_string(filename=filename,
+    #                pattern='random_owned_controlled_state = \\{\n(\t+)(\\1.*\n)*?\t+\n\t+add_building_construction = \\{\n\t+type = industrial_complex\n\t+level = 1\n\t+(\\1.*\n)*?\t+\t+\\}\n\t+\\}',
+    #                replace_with='add_one_random_civilian_factory = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
+
+    # replace_string(filename=filename,
+    #                pattern='random_owned_controlled_state = \\{\n(\t+)limit = \\{\n(\\1.*\n)*?\\1\\}\n\t+add_building_construction = \\{\n\t+type = arms_factory\n\t+level = 1\n\t+instant_build = yes\n\t+\\}\n\t+\\}',
+    #                replace_with='add_one_random_military_factory = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
+    # replace_string(filename=filename,
+    #                pattern='random_owned_controlled_state = \\{\n\t+add_extra_state_shared_building_slots = 1\n\t+add_building_construction = \\{\n\t+type = arms_factory\n\t+level = 1\n\t+instant_build = yes\n\t+\\}\n\t+\\}',
+    #                replace_with='add_one_random_military_factory = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
+
+    # replace_string(filename=filename,
+    #                pattern='random_owned_controlled_state = \\{\n(\t+)limit = \\{\n(\\1.*\n)*?\\1\\}\n\t+add_building_construction = \\{\n\t+type = dockyard\n\t+level = 1\n\t+instant_build = yes\n\t+\\}\n\t+\\}',
+    #                replace_with='add_one_random_dockyard = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
+    # replace_string(filename=filename,
+    #                pattern='random_owned_controlled_state = \\{\n\t+add_extra_state_shared_building_slots = 1\n\t+add_building_construction = \\{\n\t+type = dockyard\n\t+level = 1\n\t+instant_build = yes\n\t+\\}\n\t+\\}',
+    #                replace_with='add_one_random_dockyard = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
+
+    # replace_string(filename=filename,
+    #                pattern='random_owned_controlled_state = \\{\n(\t+)limit = \\{\n(\\1.*\n)*?\\1\\}\n\t+add_extra_state_shared_building_slots = 1\n\t+add_building_construction = \\{\n\t+type = synthetic_refinery\n\t+level = 1\n\t+instant_build = yes\n\t+\\}\n\t+\\}',
+    #                replace_with='add_one_random_synthetic_refinery = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
+    # replace_string(filename=filename,
+    #                pattern='random_owned_controlled_state = \\{\n\t+add_extra_state_shared_building_slots = 1\n\t+add_building_construction = \\{\n\t+type = synthetic_refinery\n\t+level = 1\n\t+instant_build = yes\n\t+\\}\n\t+\\}',
+    #                replace_with='add_one_random_synthetic_refinery = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
+
+    # replace_string(filename=filename,
+    #                pattern='random_owned_controlled_state = \\{\n(\t+)limit = \\{\n(\\1.*\n)*?\\1\\}\n\t+add_extra_state_shared_building_slots = 1\n\t+add_building_construction = \\{\n\t+type = fuel_silo\n\t+level = 1\n\t+instant_build = yes\n\t+\\}\n\t+\\}',
+    #                replace_with='add_one_random_fuel_silo = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
+    # replace_string(filename=filename,
+    #                pattern='random_owned_controlled_state = \\{\n\t+add_extra_state_shared_building_slots = 1\n\t+add_building_construction = \\{\n\t+type = fuel_silo\n\t+level = 1\n\t+instant_build = yes\n\t+\\}\n\t+\\}',
+    #                replace_with='add_one_random_fuel_silo = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
 
     # replace_string(filename=filename, pattern='ai_will_do = \\{\\n\\t+(factor = [^ \\t]*?)\\n\\t+\\}', replace_with='ai_will_do = { \\1 }', encoding=encoding, flag=re.MULTILINE)
     # replace_string(filename=filename, pattern='ai_will_do = \\{\\n\\t+(base = [^ \\t]*?)\\n\\t+\\}', replace_with='ai_will_do = { \\1 }', encoding=encoding, flag=re.MULTILINE)
