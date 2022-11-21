@@ -17,7 +17,8 @@ from ..test_classes.generic_test_class import (
 FALSE_POSITIVES = ('is_han_chinese_tag',        # Currently unused flags
                    'is_non_han_chinese_tag',
                    'saf_antagonise_maf',
-                   'saf_antagonise_nmb')
+                   'saf_antagonise_nmb',
+                   'ins_high_unity')
 
 
 def test_check_unused_country_flags(test_runner: object):

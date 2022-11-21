@@ -28,7 +28,7 @@ FALSE_POSITIVES = ('chi_soong_control',        # Currently unused flags
                    'juan_peiro_belis_dead',
                    'lit_factory_opened',
                    'cannot_produce_ships',
-                   )
+                   'usa_leader')
 
 
 def test_check_missing_country_flags(test_runner: object):
