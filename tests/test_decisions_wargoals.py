@@ -16,6 +16,8 @@ FALSE_POSITIVES = ['mex_reconquista_decision',
                    'srd_attack_sri',
                    'srd_attack_italy',
                    'pap_attack_sri',
+                   'pol_operation_parasol',
+                   'nee_liberate_states',
                    ]
 
 
