@@ -33,6 +33,8 @@ FALSE_POSITIVES = [
     "can_iedc_economic_investment_home",
     "can_iedc_economic_investment",
     "can_join_isac_decision",
+    "war_propaganda_radio_industry",
+    "war_propaganda_film_industry",
 ]
 
 
