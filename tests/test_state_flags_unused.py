@@ -20,7 +20,9 @@ FALSE_POSITIVES = ('acw_important_state_csa',     # Wavering momentum flags that
                    'acw_important_state_tex',
                    'acw_important_state_psa',
                    'acw_important_state_nee',
-                   'was_core_of_rom',)             # ROM annex event
+                   'was_core_of_rom',             # ROM annex event
+                   'temporary_occupied_by_',
+                   )
 
 
 def test_check_unused_state_flags(test_runner: object):

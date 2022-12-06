@@ -134,7 +134,7 @@ def apply_formatting_loc(filename, encoding="utf-8-sig"):
 
 def apply_formatting_characters(filename, encoding="utf-8"):
     replace_string(filename=filename, pattern='\\t*ai_will_do = \\{ factor = 1 \\}.*\n', replace_with='', encoding=encoding)                  # Delete ai factors from characters files
-    replace_string(filename=filename, pattern='\\t*ai_will_do = \\{.*\\n\\t*factor = 1.*\\n\\t*\\}.*\n', replace_with='', encoding=encoding)  # Delete ai factors from characters files
+    replace_string(filename=filename, pattern='\\t*ai_will_do = \\{.*\\n\\t*factor = 1\\n\\t*\\}.*\n', replace_with='', encoding=encoding)  # Delete ai factors from characters files
 
 
 def format_kaiserreich(username, mod_name):

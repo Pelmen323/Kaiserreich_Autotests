@@ -69,6 +69,9 @@ FALSE_POSITIVES = [
     'add_one_random_synthetic_refinery',
     'add_one_random_fuel_silo',
     'remove_current_second_in_command',
+    'occupy_state_temporary',
+    'transfer_and_occupy_state_temporary',
+    'clear_occupy_state',
 ]
 
 
