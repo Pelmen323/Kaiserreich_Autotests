@@ -63,7 +63,7 @@ class Events:
         return sorted(set(events))
 
     @classmethod
-    def get_all_triggered_events_names(cls, test_runner, lowercase: bool = True) -> list:
+    def get_all_triggered_events_names(cls, test_runner, lowercase: bool = True, return_duplicates: bool = False) -> list:
         """Parse all files and return the list of all events that are directly triggered
 
         Args:
@@ -101,4 +101,6 @@ class Events:
                         event_id_match = re.findall('id = ([^ \\n\\t]+)', match[1])
                         events.append(event_id_match[0])
 
+        if return_duplicates:
+            return sorted(events)
         return sorted(set(events))
