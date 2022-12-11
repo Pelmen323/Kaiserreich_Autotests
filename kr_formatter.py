@@ -7,6 +7,39 @@ from test_classes.generic_test_class import DataCleaner, FileOpener
 FILES_TO_SKIP = ['localisation', 'interface', 'gfx', 'map', 'common\\units', 'names', 'states', '00_construction_scripted_effects']
 
 
+def format_events(username, mod_name):
+    test_runner = TestRunner(username, mod_name)
+    results_dict = {}
+
+    filepath_to_events = f'{test_runner.full_path_to_mod}events\\'
+    events = []
+
+    for filename in glob.iglob(filepath_to_events + '**/*.txt', recursive=True):
+        if '\\categories' in filename:
+            continue
+        text_file = FileOpener.open_text_file(filename, lowercase=False)
+        pattern_matches = re.findall('^country_event = \\{(.*?)^\\}', text_file, flags=re.DOTALL | re.MULTILINE)
+        if len(pattern_matches) > 0:
+            for match in pattern_matches:
+                events.append(match)
+
+    # 1. Remove AI chance from events with only one option
+    for event in events:
+        if event.count("option = {") == 1 and event.count("ai_chance") == 1:
+            ai_will_do_line = re.findall("\\t*ai_chance = \\{[^}]*?\\}\n", string=event, flags=re.MULTILINE | re.DOTALL)[0]
+            results_dict[event] = event.replace(ai_will_do_line, "")
+
+    # 2. Apply changes
+    for filename in glob.iglob(test_runner.full_path_to_mod + "**/*.txt", recursive=True):
+        text_file = FileOpener.open_text_file(filename, lowercase=False)
+        for i in results_dict:
+            if i in text_file:
+                text_file = FileOpener.open_text_file(filename, lowercase=False)
+                text_file_new = text_file.replace(i, results_dict[i])
+                with open(filename, 'w', encoding="utf-8-sig") as text_file_write:
+                    text_file_write.write(text_file_new)
+
+
 def replace_string(filename, pattern, replace_with, encoding="utf-8", flag=None):
     text_file = FileOpener.open_text_file(filename, lowercase=False)
     if flag is None:
@@ -40,10 +73,10 @@ def apply_formatting(filename, encoding="utf-8"):
     replace_string(filename=filename, pattern='target_array = allies', replace_with='target_array = faction_members', encoding=encoding)
     replace_string(filename=filename, pattern='activate_targeted_decision = \\{\\n\\t+(target = .*?)\\n\\t+(decision = .*?)\\n\\t+\\}', replace_with='activate_targeted_decision = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
     replace_string(filename=filename, pattern='activate_targeted_decision = \\{\\n\\t+(decision = .*?)\\n\\t+(target = .*?)\\n\\t+\\}', replace_with='activate_targeted_decision = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)
-    # replace_string(filename=filename, pattern='activate_targeted_decision = \\{ (decision = .*?) (target = .*?) }', replace_with='activate_targeted_decision = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)
+    # replace_string(filename=filename, pattern='activate_targeted_decision = \\{ (decision = .*?) (target = .*?) }', replace_with='activate_targeted_decision = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)                        # Discuss with Alp
     replace_string(filename=filename, pattern='remove_targeted_decision = \\{\\n\\t+(target = .*?)\\n\\t+(decision = .*?)\\n\\t+\\}', replace_with='remove_targeted_decision = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
     replace_string(filename=filename, pattern='remove_targeted_decision = \\{\\n\\t+(decision = .*?)\\n\\t+(target = .*?)\\n\\t+\\}', replace_with='remove_targeted_decision = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)
-    # replace_string(filename=filename, pattern='remove_targeted_decision = \\{ (decision = .*?) (target = .*?) }', replace_with='remove_targeted_decision = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)
+    # replace_string(filename=filename, pattern='remove_targeted_decision = \\{ (decision = .*?) (target = .*?) }', replace_with='remove_targeted_decision = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)                            # Discuss with Alp
     replace_string(filename=filename, pattern='has_game_rule = \\{\\n\\t+(rule = .*?)\\n\\t+(option = .*?)\\n\\t+\\}', replace_with='has_game_rule = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
     replace_string(filename=filename, pattern='has_game_rule = \\{\\n\\t+(option = .*?)\\n\\t+(rule = .*?)\\n\\t+\\}', replace_with='has_game_rule = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)
 
@@ -171,6 +204,8 @@ def format_kaiserreich(username, mod_name):
 
     for filename in glob.iglob(filepath_characters + '**/*.txt', recursive=True):
         apply_formatting_characters(filename=filename)
+
+    format_events(username=username, mod_name=mod_name)
 
 
 if __name__ == '__main__':

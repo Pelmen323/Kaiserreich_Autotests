@@ -7,7 +7,7 @@ from ..test_classes.generic_test_class import FileOpener
 
 class Events:
     @classmethod
-    def get_all_events(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> list:
+    def get_all_events(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> list[str]:
         """Parse all files in events and return the list with all events code
 
         Args:
