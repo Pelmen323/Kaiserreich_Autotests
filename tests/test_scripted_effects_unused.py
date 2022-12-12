@@ -72,6 +72,8 @@ FALSE_POSITIVES = [
     'occupy_state_temporary',
     'transfer_and_occupy_state_temporary',
     'clear_occupy_state',
+    'remove_puppet_and_leave_faction',
+    'fra_transfer_internationale_leader',
 ]
 
 

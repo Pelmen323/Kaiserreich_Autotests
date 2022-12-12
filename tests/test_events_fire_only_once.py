@@ -4,11 +4,13 @@
 ##########################
 import re
 import glob
+import pytest
 
 from ..test_classes.events_class import Events
 from ..test_classes.generic_test_class import ResultsReporter, FileOpener
 
 
+@pytest.mark.skip(reason="For manual execution only due to huge number of results")
 def test_events_fire_only_once(test_runner: object):
     filepath_on_actions = f'{test_runner.full_path_to_mod}\\common\\on_actions\\'
     fire_only_once_events_id = []
@@ -17,9 +19,9 @@ def test_events_fire_only_once(test_runner: object):
     all_triggered_events = Events.get_all_triggered_events_names(test_runner=test_runner, lowercase=True, return_duplicates=True)     # Returns a list with all events triggered in files with duplicates
     results = {}
 
-    # 2. Get the "triggered only events"
+    # 2. Get the "triggered only events that are fired once"
     for event in all_events:
-        if "fire_only_once = yes" in event:
+        if "fire_only_once = yes" in event and "is_triggered_only = yes" in event:
             pattern_matches = re.findall('id = .*', event)
             event_id = pattern_matches[0].strip('\t').strip()                   # Only first match is taken
             if '#' in event_id:

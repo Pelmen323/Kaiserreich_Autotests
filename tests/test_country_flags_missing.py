@@ -13,22 +13,25 @@ from ..test_classes.generic_test_class import (
     ResultsReporter,
 )
 
-FALSE_POSITIVES = ('chi_soong_control',        # Currently unused flags
-                   'chi_mingshu_control',
-                   'dei_ins_coup_avoided',
-                   'chi_mingshu_lkmt',
-                   'dei_koninkrijksstatuut_signed',
-                   'annexation_window_open',
-                   'liang_refused',
-                   'enrique_lister_forjan_dead',
-                   'buenaventura_durruti_dumange_dead',
-                   'francisco_ascaso_budria_dead',
-                   'vicente_rojo_lluch_dead',
-                   'juan_lopez_sanchez_dead',
-                   'juan_peiro_belis_dead',
-                   'lit_factory_opened',
-                   'cannot_produce_ships',
-                   'usa_leader')
+FALSE_POSITIVES = (
+    'chi_soong_control',        # Currently unused flags
+    'chi_mingshu_control',
+    'dei_ins_coup_avoided',
+    'chi_mingshu_lkmt',
+    'dei_koninkrijksstatuut_signed',
+    'annexation_window_open',
+    'liang_refused',
+    'enrique_lister_forjan_dead',
+    'buenaventura_durruti_dumange_dead',
+    'francisco_ascaso_budria_dead',
+    'vicente_rojo_lluch_dead',
+    'juan_lopez_sanchez_dead',
+    'juan_peiro_belis_dead',
+    'lit_factory_opened',
+    'cannot_produce_ships',
+    'usa_leader',
+    'can_integrate_',
+)
 
 
 def test_check_missing_country_flags(test_runner: object):
