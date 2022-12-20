@@ -1,5 +1,6 @@
 import glob
 import re
+import os
 
 from core.runner import TestRunner
 from test_classes.generic_test_class import DataCleaner, FileOpener
@@ -51,6 +52,59 @@ def replace_string(filename, pattern, replace_with, encoding="utf-8", flag=None)
         text_file_write.write(text_file_fixed)
 
 
+def format_filenames_strategic_regions(username, mod_name):
+    """Rename strategic regions files to match the scheme "ID - Region loc key.txt". Requested by Alpinia, December 2022
+
+    Args:
+        username (_type_): windows username
+        mod_name (_type_): mod folder name
+    """
+    test_runner = TestRunner(username, mod_name)
+    filepath_to_strategic_regions_loc = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00_Strategic_Regions_l_english.yml'
+    filepath_to_strategic_regions_code = f'{test_runner.full_path_to_mod}map\\strategicregions'
+
+    text_file = FileOpener.open_text_file(filepath_to_strategic_regions_loc, lowercase=False)
+    strategic_regions_loc = {}
+    for line in text_file.split("\n")[1:-1]:
+        region_id = line.split(':')[0].split("_")[1]
+        region_name = line.split(':')[1].strip().strip('"')
+        strategic_regions_loc[region_id] = region_name
+
+    for filename in glob.iglob(filepath_to_strategic_regions_code + '**/*.txt', recursive=True):
+        text_file = FileOpener.open_text_file(filename, lowercase=False)
+        current_region_id = re.findall("id[ ]*=[ ]*(.*)", text_file)[0]
+        expected_filename = f'{current_region_id} - {strategic_regions_loc[current_region_id]}.txt'
+        if os.path.basename(filename) != expected_filename:
+            os.rename(filename, f'{filepath_to_strategic_regions_code}\\{expected_filename}')
+
+
+def format_filenames_states(username, mod_name):
+    """Rename states files to match the scheme "ID - State loc key.txt". Requested by Alpinia, December 2022
+
+    Args:
+        username (_type_): windows username
+        mod_name (_type_): mod folder name
+    """
+    test_runner = TestRunner(username, mod_name)
+    filepath_to_states_loc = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00_Map_States_l_english.yml'
+    filepath_to_states_code = f'{test_runner.full_path_to_mod}history\\states'
+
+    text_file = FileOpener.open_text_file(filepath_to_states_loc, lowercase=False)
+    states_loc = {}
+    target_lines = re.findall("STATE_\\d+: .*", text_file)
+    for line in target_lines:
+        state_id = line.split(':')[0].split("_")[1]
+        state_name = line.split(':')[1].strip().strip('"')
+        states_loc[state_id] = state_name
+
+    for filename in glob.iglob(filepath_to_states_code + '**/*.txt', recursive=True):
+        text_file = FileOpener.open_text_file(filename, lowercase=False)
+        current_region_id = re.findall("id[ ]*=[ ]*(\\d*)", text_file)[0]
+        expected_filename = f'{current_region_id} - {states_loc[current_region_id]}.txt'
+        if os.path.basename(filename) != expected_filename:
+            os.rename(filename, f'{filepath_to_states_code}\\{expected_filename}')
+
+
 def apply_formatting(filename, encoding="utf-8"):
     replace_string(filename=filename, pattern='(?<=[\\w_\\"=\\{\\}])  (?=[\\w_\\"=\\{\\}])', replace_with=' ', encoding=encoding)  # Remove any doublespaces
     replace_string(filename=filename, pattern='=\\b', replace_with='= ', encoding=encoding)                     # Add spaces between symbol and =
@@ -66,6 +120,11 @@ def apply_formatting(filename, encoding="utf-8"):
     replace_string(filename=filename, pattern='(?<=\\t)    ', replace_with='\\t', encoding=encoding, flag=re.MULTILINE)  # Fix cases of using spaces
     replace_string(filename=filename, pattern='(?<=\\t)    ', replace_with='\\t', encoding=encoding, flag=re.MULTILINE)  # Fix cases of using spaces
     replace_string(filename=filename, pattern='^$\\n{2,}', replace_with='\\n', encoding=encoding, flag=re.MULTILINE)          # Add last line if file is missing
+    replace_string(filename=filename, pattern='\\{	(?=\\w)', replace_with='{ ', encoding=encoding, flag=re.MULTILINE)          # \t -> space
+    replace_string(filename=filename, pattern='=	(?=\\w)', replace_with='= ', encoding=encoding, flag=re.MULTILINE)          # \t -> space
+    replace_string(filename=filename, pattern='(?<=\\w)	\\}', replace_with=' }', encoding=encoding, flag=re.MULTILINE)          # \t -> space
+    replace_string(filename=filename, pattern='(?<=\\w)	=', replace_with=' =', encoding=encoding, flag=re.MULTILINE)            # \t -> space
+
     replace_string(filename=filename, pattern='limit = \\{\\n\\t+(has_template = .*?)\\n\\t+\\}', replace_with='limit = { \\1 }', encoding=encoding)
     replace_string(filename=filename, pattern='set_technology = \\{\\n\\t+(.+?)\\n\\t+\\}', replace_with='set_technology = { \\1 }', encoding=encoding)
     replace_string(filename=filename, pattern='delete_unit_template_and_units = \\{[^}]*?\\n\\t+(division_template = \".*?\").*\\n\\t+(disband = \\w+).*\\n\\t+\\}', replace_with='delete_unit_template_and_units = { \\1 \\2 }', encoding=encoding)
@@ -213,3 +272,5 @@ def format_kaiserreich(username, mod_name):
 
 if __name__ == '__main__':
     format_kaiserreich(username="VADIM", mod_name="Kaiserreich Dev Build")
+    format_filenames_strategic_regions(username="VADIM", mod_name="Kaiserreich Dev Build")
+    format_filenames_states(username="VADIM", mod_name="Kaiserreich Dev Build")

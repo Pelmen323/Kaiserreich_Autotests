@@ -73,6 +73,7 @@ FALSE_POSITIVES = [
     'is_potential_enemy_of_root',
     'is_potential_enemy_of_from',
     'is_potential_enemy_of_prev',
+    'is_core_anatolia',
 ]
 
 
