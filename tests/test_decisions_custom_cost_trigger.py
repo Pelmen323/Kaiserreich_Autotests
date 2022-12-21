@@ -23,14 +23,16 @@ def test_check_decisions_custom_cost_trigger(test_runner: object):
                 custom_cost_trigger = pattern_matches[0][1]
                 if "has_political_power" in custom_cost_trigger:
                     decision_object = DecisionsFactory(dec=decision)
-                    print(decision_object.token)
                     custom_cost_trigger_pp_line = re.findall("has_political_power.*", custom_cost_trigger)[0]
 
                     # Check #1 - if > is not used in has has_political_power line
                     if ">" not in custom_cost_trigger_pp_line:
                         results.append(f"Decision `{decision_object.token}` - {paths[decision]} - doesn't have '>' in 'has_political_power' custom cost trigger line")
 
-                    pp_value = float(custom_cost_trigger_pp_line[custom_cost_trigger_pp_line.index(">") + 2:])
+                    try:
+                        pp_value = float(custom_cost_trigger_pp_line[custom_cost_trigger_pp_line.index(">") + 2:])
+                    except ValueError:
+                        continue        # Skip variables
                     expected_ai_hint_pp_cost_value = pp_value + 0.01
 
                     # Check #2 - if `ai_hint_pp_cost` value is not valid

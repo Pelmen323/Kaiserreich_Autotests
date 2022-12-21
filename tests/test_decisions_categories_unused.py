@@ -20,6 +20,7 @@ FALSE_POSITIVES = (
 
 def test_check_unused_decisions_categories(test_runner: object):
     filepath_to_decisions = f'{test_runner.full_path_to_mod}common\\decisions\\'
+    filepath_to_bop = f'{test_runner.full_path_to_mod}common\\bop\\'
     filepath_to_categories = f'{test_runner.full_path_to_mod}common\\decisions\\categories\\'
     decision_categories = {}
 # Part 1 - get the dict of all decision categories
@@ -48,6 +49,16 @@ def test_check_unused_decisions_categories(test_runner: object):
 
         for category in not_encountered_categories:
             if f'{category} = {{' in text_file:
+                decision_categories[category] += 1
+
+# Part 3 - count the number of entity occurrences
+    for filename in glob.iglob(filepath_to_bop + '**/*.txt', recursive=True):
+        text_file = FileOpener.open_text_file(filename)
+
+        not_encountered_categories = [i for i in decision_categories.keys() if decision_categories[i] == 0]
+
+        for category in not_encountered_categories:
+            if f'decision_category = {category}' in text_file:
                 decision_categories[category] += 1
 
 

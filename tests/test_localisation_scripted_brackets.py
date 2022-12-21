@@ -25,7 +25,7 @@ def test_check_localisation_scripted_brackets(test_runner: object):
             for function in test_data:
                 if function in current_line:
                     num_of_functions_in_line = current_line.count(function)
-                    pattern = f'\\[[^\\[]*{function}[a-z]*(?:\\.getshehe)*\\]'
+                    pattern = f'\\[[^\\[]*{function}[a-z]*(?:\\.getshehe)*(?:\\.getherhiscap)*(?:\\.getherhis)*\\]'
                     pattern_matches = re.findall(pattern, current_line)
                     if num_of_functions_in_line != len(pattern_matches):
                         results[f'{function}, {os.path.basename(filename)}, line {line+2}'] = current_line
