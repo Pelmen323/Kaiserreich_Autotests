@@ -5,7 +5,7 @@ import os
 from core.runner import TestRunner
 from test_classes.generic_test_class import DataCleaner, FileOpener
 
-FILES_TO_SKIP = ['localisation', 'interface', 'gfx', 'map', 'common\\units', 'names', 'states', '00_construction_scripted_effects']
+FILES_TO_SKIP = ['\\localisation', 'interface', 'gfx', 'map', 'common\\units', 'names', 'states', '00_construction_scripted_effects', "UI_scripted_localisation"]
 
 
 def format_events(username, mod_name):

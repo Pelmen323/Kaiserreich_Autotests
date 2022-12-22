@@ -43,9 +43,6 @@ def test_check_advisors_military_invalid_traits(test_runner: object, trait_type)
                 results.append((adv.token, paths[advisor_code], 'This advisor trait syntax is multiline - single-line syntax is strongly recommended'))
                 continue
 
-            if adv.sic_role and 'second_in_command_trait' not in adv.traits:
-                results.append((adv.token, paths[advisor_code], 'This SIC is missing second_in_command_trait trait'))
-
             if len(adv.traits) < 1:
                 results.append((adv.token, paths[advisor_code], 'This advisor has < 1 traits'))
 

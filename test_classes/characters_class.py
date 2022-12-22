@@ -172,8 +172,6 @@ class Characters:
                 match = match[1:-4]
                 traits.append(match)
 
-        if trait_type == "second_in_command":
-            traits.append('second_in_command_trait')
         return traits
 
     @classmethod
