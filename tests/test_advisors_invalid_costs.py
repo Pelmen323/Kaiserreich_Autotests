@@ -53,7 +53,7 @@ def test_check_advisors_invalid_costs(test_runner: object):
             if adv.cost != 0:
                 results.append((adv.token, f"SIC - should have 'cost = 0' line, but got {adv.cost}"))
             if adv.sic_has_correct_removal_cost is False:
-                results.append((adv.token, "SIC - should have 'removal_cost = -1' line"))
+                results.append((adv.token, "SIC - should have 'can_be_fired = no' line"))
 
         elif adv.political_role:
             if adv.cost != 150 and adv.cost != 0 and 'nee_' not in adv.token:

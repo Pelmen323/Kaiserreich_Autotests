@@ -289,7 +289,7 @@ class Advisors:
             self.cost = -1
 
         # SIC things
-        self.sic_has_correct_removal_cost = adv.count('removal_cost = -1') == 1
+        self.sic_has_correct_removal_cost = adv.count('can_be_fired = no') == 1
 
         # Not already_hired
         self.has_not_already_hired = adv.count('not_already_hired_except_as') > 0
