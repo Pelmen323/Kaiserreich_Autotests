@@ -13,37 +13,33 @@ from ..test_classes.generic_test_class import (
     ResultsReporter,
 )
 
-FALSE_POSITIVES = ['yunnan_r_kmt_faction_leader', 'nfa_alphonse_juin_target', 'aus_otto_von_habsburg_target']
+FALSE_POSITIVES = ['previous_overlord', ]
 
 
 def test_check_unused_event_targets(test_runner: object):
     filepath = test_runner.full_path_to_mod
     event_targets = {}
     paths = {}
-# Part 1 - get the dict of entities
+    # Part 1 - get the dict of entities
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 
         if 'save_global_event_target_as =' in text_file:
-            pattern_matches = re.findall('save_global_event_target_as = \\w*\\b', text_file)
+            pattern_matches = re.findall('^[^#]*save_global_event_target_as = (\\w*)\\b', text_file, flags=re.MULTILINE)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
-                    match = match[29:].strip()
                     event_targets[match] = 0
                     paths[match] = os.path.basename(filename)
 
         if 'save_event_target_as = ' in text_file:
-            pattern_matches = re.findall('save_event_target_as = \\w*\\b', text_file)
+            pattern_matches = re.findall('^[^#]*save_event_target_as = (\\w*)\\b', text_file, flags=re.MULTILINE)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
-                    match = match[22:].strip()
                     event_targets[match] = 0
                     paths[match] = os.path.basename(filename)
 
-
-# Part 2 - count the number of entity occurrences
     event_targets = DataCleaner.clear_false_positives(input_iter=event_targets, false_positives=FALSE_POSITIVES)
-    logging.debug(f'{len(event_targets)} defined event targets found')
+    # Part 2 - count the number of entity occurrences
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 
@@ -72,7 +68,6 @@ def test_check_unused_event_targets(test_runner: object):
                 event_targets[target] += text_file.count(f'[{target}.getname')
                 event_targets[target] += text_file.count(f'[{target}.getadjective')
 
-
-# Part 3 - throw the error if entity is not used
+    # Part 3 - throw the error if entity is not used
     results = [i for i in event_targets if event_targets[i] == 0]
     ResultsReporter.report_results(results=results, paths=paths, message="Unused event targets were encountered. Check console output")

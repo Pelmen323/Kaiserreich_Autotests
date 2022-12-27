@@ -7,7 +7,7 @@ import re
 from ..test_classes.characters_class import Characters
 from ..test_classes.generic_test_class import ResultsReporter
 
-FALSE_POSITIVES = ['eth_', 'asy_malik_qambar', 'can_john_bracken', 'can_robert_manion', 'sic_giovanni_messe', 'syr_sami_al_hinawi', 'irq_rashid_al_gaylani', 'irq_hashim_al_alawi', 'xsm_ma_hushan']                     # convert to list if more added here
+FALSE_POSITIVES = ['eth_', 'gbr_', 'asy_malik_qambar', 'can_john_bracken', 'can_robert_manion', 'sic_giovanni_messe', 'syr_sami_al_hinawi', 'irq_rashid_al_gaylani', 'irq_hashim_al_alawi', 'xsm_ma_hushan']                     # convert to list if more added here
 
 
 def test_check_characters_already_hired(test_runner: object):
@@ -22,7 +22,7 @@ def test_check_characters_already_hired(test_runner: object):
         sic_status = char.count('slot = second_in_command')
         not_already_hired_status = char.count('not_already_hired_except_as')
 
-        if len([i for i in FALSE_POSITIVES if i in char_name]) > 0:
+        if [i for i in FALSE_POSITIVES if i in char_name]:
             continue
         if one_advisor_role:
             if not_already_hired_status > 0:
