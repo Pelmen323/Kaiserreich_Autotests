@@ -18,42 +18,21 @@ FALSE_POSITIVES = [
     'decrease_state_category_by_one_level',
     'gain_random_agency_upgrade',
     'lec_american_fall',
-    'ott_create_abdulmecid',
     'clear_sabotaged_resources_if_necesary',
     'reduce_conscription_to_volunteer',
     'reduce_conscription_to_disarmed',
     'decrease_mobilisation',
     'disband_fifty_percent_units',
     'ant_setpr_leaders',
-    'cze_jiri_stribrny_sic',
-    'cze_alois_podhajsky_sic',
-    'cze_radola_gajda_sic',
-    'cze_rudolf_lodgman_sic',
-    'cze_moric_hruban_sic',
-    'cze_premysl_samal_sic',
-    'cze_karel_egnlis_sic',
-    'cze_rudolf_beran_sic',
-    'cze_rudolf_bechyne_sic',
-    'cze_zdenek_fierlinger_sic',
-    'cze_antonin_novotny_sic',
-    'cze_jaroslav_hasek_sic',
-    'cze_jan_sverma_sic',
-    'cze_bohumil_stasek_sic',
-    'cze_frantisek_hodac_sic',
-    'cze_emanuel_vajtauer_sic',
     'create_snp_right',
-    'cub_remove_autentico_generals',
     'fng_nupop',
     'fng_zppop',
-    'gal_generals_join_ukraine',
     'gal_characters_join_ukraine_immediate',
     'clear_relations_with_prev',
     'generate_generic_military_advisors_low_level',
     'remove_civilian_advisor_roles',
     'remove_military_advisor_roles',
     'log_rp_eastern_military',
-    'log_aus_full_empire',
-    'add_research_slot_until_six',
     'transfer_control_during_war',
     'puppet_country_without_changing_government',
     'puppet_country_without_changing_government_from',
@@ -74,6 +53,11 @@ FALSE_POSITIVES = [
     'clear_occupy_state',
     'remove_puppet_and_leave_faction',
     'fra_transfer_internationale_leader',
+    'cwtools_dummy_effect',
+    'add_research_slot_until_six',
+    'remove_cores_of_dead_tags',
+    'transfer_all_unit_leaders_to_root',
+    'china_autonomy_level_up',
 ]
 
 
@@ -82,18 +66,16 @@ def test_check_scripted_effects_unused(test_runner: object):
     filepath_to_effects = f'{test_runner.full_path_to_mod}common\\scripted_effects\\'
     dict_with_scripted_effects = {}
     paths = {}
+
     # 1. Get the dict of all scripted effects
     for filename in glob.iglob(filepath_to_effects + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
-
         text_file_splitted = text_file.split('\n')
-        for line in range(len(text_file_splitted)):
-            current_line = text_file_splitted[line - 1]
-            pattern_matches = re.findall('^[a-zA-Z0-9_\\.]* = \\{', current_line)
-            if len(pattern_matches) > 0:
-                match = pattern_matches[0][:-4].strip()
-                dict_with_scripted_effects[match] = 0
-                paths[match] = os.path.basename(filename)
+        for line in text_file_splitted:
+            match = re.findall('^([a-zA-Z0-9_\\.]*) = \\{', line)
+            if len(match) > 0:
+                dict_with_scripted_effects[match[0]] = 0
+                paths[match[0]] = os.path.basename(filename)
 
     # 2. Find if scripted effects are used:
     dict_with_scripted_effects = DataCleaner.clear_false_positives(input_iter=dict_with_scripted_effects, false_positives=FALSE_POSITIVES)
