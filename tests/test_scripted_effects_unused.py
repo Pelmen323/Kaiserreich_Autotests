@@ -3,9 +3,8 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import os
-import re
 
+from ..test_classes.scripted_effects_class import ScriptedEffects
 from ..test_classes.generic_test_class import (
     DataCleaner,
     FileOpener,
@@ -63,22 +62,9 @@ FALSE_POSITIVES = [
 
 def test_check_scripted_effects_unused(test_runner: object):
     filepath = test_runner.full_path_to_mod
-    filepath_to_effects = f'{test_runner.full_path_to_mod}common\\scripted_effects\\'
-    dict_with_scripted_effects = {}
-    paths = {}
-
-    # 1. Get the dict of all scripted effects
-    for filename in glob.iglob(filepath_to_effects + '**/*.txt', recursive=True):
-        text_file = FileOpener.open_text_file(filename)
-        text_file_splitted = text_file.split('\n')
-        for line in text_file_splitted:
-            match = re.findall('^([a-zA-Z0-9_\\.]*) = \\{', line)
-            if len(match) > 0:
-                dict_with_scripted_effects[match[0]] = 0
-                paths[match[0]] = os.path.basename(filename)
-
-    # 2. Find if scripted effects are used:
+    dict_with_scripted_effects = {i: 0 for i in ScriptedEffects.get_all_effects_names(test_runner=test_runner, lowercase=True)}
     dict_with_scripted_effects = DataCleaner.clear_false_positives(input_iter=dict_with_scripted_effects, false_positives=FALSE_POSITIVES)
+
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 
@@ -89,4 +75,4 @@ def test_check_scripted_effects_unused(test_runner: object):
                     dict_with_scripted_effects[key] += 1
 
     results = [i for i in dict_with_scripted_effects.keys() if dict_with_scripted_effects[i] == 0]
-    ResultsReporter.report_results(results=results, paths=paths, message="Unused scripted effects were encountered. Check console output")
+    ResultsReporter.report_results(results=results, message="Unused scripted effects were encountered. Check console output")
