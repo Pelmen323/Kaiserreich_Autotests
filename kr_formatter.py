@@ -105,6 +105,51 @@ def format_filenames_states(username, mod_name):
             os.rename(filename, f'{filepath_to_states_code}\\{expected_filename}')
 
 
+def format_logging_events(username, mod_name):
+    """Add logging to events
+
+    Args:
+        username (_type_): windows username
+        mod_name (_type_): mod folder name
+    """
+    test_runner = TestRunner(username, mod_name)
+    filepath_to_events = f'{test_runner.full_path_to_mod}events\\'
+    files_to_skip = ['Pilot']
+    false_positives = ['amcivwar.805']
+
+    for filename in glob.iglob(filepath_to_events + '**/*.txt', recursive=True):
+        if DataCleaner.skip_files(files_to_skip=files_to_skip, filename=filename):
+            continue
+
+        text_file = FileOpener.open_text_file(filename, lowercase=False)
+        pattern_matches = re.findall('^country_event = \\{(.*?)^\\}', text_file, flags=re.DOTALL | re.MULTILINE)
+        if len(pattern_matches) > 0:
+            dict_with_str_to_replace = dict()
+            for event in pattern_matches:
+                event_id = re.findall('^\\tid = ([^ \\n\\t]+)', event, flags=re.MULTILINE)[0]
+                if event_id in false_positives:
+                    continue
+
+                hidden_event = "hidden = yes" in event or "donotlog" in event
+                has_any_logging = "immediate = { log =" in event
+                has_data_logging = 'immediate = { log = "KR_Event_Logging' in event
+                expected_logging_line = 'immediate = { log = "[GetDateText]: [Root.GetName]: event ' + event_id + ' FROM = [From.GetName]" }'
+                has_valid_logging = expected_logging_line in event
+
+                if not has_valid_logging and not hidden_event:
+                    if has_any_logging and not has_data_logging:
+                        str_to_replace = re.findall('immediate = \\{ log =.*', event)[0]
+                        dict_with_str_to_replace[event] = event.replace(str_to_replace, expected_logging_line)
+                    if not has_any_logging:
+                        x = re.findall('^\\tid = .*', event, flags=re.MULTILINE)[0]
+                        dict_with_str_to_replace[event] = event.replace(x, f'{x}\n\t{expected_logging_line}')
+
+            for key, value in dict_with_str_to_replace.items():
+                text_file = text_file.replace(key, value)
+            with open(filename, 'w', encoding="utf-8-sig") as text_file_write:
+                text_file_write.write(text_file)
+
+
 def apply_formatting(filename, encoding="utf-8"):
     replace_string(filename=filename, pattern='(?<=[\\w_\\"=\\{\\}])  (?=[\\w_\\"=\\{\\}])', replace_with=' ', encoding=encoding)  # Remove any doublespaces
     replace_string(filename=filename, pattern='=\\b', replace_with='= ', encoding=encoding)                     # Add spaces between symbol and =
@@ -274,3 +319,4 @@ if __name__ == '__main__':
     format_kaiserreich(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_filenames_strategic_regions(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_filenames_states(username="VADIM", mod_name="Kaiserreich Dev Build")
+    format_logging_events(username="VADIM", mod_name="Kaiserreich Dev Build")
