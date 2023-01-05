@@ -26,7 +26,7 @@ def test_check_missing_event_targets(test_runner: object):
                     paths[match] = os.path.basename(filename)
 
         if 'has_event_target =' in text_file:
-            pattern_matches = re.findall('has_event_target = \\b(.*)\\b', text_file)
+            pattern_matches = re.findall('has_event_target = ([^ ]*)', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     event_targets[match] = 0

@@ -179,7 +179,6 @@ bad_words = {
     "hipocrit": "hypocrisy/hypocrite",
     "hipocrite": "hypocrite",
     "hiygeine": "hygiene",
-    "honourary": "honorary",
     "hors derves": "hors d'oeuvres",
     "humerous": "humorous",
     "humourous": "humorous",

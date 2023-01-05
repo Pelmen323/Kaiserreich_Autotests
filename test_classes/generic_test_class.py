@@ -31,7 +31,7 @@ class FileOpener:
             raise FileNotFoundError(f"Can't open the file {filename}")
 
     @classmethod
-    def replace_all_keys_in_file_with_values(cls, path_to_files: str, dict_with_strings_to_replace: dict, lowercase: bool = True) -> None:
+    def replace_all_keys_in_file_with_values(cls, path_to_files: str, dict_with_strings_to_replace: dict, lowercase: bool = True, encoding: str ="utf-8") -> None:
         """Parse all files in passed dictionary and replaces encountered keys with values from passed dict
 
         Args:
@@ -45,7 +45,7 @@ class FileOpener:
                 if key in text_file:
                     text_file = text_file.replace(key, value)
 
-            with open(filename, 'w', encoding='utf-8') as text_file_write:
+            with open(filename, 'w', encoding=encoding) as text_file_write:
                 text_file_write.write(text_file)
 
 

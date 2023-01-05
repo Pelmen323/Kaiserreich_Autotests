@@ -20,6 +20,7 @@ FALSE_POSITIVES = (
     'john_anderson',
     'army_reform_group',
     'army_council',
+    'ma_liang',
 )
 
 
