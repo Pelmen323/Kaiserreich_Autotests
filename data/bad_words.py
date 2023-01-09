@@ -124,7 +124,6 @@ bad_words = {
     "diffrence": "difference",
     "dilema": "dilemma",
     "dilemna": "dilemma",
-    "disasterous": "disastrous",
     "dissapear": "disappear",
     "dissapoint": "disappoint",
     "drunkeness": "drunkenness",

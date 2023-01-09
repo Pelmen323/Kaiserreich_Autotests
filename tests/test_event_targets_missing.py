@@ -26,7 +26,7 @@ def test_check_missing_event_targets(test_runner: object):
                     paths[match] = os.path.basename(filename)
 
         if 'has_event_target =' in text_file:
-            pattern_matches = re.findall('has_event_target = ([^ ]*)', text_file)
+            pattern_matches = re.findall('has_event_target = ([^ \\n]*)', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     event_targets[match] = 0
@@ -34,6 +34,7 @@ def test_check_missing_event_targets(test_runner: object):
 
 
 # Part 2 - count the number of entity occurrences
+    print(event_targets.keys())
     logging.debug(f'{len(event_targets)} used event targets found')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
