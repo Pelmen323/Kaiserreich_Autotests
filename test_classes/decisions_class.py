@@ -20,11 +20,11 @@ class Decisions:
             if return_paths - tuple[list, dict]: list with decisions code and dict with decisions filenames
             else - list: list with decisions code
         """
-        filepath_to_events = f'{test_runner.full_path_to_mod}common\\decisions\\'
+        filepath_to_decisions = f'{test_runner.full_path_to_mod}common\\decisions\\'
         decisions = []
         paths = {}
 
-        for filename in glob.iglob(filepath_to_events + '**/*.txt', recursive=True):
+        for filename in glob.iglob(filepath_to_decisions + '**/*.txt', recursive=True):
             if '\\categories' in filename:
                 continue
             if lowercase:
@@ -32,7 +32,7 @@ class Decisions:
             else:
                 text_file = FileOpener.open_text_file(filename, lowercase=False)
 
-            pattern_matches = re.findall('((?<=\n)\\t\\w* = \\{.*\n(.|\n*?)*\n\\t\\})', text_file)
+            pattern_matches = re.findall('^\\t[^\\t#]+ = \\{.*?^\\t\\}', text_file, flags=re.MULTILINE | re.DOTALL)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     match = match[0]
