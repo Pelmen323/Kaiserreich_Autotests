@@ -35,7 +35,6 @@ class Decisions:
             pattern_matches = re.findall('^\\t[^\\t#]+ = \\{.*?^\\t\\}', text_file, flags=re.MULTILINE | re.DOTALL)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
-                    match = match[0]
                     decisions.append(match)
                     paths[match] = os.path.basename(filename)
 
