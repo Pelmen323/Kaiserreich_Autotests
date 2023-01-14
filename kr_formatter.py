@@ -150,6 +150,95 @@ def format_logging_events(username, mod_name):
                 text_file_write.write(text_file)
 
 
+def format_logging_decisions(username, mod_name):
+    """Add logging to decisions
+
+    Args:
+        username (_type_): windows username
+        mod_name (_type_): mod folder name
+    """
+    test_runner = TestRunner(username, mod_name)
+    filepath_to_decisions = f'{test_runner.full_path_to_mod}common\\decisions\\'
+
+    for filename in glob.iglob(filepath_to_decisions + '**/*.txt', recursive=True):
+        if '\\categories' in filename or "Generic decisions" in filename:
+            continue
+        text_file = FileOpener.open_text_file(filename, lowercase=False)
+        pattern_matches = re.findall('^\\t[^\\t#]+ = \\{.*?^\\t\\}', text_file, flags=re.MULTILINE | re.DOTALL)
+        if len(pattern_matches) > 0:
+            dict_with_str_to_replace = dict()
+            for dec in pattern_matches:
+                dec_id = re.findall('^\\t([^\t]+) = \\{', dec, flags=re.MULTILINE)[0]
+
+                donotlog = "donotlog" in dec
+                if donotlog:
+                    continue
+
+                cancel_effect = re.findall('(\\t+)cancel_effect = \\{([^\\n]*|.*?^\\1)\\}', dec, flags=re.DOTALL | re.MULTILINE)[0][1] if 'cancel_effect =' in dec else False
+                complete_effect = re.findall('(\\t+)complete_effect = \\{([^\\n]*|.*?^\\1)\\}', dec, flags=re.DOTALL | re.MULTILINE)[0][1] if 'complete_effect =' in dec else False
+                remove_effect = re.findall('(\\t+)remove_effect = \\{([^\\n]*|.*?^\\1)\\}', dec, flags=re.DOTALL | re.MULTILINE)[0][1] if 'remove_effect =' in dec else False
+                timeout_effect = re.findall('(\\t+)timeout_effect = \\{([^\\n]*|.*?^\\1)\\}', dec, flags=re.DOTALL | re.MULTILINE)[0][1] if 'timeout_effect =' in dec else False
+                is_targeted = "FROM" in dec or "state_target = yes" in dec or "target_trigger" in dec or "target_root_trigger" in dec
+                target_line = " target: [From.GetName]" if is_targeted else ""
+                expected_logging_line_cancel = 'log = "[GetDateText]: [Root.GetName]: Decision cancel ' + dec_id + target_line + '"'
+                expected_logging_line_complete = 'log = "[GetDateText]: [Root.GetName]: Decision complete ' + dec_id + target_line + '"'
+                expected_logging_line_remove = 'log = "[GetDateText]: [Root.GetName]: Decision remove ' + dec_id + target_line + '"'
+                expected_logging_line_timeout = 'log = "[GetDateText]: [Root.GetName]: Decision timeout ' + dec_id + target_line + '"'
+                has_any_logging_cancel = 'cancel_effect = {\n\t\t\tlog' in dec
+                has_any_logging_complete = 'complete_effect = {\n\t\t\tlog' in dec
+                has_any_logging_remove = 'remove_effect = {\n\t\t\tlog' in dec
+                has_any_logging_timeout = 'timeout_effect = {\n\t\t\tlog' in dec
+                fixed_decision_code = dec
+
+                if cancel_effect:
+                    if expected_logging_line_cancel not in cancel_effect:
+                        if has_any_logging_cancel:
+                            str_to_replace_cancel = re.findall('cancel_effect = \\{.*\\n\\t+log =.*', dec)[0]
+                            fixed_decision_code = fixed_decision_code.replace(str_to_replace_cancel, 'cancel_effect = {\n\t\t\t' + expected_logging_line_cancel)
+
+                        if not has_any_logging_cancel:
+                            str_to_replace_cancel = re.findall('cancel_effect = \\{', dec)[0]
+                            fixed_decision_code = fixed_decision_code.replace(str_to_replace_cancel, 'cancel_effect = {\n\t\t\t' + expected_logging_line_cancel)
+
+                if complete_effect:
+                    if expected_logging_line_complete not in complete_effect:
+                        if has_any_logging_complete:
+                            str_to_replace_complete = re.findall('complete_effect = \\{.*\\n\\t+log =.*', dec)[0]
+                            fixed_decision_code = fixed_decision_code.replace(str_to_replace_complete, 'complete_effect = {\n\t\t\t' + expected_logging_line_complete)
+
+                        if not has_any_logging_complete:
+                            str_to_replace_complete = re.findall('complete_effect = \\{', dec)[0]
+                            fixed_decision_code = fixed_decision_code.replace(str_to_replace_complete, 'complete_effect = {\n\t\t\t' + expected_logging_line_complete)
+
+                if remove_effect:
+                    if expected_logging_line_remove not in remove_effect:
+                        if has_any_logging_remove:
+                            str_to_replace_remove = re.findall('remove_effect = \\{.*\\n\\t+log =.*', dec)[0]
+                            fixed_decision_code = fixed_decision_code.replace(str_to_replace_remove, 'remove_effect = {\n\t\t\t' + expected_logging_line_remove)
+
+                        if not has_any_logging_remove:
+                            str_to_replace_remove = re.findall('remove_effect = \\{', dec)[0]
+                            fixed_decision_code = fixed_decision_code.replace(str_to_replace_remove, 'remove_effect = {\n\t\t\t' + expected_logging_line_remove)
+
+                if timeout_effect:
+                    if expected_logging_line_timeout not in timeout_effect:
+                        if has_any_logging_timeout:
+                            str_to_replace_timeout = re.findall('timeout_effect = \\{.*\\n\\t+log =.*', dec)[0]
+                            fixed_decision_code = fixed_decision_code.replace(str_to_replace_timeout, 'timeout_effect = {\n\t\t\t' + expected_logging_line_timeout)
+
+                        if not has_any_logging_timeout:
+                            str_to_replace_timeout = re.findall('timeout_effect = \\{', dec)[0]
+                            fixed_decision_code = fixed_decision_code.replace(str_to_replace_timeout, 'timeout_effect = {\n\t\t\t' + expected_logging_line_timeout)
+
+                if fixed_decision_code != dec:
+                    dict_with_str_to_replace[dec] = fixed_decision_code
+
+            for key, value in dict_with_str_to_replace.items():
+                text_file = text_file.replace(key, value)
+            with open(filename, 'w', encoding="utf-8") as text_file_write:
+                text_file_write.write(text_file)
+
+
 def apply_formatting(filename, encoding="utf-8"):
     replace_string(filename=filename, pattern='(?<=[\\w_\\"=\\{\\}])  (?=[\\w_\\"=\\{\\}])', replace_with=' ', encoding=encoding)  # Remove any doublespaces
     replace_string(filename=filename, pattern='=\\b', replace_with='= ', encoding=encoding)                     # Add spaces between symbol and =
@@ -216,50 +305,6 @@ def apply_formatting(filename, encoding="utf-8"):
     replace_string(filename=filename,
                    pattern='random_owned_controlled_state = \\{\\n(\\t+)limit = \\{\\n(\\1.*\\n)*?\\1\\}\\n(\\1.*\\n)*?\\t+add_building_construction = \\{\\n\\t+type = industrial_complex\\n\\t+level = 1(\\n\\1.*\\n)*?\\t+\\}\\n\\t+\\}',
                    replace_with='add_one_random_civilian_factory = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
-    # replace_string(filename=filename,
-    #                pattern='random_owned_controlled_state = \\{\n(\t+)(\\1.*\n)*?\t+\n\t+add_building_construction = \\{\n\t+type = industrial_complex\n\t+level = 1\n\t+(\\1.*\n)*?\t+\t+\\}\n\t+\\}',
-    #                replace_with='add_one_random_civilian_factory = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
-
-    # replace_string(filename=filename,
-    #                pattern='random_owned_controlled_state = \\{\n(\t+)limit = \\{\n(\\1.*\n)*?\\1\\}\n\t+add_building_construction = \\{\n\t+type = arms_factory\n\t+level = 1\n\t+instant_build = yes\n\t+\\}\n\t+\\}',
-    #                replace_with='add_one_random_military_factory = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
-    # replace_string(filename=filename,
-    #                pattern='random_owned_controlled_state = \\{\n\t+add_extra_state_shared_building_slots = 1\n\t+add_building_construction = \\{\n\t+type = arms_factory\n\t+level = 1\n\t+instant_build = yes\n\t+\\}\n\t+\\}',
-    #                replace_with='add_one_random_military_factory = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
-
-    # replace_string(filename=filename,
-    #                pattern='random_owned_controlled_state = \\{\n(\t+)limit = \\{\n(\\1.*\n)*?\\1\\}\n\t+add_building_construction = \\{\n\t+type = dockyard\n\t+level = 1\n\t+instant_build = yes\n\t+\\}\n\t+\\}',
-    #                replace_with='add_one_random_dockyard = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
-    # replace_string(filename=filename,
-    #                pattern='random_owned_controlled_state = \\{\n\t+add_extra_state_shared_building_slots = 1\n\t+add_building_construction = \\{\n\t+type = dockyard\n\t+level = 1\n\t+instant_build = yes\n\t+\\}\n\t+\\}',
-    #                replace_with='add_one_random_dockyard = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
-
-    # replace_string(filename=filename,
-    #                pattern='random_owned_controlled_state = \\{\n(\t+)limit = \\{\n(\\1.*\n)*?\\1\\}\n\t+add_extra_state_shared_building_slots = 1\n\t+add_building_construction = \\{\n\t+type = synthetic_refinery\n\t+level = 1\n\t+instant_build = yes\n\t+\\}\n\t+\\}',
-    #                replace_with='add_one_random_synthetic_refinery = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
-    # replace_string(filename=filename,
-    #                pattern='random_owned_controlled_state = \\{\n\t+add_extra_state_shared_building_slots = 1\n\t+add_building_construction = \\{\n\t+type = synthetic_refinery\n\t+level = 1\n\t+instant_build = yes\n\t+\\}\n\t+\\}',
-    #                replace_with='add_one_random_synthetic_refinery = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
-
-    # replace_string(filename=filename,
-    #                pattern='random_owned_controlled_state = \\{\n(\t+)limit = \\{\n(\\1.*\n)*?\\1\\}\n\t+add_extra_state_shared_building_slots = 1\n\t+add_building_construction = \\{\n\t+type = fuel_silo\n\t+level = 1\n\t+instant_build = yes\n\t+\\}\n\t+\\}',
-    #                replace_with='add_one_random_fuel_silo = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
-    # replace_string(filename=filename,
-    #                pattern='random_owned_controlled_state = \\{\n\t+add_extra_state_shared_building_slots = 1\n\t+add_building_construction = \\{\n\t+type = fuel_silo\n\t+level = 1\n\t+instant_build = yes\n\t+\\}\n\t+\\}',
-    #                replace_with='add_one_random_fuel_silo = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
-
-    # replace_string(filename=filename, pattern='ai_will_do = \\{\\n\\t+(factor = [^ \\t]*?)\\n\\t+\\}', replace_with='ai_will_do = { \\1 }', encoding=encoding, flag=re.MULTILINE)
-    # replace_string(filename=filename, pattern='ai_will_do = \\{\\n\\t+(base = [^ \\t]*?)\\n\\t+\\}', replace_with='ai_will_do = { \\1 }', encoding=encoding, flag=re.MULTILINE)
-
-    # replace_string(filename=filename, pattern='set_variable = \\{\\n\\t+(var = .*?)\\n\\t+(value = .*?)\\n\\t+\\}', replace_with='set_variable = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
-    # replace_string(filename=filename, pattern='set_variable = \\{\\n\\t+(.*?) = (.*?)\\n\\t+\\}', replace_with='set_variable = { \\1 = \\2 }', encoding=encoding, flag=re.MULTILINE)
-    # replace_string(filename=filename, pattern='set_variable = \\{ var = (.*?) value = (.*?) \\}', replace_with='set_variable = { \\1 = \\2 }', encoding=encoding, flag=re.MULTILINE)
-    # replace_string(filename=filename, pattern='add_to_variable = \\{\\n\\t+(var = .*?)\\n\\t+(value = .*?)\\n\\t+\\}', replace_with='add_to_variable = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
-    # replace_string(filename=filename, pattern='add_to_variable = \\{\\n\\t+(.*?) = (.*?)\\n\\t+\\}', replace_with='add_to_variable = { \\1 = \\2 }', encoding=encoding, flag=re.MULTILINE)
-    # replace_string(filename=filename, pattern='add_to_variable = \\{ var = (.*?) value = (.*?) \\}', replace_with='add_to_variable = { \\1 = \\2 }', encoding=encoding, flag=re.MULTILINE)
-    # replace_string(filename=filename, pattern='subtract_from_variable = \\{\\n\\t+(var = .*?)\\n\\t+(value = .*?)\\n\\t+\\}', replace_with='subtract_from_variable = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
-    # replace_string(filename=filename, pattern='subtract_from_variable = \\{\\n\\t+(.*?) = (.*?)\\n\\t+\\}', replace_with='subtract_from_variable = { \\1 = \\2 }', encoding=encoding, flag=re.MULTILINE)
-    # replace_string(filename=filename, pattern='subtract_from_variable = \\{ var = (.*?) value = (.*?) \\}', replace_with='subtract_from_variable = { \\1 = \\2 }', encoding=encoding, flag=re.MULTILINE)
 
 
 def apply_formatting_loc(filename, encoding="utf-8-sig"):
@@ -320,3 +365,4 @@ if __name__ == '__main__':
     format_filenames_strategic_regions(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_filenames_states(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_logging_events(username="VADIM", mod_name="Kaiserreich Dev Build")
+    format_logging_decisions(username="VADIM", mod_name="Kaiserreich Dev Build")
