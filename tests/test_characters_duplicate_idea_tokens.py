@@ -7,6 +7,11 @@ import re
 from ..test_classes.characters_class import Characters
 from ..test_classes.generic_test_class import ResultsReporter
 
+FALSE_POSITIVES = [
+    "chi_dai_chunfeng_sic",
+    "chi_dai_chunfeng_political_advisor",
+]
+
 
 def test_check_advisors_duplicate_idea_tokens(test_runner: object):
     advisors, paths = Characters.get_all_advisors(test_runner=test_runner, return_paths=True)
@@ -25,7 +30,7 @@ def test_check_advisors_duplicate_idea_tokens(test_runner: object):
 
     duplicated_tokens = sorted(list(set([i for i in idea_tokens if idea_tokens.count(i) > 1])))
 
-    for i in duplicated_tokens:
+    for i in [i for i in duplicated_tokens if i not in FALSE_POSITIVES]:
         results.append((i, "Duplicated advisor token encountered"))
 
     ResultsReporter.report_results(results=results, message="Advisors with non-unique idea tokens were encountered. Check console output")
