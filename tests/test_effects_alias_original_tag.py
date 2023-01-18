@@ -8,7 +8,7 @@ import re
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
-def test_check_syntax_set_autonomy(test_runner: object):
+def test_alias_original_tag(test_runner: object):
     filepath = test_runner.full_path_to_mod
     filepath_aliases = f'{test_runner.full_path_to_mod}common\\country_tag_aliases\\tag_aliases.txt'
     results = []
