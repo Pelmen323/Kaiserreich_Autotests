@@ -239,6 +239,113 @@ def format_logging_decisions(username, mod_name):
                 text_file_write.write(text_file)
 
 
+def format_logging_focuses(username, mod_name):
+    """Add logging to focuses
+
+    Args:
+        username (_type_): windows username
+        mod_name (_type_): mod folder name
+    """
+    test_runner = TestRunner(username, mod_name)
+    filepath_to_focuses = f'{test_runner.full_path_to_mod}common\\national_focus\\'
+
+    # Regular focus
+    for filename in glob.iglob(filepath_to_focuses + '**/*.txt', recursive=True):
+        text_file = FileOpener.open_text_file(filename, lowercase=False)
+        pattern_matches = re.findall('^\\tfocus = \\{.*?^\\t\\}', text_file, flags=re.MULTILINE | re.DOTALL)
+        if len(pattern_matches) > 0:
+            dict_with_str_to_replace = dict()
+            for focus in pattern_matches:
+                focus_id = re.findall('^\\t\\tid = ([^\t\n ]+)', focus, flags=re.MULTILINE)[0]
+
+                select_effect = re.findall('(\\t+)select_effect = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'select_effect =' in focus else False
+                complete_effect = re.findall('(\\t+)completion_reward = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'completion_reward =' in focus else False
+
+                expected_logging_line_select = 'log = "[GetDateText]: [Root.GetName]: Select Focus ' + focus_id + '"'
+                expected_logging_line_complete = 'log = "[GetDateText]: [Root.GetName]: Focus ' + focus_id + '"'
+
+                has_any_logging_select = 'select_effect = {\n\t\t\tlog' in focus
+                has_any_logging_complete = 'completion_reward = {\n\t\t\tlog' in focus
+
+                fixed_focus_code = focus
+
+                if select_effect:
+                    if expected_logging_line_select not in select_effect:
+                        if has_any_logging_select:
+                            str_to_replace_select = re.findall('select_effect = \\{.*\\n\\t+log =.*', focus)[0]
+                            fixed_focus_code = fixed_focus_code.replace(str_to_replace_select, 'select_effect = {\n\t\t\t' + expected_logging_line_select)
+
+                        if not has_any_logging_select:
+                            str_to_replace_select = re.findall('select_effect = \\{', focus)[0]
+                            fixed_focus_code = fixed_focus_code.replace(str_to_replace_select, 'select_effect = {\n\t\t\t' + expected_logging_line_select)
+
+                if complete_effect:
+                    if expected_logging_line_complete not in complete_effect:
+                        if has_any_logging_complete:
+                            str_to_replace_complete = re.findall('completion_reward = \\{.*\\n\\t+log =.*', focus)[0]
+                            fixed_focus_code = fixed_focus_code.replace(str_to_replace_complete, 'completion_reward = {\n\t\t\t' + expected_logging_line_complete)
+
+                        if not has_any_logging_complete:
+                            str_to_replace_complete = re.findall('completion_reward = \\{', focus)[0]
+                            fixed_focus_code = fixed_focus_code.replace(str_to_replace_complete, 'completion_reward = {\n\t\t\t' + expected_logging_line_complete)
+
+                if fixed_focus_code != focus:
+                    dict_with_str_to_replace[focus] = fixed_focus_code
+
+            for key, value in dict_with_str_to_replace.items():
+                text_file = text_file.replace(key, value)
+            with open(filename, 'w', encoding="utf-8") as text_file_write:
+                text_file_write.write(text_file)
+
+    # Shared focus
+    for filename in glob.iglob(filepath_to_focuses + '**/*.txt', recursive=True):
+        text_file = FileOpener.open_text_file(filename, lowercase=False)
+        pattern_matches = re.findall('^shared_focus = \\{.*?^\\}', text_file, flags=re.MULTILINE | re.DOTALL)
+        if len(pattern_matches) > 0:
+            dict_with_str_to_replace = dict()
+            for focus in pattern_matches:
+                focus_id = re.findall('^\\tid = ([^\t\n ]+)', focus, flags=re.MULTILINE)[0]
+
+                select_effect = re.findall('(\\t+)select_effect = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'select_effect =' in focus else False
+                complete_effect = re.findall('(\\t+)completion_reward = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'completion_reward =' in focus else False
+
+                expected_logging_line_select = 'log = "[GetDateText]: [Root.GetName]: Select Focus ' + focus_id + '"'
+                expected_logging_line_complete = 'log = "[GetDateText]: [Root.GetName]: Focus ' + focus_id + '"'
+
+                has_any_logging_select = 'select_effect = {\n\t\tlog' in focus
+                has_any_logging_complete = 'completion_reward = {\n\t\tlog' in focus
+
+                fixed_focus_code = focus
+
+                if select_effect:
+                    if expected_logging_line_select not in select_effect:
+                        if has_any_logging_select:
+                            str_to_replace_select = re.findall('select_effect = \\{.*\\n\\t+log =.*', focus)[0]
+                            fixed_focus_code = fixed_focus_code.replace(str_to_replace_select, 'select_effect = {\n\t\t' + expected_logging_line_select)
+
+                        if not has_any_logging_select:
+                            str_to_replace_select = re.findall('select_effect = \\{', focus)[0]
+                            fixed_focus_code = fixed_focus_code.replace(str_to_replace_select, 'select_effect = {\n\t\t' + expected_logging_line_select)
+
+                if complete_effect:
+                    if expected_logging_line_complete not in complete_effect:
+                        if has_any_logging_complete:
+                            str_to_replace_complete = re.findall('completion_reward = \\{.*\\n\\t+log =.*', focus)[0]
+                            fixed_focus_code = fixed_focus_code.replace(str_to_replace_complete, 'completion_reward = {\n\t\t' + expected_logging_line_complete)
+
+                        if not has_any_logging_complete:
+                            str_to_replace_complete = re.findall('completion_reward = \\{', focus)[0]
+                            fixed_focus_code = fixed_focus_code.replace(str_to_replace_complete, 'completion_reward = {\n\t\t' + expected_logging_line_complete)
+
+                if fixed_focus_code != focus:
+                    dict_with_str_to_replace[focus] = fixed_focus_code
+
+            for key, value in dict_with_str_to_replace.items():
+                text_file = text_file.replace(key, value)
+            with open(filename, 'w', encoding="utf-8") as text_file_write:
+                text_file_write.write(text_file)
+
+
 def apply_formatting(filename, encoding="utf-8"):
     replace_string(filename=filename, pattern='(?<=[\\w_\\"=\\{\\}])  (?=[\\w_\\"=\\{\\}])', replace_with=' ', encoding=encoding)  # Remove any doublespaces
     replace_string(filename=filename, pattern='=\\b', replace_with='= ', encoding=encoding)                     # Add spaces between symbol and =
@@ -266,10 +373,8 @@ def apply_formatting(filename, encoding="utf-8"):
     replace_string(filename=filename, pattern='target_array = allies', replace_with='target_array = faction_members', encoding=encoding)
     replace_string(filename=filename, pattern='activate_targeted_decision = \\{\\n\\t+(target = .*?)\\n\\t+(decision = .*?)\\n\\t+\\}', replace_with='activate_targeted_decision = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
     replace_string(filename=filename, pattern='activate_targeted_decision = \\{\\n\\t+(decision = .*?)\\n\\t+(target = .*?)\\n\\t+\\}', replace_with='activate_targeted_decision = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)
-    # replace_string(filename=filename, pattern='activate_targeted_decision = \\{ (decision = .*?) (target = .*?) }', replace_with='activate_targeted_decision = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)                        # Discuss with Alp
     replace_string(filename=filename, pattern='remove_targeted_decision = \\{\\n\\t+(target = .*?)\\n\\t+(decision = .*?)\\n\\t+\\}', replace_with='remove_targeted_decision = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
     replace_string(filename=filename, pattern='remove_targeted_decision = \\{\\n\\t+(decision = .*?)\\n\\t+(target = .*?)\\n\\t+\\}', replace_with='remove_targeted_decision = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)
-    # replace_string(filename=filename, pattern='remove_targeted_decision = \\{ (decision = .*?) (target = .*?) }', replace_with='remove_targeted_decision = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)                            # Discuss with Alp
     replace_string(filename=filename, pattern='has_game_rule = \\{\\n\\t+(rule = .*?)\\n\\t+(option = .*?)\\n\\t+\\}', replace_with='has_game_rule = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
     replace_string(filename=filename, pattern='has_game_rule = \\{\\n\\t+(option = .*?)\\n\\t+(rule = .*?)\\n\\t+\\}', replace_with='has_game_rule = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)
 
@@ -366,3 +471,4 @@ if __name__ == '__main__':
     format_filenames_states(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_logging_events(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_logging_decisions(username="VADIM", mod_name="Kaiserreich Dev Build")
+    format_logging_focuses(username="VADIM", mod_name="Kaiserreich Dev Build")
