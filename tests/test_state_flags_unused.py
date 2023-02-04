@@ -22,6 +22,7 @@ FALSE_POSITIVES = ('acw_important_state_csa',     # Wavering momentum flags that
                    'acw_important_state_nee',
                    'was_core_of_rom',             # ROM annex event
                    'temporarily_occupied_by_',
+                   'annexation_occupied_by_',
                    )
 
 

@@ -25,13 +25,18 @@ class States:
 
             state_id = re.findall('	id = (\\d*)', text_file)[0]
             vp = re.findall('victory_points = \\{ (.*) \\}', text_file)
+            vp_array = re.findall('state_victory_points = (\\d+)', text_file)
+            victory_points_for_state = []
+
             if vp != []:
-                victory_points_for_state = []
                 for point in vp:
                     victory_points_for_state.append(point.split()[0])
-                states_vp_dict[state_id] = victory_points_for_state
-            else:
-                states_vp_dict[state_id] = []
+
+            if vp_array != []:
+                for point in vp_array:
+                    victory_points_for_state.append(point)
+
+            states_vp_dict[state_id] = victory_points_for_state
 
         return states_vp_dict
 

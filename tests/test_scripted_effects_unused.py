@@ -57,6 +57,8 @@ FALSE_POSITIVES = [
     'remove_cores_of_dead_tags',
     'transfer_all_unit_leaders_to_root',
     'china_autonomy_level_up',
+    'enable_coring_at_eighty_compliance',
+    'transfer_and_occupy_state_annexation',
 ]
 
 
