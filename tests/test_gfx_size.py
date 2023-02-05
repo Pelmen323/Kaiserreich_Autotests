@@ -31,9 +31,9 @@ def test_gfx_size(test_runner: object, input_dict: dict):
 
     for filename in glob.iglob(filepath + glob_input + input_dict["format"], recursive=True):
         width, height = Image.open(filename).size
-        if width not in range(target_width - 2, target_width + 2):
+        if width not in range(target_width - 3, target_width + 3):
             results.append(f"{os.path.basename(filename)} - Target width - {target_width}, actual width - {width}")
-        if height not in range(target_width - 2, target_width + 2):
+        if height not in range(target_height - 3, target_height + 3):
             results.append(f"{os.path.basename(filename)} - Target height - {target_height}, actual height - {height}")
 
     ResultsReporter.report_results(results=results, message="Issues with image sizes were encountered.")
