@@ -21,7 +21,7 @@ flags_types = [
 def test_flags_checks(test_runner: object, flag_type: str):
     filepath = test_runner.full_path_to_mod
     results = []
-    pattern = "has_" + flag_type + "_flag = (.+\\b).*\\n.*clr_" + flag_type + "_flag = \\1"
+    pattern = "if = \\{.*\\n.*limit = \\{ has_" + flag_type + "_flag = (.+\\b).*\\n.*clr_" + flag_type + "_flag = \\1.*\\n\\t+\\}"
 
     for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
         text_file = FileOpener.open_text_file(filename)
