@@ -7,7 +7,10 @@ import glob
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 from ..test_classes.scripted_loc_class import Scripted_localisation
 
-FALSE_POSITIVES = ("getsecondincommand")
+FALSE_POSITIVES = (
+    "getsecondincommand",
+    "getrulingideologycolour"
+)
 
 
 def test_check_localisation_scripted_brackets(test_runner: object):
