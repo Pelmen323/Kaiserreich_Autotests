@@ -76,6 +76,7 @@ FALSE_POSITIVES = [
     'is_core_anatolia',
     'is_ally_of_prev',
     'china_same_alignment_as_root',
+    'china_compatible_alignment_to_root',
 ]
 
 
