@@ -5,20 +5,29 @@
 from ..test_classes.decisions_class import Decisions, DecisionsFactory
 from ..test_classes.generic_test_class import ResultsReporter
 
-FALSE_POSITIVES = ['mex_reconquista_decision',
-                   'acw_federal_deadline_looms',
-                   'ser_attack_austria',
-                   'ott_alliance_with_azerbaijan',
-                   'cos_legion_del_caribe_attack',
-                   'per_sulaymaniyah_revolt',
-                   'sri_attack_italy',
-                   'ita_attack_italy',
-                   'srd_attack_sri',
-                   'srd_attack_italy',
-                   'pap_attack_sri',
-                   'pol_operation_parasol',
-                   'nee_liberate_states',
-                   ]
+FALSE_POSITIVES = [
+    'mex_reconquista_decision',
+    'acw_federal_deadline_looms',
+    'ser_attack_austria',
+    'ott_alliance_with_azerbaijan',
+    'cos_legion_del_caribe_attack',
+    'per_sulaymaniyah_revolt',
+    'sri_attack_italy',
+    'ita_attack_italy',
+    'srd_attack_sri',
+    'srd_attack_italy',
+    'pap_attack_sri',
+    'pol_operation_parasol',
+    'nee_liberate_states',
+    'china_integrate_subjects',
+    'qie_fangs_on_the_border',
+    'shx_joint_strike_decision',
+    'shx_joint_strike_attack_mission',
+    'sik_remove_mongol_mission',
+    'sqi_intervene_lep',
+    'sqi_intervene_southeast',
+    'sqi_intervene_southwest',
+]
 
 
 def test_check_decisions_wargoals(test_runner: object):
@@ -62,8 +71,8 @@ def test_check_decisions_wargoals(test_runner: object):
                     results.append(f'{decision.token}, {paths[i]} - The decision has "cancel_trigger"/"cancel_if_not_visible = yes" but dont have cancel effect')
 
             # 6 - Does the decision have war_with_on_remove = TAG or war_with_target_on_remove = yes?
-            if decision.war_with_on_remove is False and decision.war_with_target_on_remove is False:
-                results.append(f'{decision.token}, {paths[i]} - The decision doesnt have either "war_with_on_remove" or "war_with_target_on_remove = yes"')
+            if not decision.war_with_on_remove and not decision.war_with_target_on_remove and not decision.war_with_target_on_complete:
+                results.append(f'{decision.token}, {paths[i]} - The decision doesn\'t have either "war_with_on_remove" or "war_with_target_on_remove" or "war_with_target_on_complete"')
 
             # 7. Notifications
             if decision.complete_effect:
