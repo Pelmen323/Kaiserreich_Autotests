@@ -27,6 +27,7 @@ FALSE_POSITIVES = [
     'sqi_intervene_lep',
     'sqi_intervene_southeast',
     'sqi_intervene_southwest',
+    'china_integration_timer',
 ]
 
 
