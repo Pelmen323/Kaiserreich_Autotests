@@ -11,8 +11,8 @@ from ..test_classes.states_class import States
 def test_check_endonyms_scripted_loc(test_runner: object):
     filepath_to_scripted_loc_state = f'{test_runner.full_path_to_mod}common\\scripted_localisation\\00 - Scripted State Endonyms.txt'
     filepath_to_scripted_loc_vp = f'{test_runner.full_path_to_mod}common\\scripted_localisation\\00 - Scripted VP Endonyms.txt'
-    filepath_to_keys_states = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00_Map_States_l_english.yml'
-    filepath_to_keys_vp = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00_Map_Victory_Points_l_english.yml'
+    filepath_to_keys_states = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00 Map States l_english.yml'
+    filepath_to_keys_vp = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00 Map Victory Points l_english.yml'
 
     states_scripted_loc = []
     defined_state_loc_keys = []

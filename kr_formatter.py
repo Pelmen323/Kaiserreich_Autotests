@@ -60,7 +60,7 @@ def format_filenames_strategic_regions(username, mod_name):
         mod_name (_type_): mod folder name
     """
     test_runner = TestRunner(username, mod_name)
-    filepath_to_strategic_regions_loc = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00_Strategic_Regions_l_english.yml'
+    filepath_to_strategic_regions_loc = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00 Strategic Regions l_english.yml'
     filepath_to_strategic_regions_code = f'{test_runner.full_path_to_mod}map\\strategicregions'
 
     text_file = FileOpener.open_text_file(filepath_to_strategic_regions_loc, lowercase=False)
@@ -86,7 +86,7 @@ def format_filenames_states(username, mod_name):
         mod_name (_type_): mod folder name
     """
     test_runner = TestRunner(username, mod_name)
-    filepath_to_states_loc = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00_Map_States_l_english.yml'
+    filepath_to_states_loc = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00 Map States l_english.yml'
     filepath_to_states_code = f'{test_runner.full_path_to_mod}history\\states'
 
     text_file = FileOpener.open_text_file(filepath_to_states_loc, lowercase=False)
