@@ -382,6 +382,9 @@ def apply_formatting(filename, encoding="utf-8"):
     replace_string(filename=filename, pattern='(?<!^)country_event = \\{.*?(#.*?)\\n\\t+id = ([^ #]*?)\\n\\t+\\}', replace_with='country_event = \\2 \\1', encoding=encoding, flag=re.MULTILINE)                                                     # With comments
     replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+id = ([^ #]*?)[ \\t]*?(#.*?)\\n\\t+\\}', replace_with='country_event = \\1 \\2', encoding=encoding, flag=re.MULTILINE)                                                # With comments
 
+    replace_string(filename=filename, pattern='(?<!^)set_province_name = \\{\\n\\t+(id = [^ #]*?)\\n\\t+(name = [^ #]*?)\\n\\t+\\}', replace_with='set_province_name = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
+    replace_string(filename=filename, pattern='(?<!^)set_province_name = \\{\\n\\t+(name = [^ #]*?)\\n\\t+(id = [^ #]*?)\\n\\t+\\}', replace_with='set_province_name = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)
+
     replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?)\\n\\t+(days = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)                                   # base
     replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?)\\n\\t+(months = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)                                 # months
     replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?)\\n\\t+(days = [^ #]*?)\\n\\t+(random_days = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\2 \\3 }', encoding=encoding, flag=re.MULTILINE)  # with random_days
