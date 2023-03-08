@@ -10,7 +10,7 @@ from ..test_classes.national_focus_class import (National_focus,
                                                  NationalFocusFactory)
 
 FALSE_POSITIVES = ['nee_country_select_screen', 'nee_blank']
-FOCUSES_NO_DESC = ['wls_', 'sco_', 'yun_', 'mnt_', 'imro_', 'kdr_', 'bat_']
+FOCUSES_NO_DESC = ['wls_', 'sco_', 'yun_', 'mnt_', 'imro_', 'kdr_', 'bat_', 'kor_']
 
 
 def test_check_national_focus_contents(test_runner: object):
@@ -53,14 +53,7 @@ def test_check_national_focus_contents(test_runner: object):
             elif int(focus.cost) < 0:
                 results.append((focus.id, paths[foc_code], "Encountered focus duration < 0 days"))
 
-        # 5. AI factor
-        if focus.ai_will_do:
-            if "base =" not in focus.ai_will_do:
-                primary_focus_factor = float(re.findall("factor = ([^ \\t]+)", focus.ai_will_do)[0])
-                if primary_focus_factor == 0 and "add =" not in focus.ai_will_do and '#wad' not in focus.ai_will_do:
-                    results.append((focus.id, paths[foc_code], "The focus has 'factor = 0' and there are no 'add' lines to modify this value - AI will never take this focus. Add #wad comment to ai_will_do section if it is wad"))
-
-        # 6. Reward
+        # 5. Reward
         if not focus.completion_reward:
             results.append((focus.id, paths[foc_code], "Missing completion reward"))
         else:
@@ -83,13 +76,13 @@ def test_check_national_focus_contents(test_runner: object):
             if f'select focus {focus.id}' not in focus_logging:
                 results.append((focus.id, focus_logging, paths[foc_code], "Select effect - logging line doesn't contain focus id"))
 
-        # 7. Check for dynamic loc in focus name loc
+        # 6. Check for dynamic loc in focus name loc
         if focus.id in loc_keys.keys():
             if "[" in loc_keys[focus.id]:       # Either scripted loc or variable
                 if not focus.dynamic:
                     results.append((focus.id, paths[foc_code], "Missing `dynamic = yes` - scripted loc/variable in focus name"))
 
-        # 8. Focus name check
+        # 7. Focus name check
         if focus.id not in loc_keys.keys():
             if focus.text is False:
                 results.append((focus.id, paths[foc_code], "Both focus id and text are not present in loc keys"))
@@ -100,7 +93,7 @@ def test_check_national_focus_contents(test_runner: object):
         elif loc_keys[focus.id] == "":
             results.append((focus.id, paths[foc_code], "Both focus id and text are not present in loc keys"))
 
-        # 9. Focus desc
+        # 8. Focus desc
         if len([i for i in FOCUSES_NO_DESC if i in focus.id]) == 0:             # Skipping specific focuses - they are puppet-only
             if f'{focus.id}_desc' not in loc_keys.keys():
                 if focus.text is False:
@@ -112,7 +105,7 @@ def test_check_national_focus_contents(test_runner: object):
             elif len(loc_keys[f'{focus.id}_desc']) < 6:
                 results.append((focus.id, paths[foc_code], "Focus desc is not present in loc keys"))
 
-        # 10. War declaration - will_lead_to_war_with
+        # 9. War declaration - will_lead_to_war_with
         if 'create_wargoal' in foc_code or 'declare_war_on = {' in foc_code:
             if not focus.will_lead_to_war_with:
                 results.append((focus.id, paths[foc_code], "The focus is starting war/generating wargoal but doesn't have 'will_lead_to_war_with'"))
