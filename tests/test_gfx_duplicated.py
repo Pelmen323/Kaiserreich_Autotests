@@ -11,7 +11,7 @@ from ..test_classes.generic_test_class import ResultsReporter
 logging.getLogger('PIL').setLevel(logging.WARNING)                          # Counter PIL log pollution
 
 
-def test_gfx_size(test_runner: object):
+def test_gfx_duplicated(test_runner: object):
     filepath = f'{test_runner.full_path_to_mod}gfx\\'
     results = []
     images_list = []

@@ -5,7 +5,7 @@
 from ..test_classes.characters_class import Advisors, Characters
 from ..test_classes.generic_test_class import ResultsReporter
 
-FALSE_POSITIVES_TOKENS = ["pol_andrzej_wierbicki", "pol_henryk_ehrlich", "csa_eleanor_roosevelt", "nee_", "shx_"]
+FALSE_POSITIVES_TOKENS = ["pol_andrzej_wierbicki", "pol_henryk_ehrlich", "csa_eleanor_roosevelt", "nee_", "shx_", "qie_liu_menggeng_army_chief"]
 FALSE_POSITIVES_TRAITS = ["kr_plodding_bureaucrat"]
 
 

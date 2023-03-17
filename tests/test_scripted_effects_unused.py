@@ -59,6 +59,8 @@ FALSE_POSITIVES = [
     'china_autonomy_level_up',
     'enable_coring_at_eighty_compliance',
     'transfer_and_occupy_state_annexation',
+    'add_core_and_transfer_if_owned_else_add_claim',
+    'add_core_if_owned_else_add_claim',
 ]
 
 

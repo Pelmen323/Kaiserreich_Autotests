@@ -10,6 +10,7 @@ from ..test_classes.generic_test_class import ResultsReporter
 FALSE_POSITIVES = [
     "chi_dai_chunfeng_sic",
     "chi_dai_chunfeng_political_advisor",
+    "qie_liu_menggeng_army_chief",
 ]
 
 

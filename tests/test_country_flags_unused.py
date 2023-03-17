@@ -22,6 +22,9 @@ FALSE_POSITIVES = (
     'ins_high_unity',
     'can_integrate_lec',
     'can_integrate_tai',
+    'can_integrate_xxa',
+    'can_integrate_50_xxa',
+    'can_integrate_80_xxa'
 )
 
 

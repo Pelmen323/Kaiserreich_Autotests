@@ -12,6 +12,7 @@ FALSE_POSITIVES = [
     "asy_malik_qambar_political_advisor_lar",
     "irq_hashim_al_alawi_political_advisor_lar",
     "chi_dai_chunfeng_political_advisor",
+    'qie_liu_menggeng_pol',
 ]
 list_of_trait_types = [
     "air_chief",
