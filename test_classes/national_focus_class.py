@@ -98,6 +98,7 @@ class NationalFocusFactory:
         # Focus .cost
         self.cost = re.findall('\\t+cost = (\\d+)', focus)[0] if '	cost =' in focus else False
         self.available = re.findall('(\\t+)available = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if '	available =' in focus else False
+        self.bypass = re.findall('(\\t+)bypass = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if '	bypass =' in focus else False
 
         self.select_effect = re.findall('(\\t+)select_effect = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'select_effect =' in focus else False
         self.completion_reward = re.findall('(\\t+)completion_reward = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'completion_reward =' in focus else False
