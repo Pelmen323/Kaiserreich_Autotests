@@ -114,40 +114,76 @@ def format_logging_events(username, mod_name):
     """
     test_runner = TestRunner(username, mod_name)
     filepath_to_events = f'{test_runner.full_path_to_mod}events\\'
-    files_to_skip = ['Pilot']
-    false_positives = ['amcivwar.805']
+    files_to_skip = ['Pilot', 'LaR', 'Nuke', ' - Vanilla']
+    false_positives = []
 
     for filename in glob.iglob(filepath_to_events + '**/*.txt', recursive=True):
         if DataCleaner.skip_files(files_to_skip=files_to_skip, filename=filename):
             continue
 
         text_file = FileOpener.open_text_file(filename, lowercase=False)
-        pattern_matches = re.findall('^country_event = \\{(.*?)^\\}', text_file, flags=re.DOTALL | re.MULTILINE)
+        pattern_matches = re.findall('^\\w+_event = \\{(.*?)^\\}', text_file, flags=re.DOTALL | re.MULTILINE)
         if len(pattern_matches) > 0:
-            dict_with_str_to_replace = dict()
+            dict_with_str_to_replace_event = dict()
             for event in pattern_matches:
                 event_id = re.findall('^\\tid = ([^ \\n\\t]+)', event, flags=re.MULTILINE)[0]
-                if event_id in false_positives:
+
+                hidden_event = "donotlog" in event
+                if event_id in false_positives or hidden_event:
                     continue
 
-                hidden_event = "hidden = yes" in event or "donotlog" in event
-                has_any_logging = "immediate = { log =" in event
-                has_data_logging = 'immediate = { log = "KR_Event_Logging' in event
-                expected_logging_line = 'immediate = { log = "[GetDateText]: [Root.GetName]: event ' + event_id + ' FROM = [From.GetName]" }'
-                has_valid_logging = expected_logging_line in event
+                options = re.findall('(^\\toption = \\{.*?^\\t\\})', event, flags=re.DOTALL | re.MULTILINE)
 
-                if not has_valid_logging and not hidden_event:
-                    if has_any_logging and not has_data_logging:
-                        str_to_replace = re.findall('immediate = \\{ log =.*', event)[0]
-                        dict_with_str_to_replace[event] = event.replace(str_to_replace, expected_logging_line)
-                    if not has_any_logging:
-                        x = re.findall('^\\tid = .*', event, flags=re.MULTILINE)[0]
-                        dict_with_str_to_replace[event] = event.replace(x, f'{x}\n\t{expected_logging_line}')
+                for index, option in enumerate(options):
+                    dict_with_str_to_replace_option = dict()
+                    has_any_logging = "log =" in option
+                    has_data_logging = 'log = "KR_Event_Logging' in option
+                    option_name = re.findall('^\\t\\tname = ([^ \\n\\t]+)', option, flags=re.MULTILINE)[0] if '\n\t\tname = ' in option and '\n\t\tname = "' not in option else index + 1
+                    expected_logging_line = 'log = "[GetLogInfo]: event ' + event_id + ' option ' + str(option_name) + '"'
+                    has_valid_logging = expected_logging_line in option
 
-            for key, value in dict_with_str_to_replace.items():
+                    if not has_valid_logging:
+                        if has_any_logging and not has_data_logging:
+                            str_to_replace = re.findall('log =.*', option)[0]
+                            dict_with_str_to_replace_option[option] = option.replace(str_to_replace, expected_logging_line)
+                        if has_any_logging and has_data_logging:
+                            if option.count("log =") == 1:
+                                x = re.findall('^\\toption = .*', option, flags=re.MULTILINE)[0]
+                                dict_with_str_to_replace_option[option] = option.replace(x, f'{x}\n\t\t{expected_logging_line}')
+                            else:
+                                str_to_replace = re.findall('log = \\"(?!KR_Event_Logging).*', option)[0]
+                                dict_with_str_to_replace_option[option] = option.replace(str_to_replace, expected_logging_line)
+                        if not has_any_logging:
+                            x = re.findall('^\\toption = .*', option, flags=re.MULTILINE)[0]
+                            dict_with_str_to_replace_option[option] = option.replace(x, f'{x}\n\t\t{expected_logging_line}')
+
+                    for key, value in dict_with_str_to_replace_option.items():
+                        dict_with_str_to_replace_event[event] = event.replace(key, value) if event not in dict_with_str_to_replace_event.keys() else dict_with_str_to_replace_event[event].replace(key, value)
+
+            for key, value in dict_with_str_to_replace_event.items():
                 text_file = text_file.replace(key, value)
             with open(filename, 'w', encoding="utf-8-sig") as text_file_write:
                 text_file_write.write(text_file)
+
+    for filename in glob.iglob(filepath_to_events + '**/*.txt', recursive=True):
+        if DataCleaner.skip_files(files_to_skip=files_to_skip, filename=filename):
+            continue
+
+        text_file = FileOpener.open_text_file(filename, lowercase=False)
+        pattern_matches = re.findall('^\\w+_event = \\{(.*?)^\\}', text_file, flags=re.DOTALL | re.MULTILINE)
+        if len(pattern_matches) > 0:
+            for event in pattern_matches:
+                event_id = re.findall('^\\tid = ([^ \\n\\t]+)', event, flags=re.MULTILINE)[0]
+
+                hidden_event = "donotlog" in event
+                if event_id in false_positives or hidden_event:
+                    continue
+
+                options = re.findall('(^\\toption = \\{.*?^\\t\\})', event, flags=re.DOTALL | re.MULTILINE)
+
+                for index, option in enumerate(options):
+                    if 'log = "[GetLogInfo]: event ' + event_id not in option:
+                        print(f'{event_id}, option {index} - missing logging')
 
 
 def format_logging_decisions(username, mod_name):
@@ -366,6 +402,8 @@ def apply_formatting(filename, encoding="utf-8"):
     replace_string(filename=filename, pattern='(?<=\\w)	\\}', replace_with=' }', encoding=encoding, flag=re.MULTILINE)          # \t -> space
     replace_string(filename=filename, pattern='(?<=\\w)	=', replace_with=' =', encoding=encoding, flag=re.MULTILINE)            # \t -> space
 
+    replace_string(filename=filename, pattern='.*immediate = \\{ log = \\"\\[GetDateText\\]: \\[Root.GetName\\]: event.*\\n', replace_with='', encoding=encoding)       # outdated logging
+
     replace_string(filename=filename, pattern='limit = \\{\\n\\t+(has_template = .*?)\\n\\t+\\}', replace_with='limit = { \\1 }', encoding=encoding)
     replace_string(filename=filename, pattern='set_technology = \\{\\n\\t+(.+?)\\n\\t+\\}', replace_with='set_technology = { \\1 }', encoding=encoding)
     replace_string(filename=filename, pattern='delete_unit_template_and_units = \\{[^}]*?\\n\\t+(division_template = \".*?\").*\\n\\t+(disband = \\w+).*\\n\\t+\\}', replace_with='delete_unit_template_and_units = { \\1 \\2 }', encoding=encoding)
@@ -474,9 +512,9 @@ def format_kaiserreich(username, mod_name):
 
 
 if __name__ == '__main__':
-    format_kaiserreich(username="VADIM", mod_name="Kaiserreich Dev Build")
-    format_filenames_strategic_regions(username="VADIM", mod_name="Kaiserreich Dev Build")
-    format_filenames_states(username="VADIM", mod_name="Kaiserreich Dev Build")
+    # format_kaiserreich(username="VADIM", mod_name="Kaiserreich Dev Build")
+    # format_filenames_strategic_regions(username="VADIM", mod_name="Kaiserreich Dev Build")
+    # format_filenames_states(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_logging_events(username="VADIM", mod_name="Kaiserreich Dev Build")
-    format_logging_decisions(username="VADIM", mod_name="Kaiserreich Dev Build")
-    format_logging_focuses(username="VADIM", mod_name="Kaiserreich Dev Build")
+    # format_logging_decisions(username="VADIM", mod_name="Kaiserreich Dev Build")
+    # format_logging_focuses(username="VADIM", mod_name="Kaiserreich Dev Build")
