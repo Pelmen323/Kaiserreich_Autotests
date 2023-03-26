@@ -9,7 +9,8 @@ from ..test_classes.scripted_loc_class import Scripted_localisation
 
 FALSE_POSITIVES = (
     "getsecondincommand",
-    "getrulingideologycolour"
+    "getrulingideologycolour",
+    "gethavengaorhertzog",
 )
 
 
