@@ -16,7 +16,7 @@ from ..test_classes.generic_test_class import (
 FALSE_POSITIVES = ('[oob_name]',)
 
 
-def test_check_unused_oob_files(test_runner: object):
+def test_check_missing_oob_files(test_runner: object):
     filepath = test_runner.full_path_to_mod
     path_to_oob_files = f'{test_runner.full_path_to_mod}history\\units\\'
     oob_files = {}
@@ -25,18 +25,10 @@ def test_check_unused_oob_files(test_runner: object):
         text_file = FileOpener.open_text_file(filename)
 
         if 'oob =' in text_file:
-            pattern_matches = re.findall('oob = [\\[\\]a-zA-Z0-9_"]*', text_file)
+            pattern_matches = re.findall('^[^#]+oob = ([\\[\\]a-zA-Z0-9_"]*)', text_file, flags=re.MULTILINE)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
-                    match = match[5:].strip().strip('"')
-                    oob_files[match] = 0
-
-        if 'OOB =' in text_file:
-            pattern_matches2 = re.findall('oob = [\\[\\]a-zA-Z0-9_"]*', text_file)
-            if len(pattern_matches2) > 0:
-                for match in pattern_matches2:
-                    match = match[5:].strip().strip('"')
-                    oob_files[match] = 0
+                    oob_files[match.strip('"')] = 0
 
 # Part 2 - find if oob file is present
     oob_files = DataCleaner.clear_false_positives(input_iter=oob_files, false_positives=FALSE_POSITIVES)
