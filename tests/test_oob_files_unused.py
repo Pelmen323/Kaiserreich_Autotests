@@ -41,16 +41,10 @@ def test_check_unused_oob_files(test_runner: object):
 
         not_encountered_oob = [i for i in oob_files.keys() if oob_files[i] == 0]
 
-        if 'load_oob =' in text_file:
+        if 'oob =' in text_file:
             for file in not_encountered_oob:
-                oob_files[file] += text_file.count(f'load_oob = {file}')
-                oob_files[file] += text_file.count(f'load_oob = "{file}"')
-
-        elif 'oob =' in text_file:
-            for file in not_encountered_oob:
+                oob_files[file] += text_file.count(f'oob = {file}')
                 oob_files[file] += text_file.count(f'oob = "{file}"')
-                oob_files[file] += text_file.count(f'set_naval_oob = "{file}"')
-                oob_files[file] += text_file.count(f'set_air_oob = "{file}"')
 
 # Part 3 - throw the error if oob files are not used
     results = [i for i in oob_files if oob_files[i] == 0]
