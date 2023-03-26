@@ -4,13 +4,10 @@
 ##########################
 import re
 
-import pytest
-
 from ..test_classes.events_class import Events
 from ..test_classes.generic_test_class import ResultsReporter
 
 
-@pytest.mark.skip(reason="Disabled for now")
 def test_check_missing_pics_events(test_runner: object):
     results = []
     events_code = Events.get_all_events(test_runner=test_runner, lowercase=True)

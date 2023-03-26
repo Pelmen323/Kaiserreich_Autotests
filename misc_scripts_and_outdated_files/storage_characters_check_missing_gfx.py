@@ -5,13 +5,10 @@
 import os
 import re
 
-import pytest
-
 from ..test_classes.characters_class import Characters
 from ..test_classes.generic_test_class import ResultsReporter
 
 
-@pytest.mark.skip(reason="Currently disabled")
 def test_characters_check_gfx(test_runner: object):
     characters, paths = Characters.get_all_characters(test_runner=test_runner, return_paths=True)
     filepath = test_runner.full_path_to_mod

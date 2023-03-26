@@ -4,13 +4,12 @@
 ##########################
 import re
 import glob
-import pytest
 
 from ..test_classes.events_class import Events
 from ..test_classes.generic_test_class import ResultsReporter, FileOpener
 
 
-@pytest.mark.skip(reason="For manual execution only due to huge number of results")
+# Still works, produces a lot of results so only for manual execution
 def test_events_fire_only_once(test_runner: object):
     filepath_on_actions = f'{test_runner.full_path_to_mod}\\common\\on_actions\\'
     fire_only_once_events_id = []
