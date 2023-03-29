@@ -24,7 +24,8 @@ FALSE_POSITIVES = (
     'can_integrate_tai',
     'can_integrate_xxa',
     'can_integrate_50_xxa',
-    'can_integrate_80_xxa'
+    'can_integrate_80_xxa',
+    'can_integrate_80_',
 )
 
 
