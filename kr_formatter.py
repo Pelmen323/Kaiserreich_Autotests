@@ -4,6 +4,7 @@ import os
 
 from core.runner import TestRunner
 from test_classes.generic_test_class import DataCleaner, FileOpener
+from test_classes.localization_class import Localization
 
 FILES_TO_SKIP = ['\\localisation', 'interface', 'gfx', 'map', 'common\\units', 'names', 'states', '00_construction_scripted_effects', 'UI_scripted_localisation', 'technologies', 'occupation_laws']
 
@@ -88,6 +89,7 @@ def format_filenames_states(username, mod_name):
     test_runner = TestRunner(username, mod_name)
     filepath_to_states_loc = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00 Map States l_english.yml'
     filepath_to_states_code = f'{test_runner.full_path_to_mod}history\\states'
+    loc_keys = Localization.get_all_loc_keys(test_runner=test_runner, lowercase=False)
 
     text_file = FileOpener.open_text_file(filepath_to_states_loc, lowercase=False)
     states_loc = {}
@@ -95,13 +97,15 @@ def format_filenames_states(username, mod_name):
     for line in target_lines:
         state_id = line.split(':')[0].split("_")[1]
         state_name = line.split(':')[1].strip().strip('"')
+        if "$" in state_name:
+            state_name = loc_keys[state_name.strip("$")].strip('"')
         states_loc[state_id] = state_name
 
     for filename in glob.iglob(filepath_to_states_code + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename, lowercase=False)
         current_region_id = re.findall("id[ ]*=[ ]*(\\d*)", text_file)[0]
         expected_filename = f'{current_region_id} - {states_loc[current_region_id]}.txt'
-        if os.path.basename(filename) != expected_filename and "$" not in states_loc[current_region_id]:
+        if os.path.basename(filename) != expected_filename:
             os.rename(filename, f'{filepath_to_states_code}\\{expected_filename}')
 
 

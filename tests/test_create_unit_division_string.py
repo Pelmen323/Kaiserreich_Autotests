@@ -28,7 +28,6 @@ def test_check_create_unit_string(test_runner: object):
                 for match in pattern_matches:
                     pattern = r'division = \"(division_name = \{ is_name_ordered = yes name_order = \d+ \})*([ ]{0,1}(name = \\\"[^\"\t\n]+?\\\"|name = \[\w+\]))*([ ]{0,1}(division_template = \\\"[^\"\t\n]+?\\\"|division_template = \[\w+\]))+( start_experience_factor = (\d+(?:\.\d+)?))*?( start_equipment_factor = (\d+(?:\.\d+)?))*?( start_manpower_factor = (\d+(?:\.\d+)?))*?( force_equipment_variants = \{.*\})*?\"'
                     expected_pattern_encountered = re.findall(pattern, match[2], flags=re.MULTILINE)
-                    print(expected_pattern_encountered)
                     if expected_pattern_encountered == []:
                         results.append(f'{match[2]} - {os.path.basename(filename)} - invalid division string encountered')
 
