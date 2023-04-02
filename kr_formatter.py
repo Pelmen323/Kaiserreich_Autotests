@@ -101,7 +101,7 @@ def format_filenames_states(username, mod_name):
         text_file = FileOpener.open_text_file(filename, lowercase=False)
         current_region_id = re.findall("id[ ]*=[ ]*(\\d*)", text_file)[0]
         expected_filename = f'{current_region_id} - {states_loc[current_region_id]}.txt'
-        if os.path.basename(filename) != expected_filename:
+        if os.path.basename(filename) != expected_filename and "$" not in states_loc[current_region_id]:
             os.rename(filename, f'{filepath_to_states_code}\\{expected_filename}')
 
 
