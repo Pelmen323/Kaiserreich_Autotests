@@ -6,7 +6,7 @@ import glob
 import os
 import re
 
-# from difflib import SequenceMatcher
+from difflib import SequenceMatcher
 
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 from ..test_classes.localization_class import Localization
@@ -30,6 +30,8 @@ def test_check_state_reference(test_runner: object):
         states_loc[state_id] = state_name
 
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
+        if "Endonyms" in filename:
+            continue
         text_file = FileOpener.open_text_file(filename, lowercase=False)
 
         if 'state = ' in text_file:
@@ -41,13 +43,13 @@ def test_check_state_reference(test_runner: object):
                         state = re.findall(r'state = (\d+)', match)[0]
                         comment = re.findall(r'#.*', match)[0][1:].strip()
                         if states_loc[state].lower() not in comment.lower():
-                            results.append(f'{os.path.basename(filename)} - {match} - expected {states_loc[state]}')
-                            # if SequenceMatcher(None, comment, states_loc[state]).ratio() > 0.5:
-                            #     match_new = match.replace(comment, states_loc[state])
-                            #     text_file_new = text_file.replace(match, match_new)
-                            #     with open(filename, 'w', encoding="utf-8-sig") as text_file_write:
-                            #         text_file_write.write(text_file_new)
-                            # else:
-                            #     results.append(f'{os.path.basename(filename)} - {match} - expected {states_loc[state]}')
+                            if SequenceMatcher(None, comment, states_loc[state]).ratio() > 0.5 and states_loc[state] == states_loc[state].encode(encoding='UTF-8').decode("utf-8"):
+                                continue
+                                # match_new = match.replace(comment, states_loc[state])
+                                # text_file_new = text_file.replace(match, match_new)
+                                # with open(filename, 'w', encoding="utf-8") as text_file_write:
+                                #     text_file_write.write(text_file_new)
+                            else:
+                                results.append(f'{comment} - expected {states_loc[state]} - {match} - {os.path.basename(filename)}')
 
-    ResultsReporter.report_results(results=results, message="Issues with state comments were encountered. Check console output")
+    ResultsReporter.report_results(results=sorted(results), message="Issues with state comments were encountered. Check console output")
