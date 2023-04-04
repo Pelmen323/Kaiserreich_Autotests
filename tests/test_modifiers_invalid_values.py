@@ -9,7 +9,7 @@ import pytest
 
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
-FALSE_POSITIVES = ["BHU", "BAT"]
+FALSE_POSITIVES = ["BHU", "BAT", "KR_high_command"]
 
 input_list = [
     ["conscription_factor", "< 0.05", "> -0.05"],
