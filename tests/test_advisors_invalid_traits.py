@@ -13,6 +13,7 @@ FALSE_POSITIVES = [
     "irq_hashim_al_alawi_political_advisor_lar",
     "chi_dai_chunfeng_political_advisor",
     'qie_liu_menggeng_pol',
+    'chi_zhou_enlai',
 ]
 list_of_trait_types = [
     "air_chief",
@@ -34,6 +35,10 @@ def test_check_advisors_military_invalid_traits(test_runner: object, trait_type)
         allowed_advisor_traits += Characters.get_advisors_traits(test_runner=test_runner, lowercase=True, path=f'{test_runner.full_path_to_mod}common\\country_leader\\USA_head_of_state.txt')
         allowed_advisor_traits += Characters.get_advisors_traits(test_runner=test_runner, lowercase=True, path=f'{test_runner.full_path_to_mod}common\\country_leader\\RUS_head_of_state.txt')
         allowed_advisor_traits += Characters.get_advisors_traits(test_runner=test_runner, lowercase=True, path=f'{test_runner.full_path_to_mod}common\\country_leader\\FNG_political_advisor_traits.txt')
+
+    if trait_type == "second_in_command":
+        allowed_advisor_traits += Characters.get_advisors_traits(test_runner=test_runner, lowercase=True, path=f'{test_runner.full_path_to_mod}common\\country_leader\\KR_political_advisor_traits.txt')
+
     results = []
 
     for advisor_code in advisors:

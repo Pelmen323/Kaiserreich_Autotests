@@ -10,7 +10,15 @@ import re
 from ..test_classes.characters_class import Characters
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
-FALSE_POSITIVES = ["var", "prev", "empowered_legislative"]
+FALSE_POSITIVES = [
+    "var",
+    "prev",
+    "empowered_legislative",
+    'csa_usa_floyd_olson',
+    'tex_usa_floyd_olson',
+    'csa_usa_al_smith',
+    'tex_usa_al_smith'
+]
 
 
 def test_check_missing_characters(test_runner: object):

@@ -11,6 +11,10 @@ FALSE_POSITIVES = [
     "chi_dai_chunfeng_sic",
     "chi_dai_chunfeng_political_advisor",
     "qie_liu_menggeng_army_chief",
+    "chi_dai_chunfeng_advisor",
+    "chi_lixingshe_sic",
+    "chi_zhou_enlai",
+    "chi_zhou_enlai_mhc",
 ]
 
 

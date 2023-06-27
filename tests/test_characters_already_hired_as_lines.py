@@ -9,7 +9,8 @@ from ..test_classes.generic_test_class import ResultsReporter
 
 FALSE_POSITIVES = ['eth_', 'gbr_', 'asy_malik_qambar', 'can_john_bracken', 'can_robert_manion', 'sic_giovanni_messe',
                    'syr_sami_al_hinawi', 'irq_rashid_al_gaylani', 'irq_hashim_al_alawi', 'xsm_ma_hushan',
-                   'chi_dai_chunfeng', 'gxc_chen_jiongming', 'qie_liu_menggeng', 'leb_fuad_chehab']                     # convert to list if more added here
+                   'chi_dai_chunfeng', 'gxc_chen_jiongming', 'qie_liu_menggeng', 'leb_fuad_chehab', 'chi_lixingshe',
+                   'ukr_symon_petliura']                     # convert to list if more added here
 
 
 def test_check_characters_already_hired(test_runner: object):

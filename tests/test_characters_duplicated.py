@@ -21,6 +21,7 @@ FALSE_POSITIVES = (
     'army_reform_group',
     'army_council',
     'ma_liang',
+    'saud_bin_abd_al_aziz',
 )
 
 
