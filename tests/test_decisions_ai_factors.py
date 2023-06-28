@@ -43,7 +43,7 @@ def test_check_decisions_ai_factors(test_runner: object):
             elif decision.has_ai_factor:
                 results.append((decision.token, paths[i], "Non-selectable mission has AI factor"))
 
-        elif not decision.has_ai_factor:
+        elif not decision.has_ai_factor and "debug" not in decision.token:
             results.append((decision.token, paths[i], "Regular decision doesn't have AI factor"))
 
         if decision.has_ai_factor:

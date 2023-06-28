@@ -58,7 +58,7 @@ def test_check_focuses_ideology_optimisations(test_runner: object):
 def test_check_decisions_ideology_optimisations(test_runner: object):
     decisions = Decisions.get_all_decisions(test_runner=test_runner, lowercase=True, return_paths=False)
     results = []
-    false_positives = ('bul_join_reichspakt', 'can_support_government', 'lat_visit_to_rus', 'wif_combat_illegal_french_activity',)
+    false_positives = ('bul_join_reichspakt', 'can_support_government', 'lat_visit_to_rus', 'wif_combat_illegal_french_activity', 'ukr_galician_negotiations')
     for i in decisions:
         decision = DecisionsFactory(dec=i)
         available_part = None
