@@ -31,7 +31,7 @@ army_theorists_traits = [
     "kr_ottoman_attache",
     "kr_ottoman_exile",
     "kr_mass_offensive_school",
-    "KR_mechanised_wave_school",
+    "kr_mechanised_wave_school",
 ]
 
 genius_traits = [

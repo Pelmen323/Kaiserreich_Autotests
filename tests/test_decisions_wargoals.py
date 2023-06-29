@@ -78,7 +78,7 @@ def test_check_decisions_wargoals(test_runner: object):
 
             # 7. Notifications
             if decision.complete_effect:
-                if "warning event" not in decision.complete_effect and "kr.political.30" not in decision.complete_effect:
+                if not [i for i in ["warning event", "kr.political.30", "incoming_war_notification_effect"] if i in decision.complete_effect]:
                     results.append(f'{decision.token}, {paths[i]} - The decision doesnt contain notification for a target. If it is - add #warning event comment to complete_effect section"')
 
             if decision.days_remove:

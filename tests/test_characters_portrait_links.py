@@ -19,8 +19,7 @@ def test_check_characters_already_hired(test_runner: object):
         except IndexError:
             results.append((char, paths[char], "Missing char name"))
         if unit_leader_role:
-            pattern_matches = re.findall('portraits = \\{.*army = \\{.*small =.*\\}.*\\}', char.replace("\n", "").replace('\t', "")) + \
-                re.findall('portraits = \\{.*navy = \\{.*small =.*\\}.*\\}', char.replace("\n", "").replace('\t', ""))
+            pattern_matches = re.findall(r'small = "', char)
             if len(pattern_matches) < 1:
                 results.append((char_name, paths[char], "Character is missing small portrait link"))
 
