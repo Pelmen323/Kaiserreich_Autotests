@@ -13,7 +13,7 @@ from ..test_classes.generic_test_class import (
     ResultsReporter,
 )
 
-FALSE_POSITIVES = ['previous_overlord', ]
+FALSE_POSITIVES = ['previous_overlord', 'csa_usa_al_smith']
 
 
 def test_check_unused_event_targets(test_runner: object):
