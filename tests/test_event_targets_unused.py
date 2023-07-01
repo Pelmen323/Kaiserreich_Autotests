@@ -3,7 +3,6 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import logging
 import os
 import re
 

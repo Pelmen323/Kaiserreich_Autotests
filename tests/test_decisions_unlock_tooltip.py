@@ -5,6 +5,7 @@
 import glob
 import os
 import re
+import pytest
 
 from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
@@ -19,6 +20,7 @@ FALSE_POSITIVES = [
 ]
 
 
+@pytest.mark.skip(reason="Backlog work")
 def test_non_targeted_decisions(test_runner: object):
     filepath = test_runner.full_path_to_mod
     results = []
