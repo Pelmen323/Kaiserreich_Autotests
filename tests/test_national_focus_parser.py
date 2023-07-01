@@ -94,7 +94,7 @@ def test_check_national_focus_contents(test_runner: object):
             results.append((focus.id, paths[foc_code], "Both focus id and text are not present in loc keys"))
 
         # 8. Focus desc
-        if len([i for i in FOCUSES_NO_DESC if i in focus.id]) == 0:             # Skipping specific focuses - they are puppet-only
+        if len([i for i in FOCUSES_NO_DESC if i in focus.id]) == 0 and not focus.puppet_only_focus:             # Skipping specific focuses - they are puppet-only
             if f'{focus.id}_desc' not in loc_keys.keys():
                 if focus.text is False:
                     results.append((focus.id, paths[foc_code], "Focus desc is not present in loc keys"))

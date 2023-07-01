@@ -9,7 +9,7 @@ import pytest
 FALSE_POSITIVES_STATE = ["Georgia", "Maine", "Morava", "Santa Cruz"]
 FALSE_POSITIVES_VP = ["Birmingham", "Charleston", "Concepcion", "Dover", "Frankfurt", 'Ganzhou', 
                       'Georgetown', 'Kochi', 'La Paz', 'León', 'Mafikeng', 'Malaga', 'Mérida', 'Newcastle',
-                      'Petropavlovsk', 'Port Arthur', 'San Juan', 'Santarém']
+                      'Petropavlovsk', 'Port Arthur', 'San Juan', 'Santarém', 'Concepción']
 
 list_of_filepaths = [
     ["localisation\\KR_common\\00 Map States l_english.yml", FALSE_POSITIVES_STATE],

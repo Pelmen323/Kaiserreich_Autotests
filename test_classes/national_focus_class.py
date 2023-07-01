@@ -106,3 +106,4 @@ class NationalFocusFactory:
 
         self.will_lead_to_war_with = "will_lead_to_war_with =" in focus
         self.dynamic = "dynamic = yes" in focus
+        self.puppet_only_focus = "# puppet focus" in focus
