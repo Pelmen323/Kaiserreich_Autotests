@@ -6,7 +6,7 @@ from core.runner import TestRunner
 from test_classes.generic_test_class import DataCleaner, FileOpener
 from test_classes.localization_class import Localization
 
-FILES_TO_SKIP = ['\\localisation', 'interface', 'gfx', 'map', 'common\\units', 'names', 'states', '00_construction_scripted_effects', 'UI_scripted_localisation', 'technologies', 'occupation_laws']
+FILES_TO_SKIP = ['\\localisation', 'interface', 'gfx', 'map', 'common\\units', 'names', 'states', '00_construction_scripted_effects', 'UI_scripted_localisation', 'technologies', 'occupation_laws', 'KR intro screen scripted loc']
 
 
 def format_events(username, mod_name):
@@ -479,9 +479,9 @@ def apply_formatting(filename, encoding="utf-8"):
     replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?)\\n\\t+(days = [^ #]*?)\\n\\t+(random_days = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\2 \\3 }', encoding=encoding, flag=re.MULTILINE)  # with random_days
     replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?)\\n\\t+(random_days = [^ #]*?)\\n\\t+(days = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\3 \\2 }', encoding=encoding, flag=re.MULTILINE)  # with random_days
     replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?)\\n\\t+(hours = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)                                  # with hours
-    replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?)\\n\\t+(hours = [^ #]*?)\\n\\t+(random_hours = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\2 \\3 }', encoding=encoding, flag=re.MULTILINE) # with hours and random_hours
-    replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?)\\n\\t+(random_hours = [^ #]*?)\\n\\t+(hours = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\3 \\2 }', encoding=encoding, flag=re.MULTILINE) # with hours and random_hours
-    replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?)\\n\\t+(days = [^ #]*?)\\n\\t+(random_hours = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\3 \\2 }', encoding=encoding, flag=re.MULTILINE) # with days and random_hours
+    replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?)\\n\\t+(hours = [^ #]*?)\\n\\t+(random_hours = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\2 \\3 }', encoding=encoding, flag=re.MULTILINE)  # with hours and random_hours
+    replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?)\\n\\t+(random_hours = [^ #]*?)\\n\\t+(hours = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\3 \\2 }', encoding=encoding, flag=re.MULTILINE)  # with hours and random_hours
+    replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?)\\n\\t+(days = [^ #]*?)\\n\\t+(random_hours = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\3 \\2 }', encoding=encoding, flag=re.MULTILINE)   # with days and random_hours
 
     replace_string(filename=filename, pattern='(?<!^)country_event = \\{.*?(#.*?)\\n\\t+(id = [^ #]*?)\\n\\t+(days = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\2 \\3 } \\1', encoding=encoding, flag=re.MULTILINE)                      # With comments
     replace_string(filename=filename, pattern='(?<!^)country_event = \\{.*?(#.*?)\\n\\t+(id = [^ #]*?)\\n\\t+(random_days = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\2 \\3 } \\1', encoding=encoding, flag=re.MULTILINE)               # With comments
@@ -489,15 +489,15 @@ def apply_formatting(filename, encoding="utf-8"):
     replace_string(filename=filename, pattern='(?<!^)country_event = \\{.*?(#.*?)\\n\\t+(id = [^ #]*?)\\n\\t+(random_hours = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\2 \\3 } \\1', encoding=encoding, flag=re.MULTILINE)              # With comments
     replace_string(filename=filename, pattern='(?<!^)country_event = \\{.*?(#.*?)\\n\\t+(id = [^ #]*?)\\n\\t+(days = [^ #]*?)\\n\\t+(random_days = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\2 \\3 \\4 } \\1', encoding=encoding, flag=re.MULTILINE)                      # With comments
 
-    replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?) .*?(#.*?)\\n\\t+(days = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\3 } \\2', encoding=encoding, flag=re.MULTILINE)                                                  # With comments on id line
-    replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?) .*?(#.*?)\\n\\t+(days = [^ #]*?)\\n\\t+(random_days = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\3 \\4 } \\2', encoding=encoding, flag=re.MULTILINE)                 # With comments on id line
-    replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?) .*?(#.*?)\\n\\t+(hours = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\3 } \\2', encoding=encoding, flag=re.MULTILINE)                                                 # With comments on id line
-    replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?) .*?(#.*?)\\n\\t+(hours = [^ #]*?)\\n\\t+(random_hours = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\3 \\4 } \\2', encoding=encoding, flag=re.MULTILINE)                 # With comments on id line
+    replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?) .*?(#.*?)\\n\\t+(days = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\3 } \\2', encoding=encoding, flag=re.MULTILINE)                                        # With comments on id line
+    replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?) .*?(#.*?)\\n\\t+(days = [^ #]*?)\\n\\t+(random_days = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\3 \\4 } \\2', encoding=encoding, flag=re.MULTILINE)      # With comments on id line
+    replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?) .*?(#.*?)\\n\\t+(hours = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\3 } \\2', encoding=encoding, flag=re.MULTILINE)                                       # With comments on id line
+    replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?) .*?(#.*?)\\n\\t+(hours = [^ #]*?)\\n\\t+(random_hours = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\3 \\4 } \\2', encoding=encoding, flag=re.MULTILINE)    # With comments on id line
     replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?) (days = [^ #]*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)                                         # id and days on the same line
     replace_string(filename=filename, pattern='(?<!^)country_event = \\{\\n\\t+(id = [^ #]*?) (days = [^ #]*?) .*?(#.*?)\\n\\t+\\}', replace_with='country_event = { \\1 \\2 } \\3', encoding=encoding, flag=re.MULTILINE)                           # id and days and comments on the same line
 
-    replace_string(filename=filename, pattern='(?<!^)transfer_ship = \\{\\n\\t+(prefer_name = [^#]*?)\\n\\t+(type = [^ #]*?)\\n\\t+(target = [^ #]*?)\\n\\t+\\}', replace_with='transfer_ship = { \\1 \\2 \\3 }', encoding=encoding, flag=re.MULTILINE)              #transfer ship w prefered name
-    replace_string(filename=filename, pattern='(?<!^)transfer_ship = \\{\\n\\t+(type = [^ #]*?)\\n\\t+(target = [^ #]*?)\\n\\t+\\}', replace_with='transfer_ship = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)                                               #transfer ship w/o prefered name
+    replace_string(filename=filename, pattern='(?<!^)transfer_ship = \\{\\n\\t+(prefer_name = [^#]*?)\\n\\t+(type = [^ #]*?)\\n\\t+(target = [^ #]*?)\\n\\t+\\}', replace_with='transfer_ship = { \\1 \\2 \\3 }', encoding=encoding, flag=re.MULTILINE)          # transfer ship w prefered name
+    replace_string(filename=filename, pattern='(?<!^)transfer_ship = \\{\\n\\t+(type = [^ #]*?)\\n\\t+(target = [^ #]*?)\\n\\t+\\}', replace_with='transfer_ship = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)                                           # transfer ship w/o prefered name
 
     replace_string(filename=filename,
                    pattern='random_owned_controlled_state = \\{\\n(\\t+)limit = \\{\\n(\\1.*\\n)*?\\1\\}\\n(\\1.*\\n)*?\\t+add_building_construction = \\{\\n\\t+type = industrial_complex\\n\\t+level = 1(\\n\\1.*\\n)*?\\t+\\}\\n\\t+\\}',
