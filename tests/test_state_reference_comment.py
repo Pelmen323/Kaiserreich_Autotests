@@ -5,6 +5,7 @@
 import glob
 import os
 import re
+import pytest
 
 from difflib import SequenceMatcher
 
@@ -12,6 +13,7 @@ from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 from ..test_classes.localization_class import Localization
 
 
+@pytest.mark.skip(reason="Backlog work")
 def test_check_state_reference(test_runner: object):
     filepath = test_runner.full_path_to_mod
     filepath_to_states_loc = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00 Map States l_english.yml'

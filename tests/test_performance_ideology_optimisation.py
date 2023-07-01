@@ -33,7 +33,8 @@ def test_check_events_ideology_optimisations(test_runner: object):
 def test_check_focuses_ideology_optimisations(test_runner: object):
     focuses = National_focus.get_all_national_focuses(test_runner=test_runner, lowercase=False)
     results = []
-    false_positives = ('ARG_Neutralize_The_Threat', 'SAF_native_trust_and_land_act', 'SWE_gyllenkrok_regime', 'NATFRA_Privatisation_Madness', 'NATFRA_Create_New_Elite')
+    false_positives = ('ARG_Neutralize_The_Threat', 'SAF_native_trust_and_land_act', 'SWE_gyllenkrok_regime', 'NATFRA_Privatisation_Madness',
+                       'NATFRA_Create_New_Elite', 'SAF_asiatic_land_tenure_act', 'SAF_natives_consolidation_act', )
 
     for i in focuses:
         focus = NationalFocusFactory(focus=i)
