@@ -15,7 +15,7 @@ def test_check_conditions_surrender_progress(test_runner: object):
     results = []
 
 # Part 1 - prepare the list of patterns
-    list1 = ['has_capitulated', 'has_war =']
+    list1 = ['has_capitulated = yes', 'has_war =']
     all_regex_patterns = []
     for i in list1:
         all_regex_patterns.append(f'\\t+{i}.*\\n\\t+surrender_progress.*\\n')
