@@ -163,7 +163,6 @@ bad_words = {
     "glamourous": "glamorous",
     "goverment": "government",
     "grat": "great",
-    "grate": "great",
     "gratefull": "grateful",
     "greatful": "grateful",
     "guage": "gauge",
