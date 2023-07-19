@@ -64,5 +64,5 @@ def test_check_scripted_effects_unused(test_runner: object):
                 if f'{key} = yes' in text_file:
                     dict_with_scripted_effects[key] += 1
 
-    results = [i for i in dict_with_scripted_effects.keys() if dict_with_scripted_effects[i] == 0]
+    results = [i for i in dict_with_scripted_effects.keys() if dict_with_scripted_effects[i] == 0 and "#" not in i]
     ResultsReporter.report_results(results=results, message="Unused scripted effects were encountered. Check console output")
