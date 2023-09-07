@@ -18,8 +18,8 @@ def test_check_conditions_surrender_progress(test_runner: object):
     list1 = ['has_capitulated = yes', 'has_war =']
     all_regex_patterns = []
     for i in list1:
-        all_regex_patterns.append(f'\\t+{i}.*\\n\\t+surrender_progress.*\\n')
-        all_regex_patterns.append(f'\\t+surrender_progress.*\\n\\t+{i}.*\\n')
+        all_regex_patterns.append(f'\\t+{i}.*\\n\\t+surrender_progress = >.*\\n')
+        all_regex_patterns.append(f'\\t+surrender_progress = >.*\\n\\t+{i}.*\\n')
 
 # Part 2 - perform search
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
