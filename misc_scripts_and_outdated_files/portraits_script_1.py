@@ -62,7 +62,6 @@ def test_convert_portraits_lines(test_runner):
         generated_string = ''.join(['\tspriteType = {\n\t\tname = "' + gfx_name + '"\n\t\ttexturefile = ' + gfx_path + '\n\t}\n' for gfx_name, gfx_path in value])
         finalized_generated_string = 'spriteTypes = {\n\n' + generated_string + '\n}\n'
 
-        list_of_gfx_files = [i for i in glob.iglob(filepath_to_portraits + "**/*.gfx", recursive=True)]
         expected_filename = f'{key}_portraits.gfx'
         new_filename = f'{filepath_to_portraits}\\{expected_filename}'
         with open(new_filename, 'w', encoding="utf-8") as new_file:
