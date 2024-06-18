@@ -30,10 +30,9 @@ class Traits:
             else:
                 text_file = FileOpener.open_text_file(filename, lowercase=False)
 
-            pattern_matches = re.findall('((?<=\n)\t\\w.* = \\{.*\n(.|\n*?)*\n\t\\})', text_file)
+            pattern_matches = re.findall('^\\t\\w.*? = \\{.*?^\\t\\}', text_file, flags=re.MULTILINE | re.DOTALL)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
-                    match = match[0]
                     traits.append(match)
                     paths[match] = os.path.basename(filename)
 
@@ -54,41 +53,26 @@ class Traits:
             list: list with traits code
         """
         traits = Traits.get_all_traits(test_runner=test_runner, lowercase=lowercase)
-        all_traits = []
-        land_traits = []
-        corps_commander_traits = []
-        field_marshal_traits = []
-        navy_traits = []
-        operative_traits = []
+        traits_list = []
         for trait in traits:
             name = re.findall('^\\t(.+) =', trait)[0]
-            traits_line = re.findall('\\ttype =.*', trait)[0]
+            trait_type = re.findall('\\ttype = (.*)', trait)[0]
+            parent_traits = re.findall('\\tany_parent = \\{(.*)\\}.*', trait) if "any_parent" in trait else []
 
-            if "all" in traits_line:
-                all_traits.append(name)
-            if "land" in traits_line:
-                land_traits.append(name)
-            if "corps_commander" in traits_line:
-                corps_commander_traits.append(name)
-            if "field_marshal" in traits_line:
-                field_marshal_traits.append(name)
-            if "navy" in traits_line:
-                navy_traits.append(name)
-            if "operative_traits" in traits_line:
-                operative_traits.append(name)
+            traits_list.append([name, trait_type, parent_traits])
 
         if category == "all":
-            traits_to_return = all_traits + land_traits + corps_commander_traits + field_marshal_traits + navy_traits + operative_traits
+            traits_to_return = traits_list
         elif category == "general":
-            traits_to_return = land_traits + corps_commander_traits
+            traits_to_return = [i for i in traits_list if "land" in i[1] or "corps_commander" in i[1]]
         elif category == "field_marshal":
-            traits_to_return = field_marshal_traits
+            traits_to_return = [i for i in traits_list if "field_marshal" in i[1]]
         elif category == "all_land":
-            traits_to_return = land_traits + corps_commander_traits + field_marshal_traits
+            traits_to_return = [i for i in traits_list if "land" in i[1] or "corps_commander" in i[1] or "field_marshal" in i[1]]
         elif category == "navy":
-            traits_to_return = navy_traits
+            traits_to_return = [i for i in traits_list if "navy" in i[1]]
         elif category == "operative":
-            traits_to_return = operative_traits
+            traits_to_return = [i for i in traits_list if "operative_traits" in i[1]]
         else:
             raise ValueError(f"Unsupported category requested - {traits_to_return}")
 

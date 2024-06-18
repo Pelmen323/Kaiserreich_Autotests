@@ -11,16 +11,21 @@ from ..test_classes.generic_test_class import FileOpener, ResultsReporter
 
 class RegimentsSection:
     def __init__(self, text_line: str, filepath: str, filepath_to_vanilla: str, is_support_section=False) -> None:
-        if is_support_section:
-            self.regiments_section = re.findall("^(\\t*?)support = \\{.*?\\n(.*?)\\n^\\1\\}", text_line, flags=re.DOTALL | re.MULTILINE)[0][1].split('\n')
-        else:
-            self.regiments_section = re.findall("^(\\t*?)regiments = \\{.*?\\n(.*?)\\n^\\1\\}", text_line, flags=re.DOTALL | re.MULTILINE)[0][1].split('\n')
-        self.regiments_list = []
+        try:
+            if is_support_section:
+                self.regiments_section = re.findall("^(\\t*?)support = \\{.*?\\n(.*?)\\n^\\1\\}", text_line, flags=re.DOTALL | re.MULTILINE)[0][1].split('\n')
+            else:
+                self.regiments_section = re.findall("^(\\t*?)regiments = \\{.*?\\n(.*?)\\n^\\1\\}", text_line, flags=re.DOTALL | re.MULTILINE)[0][1].split('\n')
+            self.regiments_list = []
 
-        for i in self.regiments_section:
-            self.regiments_list.append(Regiment(i, filepath, filepath_to_vanilla))
+            for i in self.regiments_section:
+                if len(i) > 4:
+                    self.regiments_list.append(Regiment(i, filepath, filepath_to_vanilla))
 
-        self.regiments_coodrs_list = [(i.x, i.y) for i in self.regiments_list]
+            self.regiments_coodrs_list = [(i.x, i.y) for i in self.regiments_list]
+        except Exception:
+            print(text_line)
+            raise
 
 
 class Regiment:
@@ -31,7 +36,7 @@ class Regiment:
         for i in [filepath_to_vanilla, filepath]:
             for filename in glob.iglob(f'{i}\\common\\units' + '**/*.txt', recursive=True):
                 text_file = FileOpener.open_text_file(filename)
-                if f'	{self.battalion_type} = ' in text_file:
+                if f'	{self.battalion_type} = ' + '{' in text_file:
                     self.group = re.findall('^\\t' + self.battalion_type + ' = \\{.*?group = (.*?)\\n.*?^\\t\\}', text_file, flags=re.DOTALL | re.MULTILINE)[0]
 
 
@@ -59,12 +64,16 @@ def test_division_composition_parser(test_runner: object):
                             results.append((os.path.basename(filename), f'{division_name} - duplicated regiments'))
 
                         # 1.2 Columns with mixed unit groups
-                        for i in range(0, max([i.x for i in regiments_section.regiments_list]) + 1):
-                            regiments_from_the_same_column = sorted([r for r in regiments_section.regiments_list if r.x == i], key=lambda x: x.y)
-                            column_group = regiments_from_the_same_column[0].group
-                            for reg in regiments_from_the_same_column:
-                                if reg.group != column_group:
-                                    results.append((os.path.basename(filename), f'{division_name} - regiment {reg.battalion_type} on coords {reg.x} {reg.y} does not belong to the group {column_group}'))
+                        try:
+                            for i in range(0, max([i.x for i in regiments_section.regiments_list]) + 1):
+                                regiments_from_the_same_column = sorted([r for r in regiments_section.regiments_list if r.x == i], key=lambda x: x.y)
+                                column_group = regiments_from_the_same_column[0].group
+                                for reg in regiments_from_the_same_column:
+                                    if reg.group != column_group:
+                                        results.append((os.path.basename(filename), f'{division_name} - regiment {reg.battalion_type} on coords {reg.x} {reg.y} does not belong to the group {column_group}'))
+                        except Exception:
+                            print(match)
+                            raise
 
                         # 1.3 Missing regiments
                         for i in regiments_section.regiments_coodrs_list:

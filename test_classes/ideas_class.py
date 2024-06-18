@@ -9,7 +9,7 @@ from ..test_classes.generic_test_class import FileOpener
 class Ideas:
 
     @classmethod
-    def get_all_ideas(cls, test_runner, lowercase: bool = True, return_paths: bool = False, include_country_ideas: bool = True, include_manufacturers: bool = True, include_laws: bool = False, include_army_spirits: bool = False) -> tuple[list, dict]:
+    def get_all_ideas(cls, test_runner, lowercase: bool = True, return_paths: bool = False, include_hidden_ideas: bool = True, include_country_ideas: bool = True, include_manufacturers: bool = True, include_laws: bool = False, include_army_spirits: bool = False) -> tuple[list, dict]:
         """Parse all files in common/ideas and return the list with all ideas code
 
         Args:
@@ -35,14 +35,15 @@ class Ideas:
             else:
                 text_file = FileOpener.open_text_file(filename, lowercase=False)
 
-            hidden_ideas_string = re.findall('\\thidden_ideas = \\{.*\n((.|\n*?)*)\n\t\\}', text_file)
-            if len(hidden_ideas_string) > 0:
-                pattern_matches = re.findall('(\t\t\\w.* = \\{.*\n(.|\n*?)*\n\t\t\\})', hidden_ideas_string[0][0])
-                if len(pattern_matches) > 0:
-                    for match in pattern_matches:
-                        match = match[0]
-                        ideas.append(match)
-                        paths[match] = os.path.basename(filename)
+            if include_hidden_ideas:
+                hidden_ideas_string = re.findall('\\thidden_ideas = \\{.*\n((.|\n*?)*)\n\t\\}', text_file)
+                if len(hidden_ideas_string) > 0:
+                    pattern_matches = re.findall('(\t\t\\w.* = \\{.*\n(.|\n*?)*\n\t\t\\})', hidden_ideas_string[0][0])
+                    if len(pattern_matches) > 0:
+                        for match in pattern_matches:
+                            match = match[0]
+                            ideas.append(match)
+                            paths[match] = os.path.basename(filename)
 
             if include_country_ideas:
                 country_ideas_string = re.findall('\\tcountry = \\{.*\n((.|\n*?)*)\n\t\\}', text_file)
@@ -295,7 +296,7 @@ class Ideas:
             return used_ideas
 
     @classmethod
-    def get_all_ideas_names(cls, test_runner, lowercase: bool = True, return_paths: bool = False, include_country_ideas: bool = True, include_manufacturers: bool = True, include_characters_tokens: bool = True, include_laws: bool = False, include_army_spirits: bool = False) -> tuple[list, dict]:
+    def get_all_ideas_names(cls, test_runner, lowercase: bool = True, return_paths: bool = False, include_hidden_ideas: bool = True, include_country_ideas: bool = True, include_manufacturers: bool = True, include_characters_tokens: bool = True, include_laws: bool = False, include_army_spirits: bool = False) -> tuple[list, dict]:
         """Parse all files in common/ideas and return the list with all ideas code
 
         Args:
@@ -312,7 +313,7 @@ class Ideas:
             if return_paths - tuple[list, dict]: list with ideas code and dict with ideas filenames
             else - list: list with ideas code
         """
-        ideas, paths = Ideas.get_all_ideas(test_runner=test_runner, lowercase=lowercase, return_paths=True, include_country_ideas=include_country_ideas, include_manufacturers=include_manufacturers, include_laws=include_laws, include_army_spirits=include_army_spirits)
+        ideas, paths = Ideas.get_all_ideas(test_runner=test_runner, lowercase=lowercase, return_paths=True, include_hidden_ideas=include_hidden_ideas, include_country_ideas=include_country_ideas, include_manufacturers=include_manufacturers, include_laws=include_laws, include_army_spirits=include_army_spirits)
 
         ideas_names = []
         ideas_names_paths = {}

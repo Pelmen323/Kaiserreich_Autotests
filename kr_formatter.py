@@ -6,7 +6,7 @@ from core.runner import TestRunner
 from test_classes.generic_test_class import DataCleaner, FileOpener
 from test_classes.localization_class import Localization
 
-FILES_TO_SKIP = ['\\localisation', 'interface', 'gfx', 'map', 'common\\units', 'names', 'states', '00_construction_scripted_effects', 'UI_scripted_localisation', 'technologies', 'occupation_laws', 'KR intro screen scripted loc']
+FILES_TO_SKIP = ['\\localisation', 'interface', 'gfx', 'map', 'common\\units', 'names', 'states', '00_construction_scripted_effects', 'UI_scripted_localisation', 'technologies', 'occupation_laws', 'KR intro screen scripted loc', 'MIT scripted_loc']
 
 
 def format_events(username, mod_name):
@@ -61,7 +61,7 @@ def format_filenames_strategic_regions(username, mod_name):
         mod_name (_type_): mod folder name
     """
     test_runner = TestRunner(username, mod_name)
-    filepath_to_strategic_regions_loc = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00 Strategic Regions l_english.yml'
+    filepath_to_strategic_regions_loc = f'{test_runner.full_path_to_mod}localisation\\english\\KR_common\\00 Strategic Regions l_english.yml'
     filepath_to_strategic_regions_code = f'{test_runner.full_path_to_mod}map\\strategicregions'
 
     text_file = FileOpener.open_text_file(filepath_to_strategic_regions_loc, lowercase=False)
@@ -87,7 +87,7 @@ def format_filenames_states(username, mod_name):
         mod_name (_type_): mod folder name
     """
     test_runner = TestRunner(username, mod_name)
-    filepath_to_states_loc = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00 Map States l_english.yml'
+    filepath_to_states_loc = f'{test_runner.full_path_to_mod}localisation\\english\\KR_common\\00 Map States l_english.yml'
     filepath_to_states_code = f'{test_runner.full_path_to_mod}history\\states'
     loc_keys = Localization.get_all_loc_keys(test_runner=test_runner, lowercase=False)
 
@@ -499,9 +499,9 @@ def apply_formatting(filename, encoding="utf-8"):
     replace_string(filename=filename, pattern='(?<!^)transfer_ship = \\{\\n\\t+(prefer_name = [^#]*?)\\n\\t+(type = [^ #]*?)\\n\\t+(target = [^ #]*?)\\n\\t+\\}', replace_with='transfer_ship = { \\1 \\2 \\3 }', encoding=encoding, flag=re.MULTILINE)          # transfer ship w prefered name
     replace_string(filename=filename, pattern='(?<!^)transfer_ship = \\{\\n\\t+(type = [^ #]*?)\\n\\t+(target = [^ #]*?)\\n\\t+\\}', replace_with='transfer_ship = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)                                           # transfer ship w/o prefered name
 
-    replace_string(filename=filename,
-                   pattern='random_owned_controlled_state = \\{\\n(\\t+)limit = \\{\\n(\\1.*\\n)*?\\1\\}\\n(\\1.*\\n)*?\\t+add_building_construction = \\{\\n\\t+type = industrial_complex\\n\\t+level = 1(\\n\\1.*\\n)*?\\t+\\}\\n\\t+\\}',
-                   replace_with='add_one_random_civilian_factory = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
+    # replace_string(filename=filename,
+    #                pattern='random_owned_controlled_state = \\{\\n(\\t+)limit = \\{\\n(\\1.*\\n)*?\\1\\}\\n(\\1.*\\n)*?\\t+add_building_construction = \\{\\n\\t+type = industrial_complex\\n\\t+level = 1(\\n\\1.*\\n)*?\\t+\\}\\n\\t+\\}',
+    #                replace_with='add_one_random_civilian_factory = yes', encoding=encoding, flag=re.MULTILINE)                           # Factory format
 
 
 def apply_formatting_loc(filename, encoding="utf-8-sig"):

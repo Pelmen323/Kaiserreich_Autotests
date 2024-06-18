@@ -7,7 +7,7 @@ from ..test_classes.generic_test_class import FileOpener
 
 class Events:
     @classmethod
-    def get_all_events(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> list[str]:
+    def get_all_events(cls, test_runner, lowercase: bool = True, return_paths: bool = False, filepath_should_contain: str = '', filepath_should_not_contain: str = '') -> list[str]:
         """Parse all files in events and return the list with all events code
 
         Args:
@@ -26,6 +26,11 @@ class Events:
         for filename in glob.iglob(filepath_to_events + '**/*.txt', recursive=True):
             if '\\categories' in filename:
                 continue
+            if filepath_should_contain not in filename:
+                continue
+            if filepath_should_not_contain != '':
+                if filepath_should_not_contain in filename:
+                    continue
             if lowercase:
                 text_file = FileOpener.open_text_file(filename)
             else:
