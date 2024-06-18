@@ -5,8 +5,8 @@
 import glob
 import re
 
-from ...data.doctrine_categories import doctrine_categories
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
+from data.doctrine_categories import doctrine_categories
+from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_outdated_doctrine_bonus_syntax(test_runner: object):

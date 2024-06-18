@@ -7,8 +7,8 @@ import logging
 import os
 import re
 
-from ...test_classes.characters_class import Characters
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.characters_class import Characters
+from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 FALSE_POSITIVES = [
     "var",

@@ -6,10 +6,10 @@ import glob
 import os
 import re
 
-from ...data.scripted_localisation_functions import \
+from data.scripted_localisation_functions import \
     scripted_localisation_functions
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
-from ...test_classes.scripted_loc_class import Scripted_localisation
+from test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.scripted_loc_class import Scripted_localisation
 
 
 def test_check_unsupported_scripted_loc(test_runner: object):

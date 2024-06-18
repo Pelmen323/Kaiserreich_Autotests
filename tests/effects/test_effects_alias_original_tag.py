@@ -5,7 +5,7 @@
 import glob
 import re
 
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_alias_original_tag(test_runner: object):

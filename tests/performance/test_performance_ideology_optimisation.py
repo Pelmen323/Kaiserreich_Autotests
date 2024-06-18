@@ -4,11 +4,11 @@
 ##########################
 import re
 
-from ...data.ideologies import ideology_bundles
-from ...test_classes.decisions_class import Decisions, DecisionsFactory
-from ...test_classes.events_class import Events
-from ...test_classes.national_focus_class import National_focus, NationalFocusFactory
-from ...test_classes.generic_test_class import ResultsReporter
+from data.ideologies import ideology_bundles
+from test_classes.decisions_class import Decisions, DecisionsFactory
+from test_classes.events_class import Events
+from test_classes.national_focus_class import National_focus, NationalFocusFactory
+from test_classes.generic_test_class import ResultsReporter
 
 
 def test_check_events_ideology_optimisations(test_runner: object):

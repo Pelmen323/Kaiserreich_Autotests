@@ -2,8 +2,8 @@
 # Test script to check for decisions that generate wargoals if they have required parts
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-from ...test_classes.decisions_class import Decisions, DecisionsFactory
-from ...test_classes.generic_test_class import ResultsReporter
+from test_classes.decisions_class import Decisions, DecisionsFactory
+from test_classes.generic_test_class import ResultsReporter
 
 FALSE_POSITIVES = [
     'mex_reconquista_decision',

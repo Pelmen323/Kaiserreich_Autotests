@@ -4,8 +4,8 @@
 ##########################
 import pytest
 
-from ...test_classes.characters_class import Advisors, Characters
-from ...test_classes.generic_test_class import ResultsReporter
+from test_classes.characters_class import Advisors, Characters
+from test_classes.generic_test_class import ResultsReporter
 
 FALSE_POSITIVES = [
     "pap_eugenio_pacelli_sic",

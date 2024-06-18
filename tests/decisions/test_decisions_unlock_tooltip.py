@@ -7,7 +7,7 @@ import os
 import re
 import pytest
 
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 FALSE_POSITIVES = [
     # AST - not possible to convert

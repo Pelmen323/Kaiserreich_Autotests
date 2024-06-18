@@ -6,7 +6,7 @@ import glob
 import os
 import pytest
 import re
-from ...test_classes.generic_test_class import ResultsReporter, FileOpener
+from test_classes.generic_test_class import ResultsReporter, FileOpener
 
 
 tooltip_list = [

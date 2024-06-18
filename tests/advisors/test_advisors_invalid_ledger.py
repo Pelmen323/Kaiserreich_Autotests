@@ -2,13 +2,13 @@
 # Test script to check for advisors having invalid ledger line
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-from ...data.advisor_traits import (
+from data.advisor_traits import (
     air_theorists_traits,
     army_theorists_traits,
     navy_theorists_traits,
 )
-from ...test_classes.characters_class import Advisors, Characters
-from ...test_classes.generic_test_class import ResultsReporter
+from test_classes.characters_class import Advisors, Characters
+from test_classes.generic_test_class import ResultsReporter
 
 
 def test_check_advisors_invalid_ledger(test_runner: object):

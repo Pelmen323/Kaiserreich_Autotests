@@ -6,7 +6,7 @@ import glob
 import os
 import re
 
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_syntax_set_autonomy(test_runner: object):

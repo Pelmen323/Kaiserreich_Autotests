@@ -4,8 +4,8 @@
 ##########################
 import re
 
-from ...test_classes.characters_class import Characters
-from ...test_classes.generic_test_class import ResultsReporter
+from test_classes.characters_class import Characters
+from test_classes.generic_test_class import ResultsReporter
 
 FALSE_POSITIVES = ['eth_', 'gbr_', 'asy_malik_qambar', 'can_john_bracken', 'can_robert_manion', 'sic_giovanni_messe',
                    'syr_sami_al_hinawi', 'irq_rashid_al_gaylani', 'irq_hashim_al_alawi', 'xsm_ma_hushan',

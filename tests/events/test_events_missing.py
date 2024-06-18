@@ -4,8 +4,8 @@
 ##########################
 import glob
 
-from ...test_classes.events_class import Events
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.events_class import Events
+from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_missing_events(test_runner: object):

@@ -4,9 +4,9 @@
 ##########################
 import re
 
-from ...test_classes.generic_test_class import ResultsReporter
-from ...test_classes.localization_class import Localization
-from ...test_classes.national_focus_class import National_focus, NationalFocusFactory
+from test_classes.generic_test_class import ResultsReporter
+from test_classes.localization_class import Localization
+from test_classes.national_focus_class import National_focus, NationalFocusFactory
 
 FALSE_POSITIVES = ["nee_country_select_screen", "nee_blank"]
 FOCUSES_NO_DESC = ["wls_", "sco_", "yun_", "mnt_", "imro_", "kdr_", "bat_", "kor_"]

@@ -3,7 +3,7 @@
 # The error is very important as the game draws level 4 railways in half of the world if you provide less provinces than should
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_railways_file(test_runner: object) -> bool:

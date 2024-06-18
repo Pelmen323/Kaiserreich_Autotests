@@ -5,11 +5,11 @@
 import glob
 import re
 
-from ...test_classes.generic_test_class import (
+from test_classes.generic_test_class import (
     FileOpener,
     ResultsReporter,
 )
-from ...test_classes.ideas_class import Ideas
+from test_classes.ideas_class import Ideas
 
 
 def test_check_ideas_gfx(test_runner: object):

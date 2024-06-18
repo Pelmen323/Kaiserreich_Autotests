@@ -2,8 +2,8 @@
 # Test script to check for decisions that are targeted but don't have targets (this means that every tag will e checked daily)
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-from ...test_classes.decisions_class import Decisions, DecisionsFactory
-from ...test_classes.generic_test_class import ResultsReporter
+from test_classes.decisions_class import Decisions, DecisionsFactory
+from test_classes.generic_test_class import ResultsReporter
 
 FALSE_POSITIVES = ['ast_demand_claimed_territory',
                    'gbr_demand_england',

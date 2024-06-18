@@ -5,12 +5,12 @@
 import glob
 import re
 
-from ...test_classes.generic_test_class import (
+from test_classes.generic_test_class import (
     DataCleaner,
     FileOpener,
     ResultsReporter,
 )
-from ...test_classes.ideas_class import Ideas
+from test_classes.ideas_class import Ideas
 
 FILES_TO_SKIP = ["00 Generic ideas.txt", '01 Army Spirits.txt', '01 Air Spirits.txt', '01 Navy Spirits.txt']
 FALSE_POSITIVES = (

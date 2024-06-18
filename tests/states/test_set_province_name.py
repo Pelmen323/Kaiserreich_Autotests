@@ -5,7 +5,7 @@
 import re
 import glob
 
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_endonyms_scripted_loc(test_runner: object):

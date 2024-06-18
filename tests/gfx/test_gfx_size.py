@@ -8,7 +8,7 @@ from PIL import Image
 import pytest
 import logging
 
-from ...test_classes.generic_test_class import ResultsReporter
+from test_classes.generic_test_class import ResultsReporter
 
 logging.getLogger('PIL').setLevel(logging.WARNING)                          # Counter PIL log pollution
 input_list = [

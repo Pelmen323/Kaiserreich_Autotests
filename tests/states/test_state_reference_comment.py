@@ -9,8 +9,8 @@ import pytest
 
 from difflib import SequenceMatcher
 
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
-from ...test_classes.localization_class import Localization
+from test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.localization_class import Localization
 
 
 @pytest.mark.skip(reason="Backlog work")

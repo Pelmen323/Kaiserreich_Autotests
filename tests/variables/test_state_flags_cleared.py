@@ -8,7 +8,7 @@ import logging
 import os
 import re
 
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_cleared_state_flags(test_runner: object):

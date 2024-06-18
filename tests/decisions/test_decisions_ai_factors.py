@@ -7,8 +7,8 @@
 ##########################
 import re
 
-from ...test_classes.decisions_class import Decisions, DecisionsFactory
-from ...test_classes.generic_test_class import ResultsReporter
+from test_classes.decisions_class import Decisions, DecisionsFactory
+from test_classes.generic_test_class import ResultsReporter
 
 NON_AI_DECISIONS = (
     "demobilization_economic",

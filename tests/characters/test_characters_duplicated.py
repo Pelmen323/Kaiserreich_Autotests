@@ -4,8 +4,8 @@
 ##########################
 import re
 
-from ...test_classes.characters_class import Characters
-from ...test_classes.generic_test_class import ResultsReporter
+from test_classes.characters_class import Characters
+from test_classes.generic_test_class import ResultsReporter
 
 FALSE_POSITIVES = (
     'abdallah_ibn_mitab_ibn_abd_al_aziz_al_rashid',

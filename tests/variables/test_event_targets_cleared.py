@@ -7,7 +7,7 @@ import logging
 import os
 import re
 
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_cleared_event_targets(test_runner: object):

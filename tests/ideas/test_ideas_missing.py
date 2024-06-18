@@ -2,8 +2,8 @@
 # Test script to check if there are opinion modifiers that are not used via "modifier = xx"
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-from ...test_classes.generic_test_class import ResultsReporter
-from ...test_classes.ideas_class import Ideas
+from test_classes.generic_test_class import ResultsReporter
+from test_classes.ideas_class import Ideas
 
 FILES_TO_SKIP = ["00 Generic ideas.txt", '01 Army Spirits.txt', '01 Air Spirits.txt', '01 Navy Spirits.txt']
 FALSE_POSITIVES = ('hai_foreign_control_dummy', 'empowered_trade_unions_sic', 'empowered_executive_sic', 'empowered_legislative_sic')

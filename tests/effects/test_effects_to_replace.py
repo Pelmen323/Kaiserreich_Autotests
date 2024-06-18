@@ -8,7 +8,7 @@ import re
 
 import pytest
 
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 input_list = [
     ["set_state_category", ".*set_state_category = [^o].*", "Singleline", "set_state_category is encountered - use 'increase_state_category_by_one_level = yes' instead"],

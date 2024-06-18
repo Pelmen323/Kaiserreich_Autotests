@@ -4,8 +4,8 @@
 ##########################
 import glob
 
-from ...test_classes.decisions_class import Decisions, DecisionsFactory
-from ...test_classes.generic_test_class import ResultsReporter, FileOpener
+from test_classes.decisions_class import Decisions, DecisionsFactory
+from test_classes.generic_test_class import ResultsReporter, FileOpener
 
 
 def test_check_decisions_unused(test_runner: object):

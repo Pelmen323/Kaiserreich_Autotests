@@ -3,7 +3,7 @@
 ##########################
 import glob
 import os
-from ...test_classes.generic_test_class import ResultsReporter
+from test_classes.generic_test_class import ResultsReporter
 
 
 def test_gfx_flags_missing(test_runner: object):

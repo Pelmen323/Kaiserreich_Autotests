@@ -6,7 +6,7 @@
 import glob
 import os
 
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_negative_ai_factors(test_runner: object):

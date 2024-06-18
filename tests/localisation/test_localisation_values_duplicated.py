@@ -2,8 +2,8 @@
 # Find duplicated loc keys
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-from ...test_classes.generic_test_class import ResultsReporter
-from ...test_classes.localization_class import Localization
+from test_classes.generic_test_class import ResultsReporter
+from test_classes.localization_class import Localization
 import pytest
 
 FALSE_POSITIVES_STATE = ["Georgia", "Maine", "Morava", "Santa Cruz"]

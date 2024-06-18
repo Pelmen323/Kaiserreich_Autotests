@@ -5,8 +5,8 @@
 import re
 import pytest
 
-from ...test_classes.events_class import Events
-from ...test_classes.generic_test_class import ResultsReporter
+from test_classes.events_class import Events
+from test_classes.generic_test_class import ResultsReporter
 
 input_list = [
     "title",

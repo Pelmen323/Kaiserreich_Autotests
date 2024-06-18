@@ -3,8 +3,8 @@ import logging
 import os
 import re
 
-from ..data.advisor_traits import genius_traits, special_theorists_traits
-from ..test_classes.generic_test_class import FileOpener
+from data.advisor_traits import genius_traits, special_theorists_traits
+from test_classes.generic_test_class import FileOpener
 
 
 class Characters:

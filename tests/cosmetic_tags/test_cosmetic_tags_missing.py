@@ -7,7 +7,7 @@ import logging
 import os
 import re
 
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter, DataCleaner
+from test_classes.generic_test_class import FileOpener, ResultsReporter, DataCleaner
 
 FALSE_POSITIVES = ["cro_habsburg"]
 

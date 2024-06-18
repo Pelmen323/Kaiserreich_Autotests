@@ -6,8 +6,8 @@ import glob
 import os
 import re
 
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
-from ...test_classes.states_class import States
+from test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.states_class import States
 
 
 def test_states_nonmatching_provinces(test_runner: object):

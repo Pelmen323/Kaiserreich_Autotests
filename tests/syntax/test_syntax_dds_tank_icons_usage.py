@@ -5,7 +5,7 @@
 import glob
 import os
 
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 FALSE_POSITITVES = ('ita_basic_light_tank.dds', 'mex_basic_light_tank.dds', 'usa_basic_light_tank.dds',
                     'usa_basic_heavy_tank.dds', 'rom_basic_light_tank.dds',)

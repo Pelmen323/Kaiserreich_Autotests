@@ -4,8 +4,8 @@
 ##########################
 import re
 
-from ...test_classes.events_class import Events
-from ...test_classes.generic_test_class import ResultsReporter
+from test_classes.events_class import Events
+from test_classes.generic_test_class import ResultsReporter
 
 
 def test_check_unsupported_title_desc_combination(test_runner: object):

@@ -6,8 +6,8 @@
 import re
 import pytest
 
-from ...test_classes.events_class import Events
-from ...test_classes.generic_test_class import DataCleaner, ResultsReporter
+from test_classes.events_class import Events
+from test_classes.generic_test_class import DataCleaner, ResultsReporter
 
 FALSE_POSITIVES = ['ace_promoted.1', 'ace_promoted.2', 'ace_died.1',
                    'ace_killed_by_ace.1', 'ace_killed_other_ace.1',

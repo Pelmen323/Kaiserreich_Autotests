@@ -5,7 +5,7 @@
 import glob
 import re
 
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_syntax_texturefile_doubledots(test_runner: object):

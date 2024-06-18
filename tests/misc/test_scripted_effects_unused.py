@@ -4,8 +4,8 @@
 ##########################
 import glob
 
-from ...test_classes.scripted_effects_class import ScriptedEffects
-from ...test_classes.generic_test_class import (
+from test_classes.scripted_effects_class import ScriptedEffects
+from test_classes.generic_test_class import (
     DataCleaner,
     FileOpener,
     ResultsReporter,

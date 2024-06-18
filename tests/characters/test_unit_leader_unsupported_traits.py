@@ -6,8 +6,8 @@ import glob
 import os
 import re
 
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
-from ...test_classes.unit_leader_traits_class import Traits
+from test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.unit_leader_traits_class import Traits
 
 
 def perform_trait_checks(test_runner: object, target_str: str, traits_to_verify: list, valid_traits: list, results: list):

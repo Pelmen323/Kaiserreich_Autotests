@@ -7,7 +7,7 @@ import glob
 import os
 import re
 
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_conditions_is_faction_leader(test_runner: object):

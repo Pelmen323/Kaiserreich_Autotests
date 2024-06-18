@@ -6,9 +6,9 @@ import glob
 import os
 import re
 
-from ...data.scripted_localisation_functions import \
+from data.scripted_localisation_functions import \
     scripted_localisation_functions as test_data_list
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_localisation_scripted_brackets(test_runner: object):

@@ -4,8 +4,8 @@
 ##########################
 import glob
 import os
-from ...test_classes.characters_class import Advisors, Characters
-from ...test_classes.generic_test_class import ResultsReporter, FileOpener
+from test_classes.characters_class import Advisors, Characters
+from test_classes.generic_test_class import ResultsReporter, FileOpener
 
 
 def test_advisors_ideas_check(test_runner: object):

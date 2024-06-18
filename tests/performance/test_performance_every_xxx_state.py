@@ -8,7 +8,7 @@ import re
 
 import pytest
 
-from ...test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 list_of_triggers = [
     "every_owned_state",
