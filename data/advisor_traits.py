@@ -33,6 +33,7 @@ army_theorists_traits = [
     "kr_mass_offensive_school",
     "kr_mechanised_wave_school",
     "kr_armour_theorist",
+    "kr_peoples_army_theorist",
 ]
 
 genius_traits = [

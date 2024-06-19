@@ -7,14 +7,6 @@ import pytest
 from test_classes.characters_class import Advisors, Characters
 from test_classes.generic_test_class import ResultsReporter
 
-FALSE_POSITIVES = [
-    "pap_eugenio_pacelli_sic",
-    "asy_malik_qambar_political_advisor_lar",
-    "irq_hashim_al_alawi_political_advisor_lar",
-    "chi_dai_chunfeng_political_advisor",
-    'qie_liu_menggeng_pol',
-    'chi_zhou_enlai',
-]
 list_of_trait_types = [
     "air_chief",
     "army_chief",
@@ -26,6 +18,7 @@ list_of_trait_types = [
 ]
 
 
+@pytest.mark.kr_specific
 @pytest.mark.parametrize("trait_type", list_of_trait_types)
 def test_check_advisors_military_invalid_traits(test_runner: object, trait_type):
     advisors, paths = Characters.get_all_advisors(test_runner=test_runner, return_paths=True)
@@ -43,33 +36,13 @@ def test_check_advisors_military_invalid_traits(test_runner: object, trait_type)
 
     for advisor_code in advisors:
         adv = Advisors(adv=advisor_code)
-
-        # Skip false positives
-        if adv.token in FALSE_POSITIVES:
-            continue
-
         if adv.slot == trait_type:
-            if adv.traits == []:
-                results.append((adv.token, paths[advisor_code], 'This advisor trait syntax is multiline - single-line syntax is strongly recommended'))
-                continue
-
-            if "kr_head_of_intelligence" in adv.traits and "has_dlc_lar = yes" not in advisor_code:
-                results.append((adv.token, paths[advisor_code], "Head of intelligence doesn't have LaR check"))
-
-            if len(adv.traits) < 1:
-                results.append((adv.token, paths[advisor_code], 'This advisor has < 1 traits'))
-
-            elif len(adv.traits) == 1:
-                found_trait = ''.join(adv.traits)
-                if found_trait not in allowed_advisor_traits:
-                    results.append((adv.token, paths[advisor_code], f'Invalid {trait_type} trait encountered - {found_trait}'))
-
-            elif len(adv.traits) > 1:
+            if adv.traits != []:
                 for trait in adv.traits:
                     if trait not in allowed_advisor_traits:
-                        results.append((adv.token, paths[advisor_code], f'Invalid {trait_type} trait encountered - {trait}'))
+                        results.append(f'{adv.token} - {paths[advisor_code]} - invalid {trait_type} trait encountered - {trait}')
 
             else:
-                results.append((adv.token, paths[advisor_code], 'Huh?'))
+                results.append(f'{adv.token} - {paths[advisor_code]} - This advisor has < 1 traits')
 
-    ResultsReporter.report_results(results=results, message=f"{trait_type} advisors with invalid traits encountered. Check console output")
+    ResultsReporter.report_results(results=results, message=f"{trait_type} advisors with invalid traits encountered, they should use 'class-specific' traits")

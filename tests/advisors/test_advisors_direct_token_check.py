@@ -4,10 +4,12 @@
 ##########################
 import glob
 import os
+import pytest
 from test_classes.characters_class import Advisors, Characters
 from test_classes.generic_test_class import ResultsReporter, FileOpener
 
 
+@pytest.mark.smoke
 def test_advisors_ideas_check(test_runner: object):
     filepath = test_runner.full_path_to_mod
     advisors = Characters.get_all_advisors(test_runner=test_runner)
@@ -26,4 +28,4 @@ def test_advisors_ideas_check(test_runner: object):
                 if f"has_idea = {i}" in text_file:
                     results.append(f"{i} - {os.path.basename(filename)}")
 
-    ResultsReporter.report_results(results=results, message="Issues with advisors were encountered. Check console output")
+    ResultsReporter.report_results(results=results, message="Advisor token is checked directly. Use character checks, like `has_advisor_role`, instead")

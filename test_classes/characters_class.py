@@ -1,5 +1,4 @@
 import glob
-import logging
 import os
 import re
 
@@ -245,7 +244,6 @@ class Advisors:
             self.token = re.findall('idea_token = (.+)', adv)[0]
         except IndexError:
             self.token = None
-            logging.error(f"Missing advisor token, {adv}")
 
         # Role of the advisor
         self.slot = re.findall('slot = (\\w+)', adv)[0]
@@ -294,18 +292,14 @@ class Advisors:
         # Not already_hired
         self.has_not_already_hired = adv.count('not_already_hired_except_as') > 0
         if self.has_not_already_hired:
-            self.not_already_hired_slot = re.findall('not_already_hired_except_as = (\\w+)', adv)[0]
+            self.not_already_hired_slot = re.findall(r'not_already_hired_except_as = (\w+)', adv)
 
         # Traits
         self.traits = []
-        if len(re.findall('traits = \\{\\n', adv)) > 0:
-            pass
-        else:
-            traits_code = re.findall('traits = \\{(.+)\\}', adv)[0].strip()
-            if ' ' in traits_code:
-                self.traits = [i for i in traits_code.split(" ")]
-            else:
-                self.traits.append(traits_code)
+        traits_code = re.findall(r'traits = \{(.*?)\}', adv, flags=re.MULTILINE | re.DOTALL)[0]
+        traits_code = traits_code.replace('\n', ' ').replace('\t', '').strip().split(' ')
+        for trait in traits_code:
+            self.traits.append(trait)
 
         # Advisor_level - military
         self.military_trait_lvl = None
