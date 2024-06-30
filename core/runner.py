@@ -1,3 +1,6 @@
+import os
+
+
 class TestRunner:
     """
     Test class that contains full filepath to mod folder
@@ -10,4 +13,8 @@ class TestRunner:
     def __init__(self, username: str, mod_name: str) -> None:
         self.username = username
         self.mod_name = mod_name
-        self.full_path_to_mod = f"C:\\Users\\{username}\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\{mod_name}\\"
+        if os.name == "nt":
+            self.full_path_to_mod = f"C:\\Users\\{username}\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\{mod_name}\\"
+        elif os.name == "posix":
+            self.full_path_to_mod = f"/Users/{username}/Documents/Paradox Interactive/Hearts of Iron IV/mod/{mod_name}/"
+            
