@@ -3,6 +3,7 @@ import logging
 import os
 import re
 
+from pathlib import Path
 from test_classes.generic_test_class import FileOpener
 
 
@@ -20,7 +21,7 @@ class Decisions:
             if return_paths - tuple[list, dict]: list with decisions code and dict with decisions filenames
             else - list: list with decisions code
         """
-        filepath_to_decisions = f'{test_runner.full_path_to_mod}common\\decisions\\'
+        filepath_to_decisions = str(Path(test_runner.full_path_to_mod) / 'common' / 'decisions')
         decisions = []
         paths = {}
 
@@ -53,7 +54,7 @@ class Decisions:
         Returns:
             list:  all decisions names in mod folder
         """
-        filepath_to_decisions = f'{test_runner.full_path_to_mod}common\\decisions\\'
+        filepath_to_decisions = str(Path(test_runner.full_path_to_mod) / 'common' / 'decisions')
         decisions = []
 
         for filename in glob.iglob(filepath_to_decisions + '**/*.txt', recursive=True):
@@ -115,7 +116,7 @@ class Decisions:
         Returns:
             dict: all decision categories and their code
         """
-        filepath_to_categories = f'{test_runner.full_path_to_mod}common\\decisions\\categories\\'
+        filepath_to_categories = str(Path(test_runner.full_path_to_mod) / 'common' / 'decisions' / 'categories')
         categories = {}
 
         for filename in glob.iglob(filepath_to_categories + '**/*.txt', recursive=True):

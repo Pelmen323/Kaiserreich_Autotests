@@ -4,6 +4,7 @@ import re
 
 from data.advisor_traits import genius_traits, special_theorists_traits
 from test_classes.generic_test_class import FileOpener
+from pathlib import Path
 
 
 class Characters:
@@ -21,7 +22,7 @@ class Characters:
             if return_paths - tuple[list, dict]: list with characters code and dict with characters filenames
             else - list: list with characters code
         """
-        filepath_to_characters = f'{test_runner.full_path_to_mod}common\\characters\\'
+        filepath_to_characters  = str(Path(test_runner.full_path_to_mod) / 'common' / 'characters')
         characters = []
         paths = {}
 
@@ -155,7 +156,7 @@ class Characters:
             list[str]: all traits from a file (only traits names)
         """
         if path is None:
-            filepath_to_traits = f'{test_runner.full_path_to_mod}common\\country_leader\\KR_{trait_type}_traits.txt'
+            filepath_to_traits = str(Path(test_runner.full_path_to_mod) / 'common' / 'country_leader' / f'KR_{trait_type}_traits.txt')
         else:
             filepath_to_traits = path
         traits = []
@@ -187,7 +188,7 @@ class Characters:
             list[str]: all traits code from a file
         """
         if path is None:
-            filepath_to_traits = f'{test_runner.full_path_to_mod}common\\country_leader\\KR_{trait_type}_traits.txt'
+            filepath_to_traits = str(Path(test_runner.full_path_to_mod) / 'common' / 'country_leader' / f'KR_{trait_type}_traits.txt')
         else:
             filepath_to_traits = path
         traits = []

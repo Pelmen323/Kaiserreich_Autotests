@@ -12,7 +12,7 @@ from test_classes.generic_test_class import (
     ResultsReporter,
 )
 
-FALSE_POSITIVES = ('ger_august_von_mackensen', 'qie_wu_peifu', 'empowered_trade_unions_sic', 'empowered_executive_sic', 'empowered_legislative_sic')
+FALSE_POSITIVES = ('empowered_trade_unions_sic', 'empowered_executive_sic', 'empowered_legislative_sic')
 
 
 def test_check_characters_missing_idea_tokens(test_runner: object):
@@ -23,21 +23,16 @@ def test_check_characters_missing_idea_tokens(test_runner: object):
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 
-        if 'activate_advisor' in text_file:
-            pattern_matches = re.findall("activate_advisor = [\\w_']*", text_file)
-            if len(pattern_matches) > 0:
-                for match in pattern_matches:
-                    match = match[19:].strip().lower()
-                    idea_tokens[match] = 0
-                    paths[match] = os.path.basename(filename)
-
-        if 'deactivate_advisor' in text_file:
-            pattern_matches = re.findall("deactivate_advisor = [\\w_']*", text_file)
-            if len(pattern_matches) > 0:
-                for match in pattern_matches:
-                    match = match[21:].strip().lower()
-                    idea_tokens[match] = 0
-                    paths[match] = os.path.basename(filename)
+        for i in ['activate_advisor', 'deactivate_advisor']:
+            pattern = i + ' = ([\\n\\t ]+)'
+            if i in text_file:
+                pattern_matches = re.findall(pattern, text_file)
+                if len(pattern_matches) > 0:
+                    for match in pattern_matches:
+                        print(match)
+                        match = match[0]
+                        idea_tokens[match] = 0
+                        paths[match] = os.path.basename(filename)
 
 # Part 2 - find what idea tokens are used
     idea_tokens = DataCleaner.clear_false_positives(input_iter=idea_tokens, false_positives=FALSE_POSITIVES)
