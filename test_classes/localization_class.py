@@ -1,6 +1,6 @@
 import glob
 
-from generic_test_class import FileOpener
+from .generic_test_class import FileOpener
 
 
 class Localization:

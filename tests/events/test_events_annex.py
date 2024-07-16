@@ -36,6 +36,11 @@ def test_check_unsupported_title_desc_combination(test_runner: object):
                 except IndexError:
                     results.append(f'{event_id} - annex.integration option does not have annexations_can_annex = yes in trigger - trigger block is missing')
 
+            # 4 All annexation event options that are named give_to_britain, give_to_france, give_to_portugal, give_to_spain, give_to_belgium or give_to_japan that do not have this in the ai_chance
+            elif name in ["annex.give_to_britain", "annex.give_to_france", "annex.give_to_portugal", "annex.give_to_spain", "annex.give_to_belgium", "annex.give_to_japan"]:
+                if "\t\t\tmodifier = {\n\t\t\t\tfactor = 0\n\t\t\t\tannexations_AI_will_consider_returning_colonies = no\n\t\t\t}" not in option:
+                    results.append(f'{event_id} - {name} option does not have annexations_AI_will_consider_returning_colonies = no in ai_chance')
+
         # 1 All events in the five annexation files should have an option with name = annex.give_to_overlord
         if "annex.give_to_overlord" not in event_options:
             results.append(f'{event_id} - missing option name annex.give_to_overlord')
