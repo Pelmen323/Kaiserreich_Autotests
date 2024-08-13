@@ -50,8 +50,11 @@ def test_check_annex_events(test_runner: object):
 
             # 4 All annexation event options that are named give_to_britain, give_to_france, give_to_portugal, give_to_spain, give_to_belgium or give_to_japan that do not have this in the ai_chance
             elif name in ["annex.give_to_britain", "annex.give_to_france", "annex.give_to_portugal", "annex.give_to_spain", "annex.give_to_belgium", "annex.give_to_japan"]:
-                if "modifier = {\n\t\t\t\tfactor = 0\n\t\t\t\tannexations_ai_will_consider_returning_colonies = no\n\t\t\t}" not in option and "modifier = {\n\t\t\t\tbase = 0\n\t\t\t\tannexations_ai_will_consider_returning_colonies = no\n\t\t\t}" not in option:
-                    results.append(f'{event_id} - {name} option does not have annexations_AI_will_consider_returning_colonies = no in ai_chance')
+                # Exclude Europe-Europe and Asia-Asia events
+                if "annex.1" not in event_id and "annex.3" not in event_id:
+                    if ai_chance and "ai_chance = { base = 0 }" not in ai_chance:
+                        if "modifier = {\n\t\t\t\tfactor = 0\n\t\t\t\tannexations_ai_will_consider_returning_colonies = no\n\t\t\t}" not in option and "modifier = {\n\t\t\t\tbase = 0\n\t\t\t\tannexations_ai_will_consider_returning_colonies = no\n\t\t\t}" not in option:
+                            results.append(f'{event_id} - {name} option does not have annexations_AI_will_consider_returning_colonies = no in ai_chance')
 
             #  5. all annexation_can_annex = yes modifiers that have any other triggers within them?
             if ai_chance and "annexations_can_annex = yes" in ai_chance:
