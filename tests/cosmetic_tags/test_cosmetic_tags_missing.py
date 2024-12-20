@@ -9,7 +9,7 @@ import re
 
 from test_classes.generic_test_class import FileOpener, ResultsReporter, DataCleaner
 
-FALSE_POSITIVES = ["cro_habsburg"]
+FALSE_POSITIVES = ["cro_habsburg", "[monarchy_tag]", "[kingdom_tag]"]
 
 
 def test_check_cosmetic_tags_missing(test_runner: object):

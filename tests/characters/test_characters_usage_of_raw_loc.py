@@ -16,7 +16,7 @@ def test_check_characters_raw_loc(test_runner: object):
         char_name = re.findall('name = (.*)', char)
         char_code = re.findall('^\t(\\w.+) = \\{', char)
 
-        if 'name = "' in char:
+        if 'name = "' in char and 'placeholder' not in char_code:
             results.append((f'{"".join(char_code)}: {"".join(char_name)}', paths[char]))
 
     if results != []:

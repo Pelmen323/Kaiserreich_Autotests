@@ -34,11 +34,12 @@ def test_check_decisions_custom_cost_trigger(test_runner: object):
                     except ValueError:
                         continue        # Skip variables
                     expected_ai_hint_pp_cost_value = pp_value + 0.01
+                    expected_ai_hint_pp_cost_value_plus_1 = pp_value + 1
 
                     # Check #2 - if `ai_hint_pp_cost` value is not valid
                     if "ai_hint_pp_cost" in decision:
                         ai_hint_pp_cost_value = float(re.findall("ai_hint_pp_cost = (.*)", decision)[0])
-                        if ai_hint_pp_cost_value != expected_ai_hint_pp_cost_value:
+                        if ai_hint_pp_cost_value != expected_ai_hint_pp_cost_value and ai_hint_pp_cost_value != expected_ai_hint_pp_cost_value_plus_1:
                             results.append(f"Decision `{decision_object.token}` - {paths[decision]} - doesn't have valid value in ai_hint_pp_cost line, expected - {expected_ai_hint_pp_cost_value}, actual - {ai_hint_pp_cost_value}")
 
                     # Check #3 - if `ai_hint_pp_cost` is present

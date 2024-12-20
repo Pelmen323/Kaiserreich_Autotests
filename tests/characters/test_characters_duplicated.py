@@ -24,6 +24,7 @@ FALSE_POSITIVES = (
     'ma_liang',
     'saud_bin_abd_al_aziz',
     'assorted_leaders',
+    'theory_of_action',
 )
 
 

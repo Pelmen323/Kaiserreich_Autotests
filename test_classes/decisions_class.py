@@ -208,6 +208,7 @@ class DecisionsFactory:
         self.ai_factor = re.findall('(\\t+)ai_will_do = \\{([^\\n]*|.*?^\\1)\\}', dec, flags=re.DOTALL | re.MULTILINE)[0][1] if 'ai_will_do =' in dec else False
 
         self.days_remove = re.findall('\\t+days_remove = (.*)', dec)[0] if '\tdays_remove =' in dec else False
+        self.reversed = "reversed = yes" in dec
         try:
             self.days_remove = int(self.days_remove)
         except ValueError:

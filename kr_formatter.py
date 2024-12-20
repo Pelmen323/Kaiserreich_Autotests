@@ -30,6 +30,21 @@ def format_events(username, mod_name):
         if event.count("option = {") == 1 and event.count("ai_chance") == 1:
             ai_will_do_line = re.findall("\\t*ai_chance = \\{[^}]*?\\}\n", string=event, flags=re.MULTILINE | re.DOTALL)[0]
             results_dict[event] = event.replace(ai_will_do_line, "")
+        # https://github.com/Kaiserreich/Kaiserreich-4-Development/pull/8597
+        # if "immediate = {" in event:
+        #     immediate_line = re.findall("immediate = \\{.*", string=event)[0]
+        #     # One liner
+        #     if "}" in immediate_line:
+        #         immediate_code = re.findall("immediate = \\{.*\\}", string=event)[0]
+        #         if "immediate = { hidden_effect = {" not in immediate_code:
+        #             immediate_code_new = immediate_code.replace("immediate = {", "immediate = { hidden_effect = {") + " }"
+        #             results_dict[event] = event.replace(immediate_code, immediate_code_new)
+        #     # Multiple lines
+        #     else:
+        #         immediate_code = re.findall("(immediate = \\{[^\n]*\n)(.*?^\\t\\})\n", string=event, flags=re.MULTILINE | re.DOTALL)[0]
+        #         if "hidden_effect = {" not in immediate_code[1]:
+        #             immediate_code_new = immediate_code[0] + "\t\thidden_effect = {\n\t" + immediate_code[1].replace('\n', '\n\t') + "\n\t}"
+        #             results_dict[event] = event.replace(immediate_code[0]+immediate_code[1], immediate_code_new)
 
     # 2. Apply changes
     for filename in glob.iglob(test_runner.full_path_to_mod + "**/*.txt", recursive=True):
@@ -138,7 +153,12 @@ def format_logging_events(username, mod_name):
             if len(pattern_matches) > 0:
                 dict_with_str_to_replace_event = dict()
                 for event in pattern_matches:
-                    event_id = re.findall('^\\tid = ([^ \\n\\t]+)', event, flags=re.MULTILINE)[0]
+                    try:
+                        event_id = re.findall('^\\tid = ([^ \\n\\t]+)', event, flags=re.MULTILINE)[0]
+                    except IndexError:
+                        print(event)
+                       # print(pattern_matches)
+                        raise
 
                     hidden_event = "donotlog" in event
                     if event_id in false_positives or hidden_event:
@@ -558,9 +578,9 @@ def format_kaiserreich(username, mod_name):
 
 
 if __name__ == '__main__':
-    format_kaiserreich(username="VADIM", mod_name="Kaiserreich Dev Build")
-    format_filenames_strategic_regions(username="VADIM", mod_name="Kaiserreich Dev Build")
-    format_filenames_states(username="VADIM", mod_name="Kaiserreich Dev Build")
+    # format_kaiserreich(username="VADIM", mod_name="Kaiserreich Dev Build")
+    # format_filenames_strategic_regions(username="VADIM", mod_name="Kaiserreich Dev Build")
+    # format_filenames_states(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_logging_events(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_logging_decisions(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_logging_focuses(username="VADIM", mod_name="Kaiserreich Dev Build")

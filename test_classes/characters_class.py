@@ -166,7 +166,7 @@ class Characters:
         else:
             text_file = FileOpener.open_text_file(filepath_to_traits, lowercase=False)
 
-        pattern_matches = re.findall('((?<=\n)\t\\w* = \\{)', text_file)
+        pattern_matches = re.findall('((?<=\n)\t\\w*? = \\{)', text_file)
         if len(pattern_matches) > 0:
             for match in pattern_matches:
                 match = match[1:-4]

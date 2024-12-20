@@ -1,5 +1,6 @@
 ##########################
 # Test script to check for advisors removal that are removed without special effect
+# Causes crashes when removing roles that are not added to characters
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob

@@ -27,7 +27,6 @@ def test_check_missing_character_flags(test_runner: object):
                 pattern_matches = re.findall(pattern, text_file, flags=re.DOTALL | re.MULTILINE)
                 if len(pattern_matches) > 0:
                     for match in pattern_matches:
-                        print(match)
                         character_flags[match] = 0
                         paths[match] = os.path.basename(filename)
 

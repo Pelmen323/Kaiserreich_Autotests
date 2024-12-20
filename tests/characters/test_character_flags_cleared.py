@@ -24,7 +24,6 @@ def test_check_cleared_character_flags(test_runner: object):
             pattern_matches = re.findall(r'clr_character_flag = \b(\w*)\b', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
-                    print(match)
                     character_flags[match] = 0
                     paths[match] = os.path.basename(filename)
 

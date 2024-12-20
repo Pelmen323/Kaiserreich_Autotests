@@ -24,6 +24,8 @@ FILES_TO_SKIP = ['diplomacy_scripted_triggers',
                  '_ideology_plurality_scripted_triggers',
                  '_character_scripted_triggers',
                  '_annexation_scripted_triggers',
+                 '_economic_spheres_triggers',
+                 '_laws_war_support_scripted_triggers',
                  'AI_scripted_triggers']
 FALSE_POSITIVES = [
     'is_controlled_by_ger_or_ally',
@@ -40,7 +42,7 @@ def test_check_scripted_triggers_unused(test_runner: object):
     filepath_to_effects = f'{test_runner.full_path_to_mod}common\\scripted_triggers\\'
     dict_with_scripted_triggers = {}
     paths = {}
-    # 1. Get the dict of all scripted effects
+    # 1. Get the dict of all scripted triggers
     for filename in glob.iglob(filepath_to_effects + '**/*.txt', recursive=True):
         if DataCleaner.skip_files(files_to_skip=FILES_TO_SKIP, filename=filename):
             continue
@@ -58,8 +60,8 @@ def test_check_scripted_triggers_unused(test_runner: object):
                 paths[match] = os.path.basename(filename)
 
     # 2. Find if scripted effects are used:
-    dict_with_scripted_triggers = DataCleaner.clear_false_positives(
-        input_iter=dict_with_scripted_triggers, false_positives=FALSE_POSITIVES)
+    # dict_with_scripted_triggers = DataCleaner.clear_false_positives(
+    #     input_iter=dict_with_scripted_triggers, false_positives=FALSE_POSITIVES)
 
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)

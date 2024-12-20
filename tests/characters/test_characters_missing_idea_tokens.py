@@ -29,7 +29,6 @@ def test_check_characters_missing_idea_tokens(test_runner: object):
                 pattern_matches = re.findall(pattern, text_file)
                 if len(pattern_matches) > 0:
                     for match in pattern_matches:
-                        print(match)
                         match = match[0]
                         idea_tokens[match] = 0
                         paths[match] = os.path.basename(filename)

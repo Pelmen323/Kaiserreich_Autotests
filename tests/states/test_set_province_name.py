@@ -9,7 +9,7 @@ from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_check_endonyms_scripted_loc(test_runner: object):
-    filepath_to_keys_vp = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00 Map Victory Points l_english.yml'
+    filepath_to_keys_vp = f'{test_runner.full_path_to_mod}localisation\\english\\KR_common\\00 Map Victory Points l_english.yml'
     filepath = test_runner.full_path_to_mod
 
     set_province_name_keys = []

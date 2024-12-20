@@ -16,7 +16,7 @@ from test_classes.localization_class import Localization
 @pytest.mark.skip(reason="Backlog work")
 def test_check_state_reference(test_runner: object):
     filepath = test_runner.full_path_to_mod
-    filepath_to_states_loc = f'{test_runner.full_path_to_mod}localisation\\KR_common\\00 Map States l_english.yml'
+    filepath_to_states_loc = f'{test_runner.full_path_to_mod}localisation\\english\\KR_common\\00 Map States l_english.yml'
     loc_keys = Localization.get_all_loc_keys(test_runner=test_runner, lowercase=False)
     results = []
 

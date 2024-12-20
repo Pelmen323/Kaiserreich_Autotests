@@ -1,5 +1,6 @@
 ##########################
 # Test script to check for checks of advisor ideas instead of checking character roles
+# Too brittle - it's safer to use the is_<role> = yes checks instead
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
@@ -21,6 +22,9 @@ def test_advisors_ideas_check(test_runner: object):
         advisor_tokens.append(adv.token)
 
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
+        # It is okay to check them directly in scripted loc
+        # if "scripted_localisation" in filename:
+        #     continue
         text_file = FileOpener.open_text_file(filename)
 
         if "has_idea =" in text_file:

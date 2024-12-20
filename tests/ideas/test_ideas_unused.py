@@ -44,7 +44,7 @@ def test_check_ideas_unused(test_runner: object):
         not_encountered_dict = [i for i in results_dict.keys() if results_dict[i] == 0]
         if 'add_ideas =' in text_file:
             for key in not_encountered_dict:
-                if f'add_ideas = {key}' in text_file:
+                if f'add_ideas = {key}' in text_file or 'add_ideas = { ' + key + '}' in text_file:
                     results_dict[key] += 1
 
         if 'idea =' in text_file:

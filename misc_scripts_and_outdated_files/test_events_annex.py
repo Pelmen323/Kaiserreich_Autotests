@@ -76,6 +76,11 @@ def test_check_annex_events(test_runner: object):
         if "annex.give_to_overlord" not in event_options:
             results.append(f'{event_id} - missing option name annex.give_to_overlord')
 
+        # if "puppet_released_tag = yes" not in event and "release_targeted_tag = yes" not in event:
+        #     pattern_matches = re.findall(r'release_[^ \t]* = yes', event)
+        #     if pattern_matches == []:
+        #         results.append(f'{event_id} - event doesn`t release any tags')
+
     # for filename in glob.iglob(filepath_to_events + "**/*.txt", recursive=True):
     #     text_file = FileOpener.open_text_file(filename, lowercase=False)
     #     for i in replacement_dict:

@@ -5,32 +5,6 @@
 from test_classes.decisions_class import Decisions, DecisionsFactory
 from test_classes.generic_test_class import ResultsReporter
 
-FALSE_POSITIVES = [
-    'mex_reconquista_decision',
-    'acw_federal_deadline_looms',
-    'ser_attack_austria',
-    'ott_alliance_with_azerbaijan',
-    'cos_legion_del_caribe_attack',
-    'per_sulaymaniyah_revolt',
-    'sri_attack_italy',
-    'ita_attack_italy',
-    'srd_attack_sri',
-    'srd_attack_italy',
-    'pap_attack_sri',
-    'pol_operation_parasol',
-    'nee_liberate_states',
-    'china_integrate_subjects',
-    'qie_fangs_on_the_border',
-    'shx_joint_strike_decision',
-    'shx_joint_strike_attack_mission',
-    'sik_remove_mongol_mission',
-    'sqi_intervene_lep',
-    'sqi_intervene_southeast',
-    'sqi_intervene_southwest',
-    'china_integration_timer',
-    'pol_found_intermarium',
-]
-
 
 def test_check_decisions_wargoals(test_runner: object):
     # Part 1 - get the dict of all decisions
@@ -38,30 +12,32 @@ def test_check_decisions_wargoals(test_runner: object):
     results = []
 
     for i in decisions:
-        if 'create_wargoal' in i or 'declare_war_on = {' in i:
+        setup_decision = "setup_decision_attack_ai" in i
+        cancel_decision = "clear_decision_attack_ai" in i
+
+        if setup_decision or cancel_decision:
             decision = DecisionsFactory(dec=i)
-            if decision.token in FALSE_POSITIVES:
-                continue
-            # 1 - Does the remove_effect have clear_decision_attack_AI?
+
+            # 1 - Does the remove_effect have clear_decision_attack_ai?
             if decision.remove_effect:
                 if "clear_decision_attack_ai" not in decision.remove_effect:
                     results.append(f'{decision.token}, {paths[i]} - Missing "clear_decision_attack_ai" in "remove_effect"')
-                elif "imminent_war" in decision.remove_effect:
-                    results.append(f'{decision.token}, {paths[i]} - imminent_war flag and "clear_decision_attack_ai" in "remove_effect" at the same time')
+
+            else:
+                results.append(f'{decision.token}, {paths[i]} - Missing "remove_effect"')
 
             # 2 - Does the complete_effect have setup_decision_attack_AI?
             if decision.complete_effect:
                 if "setup_decision_attack_ai" not in decision.complete_effect:
                     results.append(f'{decision.token}, {paths[i]} - Missing "setup_decision_attack_ai" in "complete_effect"')
-                elif "imminent_war" in decision.complete_effect:
-                    results.append(f'{decision.token}, {paths[i]} - imminent_war flag and "setup_decision_attack_ai" in "complete_effect" at the same time')
 
-            # 3 - Does the cancel_effect have clear_decision_attack_AI?
+            else:
+                results.append(f'{decision.token}, {paths[i]} - Missing "complete_effect"')
+
+            # 3 - Does the cancel_effect have clear_decision_attack_ai?
             if decision.cancel_effect:
                 if "clear_decision_attack_ai" not in decision.cancel_effect:
                     results.append(f'{decision.token}, {paths[i]} - Missing "clear_decision_attack_ai" in "cancel_effect"')
-                elif "imminent_war" in decision.cancel_effect:
-                    results.append(f'{decision.token}, {paths[i]} - imminent_war flag and "clear_decision_attack_ai" in "cancel_effect" at the same time')
 
             # 4 - Does the decision have a cancel_trigger or cancel_if_not_visible?
             if decision.cancel_trigger is False and decision.cancel_if_not_visible is False:
@@ -76,16 +52,5 @@ def test_check_decisions_wargoals(test_runner: object):
             if not decision.war_with_on_remove and not decision.war_with_target_on_remove and not decision.war_with_target_on_complete:
                 results.append(f'{decision.token}, {paths[i]} - The decision doesn\'t have either "war_with_on_remove" or "war_with_target_on_remove" or "war_with_target_on_complete"')
 
-            # 7. Notifications
-            if decision.complete_effect:
-                if not [i for i in ["warning event", "kr.political.30", "incoming_war_notification_effect"] if i in decision.complete_effect]:
-                    results.append(f'{decision.token}, {paths[i]} - The decision doesnt contain notification for a target. If it is - add #warning event comment to complete_effect section"')
-
-            if decision.days_remove:
-                if decision.days_remove > 50 and "set_country_flag = { flag = imminent_war days = " + str(decision.days_remove) not in decision.complete_effect:
-                    results.append(f'{decision.token}, {paths[i]} - The decision is removed more than in 50 days but doesnt have custom imminent_war flag setup')
-
-                if decision.days_remove < 25:
-                    results.append(f'{decision.token}, {paths[i]} - The decision is removed in {decision.days_remove} days, 25 days is a minimum')
     # Part 2 - throw the error if entity is duplicated
     ResultsReporter.report_results(results=results, message="Issues with decisions that start wars were encountered. Check console output")

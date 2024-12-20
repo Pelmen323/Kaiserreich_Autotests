@@ -12,8 +12,8 @@ FALSE_POSITIVES_VP = ["Birmingham", "Charleston", "Concepcion", "Dover", "Frankf
                       'Petropavlovsk', 'Port Arthur', 'San Juan', 'Santarém', 'Concepción', 'Mogilev']
 
 list_of_filepaths = [
-    ["localisation\\KR_common\\00 Map States l_english.yml", FALSE_POSITIVES_STATE],
-    ["localisation\\KR_common\\00 Map Victory Points l_english.yml", FALSE_POSITIVES_VP]
+    ["localisation\\english\\KR_common\\00 Map States l_english.yml", FALSE_POSITIVES_STATE],
+    ["localisation\\english\\KR_common\\00 Map Victory Points l_english.yml", FALSE_POSITIVES_VP]
 ]
 
 

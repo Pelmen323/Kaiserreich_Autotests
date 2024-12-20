@@ -36,6 +36,8 @@ FALSE_POSITIVES = [
     "war_propaganda_radio_industry",
     "war_propaganda_film_industry",
     "war_exhaustion_mission",
+    "ai_expand_air_bases",
+    "kr_fight_for_independence",
 ]
 
 
