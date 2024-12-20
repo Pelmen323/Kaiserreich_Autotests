@@ -22,7 +22,7 @@ class Characters:
             if return_paths - tuple[list, dict]: list with characters code and dict with characters filenames
             else - list: list with characters code
         """
-        filepath_to_characters  = str(Path(test_runner.full_path_to_mod) / 'common' / 'characters')
+        filepath_to_characters = str(Path(test_runner.full_path_to_mod) / 'common' / 'characters')
         characters = []
         paths = {}
 
@@ -39,6 +39,7 @@ class Characters:
                     characters.append(match)
                     paths[match] = os.path.basename(filename)
 
+        assert len(characters) != 0
         if return_paths:
             return (characters, paths)
         else:
@@ -65,6 +66,7 @@ class Characters:
             characters_names.append(name)       # get all char names
             characters_names_paths[name] = paths[char]
 
+        assert len(characters_names) != 0
         if return_paths:
             return (characters_names, characters_names_paths)
         else:
@@ -101,6 +103,7 @@ class Characters:
                         advisors.append(match)
                         paths[match] = os.path.basename(filename)
 
+        assert len(advisors) != 0
         if return_paths:
             return (advisors, paths)
         else:
@@ -137,6 +140,7 @@ class Characters:
                         advisors.append(match)
                         paths[match] = os.path.basename(filename)
 
+        assert len(advisors) != 0
         if return_paths:
             return (advisors, paths)
         else:
@@ -172,7 +176,7 @@ class Characters:
                 match = match[1:-4]
                 traits.append(match)
 
-        assert traits != []
+        assert len(traits) != 0
         return traits
 
     @classmethod
@@ -204,6 +208,7 @@ class Characters:
             for match in pattern_matches:
                 traits.append(match[0])
 
+        assert len(traits) != 0
         return traits
 
     @classmethod
@@ -236,6 +241,7 @@ class Characters:
                 if "experience_gain_air" in i:
                     list_to_return.append(re.findall('\t(.*) = \\{', i)[0])
 
+        assert len(list_to_return) != 0
         return list_to_return
 
 

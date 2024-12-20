@@ -8,7 +8,7 @@ from test_classes.generic_test_class import ResultsReporter
 
 
 @pytest.mark.smoke
-def test_check_advisors_invalid_ledger(test_runner: object):
+def test_advisors_invalid_not_already_hired(test_runner: object):
     advisors = Characters.get_all_advisors(test_runner=test_runner)
     results = []
 

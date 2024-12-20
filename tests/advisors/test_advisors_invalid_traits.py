@@ -21,7 +21,7 @@ list_of_trait_types = [
 
 @pytest.mark.kr_specific
 @pytest.mark.parametrize("trait_type", list_of_trait_types)
-def test_check_advisors_military_invalid_traits(test_runner: object, trait_type):
+def test_advisors_invalid_traits(test_runner: object, trait_type):
     advisors, paths = Characters.get_all_advisors(test_runner=test_runner, return_paths=True)
     allowed_advisor_traits = Characters.get_advisors_traits(test_runner=test_runner, trait_type=trait_type, lowercase=True)
     if trait_type in ["political_advisor", "second_in_command"]:

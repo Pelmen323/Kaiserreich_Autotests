@@ -14,13 +14,16 @@ from test_classes.generic_test_class import FileOpener, ResultsReporter
 @pytest.mark.smoke
 def test_check_cleared_character_flags(test_runner: object):
     filepath = test_runner.full_path_to_mod
+    print(filepath)
     character_flags = {}
     paths = {}
     # 1. Get the dict of entities
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
+        print(filename)
 
         if 'clr_character_flag =' in text_file:
+            print(text_file)
             pattern_matches = re.findall(r'clr_character_flag = \b(\w*)\b', text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
@@ -28,7 +31,7 @@ def test_check_cleared_character_flags(test_runner: object):
                     paths[match] = os.path.basename(filename)
 
     # 2. Count the number of entity occurrences
-    logging.debug(f'{len(character_flags)} character flags cleared at least once')
+    print(f'{len(character_flags)} character flags cleared at least once')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
         not_encountered_flags = [i for i in character_flags.keys() if character_flags[i] == 0]

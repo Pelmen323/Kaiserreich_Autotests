@@ -10,7 +10,7 @@ from test_classes.generic_test_class import ResultsReporter
 
 
 @pytest.mark.smoke
-def test_check_advisors_duplicate_idea_tokens(test_runner: object):
+def test_advisors_duplicate_idea_tokens(test_runner: object):
     characters = Characters.get_all_characters(test_runner=test_runner, return_paths=False)
     idea_tokens = []
     results = []

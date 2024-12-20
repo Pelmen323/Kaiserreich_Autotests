@@ -13,7 +13,7 @@ from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 @pytest.mark.smoke
 @pytest.mark.kr_specific
-def test_advisors_removal(test_runner: object):
+def test_advisors_role_removal(test_runner: object):
     filepath = test_runner.full_path_to_mod
     results = []
 

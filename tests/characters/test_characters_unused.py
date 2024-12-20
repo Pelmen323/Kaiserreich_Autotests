@@ -32,6 +32,7 @@ def test_check_unused_characters(test_runner: object):
                 if len(pattern_matches) > 0:
                     characters[char] += 1
 
+    print(characters)
 # Part 3 - throw the error if character is not found
     results = [i for i in characters.keys() if characters[i] == 0]
     ResultsReporter.report_results(results=results, paths=paths, message="Unused (not recruited) characters were encountered. Check console output")

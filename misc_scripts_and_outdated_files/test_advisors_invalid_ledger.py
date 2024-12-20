@@ -12,8 +12,9 @@ from test_classes.characters_class import Advisors, Characters
 from test_classes.generic_test_class import ResultsReporter
 
 
+@pytest.mark.skip("No way to differentiate between different HC traits")
 @pytest.mark.kr_specific
-def test_check_advisors_invalid_ledger(test_runner: object):
+def test_advisors_invalid_ledger(test_runner: object):
     advisors = Characters.get_all_advisors(test_runner=test_runner)
     army_hc_advisor_traits = Characters.get_hc_specified_advisor_traits(test_runner=test_runner, trait_type="army", lowercase=True)
     navy_hc_advisor_traits = Characters.get_hc_specified_advisor_traits(test_runner=test_runner, trait_type="navy", lowercase=True)

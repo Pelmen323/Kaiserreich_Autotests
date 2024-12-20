@@ -11,7 +11,7 @@ from test_classes.generic_test_class import ResultsReporter, FileOpener
 
 
 @pytest.mark.smoke
-def test_advisors_ideas_check(test_runner: object):
+def test_advisors_direct_token_check(test_runner: object):
     filepath = test_runner.full_path_to_mod
     advisors = Characters.get_all_advisors(test_runner=test_runner)
     results = []
@@ -21,10 +21,8 @@ def test_advisors_ideas_check(test_runner: object):
         adv = Advisors(adv=advisor_code)
         advisor_tokens.append(adv.token)
 
+    advisor_tokens = set(advisor_tokens)
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        # It is okay to check them directly in scripted loc
-        # if "scripted_localisation" in filename:
-        #     continue
         text_file = FileOpener.open_text_file(filename)
 
         if "has_idea =" in text_file:
