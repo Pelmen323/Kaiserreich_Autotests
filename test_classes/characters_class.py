@@ -172,6 +172,7 @@ class Characters:
                 match = match[1:-4]
                 traits.append(match)
 
+        assert traits != []
         return traits
 
     @classmethod

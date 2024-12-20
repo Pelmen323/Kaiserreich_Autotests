@@ -48,7 +48,11 @@ def test_check_advisors_military_invalid_traits(test_runner: object, trait_type)
             path=os.path.join(base_path, "FNG_political_advisor_traits.txt")
         )
     if trait_type == "second_in_command":
-        allowed_advisor_traits += Characters.get_advisors_traits(test_runner=test_runner, lowercase=True, path=f'{test_runner.full_path_to_mod}common\\country_leader\\KR_political_advisor_traits.txt')
+        allowed_advisor_traits += Characters.get_advisors_traits(
+            test_runner=test_runner,
+            lowercase=True,
+            path=os.path.join(base_path, "KR_political_advisor_traits.txt")
+        )
 
     results = []
 
