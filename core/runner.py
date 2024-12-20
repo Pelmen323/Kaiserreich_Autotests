@@ -10,7 +10,7 @@ class TestRunner:
     def __init__(self, username: str = None, mod_name: str = None, repo_path: str = None) -> None:
         # If repo_path is provided, use it (for CI)
         if repo_path:
-            self.full_path_to_mod = os.path.abspath(repo_path)
+            self.full_path_to_mod = f'{os.path.abspath(repo_path)}/'
         else:
             # Fallback to local paths if no repo_path is provided
             self.username = username
