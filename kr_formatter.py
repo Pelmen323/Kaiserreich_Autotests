@@ -578,7 +578,7 @@ def format_kaiserreich(username, mod_name):
 
 
 if __name__ == '__main__':
-    # format_kaiserreich(username="VADIM", mod_name="Kaiserreich Dev Build")
+    format_kaiserreich(username="VADIM", mod_name="Kaiserreich Dev Build")
     # format_filenames_strategic_regions(username="VADIM", mod_name="Kaiserreich Dev Build")
     # format_filenames_states(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_logging_events(username="VADIM", mod_name="Kaiserreich Dev Build")

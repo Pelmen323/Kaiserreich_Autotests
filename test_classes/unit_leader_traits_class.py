@@ -3,6 +3,7 @@ import os
 import re
 
 from test_classes.generic_test_class import FileOpener
+from pathlib import Path
 
 
 class Traits:
@@ -20,7 +21,7 @@ class Traits:
             if return_paths - tuple[list, dict]: list with traits code and dict with traits filenames
             else - list: list with traits code
         """
-        filepath_to_traits = f'{test_runner.full_path_to_mod}common\\unit_leader\\'
+        filepath_to_traits = str(Path(test_runner.full_path_to_mod) / 'common' / 'unit_leader')
         traits = []
         paths = {}
 
