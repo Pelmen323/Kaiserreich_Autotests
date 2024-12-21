@@ -11,4 +11,6 @@ pluggy==1.5.0; python_version >= '3.8'
 pycodestyle==2.12.1; python_version >= '3.8'
 pyflakes==3.2.0; python_version >= '3.8'
 pytest==8.3.4; python_version >= '3.8'
+pytest-json-report==1.5.0
+pytest-metadata==3.1.1; python_version >= '3.8'
 pytest-xdist==3.6.1; python_version >= '3.8'

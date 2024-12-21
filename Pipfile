@@ -9,6 +9,7 @@ pytest = "*"
 pytest-xdist = "*"
 pillow = "*"
 numpy = "*"
+pytest-json-report = "*"
 
 [dev-packages]
 
