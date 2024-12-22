@@ -33,6 +33,6 @@ def test_decisions_without_allowed_check(test_runner: object):
                     if "always = yes" not in strategy_match:
                         results.append(strategy_name[0])
 
-# Part 3 - throw the error if entity is not used
+# 3. throw the error if entity is not used
     results = DataCleaner.clear_false_positives(input_iter=results, false_positives=FALSE_POSITIVES)
     ResultsReporter.report_results(results=results, message="Strategies without allowed trigger were encountered. Check console output")

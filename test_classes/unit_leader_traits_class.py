@@ -21,22 +21,26 @@ class Traits:
             if return_paths - tuple[list, dict]: list with traits code and dict with traits filenames
             else - list: list with traits code
         """
-        filepath_to_traits = str(Path(test_runner.full_path_to_mod) / 'common' / 'unit_leader')
+        filepath_to_traits = str(Path(test_runner.full_path_to_mod) / "common" / "unit_leader")
+        found_files = False
         traits = []
         paths = {}
 
-        for filename in glob.iglob(filepath_to_traits + '**/*.txt', recursive=True):
+        for filename in glob.iglob(filepath_to_traits + "**/*.txt", recursive=True):
+            found_files = True
             if lowercase:
                 text_file = FileOpener.open_text_file(filename)
             else:
                 text_file = FileOpener.open_text_file(filename, lowercase=False)
 
-            pattern_matches = re.findall('^\\t\\w.*? = \\{.*?^\\t\\}', text_file, flags=re.MULTILINE | re.DOTALL)
+            pattern_matches = re.findall(r"^\t\w.*? = \{.*?^\t\}", text_file, flags=re.MULTILINE | re.DOTALL)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     traits.append(match)
                     paths[match] = os.path.basename(filename)
 
+        assert found_files, f"No .txt files found matching pattern: {filepath_to_traits}"
+        assert len(traits) != 0
         if return_paths:
             return (traits, paths)
         else:
@@ -56,9 +60,9 @@ class Traits:
         traits = Traits.get_all_traits(test_runner=test_runner, lowercase=lowercase)
         traits_list = []
         for trait in traits:
-            name = re.findall('^\\t(.+) =', trait)[0]
-            trait_type = re.findall('\\ttype = (.*)', trait)[0]
-            parent_traits = re.findall('\\tany_parent = \\{(.*)\\}.*', trait) if "any_parent" in trait else []
+            name = re.findall(r"^\t(.+) =", trait)[0]
+            trait_type = re.findall(r"\ttype = (.*)", trait)[0]
+            parent_traits = re.findall(r"\tany_parent = \{(.*)\}.*", trait) if "any_parent" in trait else []
 
             traits_list.append([name, trait_type, parent_traits])
 
@@ -77,4 +81,5 @@ class Traits:
         else:
             raise ValueError(f"Unsupported category requested - {traits_to_return}")
 
+        assert len(traits_list) != 0
         return traits_to_return
