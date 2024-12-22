@@ -7,12 +7,15 @@ import glob
 import os
 import re
 import pytest
+import logging
 
 from test_classes.generic_test_class import FileOpener, ResultsReporter
 
+FALSE_POSITIVES = ("was_leader_of_",)
+
 
 @pytest.mark.smoke
-def test_check_missing_character_flags(test_runner: object):
+def test_character_flags_missing(test_runner: object):
     filepath = test_runner.full_path_to_mod
     character_flags = {}
     paths = {}
@@ -31,16 +34,23 @@ def test_check_missing_character_flags(test_runner: object):
                         paths[match] = os.path.basename(filename)
 
     # 2. Count the number of entity occurrences
+    logging.debug(f"{len(character_flags)} character flags encountered")
+    assert len(character_flags) > 0, "character_flags must not be empty"
+
     for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
         text_file = FileOpener.open_text_file(filename)
         not_encountered_flags = [i for i in character_flags.keys() if character_flags[i] == 0]
+        if not_encountered_flags == []:
+            break
 
         if "set_character_flag =" in text_file:
+            all_matches = re.findall(r"set_character_flag = [^ \n\t]*", text_file)
             for flag in not_encountered_flags:
                 if flag in text_file:
-                    character_flags[flag] += text_file.count(f"set_character_flag = {flag}")
-                    character_flags[flag] += text_file.count(f"flag = {flag}")
+                    character_flags[flag] += all_matches.count(f"set_character_flag = {flag}")
+                    if "set_character_flag = { flag = " + flag in text_file:
+                        character_flags[flag] += 1
 
     # 3. Throw the error if entity is not used
-    results = [i for i in character_flags if character_flags[i] == 0]
+    results = [i for i in character_flags if character_flags[i] == 0 and i not in FALSE_POSITIVES]
     ResultsReporter.report_results(results=results, paths=paths, message="Missing character flags were encountered - they are not set via 'set_character_flag'")

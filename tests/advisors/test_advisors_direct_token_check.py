@@ -15,6 +15,7 @@ from test_classes.generic_test_class import ResultsReporter, FileOpener
 def test_advisors_direct_token_check(test_runner: object):
     filepath = test_runner.full_path_to_mod
     advisors = Characters.get_all_advisors(test_runner=test_runner)
+    found_files = False
     results = []
     advisor_tokens = []
 
@@ -24,6 +25,7 @@ def test_advisors_direct_token_check(test_runner: object):
 
     advisor_tokens = set(advisor_tokens)
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
+        found_files = True
         text_file = FileOpener.open_text_file(filename)
 
         if "has_idea =" in text_file:
@@ -33,4 +35,5 @@ def test_advisors_direct_token_check(test_runner: object):
                 if f"has_idea = {i}" in all_has_idea_matches:
                     results.append(f"{i} - {os.path.basename(filename)}")
 
+    assert found_files, f"No .txt files found matching pattern: {filepath}"
     ResultsReporter.report_results(results=results, message="Advisor token is checked directly. Use character checks, like `has_advisor_role`, instead")

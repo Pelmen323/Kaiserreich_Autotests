@@ -1,5 +1,5 @@
 ##########################
-# Test script to check if characters (unit leaders) have small portraits
+# Test script to check if characters have required portrait links
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import re
@@ -7,32 +7,62 @@ import re
 from test_classes.characters_class import Characters
 from test_classes.generic_test_class import ResultsReporter
 
+FALSE_POSITIVES = (
+    "hnn_tang_hualong",
+    "hnn_ren_bishi",
+    "hnn_cai_hesen",
+    "hnn_huang_yanpei",
+    "hnn_tan_yankai",
+    "hnn_zhou_shizhao",
+    "lep_rong_zongjing",
+    "lep_li_baozhang",
+    "lep_li_linsi",
+)
 
-def test_check_characters_already_hired(test_runner: object):
+
+def test_characters_portrait_links(test_runner: object):
     characters, paths = Characters.get_all_characters(test_runner=test_runner, return_paths=True)
     results = []
     pattern_army = r"\t\t\tarmy = \{.*?\}"
     pattern_navy = r"\t\t\tnavy = \{.*?\}"
+    pattern_civ = r"\t\t\tcivilian = \{.*?\}"
 
     for char in characters:
-        unit_leader_role_land = any([char.count("field_marshal =") > 0, char.count("corps_commander =") > 0])
-        unit_leader_role_navy = char.count("navy_leader =") > 0
-        if unit_leader_role_land or unit_leader_role_navy:
-            char_name = re.findall("^\\t(.+) =", char)[0]
-            army_portraits = str(re.findall(pattern_army, char, flags=re.DOTALL | re.MULTILINE))
-            navy_portraits = str(re.findall(pattern_navy, char, flags=re.DOTALL | re.MULTILINE))
+        unit_leader_role = any([char.count("field_marshal =") > 0, char.count("corps_commander =") > 0])
+        advisor_role = char.count("\tadvisor = {") > 0
+        country_leader_role = char.count("\tcountry_leader = {") > 0
+        char_name = re.findall(r"^\t(.+) =", char)[0]
+        army_portraits = re.findall(pattern_army, char, flags=re.DOTALL | re.MULTILINE)
+        navy_portraits = re.findall(pattern_navy, char, flags=re.DOTALL | re.MULTILINE)
+        civ_portraits = re.findall(pattern_civ, char, flags=re.DOTALL | re.MULTILINE)
 
-            if unit_leader_role_land:
-                if "small =" not in army_portraits:
-                    results.append((char_name, paths[char], "Character (army) is missing small portrait link"))
-                if "large =" not in army_portraits:
-                    results.append((char_name, paths[char], "Character (army) is missing large portrait link"))
+        if any([army_portraits != [], navy_portraits != [], civ_portraits != []]):
+            small_line = None
+            large_line = None
+            for i in [army_portraits, navy_portraits, civ_portraits]:
+                if i != []:
+                    portraits_line = i[0]
+                    if "small = " in portraits_line:
+                        small_line = re.findall(r"small = [^ \n\t]*", portraits_line)[0]
+                        if "_large" in small_line:
+                            results.append(f"{char_name} - {paths[char]} - small portrait link is potentially invalid - {small_line}")
+                    if "large = " in portraits_line:
+                        large_line = re.findall(r"large = [^ \n\t]*", portraits_line)[0]
+                        if "_small" in large_line:
+                            results.append(f"{char_name} - {paths[char]} - large portrait link is potentially invalid - {small_line}")
 
-            if unit_leader_role_navy:
-                if "small =" not in army_portraits and "small =" not in navy_portraits:
-                    results.append((char_name, paths[char], "Character (navy) is missing small portrait link"))
+            if unit_leader_role:
+                if small_line is None:
+                    results.append(f"{char_name} - {paths[char]} - Character (unit leader) is missing small portrait link")
+                if large_line is None:
+                    results.append(f"{char_name} - {paths[char]} - Character (unit leader) is missing large portrait link")
 
-                if "large =" not in army_portraits and "large =" not in navy_portraits:
-                    results.append((char_name, paths[char], "Character (navy) is missing large portrait link"))
+            if advisor_role:
+                if small_line is None:
+                    results.append(f"{char_name} - {paths[char]} - Character (advisor) is missing small portrait link")
 
-    ResultsReporter.report_results(results=results, message="Missing unit leaders portrait links were encountered. Check console output")
+            if country_leader_role:
+                if large_line is None:
+                    results.append(f"{char_name} - {paths[char]} - Character (country leader) is missing large portrait link")
+
+    ResultsReporter.report_results(results=results, message="Missing character portrait links were encountered.")

@@ -55,6 +55,7 @@ def test_advisors_invalid_traits(test_runner: object, trait_type):
         )
 
     results = []
+    assert len(allowed_advisor_traits) > 0, "Allowed advisor traits list is empty"
 
     for advisor_code in advisors:
         adv = Advisors(adv=advisor_code)
