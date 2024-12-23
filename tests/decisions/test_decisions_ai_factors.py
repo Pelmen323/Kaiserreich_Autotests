@@ -19,11 +19,11 @@ NON_AI_DECISIONS = (
 )
 
 
-def test_check_decisions_ai_factors(test_runner: object):
+def test_decisions_ai_factors(test_runner: object):
     results = []
     decisions, paths = Decisions.get_all_decisions(test_runner=test_runner, lowercase=True, return_paths=True)
     decision_categories = Decisions.get_all_decisions_categories(test_runner=test_runner, lowercase=True)
-    dict_decisions_categories = Decisions.get_decisions_categories_dict(test_runner=test_runner, lowercase=True)
+    dict_decisions_categories = Decisions.get_decisions_categories_with_all_decisions(test_runner=test_runner, lowercase=True)
 
     for i in decisions:
         decision = DecisionsFactory(dec=i)
@@ -39,22 +39,22 @@ def test_check_decisions_ai_factors(test_runner: object):
         if decision.mission_subtype:
             if decision.selectable_mission:
                 if not decision.has_ai_factor:
-                    results.append((decision.token, paths[i], "Selectable mission doesn't have AI factor"))
+                    results.append(f"{decision.token} - {paths[i]} - Selectable mission doesn't have AI factor")
             elif decision.has_ai_factor:
-                results.append((decision.token, paths[i], "Non-selectable mission has AI factor"))
+                results.append(f"{decision.token} - {paths[i]} - Non-selectable mission has AI factor")
 
         elif not decision.has_ai_factor and "debug" not in decision.token:
-            results.append((decision.token, paths[i], "Regular decision doesn't have AI factor"))
+            results.append(f"{decision.token} - {paths[i]} - Regular decision doesn't have AI factor")
 
         if decision.has_ai_factor:
-            ai_factors_found = re.findall("(base = [^ \\t\\n]+|factor = [^ \\t\\n]+|add = [^ \\t\\n]+)", decision.ai_factor)
+            ai_factors_found = re.findall(r"(base = [^ \t\n]+|factor = [^ \t\n]+|add = [^ \t\n]+)", decision.ai_factor)
             # Base and factor
             if len(ai_factors_found) > 0 and "base =" in decision.ai_factor:
                 if "factor = 0" in ai_factors_found:
                     num_of_zeroed_factors = ai_factors_found.count("factor = 0")
                     for d in range(1, num_of_zeroed_factors):
                         if ai_factors_found[d] != "factor = 0":
-                            results.append((decision.token, paths[i], f"{ai_factors_found} -Zeroed ai factors that are not evaluated immediately"))
+                            results.append(f"{decision.token} - {paths[i]} - {ai_factors_found} - Zeroed ai factors that are not evaluated immediately")
                             break
             # Factor and factor
             elif len(ai_factors_found) > 1:
@@ -62,7 +62,7 @@ def test_check_decisions_ai_factors(test_runner: object):
                     num_of_zeroed_factors = ai_factors_found.count("factor = 0")
                     for d in range(1, num_of_zeroed_factors):
                         if ai_factors_found[d] != "factor = 0":
-                            results.append((decision.token, paths[i], f"{ai_factors_found} - Zeroed ai factors that are not evaluated immediately"))
+                            results.append(f"{decision.token} - {paths[i]} - {ai_factors_found} - Zeroed ai factors that are not evaluated immediately")
                             break
 
-    ResultsReporter.report_results(results=results, message="Issues with decisions AI factors encountered. Check console output")
+    ResultsReporter.report_results(results=results, message="Issues with decisions AI factors encountered.")

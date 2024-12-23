@@ -10,7 +10,7 @@ def test_check_decisions_duplicated_triggers(test_runner: object):
     results = []
     decisions, paths = Decisions.get_all_decisions(test_runner=test_runner, lowercase=True, return_paths=True)
     decision_categories = Decisions.get_all_decisions_categories(test_runner=test_runner, lowercase=True)
-    dict_decisions_categories = Decisions.get_decisions_categories_dict(test_runner=test_runner, lowercase=True)
+    dict_decisions_categories = Decisions.get_decisions_categories_with_all_decisions(test_runner=test_runner, lowercase=True)
 
     for i in decisions:
         decision = DecisionsFactory(dec=i)

@@ -6,8 +6,7 @@ from test_classes.decisions_class import Decisions, DecisionsFactory
 from test_classes.generic_test_class import ResultsReporter
 
 
-def test_check_decisions_wargoals(test_runner: object):
-    # Part 1 - get the dict of all decisions
+def test_decisions_wargoals(test_runner: object):
     decisions, paths = Decisions.get_all_decisions(test_runner=test_runner, lowercase=True, return_paths=True)
     results = []
 
@@ -52,5 +51,4 @@ def test_check_decisions_wargoals(test_runner: object):
             if not decision.war_with_on_remove and not decision.war_with_target_on_remove and not decision.war_with_target_on_complete:
                 results.append(f'{decision.token}, {paths[i]} - The decision doesn\'t have either "war_with_on_remove" or "war_with_target_on_remove" or "war_with_target_on_complete"')
 
-    # Part 2 - throw the error if entity is duplicated
-    ResultsReporter.report_results(results=results, message="Issues with decisions that start wars were encountered. Check console output")
+    ResultsReporter.report_results(results=results, message="Issues with decisions that start wars were encountered.")
