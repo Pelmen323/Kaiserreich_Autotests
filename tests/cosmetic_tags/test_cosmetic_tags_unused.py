@@ -53,6 +53,21 @@ def test_cosmetic_tags_unused(test_runner: object):
     for flag in not_encountered_cosmetic_tags:
         if flag in country_flags:
             cosmetic_tags[flag] += 1
+        else:
+            for i in [
+                "_social_democrat",
+                "_social_liberal",
+                "_market_liberal",
+                "_social_conservative",
+                "_authoritarian_democrat",
+                "_paternal_autocrat",
+                "_national_populist",
+                "_radical_socialist",
+                "_syndicalist",
+                "_totalist",
+            ]:
+                if flag + i in country_flags:
+                    cosmetic_tags[flag] += 1
 
     # Usage via has_cosmetic_tag
     for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
