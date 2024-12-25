@@ -16,14 +16,19 @@ def test_decisions_custom_cost_trigger(test_runner: object):
         d = DecisionsFactory(dec=decision)
         if d.custom_cost_trigger:
             if "has_political_power" in d.custom_cost_trigger:
+                reversed_pp_cost = False
                 custom_cost_trigger_pp_line = re.findall(r"has_political_power.*", d.custom_cost_trigger)[0]
+                if "not = { has_political_power" in d.custom_cost_trigger:
+                    reversed_pp_cost = True
 
                 # Check #1 - if > is not used in has `has_political_power line`
-                if ">" not in custom_cost_trigger_pp_line:
-                    results.append(f"Decision `{d.token}` - {paths[decision]} - doesn't have comparison operator in 'has_political_power' custom cost trigger line")
+                if ">" not in custom_cost_trigger_pp_line and not reversed_pp_cost:
+                    results.append(f"`{d.token}` - {paths[decision]} - doesn't have comparison operator > in 'has_political_power' custom cost trigger line")
+                elif "<" not in custom_cost_trigger_pp_line and reversed_pp_cost:
+                    results.append(f"`{d.token}` - {paths[decision]} - doesn't have comparison operator < in 'has_political_power' custom cost trigger line")
                 # Ignore decisions with variables in custom cost pp line
                 try:
-                    pp_value = float(custom_cost_trigger_pp_line[custom_cost_trigger_pp_line.index(">") + 2:])
+                    pp_value = float(custom_cost_trigger_pp_line[custom_cost_trigger_pp_line.index(">") + 2 :])
                 except ValueError:
                     continue
 
@@ -53,4 +58,6 @@ def test_decisions_custom_cost_trigger(test_runner: object):
         elif d.ai_hint_pp_cost:
             results.append(f"`{d.token}` - {paths[decision]} - useless 'ai_hint_pp_cost' line - has no custom_cost_trigger or cost")
 
-    ResultsReporter.report_results(results=results, message="`ai_hint_pp_cost` should be used when AI needs help with figuring out how much PP to save in case where `cost` argument doesn't represent actual decision cost")
+    ResultsReporter.report_results(
+        results=results, message="`ai_hint_pp_cost` should be used when AI needs help with figuring out how much PP to save in case where `cost` argument doesn't represent actual decision cost"
+    )
