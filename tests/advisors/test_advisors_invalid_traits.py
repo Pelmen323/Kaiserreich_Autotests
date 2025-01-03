@@ -3,6 +3,7 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import pytest
+import glob
 from pathlib import Path
 
 from test_classes.characters_class import Advisors, Characters
@@ -26,33 +27,20 @@ def test_advisors_invalid_traits(test_runner: object, trait_type):
     allowed_advisor_traits = Characters.get_advisors_traits(test_runner=test_runner, trait_type=trait_type, lowercase=True)
     if trait_type in ["political_advisor", "second_in_command"]:
         base_path = Path(test_runner.full_path_to_mod) / "common" / "country_leader"
-
-        allowed_advisor_traits += Characters.get_advisors_traits(
-            test_runner=test_runner,
-            lowercase=True,
-            path=base_path / "head_of_state.txt"
-        )
-        allowed_advisor_traits += Characters.get_advisors_traits(
-            test_runner=test_runner,
-            lowercase=True,
-            path=base_path / "USA_head_of_state.txt"
-        )
-        allowed_advisor_traits += Characters.get_advisors_traits(
-            test_runner=test_runner,
-            lowercase=True,
-            path=base_path / "RUS_head_of_state.txt"
-        )
-        allowed_advisor_traits += Characters.get_advisors_traits(
-            test_runner=test_runner,
-            lowercase=True,
-            path=base_path / "FNG_political_advisor_traits.txt"
-        )
-    if trait_type == "second_in_command":
-        allowed_advisor_traits += Characters.get_advisors_traits(
-            test_runner=test_runner,
-            lowercase=True,
-            path=base_path / "KR_political_advisor_traits.txt"
-        )
+        path1 = str(base_path / '**head_of_state.txt')
+        path2 = str(base_path / '**political_advisor_traits.txt')
+        for filename in glob.iglob(path1):
+            allowed_advisor_traits += Characters.get_advisors_traits(
+                test_runner=test_runner,
+                lowercase=True,
+                path=filename
+            )
+        for filename in glob.iglob(path2):
+            allowed_advisor_traits += Characters.get_advisors_traits(
+                test_runner=test_runner,
+                lowercase=True,
+                path=filename
+            )
 
     results = []
     assert len(allowed_advisor_traits) > 0, "Allowed advisor traits list is empty"
