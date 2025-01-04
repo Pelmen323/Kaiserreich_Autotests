@@ -21,10 +21,7 @@ class Modifiers:
             filepath_to_modifiers = path
         modifiers_dict = {}
 
-        if lowercase:
-            text_file = FileOpener.open_text_file(filepath_to_modifiers)
-        else:
-            text_file = FileOpener.open_text_file(filepath_to_modifiers, lowercase=False)
+        text_file = FileOpener.open_text_file(filepath_to_modifiers, lowercase=lowercase)
 
         text_file_splitted = text_file.split('\n')[1:]
         for line in range(len(text_file_splitted)):

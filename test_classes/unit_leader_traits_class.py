@@ -28,10 +28,7 @@ class Traits:
 
         for filename in glob.iglob(filepath_to_traits + "**/*.txt", recursive=True):
             found_files = True
-            if lowercase:
-                text_file = FileOpener.open_text_file(filename)
-            else:
-                text_file = FileOpener.open_text_file(filename, lowercase=False)
+            text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
 
             pattern_matches = re.findall(r"^\t\w.*? = \{.*?^\t\}", text_file, flags=re.MULTILINE | re.DOTALL)
             if len(pattern_matches) > 0:

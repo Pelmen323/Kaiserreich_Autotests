@@ -3,9 +3,10 @@ import logging
 
 
 class FileOpener:
-    '''
+    """
     Test class that hosts common file functions like opening text files
-    '''
+    """
+
     @classmethod
     def open_text_file(cls, filename: str, lowercase: bool = True) -> str:
         """Opens and returns text file in utf-8-sig encoding
@@ -21,7 +22,7 @@ class FileOpener:
             str: contents of the text file converted to lowercase
         """
         try:
-            with open(filename, 'r', encoding='utf-8-sig') as text_file:      # 'utf-8-sig' is mandatory for UTF-8 w/BOM
+            with open(filename, "r", encoding="utf-8-sig") as text_file:  # 'utf-8-sig' is mandatory for UTF-8 w/BOM
                 if lowercase:
                     return text_file.read().lower()
                 else:
@@ -39,13 +40,13 @@ class FileOpener:
             dict_with_strings_to_replace (dict): dict with keys that represent the string to replace, and values to replace keys with
             lowercase (bool, optional): if opened files should be in lowercase. Defaults to True.
         """
-        for filename in glob.iglob(path_to_files + '**/*.txt', recursive=True):
+        for filename in glob.iglob(path_to_files + "**/*.txt", recursive=True):
             text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
             for key, value in dict_with_strings_to_replace.items():
                 if key in text_file:
                     text_file = text_file.replace(key, value)
 
-            with open(filename, 'w', encoding=encoding) as text_file_write:
+            with open(filename, "w", encoding=encoding) as text_file_write:
                 text_file_write.write(text_file)
 
 

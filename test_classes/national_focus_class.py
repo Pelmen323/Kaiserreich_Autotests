@@ -26,10 +26,7 @@ class National_focus:
         paths = {}
 
         for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-            if lowercase:
-                text_file = FileOpener.open_text_file(filename)
-            else:
-                text_file = FileOpener.open_text_file(filename, lowercase=False)
+            text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
 
             pattern_matches = re.findall('((?<=\n)\\tfocus = \\{.*\n(.|\n*?)*\n\\t\\})', text_file)
             if len(pattern_matches) > 0:
@@ -72,7 +69,7 @@ class National_focus:
             focuses = National_focus.get_all_national_focuses(test_runner=test_runner, lowercase=lowercase)
 
         for focus in focuses:
-            focus_id = re.findall('\\t+?id = \\b([^ \\n\\t]+)\\b', focus)[0]
+            focus_id = re.findall('\\t+?id = \\b(\\S+)\\b', focus)[0]
             focuses_names.append(focus_id)
             if return_paths:
                 paths[focus_id] = paths_focus[focus]
@@ -87,12 +84,12 @@ class NationalFocusFactory:
     def __init__(self, focus: str) -> None:
         # Focus id
         try:
-            self.id = re.findall('^\\t+id = ([^ \n\t]+)', focus, flags=re.MULTILINE)[0]
+            self.id = re.findall('^\\t+id = (\S+)', focus, flags=re.MULTILINE)[0]
         except IndexError:
             self.id = False
             logging.error(f"Missing focus token, {focus}")
 
-        self.text = re.findall('^\\t+text = ([^ \n\t]+)', focus, flags=re.MULTILINE)[0] if "	text =" in focus else False
+        self.text = re.findall('^\\t+text = (\S+)', focus, flags=re.MULTILINE)[0] if "	text =" in focus else False
         self.icon = re.findall('icon = (.+)', focus)[0] if 'icon =' in focus else False
 
         # Focus .cost

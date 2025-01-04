@@ -24,10 +24,7 @@ class ScriptedEffects:
         paths = {}
 
         for filename in glob.iglob(filepath_to_effects + '**/*.txt', recursive=True):
-            if lowercase:
-                text_file = FileOpener.open_text_file(filename)
-            else:
-                text_file = FileOpener.open_text_file(filename, lowercase=False)
+            text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
 
             pattern_matches = re.findall('^[^ \\n]*? = \\{.*?^\\}', text_file, flags=re.DOTALL | re.MULTILINE)
             if len(pattern_matches) > 0:
@@ -54,7 +51,7 @@ class ScriptedEffects:
         effects = []
 
         for effect in effects_code:
-            pattern_matches = re.findall('^([^ \\n\\t]+) = \\{', effect, flags=re.MULTILINE)
+            pattern_matches = re.findall('^(\\S+) = \\{', effect, flags=re.MULTILINE)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     effects.append(match)

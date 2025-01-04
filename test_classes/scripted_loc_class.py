@@ -23,10 +23,7 @@ class Scripted_localisation:
         container = []
         paths = {}
         for filename in glob.iglob(filepath_to_decisions + '**/*.txt', recursive=True):
-            if lowercase:
-                text_file = FileOpener.open_text_file(filename)
-            else:
-                text_file = FileOpener.open_text_file(filename, lowercase=False)
+            text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
 
             text_file_splitted = text_file.split('\n')[1:]
             for line in range(len(text_file_splitted)):
