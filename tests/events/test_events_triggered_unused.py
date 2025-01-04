@@ -4,20 +4,16 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import re
-import pytest
 
 from test_classes.events_class import Events
-from test_classes.generic_test_class import DataCleaner, ResultsReporter
+from test_classes.generic_test_class import ResultsReporter
 
-FALSE_POSITIVES = ['ace_promoted.1', 'ace_promoted.2', 'ace_died.1',
-                   'ace_killed_by_ace.1', 'ace_killed_other_ace.1',
-                   'aces_killed_each_other.1', 'nuke_dropped.0']
+FALSE_POSITIVES = ["ace_", "aces_", "nuke_", "generic_"]
 
 
-@pytest.mark.skip(reason="Backlog work")
-def test_check_triggered_events(test_runner: object):
+def test_events_triggered_unused(test_runner: object):
     all_events = []
-    triggered_events_id = dict()
+    triggered_events_id = []
     invoked_events_id = []
     # 1. Get all events code
     all_events = Events.get_all_events(test_runner=test_runner, lowercase=True)
@@ -25,15 +21,15 @@ def test_check_triggered_events(test_runner: object):
     # 2. Get the "triggered only events"
     for event in all_events:
         if "is_triggered_only = yes" in event:
-            pattern_matches = re.findall('id = .*', event)
-            event_id = pattern_matches[0].strip('\t').strip()                   # Only first match is taken
-            if '#' in event_id:
-                event_id = event_id[:event_id.index('#')].strip()               # Clean up comments
-            event_id = event_id[5:].strip()                                     # Remove "id =" part
-            triggered_events_id[event_id] = 0                                   # Default value is set to zero
+            pattern_matches = re.findall("id = .*", event)
+            event_id = pattern_matches[0].strip("\t").strip()       # Only first match is taken
+            if "#" in event_id:
+                event_id = event_id[: event_id.index("#")].strip()  # Clean up comments
+            event_id = event_id[5:].strip()                         # Remove "id =" part
+            triggered_events_id.append(event_id)                    # Default value is set to zero
 
     # 3. Get all events triggered in files
-    triggered_events_id = DataCleaner.clear_false_positives(input_iter=triggered_events_id, false_positives=FALSE_POSITIVES)
+    triggered_events_id = {i: 0 for i in triggered_events_id if all([x not in i for x in FALSE_POSITIVES])}
     invoked_events_id = Events.get_all_triggered_events_names(test_runner=test_runner, lowercase=True)
 
     # 4. Check if events are used
@@ -42,4 +38,4 @@ def test_check_triggered_events(test_runner: object):
             triggered_events_id[event] += 1
 
     results = [i for i in triggered_events_id.keys() if triggered_events_id[i] == 0]
-    ResultsReporter.report_results(results=results, message="Those events have 'is_triggered_only = yes' attr but are never triggered from outside. Check console output")
+    ResultsReporter.report_results(results=results, message="Those events have 'is_triggered_only = yes' attr but are never triggered from outside.")
