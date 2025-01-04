@@ -17,7 +17,7 @@ def test_check_advisors_invalid_costs(test_runner: object):
         adv = Advisors(adv=advisor_code)
 
         # Idea token check
-        if adv.token is None:
+        if not adv.token:
             results.append((advisor_code, "Missing advisor token"))
 
         # Exclude advisors that have tokens included in false positives
