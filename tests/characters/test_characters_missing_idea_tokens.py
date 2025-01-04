@@ -47,7 +47,7 @@ def test_characters_missing_idea_tokens(test_runner: object):
             break
 
         if "idea_token" in text_file:
-            all_matches = re.findall(pattern_idea_token, text_file)
+            all_matches = pattern_idea_token.findall(text_file)
             for token in not_encountered_tokens:
                 if f"idea_token = {token}" in all_matches:
                     idea_tokens[token] += 1

@@ -18,7 +18,7 @@ def test_effects_delete_template(test_runner: object):
         text_file = FileOpener.open_text_file(filename, lowercase=False)
 
         if "delete_unit_template_and_units" in text_file:
-            pattern_matches = re.findall(pattern, text_file)
+            pattern_matches = pattern.findall(text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     if f"has_template = {match[2]}" not in match[0] and "has_template" in match[0]:

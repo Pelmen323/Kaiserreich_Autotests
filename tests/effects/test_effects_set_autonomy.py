@@ -24,7 +24,7 @@ def test_effects_set_autonomy(test_runner: object):
         text_file = FileOpener.open_text_file(filename)
 
         if "set_autonomy" in text_file:
-            pattern_matches = re.findall(pattern, text_file)
+            pattern_matches = pattern.findall(text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     if "autonomy_state = autonomy_free" not in match[1]:

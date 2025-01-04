@@ -23,7 +23,7 @@ def test_character_flags_cleared(test_runner: object):
         text_file = FileOpener.open_text_file(filename)
 
         if "clr_character_flag =" in text_file:
-            pattern_matches = re.findall(pattern_clear, text_file)
+            pattern_matches = pattern_clear.findall(text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     character_flags[match] = 0
@@ -40,7 +40,7 @@ def test_character_flags_cleared(test_runner: object):
             break
 
         if "set_character_flag =" in text_file:
-            all_matches = re.findall(pattern_set, text_file)
+            all_matches = pattern_set.findall(text_file)
             for flag in not_encountered_flags:
                 if flag in text_file:
                     character_flags[flag] += all_matches.count(f"set_character_flag = {flag}")

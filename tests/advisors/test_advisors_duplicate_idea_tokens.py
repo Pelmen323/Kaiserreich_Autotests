@@ -16,7 +16,7 @@ def test_advisors_duplicate_idea_tokens(test_runner: object):
     results = []
 
     for char in characters:
-        advisor_roles = re.findall(pattern_advisor, char)
+        advisor_roles = pattern_advisor.findall(char)
 
         # Skipping instanced characters as they can share tokens
         if "instance" in char:
@@ -25,7 +25,7 @@ def test_advisors_duplicate_idea_tokens(test_runner: object):
         if len(advisor_roles) > 0:
             for i in advisor_roles:
                 advisor_code = i[1]
-                token = re.findall(pattern_token, advisor_code)[0]
+                token = pattern_token.findall(advisor_code)[0]
                 idea_tokens.append(token)
 
     duplicated_tokens = sorted(list(set([i for i in idea_tokens if idea_tokens.count(i) > 1])))

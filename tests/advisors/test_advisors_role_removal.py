@@ -23,7 +23,7 @@ def test_advisors_role_removal(test_runner: object):
         text_file = FileOpener.open_text_file(filename)
 
         if "remove_advisor_role" in text_file:
-            pattern_matches = re.findall(pattern, text_file)
+            pattern_matches = pattern.findall(text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     match = match[1].replace("\t", "").replace("\n", "  ")

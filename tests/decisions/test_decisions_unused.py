@@ -31,7 +31,7 @@ def test_decisions_unused(test_runner: object):
 
         if "activate_targeted_decision =" in text_file:
             manual_decisions = {key: value for key, value in manual_decisions.items() if value == 0}
-            all_matches = re.findall(pattern_decision, text_file)
+            all_matches = pattern_decision.findall(text_file)
             for decision in manual_decisions:
                 for match in all_matches:
                     if f"decision = {decision}" in match:
@@ -39,7 +39,7 @@ def test_decisions_unused(test_runner: object):
 
         if "activate_mission =" in text_file:
             manual_missions = {key: value for key, value in manual_missions.items() if value == 0}
-            all_matches = re.findall(pattern_mission, text_file)
+            all_matches = pattern_mission.findall(text_file)
             for mission in manual_missions:
                 if f"activate_mission = {mission}" in all_matches:
                     manual_missions[mission] += 1

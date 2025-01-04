@@ -16,8 +16,8 @@ def test_effects_root_can_grant_land(test_runner: object):
 
     for event in events:
         if "root_can_grant_land" in event:
-            event_id = re.findall(pattern_id, event)[0]
-            pattern_matches = re.findall(pattern_state, event)
+            event_id = pattern_id.findall(event)[0]
+            pattern_matches = pattern_state.findall(event)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     if "root_can_grant_land" in match[0]:

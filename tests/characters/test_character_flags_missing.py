@@ -29,7 +29,7 @@ def test_character_flags_missing(test_runner: object):
 
         if "has_character_flag =" in text_file:
             for pattern in patterns:
-                pattern_matches = re.findall(pattern, text_file)
+                pattern_matches = pattern.findall(text_file)
                 if len(pattern_matches) > 0:
                     for match in pattern_matches:
                         character_flags[match] = 0
@@ -46,7 +46,7 @@ def test_character_flags_missing(test_runner: object):
             break
 
         if "set_character_flag =" in text_file:
-            all_matches = re.findall(pattern_set, text_file)
+            all_matches = pattern_set.findall(text_file)
             for flag in not_encountered_flags:
                 if flag in text_file:
                     character_flags[flag] += all_matches.count(f"set_character_flag = {flag}")

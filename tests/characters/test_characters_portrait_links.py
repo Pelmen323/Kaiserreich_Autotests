@@ -32,9 +32,9 @@ def test_characters_portrait_links(test_runner: object):
         advisor_role = char.count("\tadvisor = {") > 0
         country_leader_role = char.count("\tcountry_leader = {") > 0
         char_name = re.findall(r"^\t(.+) =", char)[0]
-        army_portraits = re.findall(pattern_army, char)
-        navy_portraits = re.findall(pattern_navy, char)
-        civ_portraits = re.findall(pattern_civ, char)
+        army_portraits = pattern_army.findall(char)
+        navy_portraits = pattern_navy.findall(char)
+        civ_portraits = pattern_civ.findall(char)
 
         if any([army_portraits != [], navy_portraits != [], civ_portraits != []]):
             small_line = None

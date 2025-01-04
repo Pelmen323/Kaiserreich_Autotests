@@ -47,7 +47,7 @@ class Characters:
             found_files = True
             text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
 
-            pattern_matches = re.findall(pattern, text_file)
+            pattern_matches = pattern.findall(text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     match = match[0]
@@ -81,7 +81,7 @@ class Characters:
         characters_names = []
         characters_names_paths = {}
         for char in characters:
-            name = re.findall(pattern, char)[0]
+            name = pattern.findall(char)[0]
             characters_names.append(name)  # get all char names
             characters_names_paths[name] = paths[char]
 
@@ -116,7 +116,7 @@ class Characters:
             text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
 
             if "characters" in filename or "add_advisor_role = {" in text_file:
-                pattern_matches = re.findall(pattern, text_file)
+                pattern_matches = pattern.findall(text_file)
                 if len(pattern_matches) > 0:
                     for match in pattern_matches:
                         match = match[1]
@@ -155,7 +155,7 @@ class Characters:
             text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
 
             if "add_advisor_role = {" in text_file:
-                pattern_matches = re.findall(pattern, text_file)
+                pattern_matches = pattern.findall(text_file)
                 if len(pattern_matches) > 0:
                     for match in pattern_matches:
                         match = match[1]
@@ -240,17 +240,17 @@ class Characters:
         if trait_type == "army":
             for i in adv_code:
                 if "experience_gain_army" in i:
-                    list_to_return.append(re.findall(pattern, i)[0])
+                    list_to_return.append(pattern.findall(i)[0])
 
         elif trait_type == "navy":
             for i in adv_code:
                 if "experience_gain_navy" in i or "naval_doctrine_cost_factor" in i:
-                    list_to_return.append(re.findall(pattern, i)[0])
+                    list_to_return.append(pattern.findall(i)[0])
 
         elif trait_type == "air":
             for i in adv_code:
                 if "experience_gain_air" in i:
-                    list_to_return.append(re.findall(pattern, i)[0])
+                    list_to_return.append(pattern.findall(i)[0])
 
         assert len(list_to_return) != 0
         return list_to_return

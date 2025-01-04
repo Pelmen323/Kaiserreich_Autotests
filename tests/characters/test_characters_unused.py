@@ -32,7 +32,7 @@ def test_check_unused_characters(test_runner: object):
 
         if "recruit_character =" in text_file:
             # Reduces execution time by 98% compared to searching just in text_file
-            all_recruit_character_matches = re.findall(pattern, text_file)
+            all_recruit_character_matches = pattern.findall(text_file)
             for char in not_encountered_chars:
                 if f"recruit_character = {char}" in all_recruit_character_matches:
                     characters[char] += 1

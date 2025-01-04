@@ -45,7 +45,7 @@ class Decisions:
                 continue
             text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
 
-            pattern_matches = re.findall(pattern, text_file)
+            pattern_matches = pattern.findall(text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     decisions.append(match)
@@ -73,7 +73,7 @@ class Decisions:
         decisions_names = []
         decisions_names_paths = {}
         for d in decisions:
-            name = re.findall(pattern, d)[0]
+            name = pattern.findall(d)[0]
             decisions_names.append(name)
             decisions_names_paths[name] = paths[d]
 
@@ -102,7 +102,7 @@ class Decisions:
             text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
 
             if "decision =" in text_file:
-                pattern_matches = re.findall(pattern, text_file)
+                pattern_matches = pattern.findall(text_file)
                 if len(pattern_matches) > 0:
                     for match in pattern_matches:
                         match = match[0]

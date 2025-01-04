@@ -29,7 +29,7 @@ def test_advisors_direct_token_check(test_runner: object):
 
         if "has_idea =" in text_file:
             # Reduces execution time by 90% compared to searching just in text_file
-            all_has_idea_matches = re.findall(pattern, text_file)
+            all_has_idea_matches = pattern.findall(text_file)
             for i in advisor_tokens:
                 if f"has_idea = {i}" in all_has_idea_matches:
                     results.append(f"{i} - {os.path.basename(filename)}")
