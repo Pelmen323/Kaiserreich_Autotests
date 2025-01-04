@@ -44,7 +44,7 @@ def test_character_flags_missing(test_runner: object):
             break
 
         if "set_character_flag =" in text_file:
-            all_matches = re.findall(r"set_character_flag = [^ \n\t]*", text_file)
+            all_matches = re.findall(r"set_character_flag = \S*", text_file)
             for flag in not_encountered_flags:
                 if flag in text_file:
                     character_flags[flag] += all_matches.count(f"set_character_flag = {flag}")

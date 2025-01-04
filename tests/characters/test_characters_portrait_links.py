@@ -43,11 +43,11 @@ def test_characters_portrait_links(test_runner: object):
                 if i != []:
                     portraits_line = i[0]
                     if "small = " in portraits_line:
-                        small_line = re.findall(r"small = [^ \n\t]*", portraits_line)[0]
+                        small_line = re.findall(r"small = \S*", portraits_line)[0]
                         if "_large" in small_line:
                             results.append(f"{char_name} - {paths[char]} - small portrait link is potentially invalid - {small_line}")
                     if "large = " in portraits_line:
-                        large_line = re.findall(r"large = [^ \n\t]*", portraits_line)[0]
+                        large_line = re.findall(r"large = \S*", portraits_line)[0]
                         if "_small" in large_line:
                             results.append(f"{char_name} - {paths[char]} - large portrait link is potentially invalid - {small_line}")
 

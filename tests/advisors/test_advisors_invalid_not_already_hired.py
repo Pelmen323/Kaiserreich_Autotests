@@ -15,8 +15,8 @@ def test_advisors_invalid_not_already_hired(test_runner: object):
     for advisor_code in advisors:
         adv = Advisors(adv=advisor_code)
 
-        if adv.has_not_already_hired:
-            if adv.slot not in adv.not_already_hired_slot:
-                results.append(f'{adv.token} - slot {adv.slot} - has "not already hired as" check for {adv.not_already_hired_slot} slot')
+        if adv.not_already_hired:
+            if adv.slot not in adv.not_already_hired:
+                results.append(f'{adv.token} - slot {adv.slot} - has "not already hired as" check for {adv.not_already_hired} slot')
 
     ResultsReporter.report_results(results=results, message="When checking advisors with not_already_hired_except_as trigger, at least one checked slot should be equal to the advisor slot")

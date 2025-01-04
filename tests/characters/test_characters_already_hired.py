@@ -42,8 +42,8 @@ def test_characters_already_hired(test_runner: object):
     advisors = Characters.get_all_advisors(test_runner=test_runner)
     for advisor_code in advisors:
         adv = Advisors(adv=advisor_code)
-        if adv.has_not_already_hired:
-            if adv.not_already_hired_slot[0] != adv.slot:
-                results.append(f"{adv.token} - not_already_hired_as line value {adv.not_already_hired_slot[0]} doesnt match advisor slot {adv.slot}")
+        if adv.not_already_hired:
+            if adv.not_already_hired != adv.slot:
+                results.append(f"{adv.token} - not_already_hired_as line value {adv.not_already_hired} doesnt match advisor slot {adv.slot}")
 
     ResultsReporter.report_results(results=results, message="Characters with insufficient number of 'not_already_hired' lines found. Generally you'd want characters to be able to take only one slot at the time.")

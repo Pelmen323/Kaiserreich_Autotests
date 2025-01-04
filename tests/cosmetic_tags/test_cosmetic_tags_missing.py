@@ -21,7 +21,7 @@ def test_check_cosmetic_tags_missing(test_runner: object):
         text_file = FileOpener.open_text_file(filename)
 
         if "has_cosmetic_tag =" in text_file:
-            pattern_matches = re.findall(r"has_cosmetic_tag = ([^ \n\t]+)", text_file)
+            pattern_matches = re.findall(r"has_cosmetic_tag = (\S+)", text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     cosmetic_tags[match] = 0

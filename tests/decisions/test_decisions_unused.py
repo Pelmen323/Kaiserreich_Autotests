@@ -37,7 +37,7 @@ def test_decisions_unused(test_runner: object):
 
         if "activate_mission =" in text_file:
             manual_missions = {key: value for key, value in manual_missions.items() if value == 0}
-            all_matches = re.findall(r'activate_mission = [^ \n\t]*', text_file)
+            all_matches = re.findall(r'activate_mission = \S*', text_file)
             for mission in manual_missions:
                 if f"activate_mission = {mission}" in all_matches:
                     manual_missions[mission] += 1

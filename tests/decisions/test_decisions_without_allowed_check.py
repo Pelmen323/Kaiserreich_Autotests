@@ -39,9 +39,9 @@ FALSE_POSITIVES = [
 
 
 def test_decisions_without_allowed_check(test_runner: object):
-    dict_decisions_categories = Decisions.get_decisions_categories_with_all_decisions(test_runner=test_runner, lowercase=True)
+    dict_decisions_categories = Decisions.get_all_decisions_categories_with_child_decisions(test_runner=test_runner, lowercase=True)
     decisions = Decisions.get_all_decisions(test_runner=test_runner, lowercase=True)
-    decision_categories = Decisions.get_all_decisions_categories(test_runner=test_runner, lowercase=True)
+    decision_categories = Decisions.get_all_decisions_categories_with_code(test_runner=test_runner, lowercase=True)
     categories_without_allowed_trigger = []
     decisions_to_validate = []
     results = []

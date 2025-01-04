@@ -2,17 +2,23 @@ import glob
 import os
 import re
 
-from data.advisor_traits import genius_traits, special_theorists_traits
 from test_classes.generic_test_class import FileOpener
 from pathlib import Path
 
 
+def extract_value(obj, s: str, tab: str, lines: int = 2) -> str:
+    if lines == 1:
+        return re.findall(p1l(s), obj)[0] if f"\n{tab}{s} =" in obj else False
+    elif lines > 1:
+        return re.findall(pml(s), obj, flags=re.DOTALL | re.MULTILINE)[0][1] if f"\\n{tab}{s} =" in obj else False
+
+
 def p1l(s: str):
-    return r'\t+' + s + r' = (\S*)'
+    return r"\t+" + s + r" = (\S*)"
 
 
 def pml(s: str):
-    return r'(\t+)' + s + r' = (\{([^\n]*|.*?^\1)\})'
+    return r"(\t+)" + s + r" = (\{([^\n]*|.*?^\1)\})"
 
 
 class Characters:
@@ -32,18 +38,16 @@ class Characters:
         """
         filepath_to_characters = Path(test_runner.full_path_to_mod) / "common" / "characters"
         path_pattern = str(filepath_to_characters / "**/*.txt")
+        pattern = re.compile(r"((?<=\n)\t\w.* = \{.*\n(.|\n*?)*\n\t\})")
         found_files = False
         characters = []
         paths = {}
 
         for filename in glob.iglob(path_pattern, recursive=True):
             found_files = True
-            if lowercase:
-                text_file = FileOpener.open_text_file(filename)
-            else:
-                text_file = FileOpener.open_text_file(filename, lowercase=False)
+            text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
 
-            pattern_matches = re.findall(r"((?<=\n)\t\w.* = \{.*\n(.|\n*?)*\n\t\})", text_file)
+            pattern_matches = re.findall(pattern, text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     match = match[0]
@@ -73,10 +77,11 @@ class Characters:
             else - list: list with characters names
         """
         characters, paths = Characters.get_all_characters(test_runner=test_runner, lowercase=lowercase, return_paths=True)
+        pattern = re.compile(r"^\t(.+) =")
         characters_names = []
         characters_names_paths = {}
         for char in characters:
-            name = re.findall(r"^\t(.+) =", char)[0]
+            name = re.findall(pattern, char)[0]
             characters_names.append(name)  # get all char names
             characters_names_paths[name] = paths[char]
 
@@ -101,19 +106,17 @@ class Characters:
             else - list: list with advisors code
         """
         filepath = test_runner.full_path_to_mod
+        pattern = re.compile(r"^(\t*?)advisor = \{(.*?^)\1\}", flags=re.DOTALL | re.MULTILINE)
         found_files = False
         advisors = []
         paths = {}
 
         for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
             found_files = True
-            if lowercase:
-                text_file = FileOpener.open_text_file(filename)
-            else:
-                text_file = FileOpener.open_text_file(filename, lowercase=False)
+            text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
 
             if "characters" in filename or "add_advisor_role = {" in text_file:
-                pattern_matches = re.findall(r"^(\t*?)advisor = \{(.*?^)\1\}", text_file, flags=re.DOTALL | re.MULTILINE)
+                pattern_matches = re.findall(pattern, text_file)
                 if len(pattern_matches) > 0:
                     for match in pattern_matches:
                         match = match[1]
@@ -142,19 +145,17 @@ class Characters:
             else - list: list with advisors code
         """
         filepath = test_runner.full_path_to_mod
+        pattern = re.compile(r"^(\t*?)add_advisor_role = \{(.*?^)\1\}", flags=re.DOTALL | re.MULTILINE)
         found_files = False
         advisors = []
         paths = {}
 
         for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
             found_files = True
-            if lowercase:
-                text_file = FileOpener.open_text_file(filename)
-            else:
-                text_file = FileOpener.open_text_file(filename, lowercase=False)
+            text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
 
             if "add_advisor_role = {" in text_file:
-                pattern_matches = re.findall(r"^(\t*?)add_advisor_role = \{(.*?^)\1\}", text_file, flags=re.DOTALL | re.MULTILINE)
+                pattern_matches = re.findall(pattern, text_file)
                 if len(pattern_matches) > 0:
                     for match in pattern_matches:
                         match = match[1]
@@ -182,17 +183,10 @@ class Characters:
         Returns:
             list[str]: all traits from a file (only traits names)
         """
-        if path is None:
-            filepath_to_traits = str(Path(test_runner.full_path_to_mod) / "common" / "country_leader" / f"KR_{trait_type}_traits.txt")
-        else:
-            filepath_to_traits = path
+        filepath_to_traits = str(Path(test_runner.full_path_to_mod) / "common" / "country_leader" / f"KR_{trait_type}_traits.txt") if path is None else path
         traits = []
 
-        if lowercase:
-            text_file = FileOpener.open_text_file(filepath_to_traits)
-        else:
-            text_file = FileOpener.open_text_file(filepath_to_traits, lowercase=False)
-
+        text_file = FileOpener.open_text_file(filepath_to_traits, lowercase=lowercase)
         pattern_matches = re.findall(r"((?<=\n)\t\w*? = \{)", text_file)
         if len(pattern_matches) > 0:
             for match in pattern_matches:
@@ -215,17 +209,10 @@ class Characters:
         Returns:
             list[str]: all traits code from a file
         """
-        if path is None:
-            filepath_to_traits = str(Path(test_runner.full_path_to_mod) / "common" / "country_leader" / f"KR_{trait_type}_traits.txt")
-        else:
-            filepath_to_traits = path
+        filepath_to_traits = str(Path(test_runner.full_path_to_mod) / "common" / "country_leader" / f"KR_{trait_type}_traits.txt") if path is None else path
         traits = []
 
-        if lowercase:
-            text_file = FileOpener.open_text_file(filepath_to_traits)
-        else:
-            text_file = FileOpener.open_text_file(filepath_to_traits, lowercase=False)
-
+        text_file = FileOpener.open_text_file(filepath_to_traits, lowercase=lowercase)
         pattern_matches = re.findall(r"((?<=\n)\t\w* = \{.*\n(.|\n*?)*\n\t\})", text_file)
         if len(pattern_matches) > 0:
             for match in pattern_matches:
@@ -248,21 +235,22 @@ class Characters:
             list[str]: all traits from a file (only traits names)
         """
         adv_code = Characters.get_advisors_traits_code(test_runner=test_runner, trait_type="high_command")
+        pattern = re.compile(r"\t(.*) = \{")
         list_to_return = []
         if trait_type == "army":
             for i in adv_code:
                 if "experience_gain_army" in i:
-                    list_to_return.append(re.findall(r"\t(.*) = \{", i)[0])
+                    list_to_return.append(re.findall(pattern, i)[0])
 
         elif trait_type == "navy":
             for i in adv_code:
                 if "experience_gain_navy" in i or "naval_doctrine_cost_factor" in i:
-                    list_to_return.append(re.findall(r"\t(.*) = \{", i)[0])
+                    list_to_return.append(re.findall(pattern, i)[0])
 
         elif trait_type == "air":
             for i in adv_code:
                 if "experience_gain_air" in i:
-                    list_to_return.append(re.findall(r"\t(.*) = \{", i)[0])
+                    list_to_return.append(re.findall(pattern, i)[0])
 
         assert len(list_to_return) != 0
         return list_to_return
@@ -270,51 +258,34 @@ class Characters:
 
 class Advisors:
     def __init__(self, adv: str) -> None:
-        self.tab = re.findall(r'\n(\t*?)slot =', adv)[0]
-        try:
-            self.slot = re.findall(p1l("slot"), adv)[0] if f"\n{self.tab}slot =" in adv else False
-        except Exception:
-            print(adv)
-            raise
-        self.token = re.findall(p1l("idea_token"), adv)[0] if f"\n{self.tab}idea_token =" in adv else False
-        self.name = re.findall(p1l("name"), adv)[0] if f"\n{self.tab}name =" in adv else False
-        self.desc = re.findall(p1l("desc"), adv)[0] if f"\n{self.tab}desc =" in adv else False
-        self.ledger_slot = re.findall(p1l("ledger"), adv)[0] if f"\n{self.tab}ledger =" in adv else False
-        self.traits_line = re.findall(pml("traits"), adv, flags=re.DOTALL | re.MULTILINE)[0][1] if f"\n{self.tab}traits =" in adv else False
-        self.modifier = re.findall(pml("modifier"), adv, flags=re.DOTALL | re.MULTILINE)[0][1] if f"\n{self.tab}modifier =" in adv else False
-        self.research_bonus = re.findall(pml("research_bonus"), adv, flags=re.DOTALL | re.MULTILINE)[0][1] if f"\n{self.tab}research_bonus =" in adv else False
-        self.allowed = re.findall(pml("allowed"), adv, flags=re.DOTALL | re.MULTILINE)[0][1] if f"\n{self.tab}allowed =" in adv else False
-        self.available = re.findall(pml("available"), adv, flags=re.DOTALL | re.MULTILINE)[0][1] if f"\n{self.tab}available =" in adv else False
-        self.visible = re.findall(pml("visible"), adv, flags=re.DOTALL | re.MULTILINE)[0][1] if f"\n{self.tab}visible =" in adv else False
-        self.cost = re.findall(p1l("cost"), adv)[0] if f"\n{self.tab}cost =" in adv else False
-        self.can_be_fired = re.findall(p1l("can_be_fired"), adv)[0] if f"\n{self.tab}can_be_fired =" in adv else False
-        self.on_add = re.findall(pml("on_add"), adv, flags=re.DOTALL | re.MULTILINE)[0][1] if f"\n{self.tab}on_add =" in adv else False
-        self.on_remove = re.findall(pml("on_remove"), adv, flags=re.DOTALL | re.MULTILINE)[0][1] if f"\n{self.tab}on_remove =" in adv else False
-        self.ai_will_do = re.findall(pml("ai_will_do"), adv, flags=re.DOTALL | re.MULTILINE)[0][1] if f"\n{self.tab}ai_will_do =" in adv else False
+        # Tabulation used
+        self.tab = t = re.findall(r"\n(\t*?)slot =", adv)[0]
+        # Advisor properties
+        self.slot = extract_value(adv, "slot", t, 1)
+        self.token = extract_value(adv, "idea_token", t, 1)
+        self.name = extract_value(adv, "name", t, 1)
+        self.desc = extract_value(adv, "desc", t, 1)
+        self.ledger_slot = extract_value(adv, "ledger", t, 1)
+        self.traits_line = extract_value(adv, "traits", t)
+        self.modifier = extract_value(adv, "modifier", t)
+        self.research_bonus = extract_value(adv, "research_bonus", t)
+        self.allowed = extract_value(adv, "allowed", t)
+        self.available = extract_value(adv, "available", t)
+        self.visible = extract_value(adv, "visible", t)
+        self.cost = extract_value(adv, "cost", t, 1)
+        self.can_be_fired = extract_value(adv, "can_be_fired", t, 1)
+        self.on_add = extract_value(adv, "on_add", t)
+        self.on_remove = extract_value(adv, "on_remove", t)
+        self.ai_will_do = extract_value(adv, "ai_will_do", t)
 
-        self.military_role = any([adv.count("slot = army_chief") == 1, adv.count("slot = navy_chief") == 1, adv.count("slot = air_chief") == 1, adv.count("slot = high_command") == 1, adv.count("slot = theorist") == 1])
-        self.chief_role = any([adv.count("slot = army_chief") == 1, adv.count("slot = navy_chief") == 1, adv.count("slot = air_chief") == 1])
-        self.hc_role = adv.count("slot = high_command") == 1
-        self.theorist_role = adv.count("slot = theorist") == 1
-        self.special_theorist = False
-        self.political_role = adv.count("slot = political_advisor") == 1
+        # Custom advisor properties
+        military_chief_slots = ["army_chief", "navy_chief", "air_chief"]
+        military_role_slots = military_chief_slots + ["high_command", "theorist"]
+        self.military_role = any([adv.count(f"slot = {i}") == 1 for i in military_role_slots])
+        self.chief_role = any([adv.count(f"slot = {i}") == 1 for i in military_chief_slots])
         self.sic_role = adv.count("slot = second_in_command") == 1
-        self.unknown_role = any([self.military_role, self.political_role, self.sic_role]) is False
-
-        # Theorists
-        if self.theorist_role:
-            for i in special_theorists_traits:
-                if i in adv:
-                    self.special_theorist = True
-                    break
-
-        # SIC things
-        self.sic_has_correct_removal_cost = adv.count("can_be_fired = no") == 1
-
-        # Not already_hired
-        self.has_not_already_hired = adv.count("not_already_hired_except_as") > 0
-        if self.has_not_already_hired:
-            self.not_already_hired_slot = re.findall(r"not_already_hired_except_as = (\w+)", adv)
+        self.hc_role = adv.count("slot = high_command") == 1
+        self.not_already_hired = extract_value(adv, "not_already_hired_except_as", t, 1)
 
         # Traits
         self.traits = []
@@ -322,14 +293,3 @@ class Advisors:
         traits_code = traits_code.replace("\n", " ").replace("\t", "").strip().split(" ")
         for trait in traits_code:
             self.traits.append(trait)
-
-        # Advisor_level - military
-        self.military_trait_lvl = None
-        if len([i for i in self.traits if "_1" in i]) > 0 and self.military_role:
-            self.military_trait_lvl = "specialist"
-        if len([i for i in self.traits if "_2" in i]) > 0 and self.military_role:
-            self.military_trait_lvl = "expert"
-        if (len([i for i in self.traits if "_3" in i]) > 0 or len([i for i in self.traits if i in genius_traits]) > 0) and self.military_role:
-            self.military_trait_lvl = "genius"
-        if self.military_role and self.military_trait_lvl is None:
-            self.military_trait_lvl = "specialist"

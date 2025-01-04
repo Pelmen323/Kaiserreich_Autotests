@@ -16,18 +16,18 @@ def test_check_annex_events(test_runner: object):
     filepath_to_events = f'{test_runner.full_path_to_mod}events\\'
 
     for event in events_code:
-        event_id = re.findall(r'^\tid = ([^ \n\t]+)', event, flags=re.MULTILINE)[0]
+        event_id = re.findall(r'^\tid = (\S+)', event, flags=re.MULTILINE)[0]
         options = re.findall(r'(^\toption = \{.*?^\t\})', event, flags=re.DOTALL | re.MULTILINE)
         event_options = []
 
         for option in options:
-            name = re.findall(r'^\t\tname = ([^ \n\t]+)', option, flags=re.MULTILINE)[0]
+            name = re.findall(r'^\t\tname = (\S+)', option, flags=re.MULTILINE)[0]
             event_options.append(name)
             trigger = re.findall(r'(^\t\ttrigger = \{.*?^\t\t\})', option, flags=re.DOTALL | re.MULTILINE)[0] if "trigger = {" in option else False
             if trigger:
                 event_target = False
                 if "has_event_target" in trigger:
-                    event_target = re.findall(r'has_event_target = ([^ \n\t]+)', trigger, flags=re.MULTILINE)[0]
+                    event_target = re.findall(r'has_event_target = (\S+)', trigger, flags=re.MULTILINE)[0]
 
             try:
                 ai_chance = re.findall(r'(^\t\tai_chance = \{.*?\})', option, flags=re.MULTILINE)[0] if "ai_chance = {" in option else False

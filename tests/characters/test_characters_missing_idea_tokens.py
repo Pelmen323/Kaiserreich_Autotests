@@ -25,7 +25,7 @@ def test_characters_missing_idea_tokens(test_runner: object):
         text_file = FileOpener.open_text_file(filename)
 
         for i in ["activate_advisor", "deactivate_advisor"]:
-            pattern = i + r" = ([^ \n\t]*)"
+            pattern = i + r" = (\S*)"
             if i in text_file:
                 pattern_matches = re.findall(pattern, text_file)
                 if len(pattern_matches) > 0:
@@ -46,7 +46,7 @@ def test_characters_missing_idea_tokens(test_runner: object):
             break
 
         if "idea_token" in text_file:
-            all_matches = re.findall(r"idea_token = [^ \n\t]*", text_file)
+            all_matches = re.findall(r"idea_token = \S*", text_file)
             for token in not_encountered_tokens:
                 if f"idea_token = {token}" in all_matches:
                     idea_tokens[token] += 1

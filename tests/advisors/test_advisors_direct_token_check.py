@@ -6,12 +6,10 @@
 import glob
 import os
 import re
-import pytest
 from test_classes.characters_class import Advisors, Characters
 from test_classes.generic_test_class import ResultsReporter, FileOpener
 
 
-@pytest.mark.smoke
 def test_advisors_direct_token_check(test_runner: object):
     filepath = test_runner.full_path_to_mod
     advisors = Characters.get_all_advisors(test_runner=test_runner)
@@ -30,7 +28,7 @@ def test_advisors_direct_token_check(test_runner: object):
 
         if "has_idea =" in text_file:
             # Reduces execution time by 90% compared to searching just in text_file
-            all_has_idea_matches = re.findall(r'has_idea = [^ \n\t]*', text_file)
+            all_has_idea_matches = re.findall(r'has_idea = \S*', text_file)
             for i in advisor_tokens:
                 if f"has_idea = {i}" in all_has_idea_matches:
                     results.append(f"{i} - {os.path.basename(filename)}")

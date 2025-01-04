@@ -26,7 +26,7 @@ from ..test_classes.events_class import Events
 #     results = []
 
 #     for event in events:
-#         event_id = re.findall('^\\tid = ([^ \\n\\t]+)', event, flags=re.MULTILINE)[0]
+#         event_id = re.findall('^\\tid = (\\S+)', event, flags=re.MULTILINE)[0]
 #         if "annex" in event_id and event_id != "annex.1":
 #             pattern_matches = re.findall(pattern, event, flags=re.DOTALL | re.MULTILINE)
 #             if len(pattern_matches) > 0:
@@ -60,7 +60,7 @@ def test_add_code_to_sic(test_runner):
     results = []
 
     for event in events:
-        event_id = re.findall('^\\tid = ([^ \\n\\t]+)', event, flags=re.MULTILINE)[0]
+        event_id = re.findall('^\\tid = (\\S+)', event, flags=re.MULTILINE)[0]
         if "annex" in event_id and event_id != "annex.1":
             pattern_matches = re.findall(pattern, event, flags=re.DOTALL | re.MULTILINE)
             if len(pattern_matches) > 0:

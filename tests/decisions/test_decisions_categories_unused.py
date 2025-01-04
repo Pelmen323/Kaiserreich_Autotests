@@ -13,7 +13,7 @@ from test_classes.decisions_class import Decisions
 
 
 def test_decisions_categories_unused(test_runner: object):
-    dict_decisions_categories = Decisions.get_decisions_categories_with_all_decisions(test_runner=test_runner, lowercase=True)
+    dict_decisions_categories = Decisions.get_all_decisions_categories_with_child_decisions(test_runner=test_runner, lowercase=True)
     filepath_to_bop = str(Path(test_runner.full_path_to_mod) / "common" / "bop")
     cats_to_validate = {}
 
@@ -21,7 +21,6 @@ def test_decisions_categories_unused(test_runner: object):
         if dict_decisions_categories[cat] == []:
             cats_to_validate[cat] = 0
 
-    # # 3. count the number of entity occurrences
     found_files = False
     for filename in glob.iglob(filepath_to_bop + "**/*.txt", recursive=True):
         found_files = True

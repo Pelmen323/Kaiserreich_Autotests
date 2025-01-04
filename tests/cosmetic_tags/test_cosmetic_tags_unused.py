@@ -24,7 +24,7 @@ def test_cosmetic_tags_unused(test_runner: object):
         text_file = FileOpener.open_text_file(filename)
 
         if "set_cosmetic_tag =" in text_file:
-            pattern_matches = re.findall(r"set_cosmetic_tag = ([^ \n\t]+)", text_file)
+            pattern_matches = re.findall(r"set_cosmetic_tag = (\S+)", text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     cosmetic_tags[match] = 0
@@ -75,7 +75,7 @@ def test_cosmetic_tags_unused(test_runner: object):
         not_encountered_cosmetic_tags = [i for i in cosmetic_tags.keys() if cosmetic_tags[i] == 0]
 
         if "has_cosmetic_tag =" in text_file:
-            all_matches = re.findall(r"has_cosmetic_tag = [^ \n\t]*", text_file)
+            all_matches = re.findall(r"has_cosmetic_tag = \S*", text_file)
             for flag in not_encountered_cosmetic_tags:
                 cosmetic_tags[flag] += all_matches.count(f"has_cosmetic_tag = {flag}")
 
@@ -85,25 +85,24 @@ def test_cosmetic_tags_unused(test_runner: object):
         not_encountered_cosmetic_tags = [i for i in cosmetic_tags.keys() if cosmetic_tags[i] == 0]
 
         for flag in not_encountered_cosmetic_tags:
-            if f"{flag}:" in text_file:
-                cosmetic_tags[flag] += 1
-
-        for i in [
-            "_social_democrat:",
-            "_social_liberal:",
-            "_market_liberal:",
-            "_social_conservative:",
-            "_authoritarian_democrat:",
-            "_paternal_autocrat:",
-            "_national_populist:",
-            "_radical_socialist:",
-            "_syndicalist:",
-            "_totalist:",
-        ]:
-            if i in text_file:
-                for flag in not_encountered_cosmetic_tags:
-                    if flag + i in text_file:
-                        cosmetic_tags[flag] += 1
+            if flag in text_file:
+                all_matches = re.findall(flag + r".*", text_file)
+                if len(all_matches) > 0:
+                    for match in all_matches:
+                        for p in [
+                            ":",
+                            "_social_democrat:",
+                            "_social_liberal:",
+                            "_market_liberal:",
+                            "_social_conservative:",
+                            "_authoritarian_democrat:",
+                            "_paternal_autocrat:",
+                            "_national_populist:",
+                            "_radical_socialist:",
+                            "_syndicalist:",
+                            "_totalist:",
+                        ]:
+                            cosmetic_tags[flag] += match.count(f"{flag}{p}")
 
     # 4. throw the error if tag is not used
     results = [i for i in cosmetic_tags if cosmetic_tags[i] == 0]

@@ -18,11 +18,11 @@ def test_events_double_scoping(test_runner: object):
     results = []
 
     for event in all_events:
-        event_id = re.findall('^\\tid = ([^ \\n\\t]+)', event, flags=re.MULTILINE)[0]
+        event_id = re.findall('^\\tid = (\\S+)', event, flags=re.MULTILINE)[0]
         options = re.findall('^\\toption = \\{.*?^\\t\\}', event, flags=re.MULTILINE | re.DOTALL)
         if len(options) > 0:
             for option in options:
-                option_name = re.findall('^\\t\\tname = ([^ \\n\\t]+)', option, flags=re.MULTILINE)[0] if "\\t\\tname =" in option else event_id
+                option_name = re.findall('^\\t\\tname = (\\S+)', option, flags=re.MULTILINE)[0] if "\\t\\tname =" in option else event_id
                 for character in all_characters:
                     if character in option:
                         if option.count(character + " = {") > 1:
@@ -76,7 +76,7 @@ def test_effects_double_scoping(test_runner: object):
     results = []
 
     for effect in all_effects:
-        effect_token = re.findall('^([^ \\n\\t]+) = \\{', effect, flags=re.MULTILINE)[0]
+        effect_token = re.findall('^(\\S+) = \\{', effect, flags=re.MULTILINE)[0]
         for character in all_characters:
             if character in effect:
                 if effect.count(character + " = {") > 1:

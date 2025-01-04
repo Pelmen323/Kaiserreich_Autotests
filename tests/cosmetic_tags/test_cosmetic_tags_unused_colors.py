@@ -23,28 +23,23 @@ def test_cosmetic_tags_unused_colors(test_runner: object):
     cosmetic_tags = {}
     # 1. get the dict of all cosmetic tags
     text_file = FileOpener.open_text_file(filepath_cosmetic)
-
-    text_file_splitted = text_file.split("\n")[1:]
-    for line in range(len(text_file_splitted)):
-        current_line = text_file_splitted[line]
-        pattern_matches = re.findall(r"^\w+", current_line)
-        if len(pattern_matches) > 0:
-            for match in pattern_matches:
-                cosmetic_tags[match] = 0
+    pattern_matches = re.findall(r"^(\S+) = \{", text_file, flags=re.MULTILINE)
+    for match in pattern_matches:
+        cosmetic_tags[match] = 0
 
     # 2. count the number of tag occurrences
     logging.debug(f"{len(cosmetic_tags)} cosmetic tags colors were found")
     assert len(cosmetic_tags) > 0, "cosmetic_tags must not be empty"
+    cosmetic_tags = DataCleaner.clear_false_positives(input_iter=cosmetic_tags, false_positives=FALSE_POSITIVES)
 
     for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
         text_file = FileOpener.open_text_file(filename)
-        not_encountered_cosmetic_tags = [i for i in cosmetic_tags.keys() if cosmetic_tags[i] == 0]
 
         if "set_cosmetic_tag =" in text_file:
+            not_encountered_cosmetic_tags = [i for i in cosmetic_tags.keys() if cosmetic_tags[i] == 0]
             for flag in not_encountered_cosmetic_tags:
                 cosmetic_tags[flag] += text_file.count(f"set_cosmetic_tag = {flag}")
 
     # 3. throw the error if tag is not used
-    cosmetic_tags = DataCleaner.clear_false_positives(input_iter=cosmetic_tags, false_positives=FALSE_POSITIVES)
     results = [i for i in cosmetic_tags if cosmetic_tags[i] == 0]
     ResultsReporter.report_results(results=results, message="Unused cosmetic tags colors were encountered. Assign them with set_cosmetic_tag")

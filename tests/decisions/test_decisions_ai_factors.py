@@ -22,8 +22,8 @@ NON_AI_DECISIONS = (
 def test_decisions_ai_factors(test_runner: object):
     results = []
     decisions, paths = Decisions.get_all_decisions(test_runner=test_runner, lowercase=True, return_paths=True)
-    decision_categories = Decisions.get_all_decisions_categories(test_runner=test_runner, lowercase=True)
-    dict_decisions_categories = Decisions.get_decisions_categories_with_all_decisions(test_runner=test_runner, lowercase=True)
+    decision_categories = Decisions.get_all_decisions_categories_with_code(test_runner=test_runner, lowercase=True)
+    dict_decisions_categories = Decisions.get_all_decisions_categories_with_child_decisions(test_runner=test_runner, lowercase=True)
 
     for i in decisions:
         decision = DecisionsFactory(dec=i)
@@ -36,18 +36,19 @@ def test_decisions_ai_factors(test_runner: object):
         decision_category = [i for i in dict_decisions_categories.keys() if decision.token in dict_decisions_categories[i]][0]
         if "is_ai = no" in decision_categories[decision_category][0] or "always = no" in decision_categories[decision_category][0]:
             continue
+
         if decision.mission_subtype:
             if decision.selectable_mission:
-                if not decision.has_ai_factor:
+                if not decision.ai_factor:
                     results.append(f"{decision.token} - {paths[i]} - Selectable mission doesn't have AI factor")
-            elif decision.has_ai_factor:
+            elif decision.ai_factor:
                 results.append(f"{decision.token} - {paths[i]} - Non-selectable mission has AI factor")
 
-        elif not decision.has_ai_factor and "debug" not in decision.token:
+        elif not decision.ai_factor and "debug" not in decision.token:
             results.append(f"{decision.token} - {paths[i]} - Regular decision doesn't have AI factor")
 
-        if decision.has_ai_factor:
-            ai_factors_found = re.findall(r"(base = [^ \t\n]+|factor = [^ \t\n]+|add = [^ \t\n]+)", decision.ai_factor)
+        if decision.ai_factor:
+            ai_factors_found = re.findall(r"(base = \S+|factor = \S+|add = \S+)", decision.ai_factor)
             # Base and factor
             if len(ai_factors_found) > 0 and "base =" in decision.ai_factor:
                 if "factor = 0" in ai_factors_found:
