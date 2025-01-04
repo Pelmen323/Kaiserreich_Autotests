@@ -13,6 +13,8 @@ def test_decisions_unused(test_runner: object):
     filepath = test_runner.full_path_to_mod
     results = []
     decisions = Decisions.get_all_decisions(test_runner=test_runner, lowercase=True, return_paths=False)
+    pattern_decision = re.compile(r"activate_targeted_decision = [^\n\t]*")
+    pattern_mission = re.compile(r"activate_mission = \S*")
     manual_decisions = {}
     manual_missions = {}
 
@@ -29,7 +31,7 @@ def test_decisions_unused(test_runner: object):
 
         if "activate_targeted_decision =" in text_file:
             manual_decisions = {key: value for key, value in manual_decisions.items() if value == 0}
-            all_matches = re.findall(r'activate_targeted_decision = [^\n\t]*', text_file)
+            all_matches = re.findall(pattern_decision, text_file)
             for decision in manual_decisions:
                 for match in all_matches:
                     if f"decision = {decision}" in match:
@@ -37,7 +39,7 @@ def test_decisions_unused(test_runner: object):
 
         if "activate_mission =" in text_file:
             manual_missions = {key: value for key, value in manual_missions.items() if value == 0}
-            all_matches = re.findall(r'activate_mission = \S*', text_file)
+            all_matches = re.findall(pattern_mission, text_file)
             for mission in manual_missions:
                 if f"activate_mission = {mission}" in all_matches:
                     manual_missions[mission] += 1
@@ -45,4 +47,4 @@ def test_decisions_unused(test_runner: object):
     results = [key for key in manual_decisions.keys() if manual_decisions[key] == 0]
     results += [key for key in manual_missions.keys() if manual_missions[key] == 0]
 
-    ResultsReporter.report_results(results=results, message="Unused decisions/missions were encountered. They are designed to be manually activated with activate_targeted_decision/activate_mission but never are")
+    ResultsReporter.report_results(results=results, message="Unused decisions/missions were encountered- should be manually activated with activate_targeted_decision/activate_mission but never are")

@@ -23,18 +23,18 @@ FALSE_POSITIVES = (
 def test_characters_portrait_links(test_runner: object):
     characters, paths = Characters.get_all_characters(test_runner=test_runner, return_paths=True)
     results = []
-    pattern_army = r"\t\t\tarmy = \{.*?\}"
-    pattern_navy = r"\t\t\tnavy = \{.*?\}"
-    pattern_civ = r"\t\t\tcivilian = \{.*?\}"
+    pattern_army = re.compile(r"\t\t\tarmy = \{.*?\}", flags=re.DOTALL | re.MULTILINE)
+    pattern_navy = re.compile(r"\t\t\tnavy = \{.*?\}", flags=re.DOTALL | re.MULTILINE)
+    pattern_civ = re.compile(r"\t\t\tcivilian = \{.*?\}", flags=re.DOTALL | re.MULTILINE)
 
     for char in characters:
         unit_leader_role = any([char.count("field_marshal =") > 0, char.count("corps_commander =") > 0])
         advisor_role = char.count("\tadvisor = {") > 0
         country_leader_role = char.count("\tcountry_leader = {") > 0
         char_name = re.findall(r"^\t(.+) =", char)[0]
-        army_portraits = re.findall(pattern_army, char, flags=re.DOTALL | re.MULTILINE)
-        navy_portraits = re.findall(pattern_navy, char, flags=re.DOTALL | re.MULTILINE)
-        civ_portraits = re.findall(pattern_civ, char, flags=re.DOTALL | re.MULTILINE)
+        army_portraits = re.findall(pattern_army, char)
+        navy_portraits = re.findall(pattern_navy, char)
+        civ_portraits = re.findall(pattern_civ, char)
 
         if any([army_portraits != [], navy_portraits != [], civ_portraits != []]):
             small_line = None

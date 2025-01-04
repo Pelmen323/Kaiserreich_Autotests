@@ -18,6 +18,7 @@ FALSE_POSITIVES = ("empowered_trade_unions_sic", "empowered_executive_sic", "emp
 
 def test_characters_missing_idea_tokens(test_runner: object):
     filepath = test_runner.full_path_to_mod
+    pattern_idea_token = re.compile(r"idea_token = \S*")
     idea_tokens = {}
     paths = {}
     # 1. Get all used idea tokens
@@ -46,7 +47,7 @@ def test_characters_missing_idea_tokens(test_runner: object):
             break
 
         if "idea_token" in text_file:
-            all_matches = re.findall(r"idea_token = \S*", text_file)
+            all_matches = re.findall(pattern_idea_token, text_file)
             for token in not_encountered_tokens:
                 if f"idea_token = {token}" in all_matches:
                     idea_tokens[token] += 1

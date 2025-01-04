@@ -6,7 +6,7 @@ from test_classes.decisions_class import Decisions
 from test_classes.generic_test_class import ResultsReporter
 
 
-def test_check_duplicated_decisions(test_runner: object):
+def test_decisions_duplicated(test_runner: object):
     # 1. get the dict of all decisions
     decisions = Decisions.get_all_decisions_names(test_runner=test_runner, lowercase=True)
 

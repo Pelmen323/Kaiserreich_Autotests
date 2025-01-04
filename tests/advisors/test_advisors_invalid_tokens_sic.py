@@ -2,12 +2,10 @@
 # Test script to check for advisors that don't have _sic or _second_in_command in their SIC idea tokens
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-import pytest
 from test_classes.characters_class import Advisors, Characters
 from test_classes.generic_test_class import ResultsReporter
 
 
-@pytest.mark.kr_specific
 def test_advisors_invalid_sic_tokens(test_runner: object):
     advisors = Characters.get_all_advisors(test_runner=test_runner)
     results = []

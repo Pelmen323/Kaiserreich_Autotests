@@ -20,7 +20,11 @@ def test_character_flags_unused(test_runner: object):
     filepath = test_runner.full_path_to_mod
     character_flags = {}
     paths = {}
-    patterns = [r"has_character_flag = \b(\w*)\b", r"has_character_flag = \{.*?flag = \b(\w*)\b"]
+    patterns = [
+        re.compile(r"has_character_flag = \b(\w*)\b", flags=re.DOTALL | re.MULTILINE),
+        re.compile(r"has_character_flag = \{.*?flag = \b(\w*)\b", flags=re.DOTALL | re.MULTILINE)
+    ]
+    has_char_flag_pattern = re.compile(r"has_character_flag = \S*")
 
     # 1. Get the dict of entities
     for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
@@ -28,7 +32,7 @@ def test_character_flags_unused(test_runner: object):
 
         if "has_character_flag =" in text_file:
             for pattern in patterns:
-                pattern_matches = re.findall(pattern, text_file, flags=re.DOTALL | re.MULTILINE)
+                pattern_matches = re.findall(pattern, text_file)
                 if len(pattern_matches) > 0:
                     for match in pattern_matches:
                         character_flags[match] = 0
@@ -45,7 +49,7 @@ def test_character_flags_unused(test_runner: object):
             break
 
         if "has_character_flag =" in text_file:
-            all_matches = re.findall(r"has_character_flag = \S*", text_file)
+            all_matches = re.findall(has_char_flag_pattern, text_file)
             for flag in not_encountered_flags:
                 if flag in text_file:
                     character_flags[flag] += all_matches.count(f"has_character_flag = {flag}")

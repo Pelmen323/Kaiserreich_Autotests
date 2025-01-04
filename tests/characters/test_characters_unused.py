@@ -13,6 +13,7 @@ from pathlib import Path
 def test_check_unused_characters(test_runner: object):
     path_to_history_files = Path(test_runner.full_path_to_mod) / "history"
     path_pattern = str(path_to_history_files / "**/*.txt")
+    pattern = re.compile(r"recruit_character = \S*")
     found_files = False
     characters = {}
     # 1. Get all existing characters names
@@ -31,7 +32,7 @@ def test_check_unused_characters(test_runner: object):
 
         if "recruit_character =" in text_file:
             # Reduces execution time by 98% compared to searching just in text_file
-            all_recruit_character_matches = re.findall(r"recruit_character = \S*", text_file)
+            all_recruit_character_matches = re.findall(pattern, text_file)
             for char in not_encountered_chars:
                 if f"recruit_character = {char}" in all_recruit_character_matches:
                     characters[char] += 1

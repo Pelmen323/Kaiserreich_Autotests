@@ -6,16 +6,16 @@ import glob
 import logging
 import os
 import re
-import pytest
 
 from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 FALSE_POSITIVES = ("was_leader_of_",)
 
 
-@pytest.mark.smoke
 def test_character_flags_cleared(test_runner: object):
     filepath = test_runner.full_path_to_mod
+    pattern_clear = re.compile(r"clr_character_flag = \b(\w*)\b")
+    pattern_set = re.compile(r"set_character_flag = \S*")
     character_flags = {}
     paths = {}
     # 1. Get the dict of entities
@@ -23,7 +23,7 @@ def test_character_flags_cleared(test_runner: object):
         text_file = FileOpener.open_text_file(filename)
 
         if "clr_character_flag =" in text_file:
-            pattern_matches = re.findall(r"clr_character_flag = \b(\w*)\b", text_file)
+            pattern_matches = re.findall(pattern_clear, text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     character_flags[match] = 0
@@ -40,7 +40,7 @@ def test_character_flags_cleared(test_runner: object):
             break
 
         if "set_character_flag =" in text_file:
-            all_matches = re.findall(r"set_character_flag = \S*", text_file)
+            all_matches = re.findall(pattern_set, text_file)
             for flag in not_encountered_flags:
                 if flag in text_file:
                     character_flags[flag] += all_matches.count(f"set_character_flag = {flag}")

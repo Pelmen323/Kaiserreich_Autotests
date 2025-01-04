@@ -6,7 +6,6 @@
 import glob
 import os
 import re
-import pytest
 import logging
 
 from test_classes.generic_test_class import FileOpener, ResultsReporter
@@ -14,12 +13,15 @@ from test_classes.generic_test_class import FileOpener, ResultsReporter
 FALSE_POSITIVES = ("was_leader_of_",)
 
 
-@pytest.mark.smoke
 def test_character_flags_missing(test_runner: object):
     filepath = test_runner.full_path_to_mod
     character_flags = {}
     paths = {}
-    patterns = [r"has_character_flag = \b(\w*)\b", r"has_character_flag = \{.*?flag = \b(\w*)\b"]
+    patterns = [
+        re.compile(r"has_character_flag = \b(\w*)\b", flags=re.DOTALL | re.MULTILINE),
+        re.compile(r"has_character_flag = \{.*?flag = \b(\w*)\b", flags=re.DOTALL | re.MULTILINE)
+    ]
+    pattern_set = re.compile(r"set_character_flag = \S*")
 
     # 1. Get the dict of entities
     for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
@@ -27,7 +29,7 @@ def test_character_flags_missing(test_runner: object):
 
         if "has_character_flag =" in text_file:
             for pattern in patterns:
-                pattern_matches = re.findall(pattern, text_file, flags=re.DOTALL | re.MULTILINE)
+                pattern_matches = re.findall(pattern, text_file)
                 if len(pattern_matches) > 0:
                     for match in pattern_matches:
                         character_flags[match] = 0
@@ -44,7 +46,7 @@ def test_character_flags_missing(test_runner: object):
             break
 
         if "set_character_flag =" in text_file:
-            all_matches = re.findall(r"set_character_flag = \S*", text_file)
+            all_matches = re.findall(pattern_set, text_file)
             for flag in not_encountered_flags:
                 if flag in text_file:
                     character_flags[flag] += all_matches.count(f"set_character_flag = {flag}")

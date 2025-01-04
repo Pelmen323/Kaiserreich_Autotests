@@ -28,7 +28,7 @@ def test_decisions_custom_cost_trigger(test_runner: object):
                     results.append(f"`{d.token}` - {paths[decision]} - doesn't have comparison operator < in 'has_political_power' custom cost trigger line")
                 # Ignore decisions with variables in custom cost pp line
                 try:
-                    pp_value = float(custom_cost_trigger_pp_line[custom_cost_trigger_pp_line.index(">") + 2 :])
+                    pp_value = float(custom_cost_trigger_pp_line[custom_cost_trigger_pp_line.index(">") + 2:])
                 except ValueError:
                     continue
 

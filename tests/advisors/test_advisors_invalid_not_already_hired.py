@@ -2,12 +2,10 @@
 # Test script to check for advisors having invalid not_already_hired_as lines
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-import pytest
 from test_classes.characters_class import Advisors, Characters
 from test_classes.generic_test_class import ResultsReporter
 
 
-@pytest.mark.smoke
 def test_advisors_invalid_not_already_hired(test_runner: object):
     advisors = Characters.get_all_advisors(test_runner=test_runner)
     results = []

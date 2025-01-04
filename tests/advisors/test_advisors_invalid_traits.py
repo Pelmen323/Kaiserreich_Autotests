@@ -20,7 +20,6 @@ list_of_trait_types = [
 ]
 
 
-@pytest.mark.kr_specific
 @pytest.mark.parametrize("trait_type", list_of_trait_types)
 def test_advisors_invalid_traits(test_runner: object, trait_type):
     advisors, paths = Characters.get_all_advisors(test_runner=test_runner, return_paths=True)

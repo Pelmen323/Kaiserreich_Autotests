@@ -13,6 +13,7 @@ from test_classes.generic_test_class import ResultsReporter, FileOpener
 def test_advisors_direct_token_check(test_runner: object):
     filepath = test_runner.full_path_to_mod
     advisors = Characters.get_all_advisors(test_runner=test_runner)
+    pattern = re.compile(r"has_idea = \S*")
     found_files = False
     results = []
     advisor_tokens = []
@@ -22,13 +23,13 @@ def test_advisors_direct_token_check(test_runner: object):
         advisor_tokens.append(adv.token)
 
     advisor_tokens = set(advisor_tokens)
-    for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
+    for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
         found_files = True
         text_file = FileOpener.open_text_file(filename)
 
         if "has_idea =" in text_file:
             # Reduces execution time by 90% compared to searching just in text_file
-            all_has_idea_matches = re.findall(r'has_idea = \S*', text_file)
+            all_has_idea_matches = re.findall(pattern, text_file)
             for i in advisor_tokens:
                 if f"has_idea = {i}" in all_has_idea_matches:
                     results.append(f"{i} - {os.path.basename(filename)}")
