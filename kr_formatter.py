@@ -1,12 +1,20 @@
 import glob
 import re
 import os
+from charset_normalizer import detect
 
 from core.runner import TestRunner
 from test_classes.generic_test_class import DataCleaner, FileOpener
 from test_classes.localization_class import Localization
+from test_classes.characters_class import Characters, Advisors
 
 FILES_TO_SKIP = ['\\localisation', 'interface', 'gfx', 'map', 'common\\units', 'names', 'states', '00_construction_scripted_effects', 'UI_scripted_localisation', 'technologies', 'occupation_laws', 'KR intro screen scripted loc', 'MIT scripted_loc']
+
+
+def detect_encoding(filename):
+    with open(filename, 'rb') as f:
+        raw_data = f.read()
+        return detect(raw_data)['encoding']
 
 
 def format_events(username, mod_name):
@@ -157,7 +165,6 @@ def format_logging_events(username, mod_name):
                         event_id = re.findall('^\\tid = ([^ \\n\\t]+)', event, flags=re.MULTILINE)[0]
                     except IndexError:
                         print(event)
-                       # print(pattern_matches)
                         raise
 
                     hidden_event = "donotlog" in event
@@ -447,6 +454,61 @@ def format_logging_focuses(username, mod_name):
                 text_file_write.write(text_file)
 
 
+def format_characters(username, mod_name):
+    """Add logging to focuses
+
+    Args:
+        username (_type_): windows username
+        mod_name (_type_): mod folder name
+    """
+    test_runner = TestRunner(username, mod_name)
+    filepath = test_runner.full_path_to_mod
+    advisors = Characters.get_all_advisors(test_runner=test_runner, lowercase=False, return_paths=False)
+    adv_link_dict = {}
+    for adv in advisors:
+        try:
+            tab = re.findall(r'\n(\t*?)slot =', adv)[0]
+        except Exception:
+            print(adv)
+            raise
+        a = Advisors(adv)
+        slot = f"{tab}slot = {a.slot}\n" if a.slot else ""
+        idea_token = f"{tab}idea_token = {a.token}\n" if a.token else ""
+        name = f"{tab}name = {a.name}\n" if a.name else ""
+        desc = f"{tab}desc = {a.desc}\n" if a.desc else ""
+        ledger = f"{tab}ledger = {a.ledger_slot}\n" if a.ledger_slot else ""
+        traits = f"{tab}traits = {{ {' '.join([i for i in a.traits])} }}\n" if a.traits_line else ""
+        modifier = f"{tab}modifier = {a.modifier}\n" if a.modifier else ""
+        research_bonus = f"{tab}research_bonus = {a.research_bonus}\n" if a.research_bonus else ""
+        allowed = f"{tab}allowed = {a.allowed}\n" if a.allowed else ""
+        available = f"{tab}available = {a.available}\n" if a.available else ""
+        visible = f"{tab}visible = {a.visible}\n" if a.visible else ""
+        cost = f"{tab}cost = {a.cost}\n" if a.cost else ""
+        can_be_fired = f"{tab}can_be_fired = {a.can_be_fired}\n" if a.can_be_fired else ""
+        on_add = f"{tab}on_add = {a.on_add}\n" if a.on_add else ""
+        on_remove = f"{tab}on_remove = {a.on_remove}\n" if a.on_remove else ""
+        ai_will_do = f"{tab}ai_will_do = {a.ai_will_do}\n" if a.ai_will_do else ""
+
+        new_str = f'\n{name}{slot}{idea_token}{desc}{ledger}{allowed}{available}{visible}{traits}{modifier}{research_bonus}{cost}{can_be_fired}{on_add}{on_remove}{ai_will_do}'
+        adv_link_dict[adv] = new_str
+
+    for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
+        text_file = FileOpener.open_text_file(filename, lowercase=False)
+        if "characters" in filename or "add_advisor_role = {" in text_file:
+            file_encoding = detect_encoding(filename)
+            text_file_new = text_file
+            override = False
+            if "advisor" in text_file:
+                for adv in adv_link_dict.keys():
+                    if adv in text_file:
+                        text_file_new = text_file_new.replace(adv, adv_link_dict[adv])
+                        override = True
+
+            if override:
+                with open(filename, 'w', encoding=file_encoding) as text_file_write:
+                    text_file_write.write(text_file_new)
+
+
 def apply_formatting(filename, encoding="utf-8"):
     replace_string(filename=filename, pattern='(?<=[\\w_\\"=\\{\\}])  (?=[\\w_\\"=\\{\\}])', replace_with=' ', encoding=encoding)  # Remove any doublespaces
     replace_string(filename=filename, pattern='=\\b', replace_with='= ', encoding=encoding)                     # Add spaces between symbol and =
@@ -584,3 +646,4 @@ if __name__ == '__main__':
     format_logging_events(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_logging_decisions(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_logging_focuses(username="VADIM", mod_name="Kaiserreich Dev Build")
+    format_characters(username="VADIM", mod_name="Kaiserreich Dev Build")
