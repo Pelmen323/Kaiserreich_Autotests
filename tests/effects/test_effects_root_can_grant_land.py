@@ -1,5 +1,5 @@
 ##########################
-# Test script to check if specific pattern is used that can be replaced with scripted effect (in KR there are scripted effects that should be used instead)
+# Test script to check if root can grant land is used in state scope
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import re
@@ -8,19 +8,19 @@ from test_classes.generic_test_class import ResultsReporter
 from test_classes.events_class import Events
 
 
-def test_check_root_can_grant_land_in_state_scope(test_runner: object):
+def test_effects_root_can_grant_land(test_runner: object):
     events = Events.get_all_events(test_runner=test_runner, lowercase=True, return_paths=False)
     results = []
-    key_string = "root_can_grant_land"
-    pattern = '(^(\\t+)every_owned_state = \\{.*?^\\2\\})'
+    pattern_id = re.compile(r"^\tid = (\S+)", flags=re.MULTILINE)
+    pattern_state = re.compile(r"(^(\t+)every_owned_state = \{.*?^\2\})", flags=re.DOTALL | re.MULTILINE)
 
     for event in events:
-        if key_string in event:
-            event_id = re.findall('^\\tid = ([^ \\n\\t]+)', event, flags=re.MULTILINE)[0]
-            pattern_matches = re.findall(pattern, event, flags=re.DOTALL | re.MULTILINE)
+        if "root_can_grant_land" in event:
+            event_id = re.findall(pattern_id, event)[0]
+            pattern_matches = re.findall(pattern_state, event)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
-                    if key_string in match[0]:
+                    if "root_can_grant_land" in match[0]:
                         results.append(event_id)
 
     ResultsReporter.report_results(results=results, message="Root can grant land is used in state scope. This will cause errors in log and will break the trigger.")
