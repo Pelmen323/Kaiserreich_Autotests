@@ -8,10 +8,6 @@ import re
 
 from test_classes.generic_test_class import FileOpener, ResultsReporter
 
-FALSE_POSITIVES = [
-    "target = nat",
-]
-
 
 def test_effects_set_autonomy(test_runner: object):
     filepath = test_runner.full_path_to_mod
@@ -28,7 +24,7 @@ def test_effects_set_autonomy(test_runner: object):
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     if "autonomy_state = autonomy_free" not in match[1]:
-                        if "end_wars = no" not in match[1] and len([i for i in FALSE_POSITIVES if i in match[1]]) == 0:
+                        if "end_wars = no" not in match[1]:
                             m = match[1].replace("\t", "").replace("\n", "  ")
                             results.append(f"{m} - {os.path.basename(filename)}")
 
