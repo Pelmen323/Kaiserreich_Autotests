@@ -8,7 +8,7 @@ from test_classes.generic_test_class import DataCleaner, FileOpener
 from test_classes.localization_class import Localization
 from test_classes.characters_class import Characters, Advisors
 
-FILES_TO_SKIP = ['\\localisation', 'interface', 'gfx', 'map', 'common\\units', 'names', 'states', '00_construction_scripted_effects', 'UI_scripted_localisation', 'technologies', 'occupation_laws', 'KR intro screen scripted loc', 'MIT scripted_loc']
+FILES_TO_SKIP = ['\\localisation', 'interface', 'gfx', 'map', 'common\\units', 'names', 'states', '00_construction_scripted_effects', 'UI_scripted_localisation', 'technologies', 'occupation_laws', 'KR intro screen scripted loc', 'MIT scripted_loc', 'special_projects']
 
 
 def detect_encoding(filename):
@@ -61,7 +61,7 @@ def format_events(username, mod_name):
             if i in text_file:
                 text_file = FileOpener.open_text_file(filename, lowercase=False)
                 text_file_new = text_file.replace(i, results_dict[i])
-                with open(filename, 'w', encoding="utf-8-sig") as text_file_write:
+                with open(filename, 'w', encoding="utf-8") as text_file_write:
                     text_file_write.write(text_file_new)
 
 
@@ -162,7 +162,7 @@ def format_logging_events(username, mod_name):
                 dict_with_str_to_replace_event = dict()
                 for event in pattern_matches:
                     try:
-                        event_id = re.findall('^\\tid = ([^ \\n\\t]+)', event, flags=re.MULTILINE)[0]
+                        event_id = re.findall('^\\tid = (\\S+)', event, flags=re.MULTILINE)[0]
                     except IndexError:
                         print(event)
                         raise
@@ -177,7 +177,7 @@ def format_logging_events(username, mod_name):
                         dict_with_str_to_replace_option = dict()
                         has_any_logging = "log =" in option
                         has_data_logging = 'log = "KR_Event_Logging' in option
-                        option_name = re.findall('^\\t\\tname = ([^ \\n\\t]+)', option, flags=re.MULTILINE)[0] if '\n\t\tname = ' in option and '\n\t\tname = "' not in option else index + 1
+                        option_name = re.findall('^\\t\\tname = (\\S+)', option, flags=re.MULTILINE)[0] if '\n\t\tname = ' in option and '\n\t\tname = "' not in option else index + 1
                         expected_logging_line = 'log = "' + logging + ': event ' + event_id + ' option ' + str(option_name) + '"'
                         has_valid_logging = expected_logging_line in option
 
@@ -201,7 +201,7 @@ def format_logging_events(username, mod_name):
 
                 for key, value in dict_with_str_to_replace_event.items():
                     text_file = text_file.replace(key, value)
-                with open(filename, 'w', encoding="utf-8-sig") as text_file_write:
+                with open(filename, 'w', encoding="utf-8") as text_file_write:
                     text_file_write.write(text_file)
 
     for filename in glob.iglob(filepath_to_events + '**/*.txt', recursive=True):
@@ -212,7 +212,7 @@ def format_logging_events(username, mod_name):
         pattern_matches = re.findall('^country_event = \\{(.*?)^\\}', text_file, flags=re.DOTALL | re.MULTILINE)
         if len(pattern_matches) > 0:
             for event in pattern_matches:
-                event_id = re.findall('^\\tid = ([^ \\n\\t]+)', event, flags=re.MULTILINE)[0]
+                event_id = re.findall('^\\tid = (\\S+)', event, flags=re.MULTILINE)[0]
 
                 hidden_event = "donotlog" in event
                 if event_id in false_positives or hidden_event:
@@ -234,7 +234,7 @@ def format_logging_events(username, mod_name):
         if len(pattern_matches) > 0:
             dict_with_str_to_replace = dict()
             for event in pattern_matches:
-                event_id = re.findall('^\\tid = ([^ \\n\\t]+)', event, flags=re.MULTILINE)[0]
+                event_id = re.findall('^\\tid = (\\S+)', event, flags=re.MULTILINE)[0]
                 if event_id in false_positives:
                     continue
 
@@ -254,7 +254,7 @@ def format_logging_events(username, mod_name):
 
             for key, value in dict_with_str_to_replace.items():
                 text_file = text_file.replace(key, value)
-            with open(filename, 'w', encoding="utf-8-sig") as text_file_write:
+            with open(filename, 'w', encoding="utf-8") as text_file_write:
                 text_file_write.write(text_file)
 
 
@@ -364,7 +364,7 @@ def format_logging_focuses(username, mod_name):
         if len(pattern_matches) > 0:
             dict_with_str_to_replace = dict()
             for focus in pattern_matches:
-                focus_id = re.findall('^\\t\\tid = ([^\t\n ]+)', focus, flags=re.MULTILINE)[0]
+                focus_id = re.findall('^\\t\\tid = (\S+)', focus, flags=re.MULTILINE)[0]
 
                 select_effect = re.findall('(\\t+)select_effect = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'select_effect =' in focus else False
                 complete_effect = re.findall('(\\t+)completion_reward = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'completion_reward =' in focus else False
@@ -412,7 +412,7 @@ def format_logging_focuses(username, mod_name):
         if len(pattern_matches) > 0:
             dict_with_str_to_replace = dict()
             for focus in pattern_matches:
-                focus_id = re.findall('^\\tid = ([^\t\n ]+)', focus, flags=re.MULTILINE)[0]
+                focus_id = re.findall('^\\tid = (\S+)', focus, flags=re.MULTILINE)[0]
 
                 select_effect = re.findall('(\\t+)select_effect = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'select_effect =' in focus else False
                 complete_effect = re.findall('(\\t+)completion_reward = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'completion_reward =' in focus else False
@@ -619,16 +619,16 @@ def format_kaiserreich(username, mod_name):
     for filename in glob.iglob(filepath_history + '**/*.txt', recursive=True):
         if DataCleaner.skip_files(files_to_skip=FILES_TO_SKIP, filename=filename):
             continue
-        apply_formatting(filename=filename, encoding="utf-8-sig")
+        apply_formatting(filename=filename, encoding="utf-8")
 
     for filename in glob.iglob(filepath_events + '**/*.txt', recursive=True):
-        apply_formatting(filename=filename, encoding="utf-8-sig")
+        apply_formatting(filename=filename, encoding="utf-8")
 
     for filename in glob.iglob(filepath_unit_names_divisions + '**/*.txt', recursive=True):
-        apply_formatting(filename=filename, encoding="utf-8-sig")
+        apply_formatting(filename=filename, encoding="utf-8")
 
     for filename in glob.iglob(filepath_unit_names_ships + '**/*.txt', recursive=True):
-        apply_formatting(filename=filename, encoding="utf-8-sig")
+        apply_formatting(filename=filename, encoding="utf-8")
 
     for filename in glob.iglob(filepath_loc + '**/*.yml', recursive=True):
         apply_formatting_loc(filename=filename, encoding="utf-8-sig")

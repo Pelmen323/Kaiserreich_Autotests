@@ -10,7 +10,7 @@ def extract_value(obj, s: str, tab: str, lines: int = 2) -> str:
     if lines == 1:
         return re.findall(p1l(s), obj)[0] if f"\n{tab}{s} =" in obj else False
     elif lines > 1:
-        return re.findall(pml(s), obj, flags=re.DOTALL | re.MULTILINE)[0][1] if f"\\n{tab}{s} =" in obj else False
+        return re.findall(pml(s), obj, flags=re.DOTALL | re.MULTILINE)[0][1] if f"\n{tab}{s} =" in obj else False
 
 
 def p1l(s: str):
