@@ -116,7 +116,7 @@ class Decisions:
             return decisions
 
     @classmethod
-    def get_all_decisions_categories_with_code(cls, test_runner, lowercase: bool = True, return_only_categories: bool = False) -> dict:
+    def get_all_decisions_categories_with_code(cls, test_runner, lowercase: bool = True, return_only_categories: bool = False, visible_when_empty: bool = True) -> dict:
         """Parse mod files and and return the dict of category: code of this category
         Args:
             test_runner (_type_): test runner obj
@@ -136,6 +136,8 @@ class Decisions:
             pattern_matches = re.findall(category_pattern, text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
+                    if not visible_when_empty and "visible_when_empty = yes" in match:
+                        continue
                     category_name = re.findall(category_name_pattern, match)[0]
                     assert category_name not in categories, f"Duplicated decision category {category_name} found"
                     categories[category_name] = match
@@ -146,7 +148,7 @@ class Decisions:
         return categories
 
     @classmethod
-    def get_all_decisions_categories_with_child_decisions(cls, test_runner, lowercase: bool = True) -> dict:
+    def get_all_decisions_categories_with_child_decisions(cls, test_runner, lowercase: bool = True, visible_when_empty: bool = True) -> dict:
         """Parse mod files and and return the dict of category: decisions of this category
         Args:
             test_runner (_type_): test runner obj
@@ -156,7 +158,7 @@ class Decisions:
             dict: all decision categories and decisions of those categories
         """
         filepath_to_decisions = str(Path(test_runner.full_path_to_mod) / "common" / "decisions")
-        decision_categories = Decisions.get_all_decisions_categories_with_code(test_runner=test_runner, lowercase=lowercase, return_only_categories=True)
+        decision_categories = Decisions.get_all_decisions_categories_with_code(test_runner=test_runner, lowercase=lowercase, return_only_categories=True, visible_when_empty=visible_when_empty)
         categories_w_decisions_dict = {i: [] for i in decision_categories}
         decision_pattern = re.compile(r"^\t(\S+) = \{", flags=re.MULTILINE)
 

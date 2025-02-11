@@ -13,7 +13,7 @@ from test_classes.decisions_class import Decisions
 
 
 def test_decisions_categories_unused(test_runner: object):
-    dict_decisions_categories = Decisions.get_all_decisions_categories_with_child_decisions(test_runner=test_runner, lowercase=True)
+    dict_decisions_categories = Decisions.get_all_decisions_categories_with_child_decisions(test_runner=test_runner, lowercase=True, visible_when_empty=False)
     filepath_to_bop = str(Path(test_runner.full_path_to_mod) / "common" / "bop")
     cats_to_validate = {}
 
