@@ -287,11 +287,11 @@ def format_logging_decisions(username, mod_name):
                 remove_effect = re.findall('(\\t+)remove_effect = \\{([^\\n]*|.*?^\\1)\\}', dec, flags=re.DOTALL | re.MULTILINE)[0][1] if 'remove_effect =' in dec else False
                 timeout_effect = re.findall('(\\t+)timeout_effect = \\{([^\\n]*|.*?^\\1)\\}', dec, flags=re.DOTALL | re.MULTILINE)[0][1] if 'timeout_effect =' in dec else False
                 is_targeted = "FROM" in dec or "state_target = yes" in dec or "target_trigger" in dec or "target_root_trigger" in dec
-                target_line = " target: [From.GetName]" if is_targeted else ""
-                expected_logging_line_cancel = 'log = "[GetDateText]: [Root.GetName]: Decision cancel ' + dec_id + target_line + '"'
-                expected_logging_line_complete = 'log = "[GetDateText]: [Root.GetName]: Decision complete ' + dec_id + target_line + '"'
-                expected_logging_line_remove = 'log = "[GetDateText]: [Root.GetName]: Decision remove ' + dec_id + target_line + '"'
-                expected_logging_line_timeout = 'log = "[GetDateText]: [Root.GetName]: Decision timeout ' + dec_id + target_line + '"'
+                target_line = "[GetLogFrom]" if is_targeted else ""
+                expected_logging_line_cancel = f'log = "[GetLogRoot]{target_line}: Decision cancel {dec_id}"'
+                expected_logging_line_complete = f'log = "[GetLogRoot]{target_line}: Decision complete {dec_id}"'
+                expected_logging_line_remove = f'log = "[GetLogRoot]{target_line}: Decision remove {dec_id}"'
+                expected_logging_line_timeout = f'log = "[GetLogRoot]{target_line}: Decision timeout {dec_id}"'
                 has_any_logging_cancel = 'cancel_effect = {\n\t\t\tlog' in dec
                 has_any_logging_complete = 'complete_effect = {\n\t\t\tlog' in dec
                 has_any_logging_remove = 'remove_effect = {\n\t\t\tlog' in dec
@@ -369,8 +369,8 @@ def format_logging_focuses(username, mod_name):
                 select_effect = re.findall('(\\t+)select_effect = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'select_effect =' in focus else False
                 complete_effect = re.findall('(\\t+)completion_reward = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'completion_reward =' in focus else False
 
-                expected_logging_line_select = 'log = "[GetDateText]: [Root.GetName]: Select Focus ' + focus_id + '"'
-                expected_logging_line_complete = 'log = "[GetDateText]: [Root.GetName]: Focus ' + focus_id + '"'
+                expected_logging_line_select = f'log = "[GetLogRoot]: Select Focus {focus_id}"'
+                expected_logging_line_complete = f'log = "[GetLogRoot]: Focus Completed {focus_id}"'
 
                 has_any_logging_select = 'select_effect = {\n\t\t\tlog' in focus
                 has_any_logging_complete = 'completion_reward = {\n\t\t\tlog' in focus
@@ -417,8 +417,8 @@ def format_logging_focuses(username, mod_name):
                 select_effect = re.findall('(\\t+)select_effect = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'select_effect =' in focus else False
                 complete_effect = re.findall('(\\t+)completion_reward = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'completion_reward =' in focus else False
 
-                expected_logging_line_select = 'log = "[GetDateText]: [Root.GetName]: Select Focus ' + focus_id + '"'
-                expected_logging_line_complete = 'log = "[GetDateText]: [Root.GetName]: Focus ' + focus_id + '"'
+                expected_logging_line_select = f'log = "[GetLogRoot]: Select Focus {focus_id}"'
+                expected_logging_line_complete = f'log = "[GetLogRoot]: Focus Completed {focus_id}"'
 
                 has_any_logging_select = 'select_effect = {\n\t\tlog' in focus
                 has_any_logging_complete = 'completion_reward = {\n\t\tlog' in focus
