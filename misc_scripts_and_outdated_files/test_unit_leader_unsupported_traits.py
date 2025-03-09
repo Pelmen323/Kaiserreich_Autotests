@@ -1,6 +1,7 @@
 ##########################
 # Test script to check if invalid traits are used for corps commanders
 # By Pelmen, https://github.com/Pelmen323
+# DEPRECATED
 ##########################
 import glob
 import os
