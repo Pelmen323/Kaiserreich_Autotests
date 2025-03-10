@@ -11,7 +11,7 @@ from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 def test_effects_set_autonomy(test_runner: object):
     filepath = test_runner.full_path_to_mod
-    pattern = re.compile(r"^(\t*?)set_autonomy = (\{.*?^\1\})", flags=re.DOTALL | re.MULTILINE)
+    pattern = re.compile(r"(?<!effect_tooltip = \{\n)^(\t*?)set_autonomy = (\{.*?^\1\})", flags=re.DOTALL | re.MULTILINE)
     results = []
 
     for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
@@ -24,7 +24,7 @@ def test_effects_set_autonomy(test_runner: object):
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     if "autonomy_state = autonomy_free" not in match[1]:
-                        if "end_wars = no" not in match[1]:
+                        if "end_wars = no" not in match[1] and "end_wars = yes" not in match[1]:
                             m = match[1].replace("\t", "").replace("\n", "  ")
                             results.append(f"{m} - {os.path.basename(filename)}")
 

@@ -14,6 +14,9 @@ input_list = [
     ["set_state_category", r".*set_state_category = [^o].*", "Singleline", "set_state_category is encountered - use 'increase_state_category_by_one_level = yes' instead"],
     ["add_research_slot", r".*add_research_slot = 1.*", "Singleline", "add_research_slot usage is encountered - use 'add_research_slot_until_four/five/six / add_temporary_research_slot' instead"],
     ["modifier = embargo", r".*modifier = embargo.*", "Singleline", "modifier = embargo usage is encountered - use 'embargo_XXX/clear_embargo_XXX' instead"],
+    ["trait_token", r"set_temp_variable = \{ trait_token = (?!token:|0\b).*", "Singleline", "token set without proper syntax"],
+    ["add_trait_token", r"set_temp_variable = \{ add_trait_token = (?!token:).*", "Singleline", "token added without proper syntax"],
+    ["remove_trait_token", r"set_temp_variable = \{ remove_trait_token = (?!token:).*", "Singleline", "token removed without proper syntax"],
     ["building slots", r"add_building_construction = \{[^\}]+?\}\n\t+add_extra_state_shared_building_slots", "Multiline", "add slots before buildings"],
     # ["any_neighbor_country", ".*any_neighbor_country[^\\}]*\\n.*tag =.*", "Singleline", "use is_neighbor_of instead"],
 ]
