@@ -7,6 +7,10 @@ import re
 
 from test_classes.decisions_class import Decisions, DecisionsFactory
 from test_classes.generic_test_class import ResultsReporter, FileOpener
+FALSE_POSITIVES = [
+    "chn_join_mcu_decision",    # For future use
+    "chn_join_rgc_decision",    # For future use
+]
 
 
 def test_decisions_unused(test_runner: object):
@@ -46,5 +50,7 @@ def test_decisions_unused(test_runner: object):
 
     results = [key for key in manual_decisions.keys() if manual_decisions[key] == 0]
     results += [key for key in manual_missions.keys() if manual_missions[key] == 0]
+
+    results = [i for i in results if i not in FALSE_POSITIVES]
 
     ResultsReporter.report_results(results=results, message="Unused decisions/missions were encountered- should be manually activated with activate_targeted_decision/activate_mission but never are")
