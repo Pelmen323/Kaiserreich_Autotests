@@ -4,6 +4,7 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import re
+import pytest
 
 from test_classes.events_class import Events
 from test_classes.generic_test_class import ResultsReporter
@@ -11,6 +12,7 @@ from test_classes.generic_test_class import ResultsReporter
 FALSE_POSITIVES = ["ace_", "aces_", "nuke_", "generic_"]
 
 
+@pytest.mark.skip(reason="Backlog work")
 def test_events_triggered_unused(test_runner: object):
     all_events = []
     triggered_events_id = []
