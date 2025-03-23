@@ -9,6 +9,10 @@ pytest = "*"
 pytest-xdist = "*"
 pillow = "*"
 pytest-json-report = "*"
+numpy = "*"
+charset-normalizer = "*"
+requests = "*"
+pytest-timeout = "*"
 
 [dev-packages]
 
