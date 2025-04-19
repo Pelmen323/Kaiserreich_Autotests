@@ -8,9 +8,6 @@ from test_classes.characters_class import Characters
 from test_classes.generic_test_class import ResultsReporter
 
 
-FASLE_POSITIVES = ['GER_']
-
-
 def test_characters_raw_loc(test_runner: object):
     characters, paths = Characters.get_all_characters(test_runner=test_runner, lowercase=False, return_paths=True)
     results = []
@@ -19,11 +16,7 @@ def test_characters_raw_loc(test_runner: object):
         char_name = re.findall(r"^\t(.+) =", char)[0]
         char_code = re.findall(r"^\t(\w.+) = \{", char)
 
-        try:
-            for i in FASLE_POSITIVES:
-                if i in char_name:
-                    raise
-        except Exception:
+        if "_" in char_name:
             continue
 
         if 'name = "' in char and "placeholder" not in char_code:
