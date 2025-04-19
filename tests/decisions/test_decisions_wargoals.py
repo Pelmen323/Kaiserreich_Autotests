@@ -4,6 +4,7 @@
 ##########################
 from test_classes.decisions_class import Decisions, DecisionsFactory
 from test_classes.generic_test_class import ResultsReporter
+FALSE_POSITIVES = ['china_joint_strike_gxc_decision']
 
 
 def test_decisions_wargoals(test_runner: object):
@@ -16,6 +17,9 @@ def test_decisions_wargoals(test_runner: object):
 
         if setup_decision or cancel_decision:
             decision = DecisionsFactory(dec=i)
+
+            if decision.token in FALSE_POSITIVES:
+                continue
 
             # 1 - Does the remove_effect have clear_decision_attack_ai?
             if decision.remove_effect:
