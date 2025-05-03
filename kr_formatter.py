@@ -364,18 +364,22 @@ def format_logging_focuses(username, mod_name):
         if len(pattern_matches) > 0:
             dict_with_str_to_replace = dict()
             for focus in pattern_matches:
-                focus_id = re.findall('^\\t\\tid = (\S+)', focus, flags=re.MULTILINE)[0]
+                try:
+                    focus_id = re.findall('^\\t\\tid = (\S+)', focus, flags=re.MULTILINE)[0]
 
-                select_effect = re.findall('(\\t+)select_effect = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'select_effect =' in focus else False
-                complete_effect = re.findall('(\\t+)completion_reward = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'completion_reward =' in focus else False
+                    select_effect = re.findall('(\\t+)select_effect = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'select_effect =' in focus else False
+                    complete_effect = re.findall('(\\t+)completion_reward = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'completion_reward =' in focus else False
 
-                expected_logging_line_select = f'log = "[GetLogRoot]: Select Focus {focus_id}"'
-                expected_logging_line_complete = f'log = "[GetLogRoot]: Focus Completed {focus_id}"'
+                    expected_logging_line_select = f'log = "[GetLogRoot]: Select Focus {focus_id}"'
+                    expected_logging_line_complete = f'log = "[GetLogRoot]: Focus Completed {focus_id}"'
 
-                has_any_logging_select = 'select_effect = {\n\t\t\tlog' in focus
-                has_any_logging_complete = 'completion_reward = {\n\t\t\tlog' in focus
+                    has_any_logging_select = 'select_effect = {\n\t\t\tlog' in focus
+                    has_any_logging_complete = 'completion_reward = {\n\t\t\tlog' in focus
 
-                fixed_focus_code = focus
+                    fixed_focus_code = focus
+                except IndexError:
+                    print(focus)
+                    raise
 
                 if select_effect:
                     if expected_logging_line_select not in select_effect:
