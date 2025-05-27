@@ -24,8 +24,9 @@ def test_check_cosmetic_tags_missing(test_runner: object):
             pattern_matches = re.findall(r"has_cosmetic_tag = (\S+)", text_file)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
-                    cosmetic_tags[match] = 0
-                    paths[match] = os.path.basename(filename)
+                    if "[" not in match:
+                        cosmetic_tags[match] = 0
+                        paths[match] = os.path.basename(filename)
 
     # 2. count the number of entity occurrences
     logging.debug(f"{len(cosmetic_tags)} used cosmetic tags were found")
