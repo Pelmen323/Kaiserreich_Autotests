@@ -16,6 +16,7 @@ NON_AI_DECISIONS = (
     "ger_factories_for_colonies_full",
     "ger_factories_for_colonies_partly",
     "ger_agricultural_help",
+    "hnn_arrest_tang_xiangming",
 )
 
 
