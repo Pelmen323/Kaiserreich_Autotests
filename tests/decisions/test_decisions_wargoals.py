@@ -4,7 +4,9 @@
 ##########################
 from test_classes.decisions_class import Decisions, DecisionsFactory
 from test_classes.generic_test_class import ResultsReporter
-FALSE_POSITIVES = ['china_joint_strike_gxc_decision']
+FALSE_POSITIVES = ['china_joint_strike_gxc_decision',
+                   'ca_attack_socialist_bukhara_timer', # Handled by event
+                   'pol_operation_parasol']             # Non cancellable
 
 
 def test_decisions_wargoals(test_runner: object):
