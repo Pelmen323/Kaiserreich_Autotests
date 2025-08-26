@@ -22,6 +22,11 @@ input_list = [
     ["add_extra_state_shared_building_slots", r"add_building_construction = \{[^\}]+?type = dockyard[^\}]+?\}\n\t+add_extra_state_shared_building_slots", "Multiline", "add slots before buildings"],
     ["add_extra_state_shared_building_slots", r"add_building_construction = \{[^\}]+?type = synthetic_refinery[^\}]+?\}\n\t+add_extra_state_shared_building_slots", "Multiline", "add slots before buildings"],
     ["add_extra_state_shared_building_slots", r"add_building_construction = \{[^\}]+?type = fuel_silo[^\}]+?\}\n\t+add_extra_state_shared_building_slots", "Multiline", "add slots before buildings"],
+    ["add_extra_state_shared_building_slots", r"add_building_construction = \{[^\}]+?type = arms_factory[^\}]+?\}\n\t+increase_state_category_by", "Multiline", "increase_state_category before buildings"],
+    ["add_extra_state_shared_building_slots", r"add_building_construction = \{[^\}]+?type = industrial_complex[^\}]+?\}\n\t+increase_state_category_by", "Multiline", "increase_state_category before buildings"],
+    ["add_extra_state_shared_building_slots", r"add_building_construction = \{[^\}]+?type = dockyard[^\}]+?\}\n\t+increase_state_category_by", "Multiline", "increase_state_category before buildings"],
+    ["add_extra_state_shared_building_slots", r"add_building_construction = \{[^\}]+?type = synthetic_refinery[^\}]+?\}\n\t+increase_state_category_by", "Multiline", "increase_state_category before buildings"],
+    ["add_extra_state_shared_building_slots", r"add_building_construction = \{[^\}]+?type = fuel_silo[^\}]+?\}\n\t+increase_state_category_by", "Multiline", "increase_state_category before buildings"],
     # ["any_neighbor_country", ".*any_neighbor_country[^\\}]*\\n.*tag =.*", "Singleline", "use is_neighbor_of instead"],
 ]
 
