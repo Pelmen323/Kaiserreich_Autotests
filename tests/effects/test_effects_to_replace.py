@@ -17,7 +17,11 @@ input_list = [
     ["trait_token", r"set_temp_variable = \{ trait_token = (?!token:|0\b).*", "Singleline", "token set without proper syntax"],
     ["add_trait_token", r"set_temp_variable = \{ add_trait_token = (?!token:).*", "Singleline", "token added without proper syntax"],
     ["remove_trait_token", r"set_temp_variable = \{ remove_trait_token = (?!token:).*", "Singleline", "token removed without proper syntax"],
-    ["building slots", r"add_building_construction = \{[^\}]+?\}\n\t+add_extra_state_shared_building_slots", "Multiline", "add slots before buildings"],
+    ["add_extra_state_shared_building_slots", r"add_building_construction = \{[^\}]+?type = arms_factory[^\}]+?\}\n\t+add_extra_state_shared_building_slots", "Multiline", "add slots before buildings"],
+    ["add_extra_state_shared_building_slots", r"add_building_construction = \{[^\}]+?type = industrial_complex[^\}]+?\}\n\t+add_extra_state_shared_building_slots", "Multiline", "add slots before buildings"],
+    ["add_extra_state_shared_building_slots", r"add_building_construction = \{[^\}]+?type = dockyard[^\}]+?\}\n\t+add_extra_state_shared_building_slots", "Multiline", "add slots before buildings"],
+    ["add_extra_state_shared_building_slots", r"add_building_construction = \{[^\}]+?type = synthetic_refinery[^\}]+?\}\n\t+add_extra_state_shared_building_slots", "Multiline", "add slots before buildings"],
+    ["add_extra_state_shared_building_slots", r"add_building_construction = \{[^\}]+?type = fuel_silo[^\}]+?\}\n\t+add_extra_state_shared_building_slots", "Multiline", "add slots before buildings"],
     # ["any_neighbor_country", ".*any_neighbor_country[^\\}]*\\n.*tag =.*", "Singleline", "use is_neighbor_of instead"],
 ]
 
@@ -33,7 +37,6 @@ def test_effects_to_replace(test_runner: object, input_list):
             continue
         text_file = FileOpener.open_text_file(filename)
         if key_string in text_file:
-
             if regex_mode == "Singleline":
                 pattern_matches = re.findall(pattern, text_file)
             elif regex_mode == "Multiline":
