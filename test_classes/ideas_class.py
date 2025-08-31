@@ -9,7 +9,7 @@ from test_classes.generic_test_class import FileOpener
 class Ideas:
 
     @classmethod
-    def get_all_ideas(cls, test_runner, lowercase: bool = True, return_paths: bool = False, include_hidden_ideas: bool = True, include_country_ideas: bool = True, include_manufacturers: bool = True, include_laws: bool = False, include_army_spirits: bool = False) -> tuple[list, dict]:
+    def get_all_ideas(cls, test_runner, lowercase: bool = True, return_paths: bool = False, include_hidden_ideas: bool = True, include_country_ideas: bool = True, include_manufacturers: bool = True, include_laws: bool = False, include_army_spirits: bool = False, include_tank_manufacturers: bool = False, include_naval_manufacturers: bool = False, include_air_manufacturers: bool = False, include_materiel_manufacturers: bool = False, include_industrial_manufacturers: bool = False) -> tuple[list, dict]:
         """Parse all files in common/ideas and return the list with all ideas code
 
         Args:
@@ -30,10 +30,7 @@ class Ideas:
         paths = {}
 
         for filename in glob.iglob(filepath_to_ideas + '**/*.txt', recursive=True):
-            if lowercase:
-                text_file = FileOpener.open_text_file(filename)
-            else:
-                text_file = FileOpener.open_text_file(filename, lowercase=False)
+            text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
 
             if include_hidden_ideas:
                 hidden_ideas_string = re.findall('\\thidden_ideas = \\{.*\n((.|\n*?)*)\n\t\\}', text_file)
@@ -100,6 +97,56 @@ class Ideas:
                 aircraft_manufacturer_string = re.findall('\\taircraft_manufacturer = \\{.*\n((.|\n*?)*)\n\t\\}', text_file)
                 if len(aircraft_manufacturer_string) > 0:
                     pattern_matches = re.findall('(\t\t\\w.* = \\{.*\n(.|\n*?)*\n\t\t\\})', aircraft_manufacturer_string[0][0])
+                    if len(pattern_matches) > 0:
+                        for match in pattern_matches:
+                            match = match[0]
+                            ideas.append(match)
+                            paths[match] = os.path.basename(filename)
+
+            if include_tank_manufacturers:
+                tank_manufacturer_string = re.findall('\\ttank_manufacturer = \\{.*\n((.|\n*?)*)\n\t\\}', text_file)
+                if len(tank_manufacturer_string) > 0:
+                    pattern_matches = re.findall('(\t\t\\w.* = \\{.*\n(.|\n*?)*\n\t\t\\})', tank_manufacturer_string[0][0])
+                    if len(pattern_matches) > 0:
+                        for match in pattern_matches:
+                            match = match[0]
+                            ideas.append(match)
+                            paths[match] = os.path.basename(filename)
+
+            if include_naval_manufacturers:
+                naval_manufacturer_string = re.findall('\\tnaval_manufacturer = \\{.*\n((.|\n*?)*)\n\t\\}', text_file)
+                if len(naval_manufacturer_string) > 0:
+                    pattern_matches = re.findall('(\t\t\\w.* = \\{.*\n(.|\n*?)*\n\t\t\\})', naval_manufacturer_string[0][0])
+                    if len(pattern_matches) > 0:
+                        for match in pattern_matches:
+                            match = match[0]
+                            ideas.append(match)
+                            paths[match] = os.path.basename(filename)
+
+            if include_air_manufacturers:
+                aircraft_manufacturer_string = re.findall('\\taircraft_manufacturer = \\{.*\n((.|\n*?)*)\n\t\\}', text_file)
+                if len(aircraft_manufacturer_string) > 0:
+                    pattern_matches = re.findall('(\t\t\\w.* = \\{.*\n(.|\n*?)*\n\t\t\\})', aircraft_manufacturer_string[0][0])
+                    if len(pattern_matches) > 0:
+                        for match in pattern_matches:
+                            match = match[0]
+                            ideas.append(match)
+                            paths[match] = os.path.basename(filename)
+
+            if include_materiel_manufacturers:
+                materiel_manufacturer_string = re.findall('\\tmateriel_manufacturer = \\{.*\n((.|\n*?)*)\n\t\\}', text_file)
+                if len(materiel_manufacturer_string) > 0:
+                    pattern_matches = re.findall('(\t\t\\w.* = \\{.*\n(.|\n*?)*\n\t\t\\})', materiel_manufacturer_string[0][0])
+                    if len(pattern_matches) > 0:
+                        for match in pattern_matches:
+                            match = match[0]
+                            ideas.append(match)
+                            paths[match] = os.path.basename(filename)
+
+            if include_industrial_manufacturers:
+                industry_ideas_string = re.findall('\\tindustrial_concern = \\{.*\n((.|\n*?)*)\n\t\\}', text_file)
+                if len(industry_ideas_string) > 0:
+                    pattern_matches = re.findall('(\t\t\\w.* = \\{.*\n(.|\n*?)*\n\t\t\\})', industry_ideas_string[0][0])
                     if len(pattern_matches) > 0:
                         for match in pattern_matches:
                             match = match[0]
@@ -238,10 +285,7 @@ class Ideas:
         paths = {}
 
         for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-            if lowercase:
-                text_file = FileOpener.open_text_file(filename)
-            else:
-                text_file = FileOpener.open_text_file(filename, lowercase=False)
+            text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
 
             # No brackets
             if '_ideas =' in text_file:
