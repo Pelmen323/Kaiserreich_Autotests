@@ -2,8 +2,8 @@ import os
 import glob
 
 # Specify input and output directories
-OUTPUT_FILE = "technology_icons_planes_Germany.gfx"
-INPUT_FOLDER = 'C:\\Users\\' + os.getlogin() + '\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\gfx\\interface\\equipmentdesigner\\planes\\Germany\\'
+OUTPUT_FILE = "technology_icons_tanks_Britain.gfx"
+INPUT_FOLDER = 'C:\\Users\\' + os.getlogin() + '\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\gfx\\interface\\equipmentdesigner\\tanks\\designer\\Britain\\'
 
 
 def batch_process(input_folder):
@@ -22,8 +22,8 @@ def batch_process(input_folder):
         folder_path = os.path.dirname(file)
         # Get the last folder in the path
         subfolder_name = os.path.basename(folder_path)
-        new_file_name = file_name.replace("ger_", "GER_" + subfolder_name + "_")
-        texturepath = "gfx/interface/equipmentdesigner/planes/Germany/" + subfolder_name + "/"
+        new_file_name = file_name.replace("ENG_", "ENG_" + subfolder_name + "_")
+        texturepath = "gfx/interface/equipmentdesigner/tanks/designer/Britain/" + subfolder_name + "/"
 
         output_str = '\tSpriteType = {\n\t\tname = "GFX_' + new_file_name[:-4] + '_medium"\n\t\ttexturefile = "' + texturepath + file_name + '"\n\t}\n'
         print('GFX_' + new_file_name[:-4] + '_medium')

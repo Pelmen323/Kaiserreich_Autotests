@@ -11,7 +11,6 @@ FILEPATH_TO_LOC = f"C:\\Users\\{os.getlogin()}\\Documents\\Paradox Interactive\\
 
 def main():
     input_list = [
-        ["jet_fighter_equipment_2", "small_plane_airframe_5"],
         ["jet_fighter_equipment_2_short", "small_plane_airframe_5_short"],
     ]
     text_file = FileOpener.open_text_file(FILEPATH_TO_LOC, lowercase=False)
