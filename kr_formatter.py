@@ -6,6 +6,7 @@ from charset_normalizer import detect
 from core.runner import TestRunner
 from test_classes.generic_test_class import DataCleaner, FileOpener
 from test_classes.localization_class import Localization
+from test_classes.ideas_class import Ideas
 from test_classes.characters_class import Characters, Advisors
 
 FILES_TO_SKIP = ['\\localisation', 'interface', 'gfx', 'map', 'common\\units', 'names', 'states', '00_construction_scripted_effects', 'UI_scripted_localisation', 'technologies', 'occupation_laws', 'KR intro screen scripted loc', 'MIT scripted_loc', 'special_projects']
@@ -170,35 +171,37 @@ def format_logging_events(username, mod_name):
                     hidden_event = "donotlog" in event
                     if event_id in false_positives or hidden_event:
                         continue
+                    try:
+                        options = re.findall('(^\\toption = \\{.*?^\\t\\})', event, flags=re.DOTALL | re.MULTILINE)
 
-                    options = re.findall('(^\\toption = \\{.*?^\\t\\})', event, flags=re.DOTALL | re.MULTILINE)
+                        for index, option in enumerate(options):
+                            dict_with_str_to_replace_option = dict()
+                            has_any_logging = "log =" in option
+                            has_data_logging = 'log = "KR_Event_Logging' in option
+                            option_name = re.findall('^\\t\\tname = (\\S+)', option, flags=re.MULTILINE)[0] if '\n\t\tname = ' in option and '\n\t\tname = "' not in option else index + 1
+                            expected_logging_line = 'log = "' + logging + ': event ' + event_id + ' option ' + str(option_name) + '"'
+                            has_valid_logging = expected_logging_line in option
 
-                    for index, option in enumerate(options):
-                        dict_with_str_to_replace_option = dict()
-                        has_any_logging = "log =" in option
-                        has_data_logging = 'log = "KR_Event_Logging' in option
-                        option_name = re.findall('^\\t\\tname = (\\S+)', option, flags=re.MULTILINE)[0] if '\n\t\tname = ' in option and '\n\t\tname = "' not in option else index + 1
-                        expected_logging_line = 'log = "' + logging + ': event ' + event_id + ' option ' + str(option_name) + '"'
-                        has_valid_logging = expected_logging_line in option
-
-                        if not has_valid_logging:
-                            if has_any_logging and not has_data_logging:
-                                str_to_replace = re.findall('log =.*', option)[0]
-                                dict_with_str_to_replace_option[option] = option.replace(str_to_replace, expected_logging_line)
-                            if has_any_logging and has_data_logging:
-                                if option.count("log =") == 1:
+                            if not has_valid_logging:
+                                if has_any_logging and not has_data_logging:
+                                    str_to_replace = re.findall('log =.*', option)[0]
+                                    dict_with_str_to_replace_option[option] = option.replace(str_to_replace, expected_logging_line)
+                                if has_any_logging and has_data_logging:
+                                    if option.count("log =") == 1:
+                                        x = re.findall('^\\toption = .*', option, flags=re.MULTILINE)[0]
+                                        dict_with_str_to_replace_option[option] = option.replace(x, f'{x}\n\t\t{expected_logging_line}')
+                                    else:
+                                        str_to_replace = re.findall('log = \\"(?!KR_Event_Logging).*', option)[0]
+                                        dict_with_str_to_replace_option[option] = option.replace(str_to_replace, expected_logging_line)
+                                if not has_any_logging:
                                     x = re.findall('^\\toption = .*', option, flags=re.MULTILINE)[0]
                                     dict_with_str_to_replace_option[option] = option.replace(x, f'{x}\n\t\t{expected_logging_line}')
-                                else:
-                                    str_to_replace = re.findall('log = \\"(?!KR_Event_Logging).*', option)[0]
-                                    dict_with_str_to_replace_option[option] = option.replace(str_to_replace, expected_logging_line)
-                            if not has_any_logging:
-                                x = re.findall('^\\toption = .*', option, flags=re.MULTILINE)[0]
-                                dict_with_str_to_replace_option[option] = option.replace(x, f'{x}\n\t\t{expected_logging_line}')
 
-                        for key, value in dict_with_str_to_replace_option.items():
-                            dict_with_str_to_replace_event[event] = event.replace(key, value) if event not in dict_with_str_to_replace_event.keys() else dict_with_str_to_replace_event[event].replace(key, value)
-
+                            for key, value in dict_with_str_to_replace_option.items():
+                                dict_with_str_to_replace_event[event] = event.replace(key, value) if event not in dict_with_str_to_replace_event.keys() else dict_with_str_to_replace_event[event].replace(key, value)
+                    except Exception:
+                        print(event_id)
+                        raise
                 for key, value in dict_with_str_to_replace_event.items():
                     text_file = text_file.replace(key, value)
                 with open(filename, 'w', encoding="utf-8") as text_file_write:
@@ -251,6 +254,62 @@ def format_logging_events(username, mod_name):
                     if not has_any_logging:
                         x = re.findall('^\\tid = .*', event, flags=re.MULTILINE)[0]
                         dict_with_str_to_replace[event] = event.replace(x, f'{x}\n\t{expected_logging_line}')
+
+            for key, value in dict_with_str_to_replace.items():
+                text_file = text_file.replace(key, value)
+            with open(filename, 'w', encoding="utf-8") as text_file_write:
+                text_file_write.write(text_file)
+
+
+def format_logging_ideas(username, mod_name):
+    """Add logging to ideas
+
+    Args:
+        username (_type_): windows username
+        mod_name (_type_): mod folder name
+    """
+    test_runner = TestRunner(username, mod_name)
+    filepath_to_ideas = f'{test_runner.full_path_to_mod}common\\ideas\\'
+    hidden_ideas = Ideas.get_all_ideas_names(test_runner=test_runner, lowercase=False, include_hidden_ideas=True, include_country_ideas=False, include_army_spirits=False, include_characters_tokens=False, include_laws=False, include_manufacturers=False)
+
+    for filename in glob.iglob(filepath_to_ideas + '**/*.txt', recursive=True):
+        # System ideas
+        if 'Mitteleuropa' in filename:
+            continue
+
+        text_file = FileOpener.open_text_file(filename, lowercase=False)
+        pattern_matches = re.findall(r'^\t\t[^\t#]+ = \{.*?\{.*?^\t\t\}', text_file, flags=re.MULTILINE | re.DOTALL)
+        if len(pattern_matches) > 0:
+            dict_with_str_to_replace = dict()
+            for match in pattern_matches:
+                idea_id = re.findall(r'^\t\t([^\t#]+) =', match)[0]
+                expected_log_line = 'log = "[GetLogRoot]: add idea ' + idea_id + '"'
+
+                # Skip hidden ideas
+                if idea_id in hidden_ideas:
+                    continue
+
+                if "dummy" in idea_id:
+                    continue
+
+                if "fake" in match:
+                    continue
+
+                if expected_log_line not in match:
+                    if "on_add =" not in match:
+                        print(f'{idea_id} - missing on_add')
+                    else:
+                        try:
+                            existing_log_line = re.findall(r'log = [^#\n]*', match)[0]
+                            if existing_log_line[-1] == '}':
+                                existing_log_line = existing_log_line[:-1]
+                            if existing_log_line[-1] == ' ':
+                                existing_log_line = existing_log_line[:-1]
+                        except Exception:
+                            print(f'{idea_id} - missing log line in on_add')
+                            continue
+                        new_idea = match.replace(existing_log_line, expected_log_line)
+                        dict_with_str_to_replace[match] = new_idea
 
             for key, value in dict_with_str_to_replace.items():
                 text_file = text_file.replace(key, value)
@@ -651,3 +710,4 @@ if __name__ == '__main__':
     format_logging_decisions(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_logging_focuses(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_characters(username="VADIM", mod_name="Kaiserreich Dev Build")
+    format_logging_ideas(username="VADIM", mod_name="Kaiserreich Dev Build")
