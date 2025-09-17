@@ -37,8 +37,13 @@ def format_events(username, mod_name):
     # 1. Remove AI chance from events with only one option
     for event in events:
         if event.count("option = {") == 1 and event.count("ai_chance") == 1:
-            ai_will_do_line = re.findall("\\t*ai_chance = \\{[^}]*?\\}\n", string=event, flags=re.MULTILINE | re.DOTALL)[0]
-            results_dict[event] = event.replace(ai_will_do_line, "")
+            try:
+                ai_will_do_line = re.findall("\\t*ai_chance = \\{[^}]*?\\}\n", string=event, flags=re.MULTILINE | re.DOTALL)[0]
+                results_dict[event] = event.replace(ai_will_do_line, "")
+            except Exception:
+                print(event)
+                raise
+
         # https://github.com/Kaiserreich/Kaiserreich-4-Development/pull/8597
         # if "immediate = {" in event:
         #     immediate_line = re.findall("immediate = \\{.*", string=event)[0]
@@ -131,6 +136,59 @@ def format_filenames_states(username, mod_name):
         expected_filename = f'{current_region_id} - {states_loc[current_region_id]}.txt'
         if os.path.basename(filename) != expected_filename:
             os.rename(filename, f'{filepath_to_states_code}\\{expected_filename}')
+
+
+def format_filenames_portraits(username, mod_name):
+    """Rename advisor portraits to be in lowercase
+
+    Args:
+        username (_type_): windows username
+        mod_name (_type_): mod folder name
+    """
+    test_runner = TestRunner(username, mod_name)
+    filepath_to_portraits = f'{test_runner.full_path_to_mod}gfx\\interface\\advisors\\'
+    filepath_to_portraits_leaders = f'{test_runner.full_path_to_mod}gfx\\leaders\\'
+    filepath_to_portraits_code = f'{test_runner.full_path_to_mod}interface\\kaiserreich\\portraits\\'
+
+    for filename in glob.iglob(filepath_to_portraits + '**/*.png', recursive=True):
+        name = os.path.basename(filename)
+        if name[3] != '_':
+            continue
+        expected_name = name[0:3].upper() + '_' + name[4:].lower()
+        if os.path.basename(name) != expected_name:
+            os.rename(filename, filename.replace(name, expected_name))
+
+    for filename in glob.iglob(filepath_to_portraits_leaders + '**/*.png', recursive=True):
+        name = os.path.basename(filename)
+        if name[3] != '_':
+            continue
+        if name[:3] == 'old':
+            continue
+        expected_name = name[0:3].upper() + '_' + name[4:].lower()
+        if os.path.basename(name) != expected_name:
+            os.rename(filename, filename.replace(name, expected_name))
+
+    for filename in glob.iglob(filepath_to_portraits_code + '**/*.gfx', recursive=True):
+        text_file = FileOpener.open_text_file(filename, lowercase=False)
+        text_file_new = text_file
+        override = False
+        pattern_matches = re.findall(r'texturefile = [^ #\n]*', text_file)
+        if len(pattern_matches) > 0:
+            file_encoding = detect_encoding(filename)
+            for i in pattern_matches:
+                name = i.split('/')[-1][:-1]
+                if name[3] != '_':
+                    continue
+                else:
+                    expected_name = name[0:3].upper() + '_' + name[4:].lower()
+                    if name != expected_name:
+                        override = True
+                        overridden_line = i.replace(name, expected_name)
+                        text_file_new = text_file_new.replace(i, overridden_line)
+
+        if override:
+            with open(filename, 'w', encoding=file_encoding) as text_file_write:
+                text_file_write.write(text_file_new)
 
 
 def format_logging_events(username, mod_name):
@@ -709,10 +767,9 @@ def format_kaiserreich(username, mod_name):
 
 if __name__ == '__main__':
     format_kaiserreich(username="VADIM", mod_name="Kaiserreich Dev Build")
-    # format_filenames_strategic_regions(username="VADIM", mod_name="Kaiserreich Dev Build")
-    # format_filenames_states(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_logging_events(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_logging_ideas(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_logging_decisions(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_logging_focuses(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_characters(username="VADIM", mod_name="Kaiserreich Dev Build")
+    format_filenames_portraits(username="VADIM", mod_name="Kaiserreich Dev Build")
