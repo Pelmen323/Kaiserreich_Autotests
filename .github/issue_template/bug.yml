@@ -1,0 +1,34 @@
+name: Bug
+about: Help us find and fix bugs. Please use other issue reports if they are more specific about your issue
+title: Nation(s) Affected - Summary of Bug
+assignees: ''
+body:
+  - type: markdown
+    attributes:
+        value: "## Thank you for contributing to our project!"
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: OS
+      description: What OS are you running?
+      options:
+        - Windows
+        - Mac OS
+        - Linux
+      default: Windows
+
+  - type: textarea
+    id: log_files
+    attributes:
+      label: logs
+      description: Please attach game and error.log files
+
+  - type: markdown
+    id: log_files
+    attributes:
+      label: logs
+      value: |
+        **Attachments**  
+        If possible, please drag & drop screenshots, logs, or other files into this issue.  
+        GitHub will upload them automatically and display links/previews here.
