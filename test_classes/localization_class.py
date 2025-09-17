@@ -1,4 +1,6 @@
 import glob
+import re
+from pathlib import Path
 
 from .generic_test_class import FileOpener
 
@@ -7,7 +9,7 @@ class Localization:
 
     @classmethod
     def get_all_loc_keys(cls, test_runner, lowercase: bool = True, return_duplicated_keys: bool = False, return_keys_from_specific_file: str = False) -> dict:
-        filepath = f'{test_runner.full_path_to_mod}localisation\\'
+        filepath = Path(test_runner.full_path_to_mod) / "localisation"
         results = []
         loc_dict = {}
         duplicated_loc_keys = []
@@ -41,3 +43,13 @@ class Localization:
             return loc_dict, duplicated_loc_keys
         else:
             return loc_dict
+
+    @classmethod
+    def get_all_colors(cls, test_runner) -> list:
+        filepath = Path(test_runner.full_path_to_mod) / "interface" / "core.gfx"
+
+        text_file = FileOpener.open_text_file(filepath, lowercase=False)
+        textcolors = re.findall(r'\ttextcolors = \{.*?^\t\}', text_file, flags=re.DOTALL | re.MULTILINE)[0]
+        colors = re.findall(r'^\t\t(\w) =.*?\n', textcolors, flags=re.DOTALL | re.MULTILINE)
+
+        return colors
