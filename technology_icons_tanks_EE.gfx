@@ -1,0 +1,130 @@
+spriteTypes = {
+	SpriteType = {
+		name = "GFX_POL_amphibious_pzlnz_130_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/amphibious/pol_pzlnz_130.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_heavy_0_wb_30_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/heavy_0/pol_wb_30.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_heavy_1_30tp_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/heavy_1/pol_30tp.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_heavy_2_45tp_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/heavy_2/pol_45tp.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_heavy_3_65tp_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/heavy_3/pol_65tp.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_0_4tp_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_0/pol_4tp.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_0_nkm_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_0/pol_nkm.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_0_tk_1_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_0/pol_tk_1.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_0_tk_2_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_0/pol_tk_2.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_0_tk_3_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_0/pol_tk_3.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_0_tkd_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_0/pol_tkd.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_0_tkf_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_0/pol_tkf.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_0_tks_d_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_0/pol_tks_d.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_0_tks_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_0/pol_tks.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_0_tkw_early_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_0/pol_tkw_early.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_0_tkw_late_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_0/pol_tkw_late.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_1_7tp_dw_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_1/pol_7tp_dw.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_1_7tp_jw_early_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_1/pol_7tp_jw_early.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_1_7tp_jw_late_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_1/pol_7tp_jw_late.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_1_7tp_jw_tranmissions_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_1/pol_7tp_jw_tranmissions.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_1_9tp_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_1/pol_9tp.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_2_10tp_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_2/pol_10tp.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_2_14tp_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_2/pol_14tp.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_light_3_16tp_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/light_3/pol_16tp.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_medium_0_wb_10_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/medium_0/pol_wb_10.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_medium_1_22tp_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/medium_1/pol_22tp.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_medium_1_23tp_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/medium_1/pol_23tp.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_medium_1_25tp_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/medium_1/pol_25tp.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_medium_2_29tp_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/medium_2/pol_29tp.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_medium_3_38tp_husarz_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/medium_3/pol_38tp_husarz.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_modern_35tp_ulan_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/modern/pol_35tp_ulan.png"
+	}
+	SpriteType = {
+		name = "GFX_POL_super_heavy_200tp_lem_medium"
+		texturefile = "gfx/interface/equipmentdesigner/tanks/designer/Poland/super_heavy/pol_200tp_lem.png"
+	}
+}

@@ -57,8 +57,8 @@ def legacy_designer_trait_replacer(username, mod_name):
     mio_dict = {}
     ideas_to_override = {}
     test_runner = TestRunner(username, mod_name)
-    filepath_to_mio = str(Path(test_runner.full_path_to_mod) / "common" / "military_industrial_organization" / "organizations")
-    filepath_to_ideas = str(Path(test_runner.full_path_to_mod) / "common" / "ideas")
+    filepath_to_mio = str(Path(test_runner.full_path_to_mod) / "common" / "military_industrial_organization" / "organizations") + "/"
+    filepath_to_ideas = str(Path(test_runner.full_path_to_mod) / "common" / "ideas") + "/"
 
     # Find all tank/armor mios
     for filename in glob.iglob(filepath_to_mio + "**/*.txt", recursive=True):
@@ -170,7 +170,7 @@ def legacy_designer_research_replacer(username, mod_name):
     results = []
     ideas_to_override = {}
     test_runner = TestRunner(username, mod_name)
-    filepath_to_ideas = str(Path(test_runner.full_path_to_mod) / "common" / "ideas")
+    filepath_to_ideas = str(Path(test_runner.full_path_to_mod) / "common" / "ideas") + "/"
 
     ideas = Ideas.get_all_ideas(test_runner, lowercase=False, include_country_ideas=False, include_hidden_ideas=False, include_manufacturers=False, include_tank_manufacturers=tank, include_naval_manufacturers=navy, include_air_manufacturers=air, include_materiel_manufacturers=materiel)
     for i in ideas:
@@ -238,7 +238,7 @@ def legacy_designer_research_replacer(username, mod_name):
 def list_ideas(username, mod_name):
     results = []
     test_runner = TestRunner(username, mod_name)
-    filepath_to_ideas = str(Path(test_runner.full_path_to_mod) / "common" / "ideas")
+    filepath_to_ideas = str(Path(test_runner.full_path_to_mod) / "common" / "ideas") + "/"
 
     idea_names = []
 
