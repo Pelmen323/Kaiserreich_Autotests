@@ -21,7 +21,7 @@ class Traits:
             if return_paths - tuple[list, dict]: list with traits code and dict with traits filenames
             else - list: list with traits code
         """
-        filepath_to_traits = str(Path(test_runner.full_path_to_mod) / "common" / "unit_leader")
+        filepath_to_traits = str(Path(test_runner.full_path_to_mod) / "common" / "unit_leader") + "/"
         found_files = False
         traits = []
         paths = {}

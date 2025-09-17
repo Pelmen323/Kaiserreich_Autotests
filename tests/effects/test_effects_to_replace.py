@@ -17,6 +17,7 @@ input_list = [
     ["trait_token", r"set_temp_variable = \{ trait_token = (?!token:|0\b).*", "Singleline", "token set without proper syntax"],
     ["add_trait_token", r"set_temp_variable = \{ add_trait_token = (?!token:).*", "Singleline", "token added without proper syntax"],
     ["remove_trait_token", r"set_temp_variable = \{ remove_trait_token = (?!token:).*", "Singleline", "token removed without proper syntax"],
+    ["else", r"else = \{[^\}><=]+?\}", "Multiline", "empty else effect"],
     ["add_extra_state_shared_building_slots", r"add_building_construction = \{[^\}]+?type = arms_factory[^\}]+?\}\n\t+add_extra_state_shared_building_slots", "Multiline", "add slots before buildings"],
     ["add_extra_state_shared_building_slots", r"add_building_construction = \{[^\}]+?type = industrial_complex[^\}]+?\}\n\t+add_extra_state_shared_building_slots", "Multiline", "add slots before buildings"],
     ["add_extra_state_shared_building_slots", r"add_building_construction = \{[^\}]+?type = dockyard[^\}]+?\}\n\t+add_extra_state_shared_building_slots", "Multiline", "add slots before buildings"],
