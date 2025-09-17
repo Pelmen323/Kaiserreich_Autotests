@@ -71,4 +71,4 @@ def test_check_ideas_unused(test_runner: object):
 
     # 3. Report the results:
     results = [i for i in results_dict.keys() if results_dict[i] == 0]
-    ResultsReporter.report_results(results=results, paths=paths, message="Unused ideas were encountered. Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Unused ideas were encountered.")

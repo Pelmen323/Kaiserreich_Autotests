@@ -45,4 +45,4 @@ def test_check_localisation_scripted_brackets(test_runner: object):
                 results[loc] += 1
 
     results = [i for i in results if results[i] == 0 and i not in FALSE_POSITIVES]
-    ResultsReporter.report_results(results=results, paths=paths, message="Unused scripted loc was found. Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Unused scripted loc was found.")

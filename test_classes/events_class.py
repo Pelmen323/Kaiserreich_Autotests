@@ -20,7 +20,7 @@ class Events:
             if return_paths - tuple[list, dict]: list with events code and dict with events filenames
             else - list: list with events code
         """
-        filepath_to_events = str(Path(test_runner.full_path_to_mod) / "events")
+        filepath_to_events = str(Path(test_runner.full_path_to_mod) / "events") + "/"
         pattern = re.compile(r"^country_event = \{(.*?)^\}", flags=re.DOTALL | re.MULTILINE)
         events = []
         paths = {}

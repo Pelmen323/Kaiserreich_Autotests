@@ -43,4 +43,4 @@ def test_check_syntax_limits(test_runner: object):
         if 'limit = {' not in effect:
             results[effect] = container[effect]
 
-    ResultsReporter.report_results(results=results, message="Issues with ifs/elifs limit syntax were encountered. Check console output")
+    ResultsReporter.report_results(results=results, message="Issues with ifs/elifs limit syntax were encountered.")

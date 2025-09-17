@@ -8,7 +8,7 @@ import re
 
 from test_classes.generic_test_class import FileOpener, ResultsReporter
 
-
+# TODO - Add duplicated recon check
 class RegimentsSection:
     def __init__(self, text_line: str, filepath: str, filepath_to_vanilla: str, is_support_section=False) -> None:
         try:
@@ -72,8 +72,8 @@ def test_division_composition_parser(test_runner: object):
                                     if reg.group != column_group:
                                         results.append((os.path.basename(filename), f'{division_name} - regiment {reg.battalion_type} on coords {reg.x} {reg.y} does not belong to the group {column_group}'))
                         except Exception:
-                            print(match)
-                            raise
+                            results.append((os.path.basename(filename), f'{division_name} - unable to validate `columns with mixed unit groups` - check division composition or formatting'))
+                            continue
 
                         # 1.3 Missing regiments
                         for i in regiments_section.regiments_coodrs_list:
@@ -123,4 +123,7 @@ def test_division_composition_parser(test_runner: object):
                                     if (x, i2) not in support_section.regiments_coodrs_list:
                                         results.append((os.path.basename(filename), f'{division_name} - Support company {x, i2} is missing'))
 
-    ResultsReporter.report_results(results=results, message="Division templates with violations were encountered. Check console output")
+                        if len([i for i in support_section.regiments_list if "recon" in i.battalion_type]) > 1:
+                            results.append((os.path.basename(filename), f'{division_name} - Division template has multiple recon companies assigned'))
+
+    ResultsReporter.report_results(results=results, message="Division templates with violations were encountered.")

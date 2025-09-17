@@ -75,4 +75,4 @@ def test_check_scripted_triggers_unused(test_runner: object):
                     dict_with_scripted_triggers[key] += 1
 
     results = [i for i in dict_with_scripted_triggers.keys() if dict_with_scripted_triggers[i] == 0]
-    ResultsReporter.report_results(results=results, paths=paths, message="Unused scripted triggers were encountered. Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Unused scripted triggers were encountered.")

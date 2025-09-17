@@ -20,7 +20,7 @@ def test_check_state_reference(test_runner: object):
     loc_keys = Localization.get_all_loc_keys(test_runner=test_runner, lowercase=False)
     results = []
 
-# Part 1 - get the list of entities
+# 1. get the list of entities
     text_file = FileOpener.open_text_file(filepath_to_states_loc, lowercase=False)
     states_loc = {}
     target_lines = re.findall("STATE_\\d+: .*", text_file)
@@ -54,4 +54,4 @@ def test_check_state_reference(test_runner: object):
                             else:
                                 results.append(f'{comment} - expected {states_loc[state]} - {match} - {os.path.basename(filename)}')
 
-    ResultsReporter.report_results(results=sorted(results), message="Issues with state comments were encountered. Check console output")
+    ResultsReporter.report_results(results=sorted(results), message="Issues with state comments were encountered.")

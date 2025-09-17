@@ -108,4 +108,4 @@ def test_check_ideas_equipment_syntax(test_runner: object):
                     results[f'{os.path.basename(filename)}, line {line}'] = current_line.strip('\t')
 
     ResultsReporter.report_results(
-        results=results, message="Invalid equipment syntax in ideas was encountered. Check console output")
+        results=results, message="Invalid equipment syntax in ideas was encountered.")

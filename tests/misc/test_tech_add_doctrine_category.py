@@ -24,4 +24,4 @@ def test_check_outdated_doctrine_bonus_syntax(test_runner: object):
                     if category_used not in doctrine_categories:
                         results.append(f"{filename} - encountered cost reduction with invalid category {category_used}")
 
-    ResultsReporter.report_results(results=results, message="Outdated doctrine bonus syntax was found. Check console output")
+    ResultsReporter.report_results(results=results, message="Outdated doctrine bonus syntax was found.")

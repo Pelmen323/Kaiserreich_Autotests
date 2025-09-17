@@ -47,4 +47,4 @@ def test_check_duplicated_gfx(test_runner: object):
             results.append(f"{output_str} refer to the same texturefile {i}")
 
     results = sorted(results)
-    ResultsReporter.report_results(results=results, message="Images with duplicated definitions/texturefiles are found. Check console output")
+    ResultsReporter.report_results(results=results, message="Images with duplicated definitions/texturefiles are found.")

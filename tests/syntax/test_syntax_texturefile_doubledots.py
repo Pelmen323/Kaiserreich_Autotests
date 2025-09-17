@@ -21,4 +21,4 @@ def test_check_syntax_texturefile_doubledots(test_runner: object):
                 for match in pattern_matches:
                     results.append(match)
 
-    ResultsReporter.report_results(results=results, message="Texturepaths with more than 1 dot were encountered. Check console output")
+    ResultsReporter.report_results(results=results, message="Texturepaths with more than 1 dot were encountered.")

@@ -36,4 +36,4 @@ def test_check_unsupported_scripted_loc(test_runner: object):
                             if func not in test_data_list and func not in custom_scripted_loc:  # 5. Check if func is present in vanilla scripted loc and in custom scripted loc
                                 results[f'{os.path.basename(filename)}, line {current_line_number}'] = func
 
-    ResultsReporter.report_results(results=results, message="Unsupported scripted loc functions were found. Check console output")
+    ResultsReporter.report_results(results=results, message="Unsupported scripted loc functions were found.")

@@ -40,7 +40,7 @@ def test_modifiers_innvalid_values(test_runner: object, input_list):
     value_above_zero_condition = input_list[1][0] if input_list[1] != "None" else False
     value_below_zero = float(input_list[2][2:]) if input_list[2] != "None" else False
     value_below_zero_condition = input_list[2][0] if input_list[2] != "None" else False
-    pattern = '\\b' + modifier + ' = ([^ \t\n]*)'
+    pattern = '\\b' + modifier + ' = (\S*)'
 
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         if "ideas" not in filename and "country_leader" not in filename:

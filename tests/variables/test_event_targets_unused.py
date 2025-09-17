@@ -19,7 +19,7 @@ def test_check_unused_event_targets(test_runner: object):
     filepath = test_runner.full_path_to_mod
     event_targets = {}
     paths = {}
-    # Part 1 - get the dict of entities
+    # 1. get the dict of entities
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 
@@ -38,7 +38,7 @@ def test_check_unused_event_targets(test_runner: object):
                     paths[match] = os.path.basename(filename)
 
     event_targets = DataCleaner.clear_false_positives(input_iter=event_targets, false_positives=FALSE_POSITIVES)
-    # Part 2 - count the number of entity occurrences
+    # 2. count the number of entity occurrences
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 
@@ -67,6 +67,6 @@ def test_check_unused_event_targets(test_runner: object):
                 event_targets[target] += text_file.count(f'[{target}.getname')
                 event_targets[target] += text_file.count(f'[{target}.getadjective')
 
-    # Part 3 - throw the error if entity is not used
+    # 3. throw the error if entity is not used
     results = [i for i in event_targets if event_targets[i] == 0]
-    ResultsReporter.report_results(results=results, paths=paths, message="Unused event targets were encountered. Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Unused event targets were encountered.")

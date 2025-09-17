@@ -39,4 +39,4 @@ def test_check_ideas_gfx(test_runner: object):
             if idea_token not in gfx_entities:
                 results.append(f"Idea {idea_token} - gfx_idea_token doesn't exist")
 
-    ResultsReporter.report_results(results=results, message="Ideas that have image issues are detected. Check console output")
+    ResultsReporter.report_results(results=results, message="Ideas that have image issues are detected.")

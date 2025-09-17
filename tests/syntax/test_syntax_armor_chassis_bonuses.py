@@ -14,7 +14,7 @@ def test_check_armor_chassis_bonuses_syntax(test_runner: object):
     filepath = f'{test_runner.full_path_to_mod}common\\ideas\\'
     results = {}
     os.chdir(filepath)
-# Part 1 - Check ideas files
+# 1. Check ideas files
     for filename in glob.glob("*.txt"):
         text_file = FileOpener.open_text_file(filename)
 
@@ -25,7 +25,7 @@ def test_check_armor_chassis_bonuses_syntax(test_runner: object):
                     if 'anti_tank_equipment' not in match:
                         results[filename] = match
 
-# Part 2 - Check country leader files
+# 2. Check country leader files
     filepath = f'{test_runner.full_path_to_mod}common\\country_leader\\'
     os.chdir(filepath)
 
@@ -45,4 +45,4 @@ def test_check_armor_chassis_bonuses_syntax(test_runner: object):
                         results[filename] = match
 
 # Report the results
-    ResultsReporter.report_results(results=results, message="Outdated armor bonuses were encountered. Check console output")
+    ResultsReporter.report_results(results=results, message="Outdated armor bonuses were encountered.")

@@ -27,4 +27,4 @@ def test_check_dds_usage_tank_icons(test_runner: object):
             if 'tank.dds"' in current_line and [i for i in FALSE_POSITITVES if i in current_line] == []:
                 results[f'{os.path.basename(filename)}, line {line}'] = current_line.strip('\t')
 
-    ResultsReporter.report_results(results=results, message="DDS icons (vanilla ones) are used in armour variants - we should replace them with our own PNG ones where possible. Check console output")
+    ResultsReporter.report_results(results=results, message="DDS icons (vanilla ones) are used in armour variants - we should replace them with our own PNG ones where possible.")

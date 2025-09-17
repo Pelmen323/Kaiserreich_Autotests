@@ -19,10 +19,10 @@ def test_advisors_removal(test_runner: object):
         text_file = FileOpener.open_text_file(filename)
 
         if "amount =" in text_file:
-            pattern_matches = re.findall("amount = ([^ \n\t]+)", text_file, flags=re.DOTALL | re.MULTILINE)
+            pattern_matches = re.findall("amount = (\S+)", text_file, flags=re.DOTALL | re.MULTILINE)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     if int(match) > 100:
                         results.append((int(match), os.path.basename(filename)))
 
-    ResultsReporter.report_results(results=results, message="Wings with >100 planes were encountered. Check console output")
+    ResultsReporter.report_results(results=results, message="Wings with >100 planes were encountered.")

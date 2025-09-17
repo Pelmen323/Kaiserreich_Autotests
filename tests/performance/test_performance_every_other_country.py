@@ -23,4 +23,4 @@ def test_check_syntax_every_other_country(test_runner: object):
                     if "\thas_war_with = root" in match[1]:
                         results.append((match[1], os.path.basename(filename)))
 
-    ResultsReporter.report_results(results=results, message="This part can be replaced with every_enemy_country. Check console output")
+    ResultsReporter.report_results(results=results, message="This part can be replaced with every_enemy_country.")

@@ -28,11 +28,11 @@ def test_check_unused_oob_files(test_runner: object):
     filepath = test_runner.full_path_to_mod
     path_to_oob_files = f'{test_runner.full_path_to_mod}history\\units\\'
     oob_files = {}
-# Part 1 - get the dict of all oob files
+# 1. get the dict of all oob files
     for filename in glob.iglob(path_to_oob_files + '**/*.txt', recursive=True):
         oob_files[os.path.basename(filename.lower())[:-4]] = 0
 
-# Part 2 - count the number of oob occurrences
+# 2. count the number of oob occurrences
     oob_files = DataCleaner.clear_false_positives(input_iter=oob_files, false_positives=FALSE_POSITIVES)
     logging.debug(f'{len(oob_files)} oob files found')
 
@@ -46,6 +46,6 @@ def test_check_unused_oob_files(test_runner: object):
                 oob_files[file] += text_file.count(f'oob = {file}')
                 oob_files[file] += text_file.count(f'oob = "{file}"')
 
-# Part 3 - throw the error if oob files are not used
+# 3. throw the error if oob files are not used
     results = [i for i in oob_files if oob_files[i] == 0]
-    ResultsReporter.report_results(results=results, message="Unused oob files were found. Check console output")
+    ResultsReporter.report_results(results=results, message="Unused oob files were found.")

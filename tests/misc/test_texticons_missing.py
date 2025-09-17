@@ -41,4 +41,4 @@ def test_check_missing_texticons(test_runner: object):
                         if icon not in texticons and f'gfx_{icon}' not in texticons:
                             results[f'{os.path.basename(filename)}, line {current_line_number}'] = icon
 
-    ResultsReporter.report_results(results=results, message="Missing texticons were found. Check console output")
+    ResultsReporter.report_results(results=results, message="Missing texticons were found.")

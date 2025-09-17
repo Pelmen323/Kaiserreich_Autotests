@@ -20,7 +20,7 @@ def test_check_cleared_country_flags(test_runner: object):
     filepath = test_runner.full_path_to_mod
     country_flags = {}
     paths = {}
-# Part 1 - get the dict of entities
+# 1. get the dict of entities
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 
@@ -33,10 +33,10 @@ def test_check_cleared_country_flags(test_runner: object):
                     paths[match] = os.path.basename(filename)
 
 
-# Part 2 - clear false positives and flags with variables:
+# 2. clear false positives and flags with variables:
     country_flags = DataCleaner.clear_false_positives(input_iter=country_flags, false_positives=FALSE_POSITIVES)
 
-# Part 3 - count the number of entity occurrences
+# 3. count the number of entity occurrences
     logging.debug(f'{len(country_flags)} country flags cleared at least once')
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
@@ -51,6 +51,6 @@ def test_check_cleared_country_flags(test_runner: object):
                 if flag[-4] == '_':
                     country_flags[flag] += text_file.count(f'set_country_flag = {flag[:-4]}_@root')
 
-# Part 4 - throw the error if entity is not used
+# 4. throw the error if entity is not used
     results = [i for i in country_flags if country_flags[i] == 0]
-    ResultsReporter.report_results(results=results, paths=paths, message="Cleared flags that are never set were encountered. Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Cleared flags that are never set were encountered.")

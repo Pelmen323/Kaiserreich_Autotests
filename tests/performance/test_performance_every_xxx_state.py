@@ -34,4 +34,4 @@ def test_check_syntax_xxx_owned_state(test_runner: object, trigger):
                     if "\tis_owned_by = root" in match[1]:
                         results.append((match[1], os.path.basename(filename)))
 
-    ResultsReporter.report_results(results=results, message="Is owned by root is redundant here. Check console output")
+    ResultsReporter.report_results(results=results, message="Is owned by root is redundant here.")

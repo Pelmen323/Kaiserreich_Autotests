@@ -30,4 +30,4 @@ def test_check_localisation_scripted_brackets(test_runner: object):
                     if num_of_functions_in_line != len(pattern_matches):
                         results[f'{function}, {os.path.basename(filename)}, line {line+2}'] = current_line
 
-    ResultsReporter.report_results(results=results, message="Scripted loc syntax issues were found. Check console output")
+    ResultsReporter.report_results(results=results, message="Scripted loc syntax issues were found.")

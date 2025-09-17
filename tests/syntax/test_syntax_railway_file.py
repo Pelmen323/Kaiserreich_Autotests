@@ -25,4 +25,4 @@ def test_check_railways_file(test_runner: object) -> bool:
         if int(counter_of_provinces_in_line) != len(list_with_provinces):
             results.append(f"Line {line_counter} - expected {counter_of_provinces_in_line} provinces, got {list_with_provinces}. Line: {line}")
 
-    ResultsReporter.report_results(results=results, message="Issues in railway file were encountered. Check console output")
+    ResultsReporter.report_results(results=results, message="Issues in railway file were encountered.")

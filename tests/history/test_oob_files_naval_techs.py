@@ -142,7 +142,7 @@ def test_check_naval_oob_files(test_runner: object):
     path_to_history_files = f'{test_runner.full_path_to_mod}history\\countries\\'
     oob_files = {}
     results = []
-# Part 1 - get the dict of all oob files
+# 1. get the dict of all oob files
     for filename in glob.iglob(path_to_oob_files + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
         if "fleet = {" in text_file:
@@ -279,4 +279,4 @@ def test_check_naval_oob_files(test_runner: object):
             if (y := 'midget_submarines = 1') not in text_file:
                 results.append((key, f"Tag spawns {x} but doesn't have {y} tech in history file"))
 
-    ResultsReporter.report_results(results=results, message="Issues with ships OOBs were found. Check console output")
+    ResultsReporter.report_results(results=results, message="Issues with ships OOBs were found.")

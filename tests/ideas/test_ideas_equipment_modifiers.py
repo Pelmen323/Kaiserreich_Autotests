@@ -33,5 +33,5 @@ def test_equipment_bonus_without_instant_application(test_runner: object):
             if 'instant = yes' not in trait:
                 results.append((trait.replace('\t', '').replace('\n', '  ')))
 
-# Part 2 - throw the error if those combinations are encountered
-    ResultsReporter.report_results(results=results, message="Equipment bonuses without instant = yes were encountered. Check console output")
+# 2. throw the error if those combinations are encountered
+    ResultsReporter.report_results(results=results, message="Equipment bonuses without instant = yes were encountered.")

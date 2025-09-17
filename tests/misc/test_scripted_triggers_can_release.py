@@ -27,7 +27,7 @@ def test_check_scripted_triggers_can_release(test_runner: object):
     for trigger in scripted_triggers:
         if trigger.startswith('can_release'):
             if 'NOT = { is_claimed_by = ROOT }' not in trigger:
-                trigger_name = re.findall('^([^ \\n\\t]+) = \\{', trigger, flags=re.MULTILINE)[0]
+                trigger_name = re.findall('^(\\S+) = \\{', trigger, flags=re.MULTILINE)[0]
                 if trigger_name not in FALSE_POSITIVES:
                     results.append(trigger_name)
 

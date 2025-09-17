@@ -12,7 +12,7 @@ from test_classes.generic_test_class import FileOpener, ResultsReporter
 def test_check_create_unit_string(test_runner: object):
     filepath = test_runner.full_path_to_mod
     results = []
-# Part 1 - get the list of entities
+# 1. get the list of entities
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 
@@ -31,4 +31,4 @@ def test_check_create_unit_string(test_runner: object):
                     if expected_pattern_encountered == []:
                         results.append(f'{match[2]} - {os.path.basename(filename)} - invalid division string encountered')
 
-    ResultsReporter.report_results(results=results, message="Issues with create_unit strings were encountered. Check console output")
+    ResultsReporter.report_results(results=results, message="Issues with create_unit strings were encountered.")

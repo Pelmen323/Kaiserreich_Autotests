@@ -49,4 +49,4 @@ def test_check_opinion_modifiers_unused(test_runner: object):
                     dict_with_modifiers[key] += 1
 
     results = [i for i in dict_with_modifiers.keys() if dict_with_modifiers[i] == 0]
-    ResultsReporter.report_results(results=results, paths=paths, message="Unused opinion modifiers were found. Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Unused opinion modifiers were found.")

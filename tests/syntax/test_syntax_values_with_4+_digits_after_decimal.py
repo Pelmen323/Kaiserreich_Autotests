@@ -27,4 +27,4 @@ def test_check_values_digits_after_decimal(test_runner: object):
                 if '#' not in current_line and "stability" not in current_line and "war_support" not in current_line:
                     results[f'{os.path.basename(filename)}, line {line}'] = current_line
 
-    ResultsReporter.report_results(results=results, message="Values with 4+ digits after decimal point found, Hoi4 factors supports only 3 digits after decimal point. Check console output")
+    ResultsReporter.report_results(results=results, message="Values with 4+ digits after decimal point found, Hoi4 factors supports only 3 digits after decimal point.")

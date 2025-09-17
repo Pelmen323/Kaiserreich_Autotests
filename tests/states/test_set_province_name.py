@@ -45,4 +45,4 @@ def test_check_endonyms_scripted_loc(test_runner: object):
         if i not in defined_vp_loc_keys:
             results.append(f"{i} - this key is not DEFINED in VP loc file")
 
-    ResultsReporter.report_results(results=results, message="Issues with set_province_name keys were encountered. Check console output")
+    ResultsReporter.report_results(results=results, message="Issues with set_province_name keys were encountered.")

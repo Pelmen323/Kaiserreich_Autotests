@@ -28,4 +28,4 @@ def test_find_duplicated_keys(test_runner: object, filepath):
     if false_positives_iter is not None:
         duplicated_values = [i for i in duplicated_values if i[1] not in false_positives_iter]
 
-    ResultsReporter.report_results(results=duplicated_values, message="Duplicated loc values were encountered. Check console output")
+    ResultsReporter.report_results(results=duplicated_values, message="Duplicated loc values were encountered.")

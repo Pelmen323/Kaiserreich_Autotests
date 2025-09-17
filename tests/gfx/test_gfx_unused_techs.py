@@ -8,7 +8,7 @@ import pytest
 from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
-@pytest.mark.skip(reason="Backlog work")
+#@pytest.mark.skip(reason="Backlog work")
 def test_gfx_unused(test_runner: object):
     filepath_gfx = f'{test_runner.full_path_to_mod}gfx\\'
     filepath_interface = f'{test_runner.full_path_to_mod}interface\\'

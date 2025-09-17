@@ -40,4 +40,4 @@ def test_states_used_nonexisting(test_runner: object):
                     results.append(match)
                     paths[match] = os.path.basename(filename)
 
-    ResultsReporter.report_results(results=results, paths=paths, message="Usage of non-existing states encountered. Check console output")
+    ResultsReporter.report_results(results=results, paths=paths, message="Usage of non-existing states encountered.")

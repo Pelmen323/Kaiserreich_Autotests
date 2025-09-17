@@ -23,12 +23,12 @@ def test_check_unsupported_on_actions(test_runner: object):
             print(filename)
             text_file = FileOpener.open_text_file(filename)
             if "can_release_" in text_file:
-                pattern_matches = re.findall(r"^can_release_[^ \t\n]+ = \{.*?^\}", text_file, flags=re.DOTALL | re.MULTILINE)
+                pattern_matches = re.findall(r"^can_release_\S+ = \{.*?^\}", text_file, flags=re.DOTALL | re.MULTILINE)
                 for i in pattern_matches:
                     scripted_triggers.append(i)
 
     for trigger in scripted_triggers:
-        trigger_name = re.findall(r'^(can_release_[^ \t\n]+) = \{', trigger, flags=re.DOTALL | re.MULTILINE)[0]
+        trigger_name = re.findall(r'^(can_release_\S+) = \{', trigger, flags=re.DOTALL | re.MULTILINE)[0]
         # if trigger.count("\tstate =") > 1:
         #     results.append(f'{trigger_name} - multiple state triggers found')
         if "\tstate =" in trigger:
@@ -44,4 +44,4 @@ def test_check_unsupported_on_actions(test_runner: object):
         if i not in set(annex_targets_defined):
             results.append(f'{i} - is used as annex target but not defined')
 
-    ResultsReporter.report_results(results=results, message="Annex targets issues found. Check console output")
+    ResultsReporter.report_results(results=results, message="Annex targets issues found.")

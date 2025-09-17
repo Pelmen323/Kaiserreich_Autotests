@@ -27,7 +27,7 @@ def test_check_events_ideology_optimisations(test_runner: object):
                 if is_valid_candidate:
                     results.append((event_name, paths[event], f'{bundle} can be used here instead of {ideology_bundles[bundle]}'))
 
-    ResultsReporter.report_results(results=results, message="Events - possible candidates for has_xxx_government scripted triggers usage found. Check console output")
+    ResultsReporter.report_results(results=results, message="Events - possible candidates for has_xxx_government scripted triggers usage found.")
 
 
 def test_check_focuses_ideology_optimisations(test_runner: object):
@@ -53,7 +53,7 @@ def test_check_focuses_ideology_optimisations(test_runner: object):
                 if is_valid_candidate:
                     results.append((focus.id, f'bypass - {bundle} can be used here instead of {ideology_bundles[bundle]}'))
 
-    ResultsReporter.report_results(results=results, message="Focuses - possible candidates for has_xxx_government scripted triggers usage found. Check console output")
+    ResultsReporter.report_results(results=results, message="Focuses - possible candidates for has_xxx_government scripted triggers usage found.")
 
 
 def test_check_decisions_ideology_optimisations(test_runner: object):
@@ -97,4 +97,4 @@ def test_check_decisions_ideology_optimisations(test_runner: object):
                 if is_valid_candidate_target_trigger:
                     results.append((decision.token, f'target_trigger - {bundle} can be used here instead of {ideology_bundles[bundle]}'))
 
-    ResultsReporter.report_results(results=results, message="Decisions - possible candidates for has_xxx_government scripted triggers usage found. Check console output")
+    ResultsReporter.report_results(results=results, message="Decisions - possible candidates for has_xxx_government scripted triggers usage found.")

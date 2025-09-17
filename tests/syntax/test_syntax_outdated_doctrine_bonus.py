@@ -32,4 +32,4 @@ def test_check_outdated_doctrine_bonus_syntax(test_runner: object):
             if f'technology = {tech_name}' in expression:
                 results.append(f"{tech_name} doctrine/doctrine category is used in the following expression: \n{trimmed_expression}")
 
-    ResultsReporter.report_results(results=results, message="Outdated doctrine bonus syntax was found. Check console output")
+    ResultsReporter.report_results(results=results, message="Outdated doctrine bonus syntax was found.")

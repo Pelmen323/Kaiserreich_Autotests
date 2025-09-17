@@ -16,4 +16,4 @@ def test_find_bad_words(test_runner: object):
             if word in bad_words.keys():
                 typo_list.append(f'Loc key {key} -- "{word}" - correct is "{bad_words.get(word)}"')
 
-    ResultsReporter.report_results(results=typo_list, message="Typos were encountered. Check console output")
+    ResultsReporter.report_results(results=typo_list, message="Typos were encountered.")

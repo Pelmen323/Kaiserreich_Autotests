@@ -109,4 +109,4 @@ def test_check_national_focus_contents(test_runner: object):
             if not focus.will_lead_to_war_with:
                 results.append((focus.id, paths[foc_code], "The focus is starting war/generating wargoal but doesn't have 'will_lead_to_war_with'"))
 
-    ResultsReporter.report_results(results=results, message="Issues during focuses parsing were encountered. Check console output")
+    ResultsReporter.report_results(results=results, message="Issues during focuses parsing were encountered.")

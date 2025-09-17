@@ -14,7 +14,7 @@ def test_check_conditions_is_faction_leader(test_runner: object):
     filepath = test_runner.full_path_to_mod
     results = []
 
-# Part 1 - prepare the list of patterns
+# 1. prepare the list of patterns
     all_regex_patterns = []
     all_regex_patterns.append('\\t+is_faction_leader = yes.*\\n\\t+exists = yes.*\\n')
     all_regex_patterns.append('\\t+exists = yes.*\\n\\t+is_faction_leader = yes.*\\n')
@@ -24,7 +24,7 @@ def test_check_conditions_is_faction_leader(test_runner: object):
     all_regex_patterns.append('\\t+is_in_faction = yes.*\\n\\t+is_faction_leader = yes.*\\n')
 
 
-# Part 2 - perform search
+# 2. perform search
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 
@@ -35,5 +35,5 @@ def test_check_conditions_is_faction_leader(test_runner: object):
                     for match in pattern_matches:
                         results.append((match.replace('\t', '').replace('\n', '  '), os.path.basename(filename)))
 
-# Part 3 - throw the error if those combinations are encountered
-    ResultsReporter.report_results(results=results, message="is_faction_leader = yes necessarily means exists = yes and is_subject = no, so checking for the other two is redundant. Check console output")
+# 3. throw the error if those combinations are encountered
+    ResultsReporter.report_results(results=results, message="is_faction_leader = yes necessarily means exists = yes and is_subject = no, so checking for the other two is redundant.")

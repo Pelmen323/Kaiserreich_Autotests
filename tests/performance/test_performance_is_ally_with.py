@@ -15,7 +15,7 @@ def test_check_conditions_is_ally_with(test_runner: object):
     results = []
     paths = {}
 
-# Part 1 - prepare the list of patterns
+# 1. prepare the list of patterns
     possible_parts_of_pattern = ['\\t+tag =.*\\n', '\\t+is_in_faction_with.*\\n', '\\t+is_subject_of.*\\n']
     all_regex_patterns_raw = list(permutations(possible_parts_of_pattern))
     all_regex_patterns = []
@@ -24,7 +24,7 @@ def test_check_conditions_is_ally_with(test_runner: object):
     all_regex_patterns.append('.*\\{.*\\n\\t+is_in_faction_with.*\\n\\t+is_subject_of.*\\n.*\\}')
     all_regex_patterns.append('.*\\{.*\\n\\t+is_subject_of.*\\n\\t+is_in_faction_with.*\\n.*\\}')
 
-# Part 2 - perform search
+# 2. perform search
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
 
@@ -36,5 +36,5 @@ def test_check_conditions_is_ally_with(test_runner: object):
                         results.append(match)
                         paths[match] = os.path.basename(filename)
 
-# Part 3 - throw the error if those combinations are encountered
-    ResultsReporter.report_results(results=results, paths=paths, message="'is_ally_with' condition can be used in the mentioned files instead. Check console output")
+# 3. throw the error if those combinations are encountered
+    ResultsReporter.report_results(results=results, paths=paths, message="'is_ally_with' condition can be used in the mentioned files instead.")

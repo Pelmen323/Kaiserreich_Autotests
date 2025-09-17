@@ -24,4 +24,4 @@ def test_check_unsupported_on_actions(test_runner: object):
                 for match in pattern_matches:
                     results.append((match, os.path.basename(filename), "use on_offer_join_faction instead"))
 
-    ResultsReporter.report_results(results=results, message="Unsupported on_actions found. Check console output")
+    ResultsReporter.report_results(results=results, message="Unsupported on_actions found.")

@@ -24,4 +24,4 @@ def test_check_negative_ai_factors(test_runner: object):
             if '\tfactor = -' in current_line:
                 results[f'{os.path.basename(filename)}, line {line}'] = current_line
 
-    ResultsReporter.report_results(results=results, message="Negative factors are found, factor means multiplication, multiplying a value with negative value is not what you want in 99% of the cases. Check console output")
+    ResultsReporter.report_results(results=results, message="Negative factors are found, factor means multiplication, multiplying a value with negative value is not what you want in 99% of the cases.")

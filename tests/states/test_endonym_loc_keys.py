@@ -75,4 +75,4 @@ def test_check_endonyms_scripted_loc(test_runner: object):
             if f".GetVictoryPointName_{vp_from_key}" not in value_str:
                 results.append(f"{i} - this key's value doesn't reference to the correct province")
 
-    ResultsReporter.report_results(results=results, message="Issues with endonym loc keys were encountered. Check console output")
+    ResultsReporter.report_results(results=results, message="Issues with endonym loc keys were encountered.")

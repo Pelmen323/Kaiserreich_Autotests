@@ -69,4 +69,4 @@ def test_states_nonmatching_provinces(test_runner: object):
                                     if province not in states_provinces_dict[state]:
                                         results.append(f'{os.path.basename(filename)}: supply_node construction - target province {province} is not in the state {state} provinces list {states_provinces_dict[state]}')
 
-    ResultsReporter.report_results(results=results, message="Building constructions in mismatching provinces encountered. Check console output")
+    ResultsReporter.report_results(results=results, message="Building constructions in mismatching provinces encountered.")
