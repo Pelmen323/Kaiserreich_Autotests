@@ -27,10 +27,11 @@ def test_effects_set_popularities(test_runner: object):
                     if len(number_matches) > 2:
                         x = sum([float(i) for i in number_matches])
                         body = body.replace('\t', ' ').replace('\n', '')
-                        print(x)
-                        print(body)
                         if x != 100:
                             body = body.replace('\t', ' ').replace('\n', '')
                             results.append(f"{body} - {os.path.basename(filename)} - {x} != 100")
+                        for i in number_matches:
+                            if str(float(i)) == i:
+                                results.append(f"{body} - {os.path.basename(filename)} - float {i} detected")
 
     ResultsReporter.report_results(results=results, message="Party popularities != 100")
