@@ -9,7 +9,7 @@ class Localization:
 
     @classmethod
     def get_all_loc_keys(cls, test_runner, lowercase: bool = True, return_duplicated_keys: bool = False, return_keys_from_specific_file: str = False) -> dict:
-        filepath = Path(test_runner.full_path_to_mod) / "localisation"
+        filepath = str(Path(test_runner.full_path_to_mod) / "localisation") + "/"
         results = []
         loc_dict = {}
         duplicated_loc_keys = []
