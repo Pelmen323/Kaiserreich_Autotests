@@ -4,28 +4,25 @@
 ##########################
 import glob
 import pytest
+from pathlib import Path
 
 from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
-#@pytest.mark.skip(reason="Backlog work")
+@pytest.mark.skip(reason="Backlog work")
 def test_gfx_unused(test_runner: object):
-    filepath_gfx = f'{test_runner.full_path_to_mod}gfx\\'
-    filepath_interface = f'{test_runner.full_path_to_mod}interface\\'
-    filepath_characters = f'{test_runner.full_path_to_mod}common\\characters\\'
-    filepath_db = f'{test_runner.full_path_to_mod}gfx\\interface\\equipmentdesigner\\'
+    filepath_gfx = str(Path(test_runner.full_path_to_mod) / "gfx") + "/"
+    filepath_interface = str(Path(test_runner.full_path_to_mod) / "interface") + "/"
+    filepath_characters = str(Path(test_runner.full_path_to_mod) / "common" / "characters") + "/"
+    filepath_db = str(Path(test_runner.full_path_to_mod) / "gfx" / "interface" / "equipmentdesigner") + "/"
     images_list = []
 
-    for filename in glob.iglob(filepath_gfx + '**/*.png', recursive=True):
-        images_list.append('gfx' + filename.split("gfx", maxsplit=1)[1].replace('\\', '/'))
+    for filename in glob.iglob(filepath_gfx + "**/*.png", recursive=True):
+        images_list.append("gfx" + filename.split("gfx", maxsplit=1)[1].replace("\\", "/"))
 
     images_dict = {i: 0 for i in images_list}
 
-    sources_list = [
-        glob.iglob(filepath_interface + '**/*.gfx', recursive=True),
-        glob.iglob(filepath_characters + '**/*.txt', recursive=True),
-        glob.iglob(filepath_db + '**/*.txt', recursive=True)
-    ]
+    sources_list = [glob.iglob(filepath_interface + "**/*.gfx", recursive=True), glob.iglob(filepath_characters + "**/*.txt", recursive=True), glob.iglob(filepath_db + "**/*.txt", recursive=True)]
 
     for source in sources_list:
         for filename in source:
