@@ -13,7 +13,7 @@ from test_classes.localization_class import Localization
 def test_localisation_add_resistance_tooltip(test_runner: object):
     filepath = test_runner.full_path_to_mod
     loc_keys = Localization.get_all_loc_keys(test_runner=test_runner, lowercase=False)
-    pattern = r'^(\t+)add_resistance_target = (\{\n.*?)^\1\}'
+    pattern = r"^(\t+)add_resistance_target = (\{\n.*?)^\1\}"
     results = []
 
     for filename in glob.iglob(filepath + "**/*.txt", recursive=True):
@@ -24,16 +24,16 @@ def test_localisation_add_resistance_tooltip(test_runner: object):
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     match_body = match[1]
-                    if 'tooltip =' in match_body:
-                        tt = re.findall(r'tooltip = ([^\t \n]+)', match_body)[0]
+                    if "tooltip =" in match_body:
+                        tt = re.findall(r"tooltip = ([^\t \n]+)", match_body)[0]
                         if tt in loc_keys:
                             value = loc_keys[tt]
-                            if '$VALUE|=-%0$' not in value:
+                            if "$VALUE|=-%0$" not in value:
                                 results.append(f"{tt} - {value} - missing $VALUE|=-%0$")
                         else:
                             results.append(f"{tt} - can't find the localisation key")
                     else:
-                        x = match_body.replace('\n', ' ').replace('\t', '')
+                        x = match_body.replace("\n", " ").replace("\t", "")
                         results.append(f"{x} - {os.path.basename(filename)} - missing tooltip")
 
     ResultsReporter.report_results(results=results, message="Add_resistance_target tooltip issues found")

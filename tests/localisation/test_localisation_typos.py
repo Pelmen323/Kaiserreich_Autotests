@@ -12,8 +12,8 @@ def test_find_bad_words(test_runner: object):
     typo_list = []
 
     for key, value in loc_keys.items():
-        for word in value.split(' '):
+        for word in value.split(" "):
             if word in bad_words.keys():
-                typo_list.append(f'Loc key {key} -- "{word}" - correct is "{bad_words.get(word)}"')
+                typo_list.append(f'{key:<45} {word} - change to {bad_words.get(word)}')
 
     ResultsReporter.report_results(results=typo_list, message="Typos were encountered.")
