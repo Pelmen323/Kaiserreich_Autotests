@@ -9,7 +9,7 @@ from test_classes.event_targets import Event_Targets
 FALSE_POSITIVES = ['.']
 
 
-def test_check_missing_event_targets(test_runner: object):
+def test_missing_event_targets(test_runner: object):
     results = []
     used_targets, paths = Event_Targets.get_all_used_targets(test_runner=test_runner, lowercase=True, return_paths=True)
     set_targets = Event_Targets.get_all_set_targets(test_runner=test_runner, lowercase=True)

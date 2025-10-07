@@ -14,7 +14,7 @@ from test_classes.generic_test_class import (
 FALSE_POSITIVES = ["wca_usa_floyd_olson", "wca_usa_al_smith", "target_value"]
 
 
-def test_check_unused_event_targets(test_runner: object):
+def test_unused_event_targets(test_runner: object):
     filepath = test_runner.full_path_to_mod
     results = []
     potential_results = []
