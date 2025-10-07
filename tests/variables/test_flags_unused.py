@@ -34,7 +34,7 @@ input_list = [
 
 
 @pytest.mark.parametrize("input_list", input_list)
-def test_unused_country_flags(test_runner: object, input_list):
+def test_unused_flags(test_runner: object, input_list):
     flag_type = input_list[0]
     false_positives = input_list[1]
     results = []
