@@ -2,52 +2,21 @@
 # Test script to check for event targets that are used but not set
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-import glob
-import logging
 import os
-import re
+from test_classes.generic_test_class import ResultsReporter, DataCleaner
+from test_classes.event_targets import Event_Targets
 
-from test_classes.generic_test_class import FileOpener, ResultsReporter
+FALSE_POSITIVES = ['.']
 
 
 def test_check_missing_event_targets(test_runner: object):
-    filepath = test_runner.full_path_to_mod
-    event_targets = {}
-    paths = {}
-# 1. get the dict of entities
-    for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = FileOpener.open_text_file(filename)
+    results = []
+    used_targets, paths = Event_Targets.get_all_used_targets(test_runner=test_runner, lowercase=True, return_paths=True)
+    set_targets = Event_Targets.get_all_set_targets(test_runner=test_runner, lowercase=True)
+    used_targets = DataCleaner.clear_false_positives_partial_match(used_targets, FALSE_POSITIVES)
 
-        if 'event_target:' in text_file:
-            pattern_matches = re.findall('event_target:(\\w*)\\b', text_file)
-            if len(pattern_matches) > 0:
-                for match in pattern_matches:
-                    event_targets[match] = 0
-                    paths[match] = os.path.basename(filename)
+    for i in used_targets:
+        if i not in set_targets:
+            results.append(f"{i:<55}{os.path.basename(paths[i])}")
 
-        if 'has_event_target =' in text_file:
-            pattern_matches = re.findall('has_event_target = ([^ \\n]*)', text_file)
-            if len(pattern_matches) > 0:
-                for match in pattern_matches:
-                    event_targets[match] = 0
-                    paths[match] = os.path.basename(filename)
-
-
-# 2. count the number of entity occurrences
-    print(event_targets.keys())
-    logging.debug(f'{len(event_targets)} used event targets found')
-    for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
-        text_file = FileOpener.open_text_file(filename)
-
-        not_encountered_targets = [i for i in event_targets.keys() if event_targets[i] == 0]
-
-        if 'save_global_event_target_as =' in text_file:
-            for target in not_encountered_targets:
-                event_targets[target] += text_file.count(f'save_global_event_target_as = {target}')
-        if 'save_event_target_as =' in text_file:
-            for target in not_encountered_targets:
-                event_targets[target] += text_file.count(f'save_event_target_as = {target}')
-
-# 3. throw the error if entity is not used
-    results = [i for i in event_targets if event_targets[i] == 0]
-    ResultsReporter.report_results(results=results, paths=paths, message="Used event targets that are not set were encountered.")
+    ResultsReporter.report_results(results=results, message="Used event targets that are not set were encountered.")

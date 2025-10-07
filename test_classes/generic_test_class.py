@@ -76,6 +76,41 @@ class DataCleaner:
                 return [i for i in input_iter if i not in false_positives]
 
     @classmethod
+    def clear_false_positives_partial_match(cls, input_iter: dict, false_positives: tuple = ()) -> dict:
+        """Removes items from iterable
+
+        Args:
+            input_iter (dict): dict/list to remove items from
+            false_positives (tuple, optional): iterable with items to remove. Defaults to ().
+
+        Returns:
+            dict: cleaned list/disc
+        """
+        if isinstance(input_iter, dict):
+            if len(false_positives) > 0:
+                skip_list = []
+                for k in input_iter:
+                    for f in false_positives:
+                        if f in k:
+                            skip_list.append(k)
+
+                for i in skip_list:
+                    if i in input_iter:
+                        input_iter.pop(i)
+            return input_iter
+
+        elif isinstance(input_iter, list):
+            if len(false_positives) > 0:
+                skip_list = []
+                for k in input_iter:
+                    for f in false_positives:
+                        if f in k:
+                            skip_list.append(k)
+
+                input_iter = [i for i in input_iter if i not in skip_list]
+            return input_iter
+
+    @classmethod
     def skip_files(cls, files_to_skip: list, filename: str) -> bool:
         """Skip files in the list
 
@@ -106,6 +141,7 @@ class ResultsReporter:
         """
 
         if len(results) > 0:
+            logging.warning(f"{message}")
             logging.warning("The following issues were encountered during test execution:")
 
             if isinstance(results, list):
@@ -125,5 +161,4 @@ class ResultsReporter:
                         logging.error(f"- [ ] {i}, - '{paths[i]}'")
 
             logging.warning(f"{len(results)} issues found")
-            logging.warning(f"{message}")
             raise AssertionError(message)
