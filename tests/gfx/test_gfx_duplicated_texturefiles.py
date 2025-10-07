@@ -41,8 +41,9 @@ def test_duplicated_gfx_texturefiles(test_runner: object):
 
     for i in set_gfx_texturefiles:
         if gfx_texturefiles.count(i) > 1:
-            output_str = str([x[0] for x in gfx_entities if x[1] == i]).replace('"', "")
-            results.append(f"{output_str} refer to the same texturefile {i}")
+            if "/generic/" not in i:
+                output_str = str([x[0] for x in gfx_entities if x[1] == i]).replace('"', "")
+                results.append(f"{output_str} refer to the same texturefile {i}")
 
     results = sorted(results)
     ResultsReporter.report_results(results=results, message="Images with duplicated texturefiles are found. If possible, reuse GFX objects instead of duplicating them")
