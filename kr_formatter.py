@@ -686,6 +686,7 @@ def apply_formatting(filename, encoding="utf-8"):
     for variant in event_variants:
         if variant in text_file:
             replace_string(filename=filename, pattern='(?<!^)' + variant + ' = \\{\\n\\t+id = ([^ #]*?)\\n\\t+\\}', replace_with=variant + ' = \\1', encoding=encoding, flag=re.MULTILINE)                                                                  # base
+            replace_string(filename=filename, pattern='(?<!^)' + variant + ' = \\{ id = ([^ #]*?) \\}', replace_with=variant + ' = \\1', encoding=encoding, flag=re.MULTILINE)
             replace_string(filename=filename, pattern='(?<!^)' + variant + ' = \\{.*?(#.*?)\\n\\t+id = ([^ #]*?)\\n\\t+\\}', replace_with=variant + ' = \\2 \\1', encoding=encoding, flag=re.MULTILINE)                                                     # With comments
             replace_string(filename=filename, pattern='(?<!^)' + variant + ' = \\{\\n\\t+id = ([^ #]*?)[ \\t]*?(#.*?)\\n\\t+\\}', replace_with=variant + ' = \\1 \\2', encoding=encoding, flag=re.MULTILINE)                                                # With comments
 

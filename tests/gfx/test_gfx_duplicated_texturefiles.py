@@ -14,7 +14,7 @@ from test_classes.generic_test_class import (
 )
 
 
-def test_check_duplicated_gfx_texturefiles(test_runner: object):
+def test_duplicated_gfx_texturefiles(test_runner: object):
     gfx_path = str(Path(test_runner.full_path_to_mod) / "interface") + "/"
     gfx_entities = []
     results = []
