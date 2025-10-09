@@ -19,7 +19,7 @@ FALSE_POSITIVES = [
 
 
 def test_duplicated_gfx_texturefiles(test_runner: object):
-    GFX_code = GFX.get_all_gfx_objects_code(test_runner=test_runner, lowercase=False)
+    GFX_code = GFX.get_code(test_runner=test_runner, lowercase=False)
     gfx_texturefiles_counter = Counter()
     results = []
     for i in GFX_code:

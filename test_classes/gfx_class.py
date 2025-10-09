@@ -8,7 +8,7 @@ from test_classes.generic_test_class import FileOpener
 
 class GFX:
     @classmethod
-    def get_all_gfx_objects_code(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> list[str]:
+    def get_code(cls, test_runner, lowercase: bool = True, return_paths: bool = False) -> list[str]:
         """Parse all files return the list with all vars
         Args:
             test_runner (_type_): test runner obj

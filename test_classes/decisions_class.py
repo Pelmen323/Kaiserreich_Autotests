@@ -216,6 +216,9 @@ class DecisionsFactory:
 
         self.days_remove = extract_value(dec, "days_remove", 1)
         self.reversed = "reversed = yes" in dec
+
+        self.randomised = "random_list" in dec or "random_hours" in dec or "random_days" in dec
+        self.fixed_random_seed_not = "fixed_random_seed = no" in dec
         try:
             self.days_remove = int(self.days_remove)
         except ValueError:
