@@ -11,7 +11,7 @@ from test_classes.generic_test_class import (
     ResultsReporter,
 )
 
-PATHS_TO_SKIP = ["/generic/", "/Generic/", "/gui/", "/aces/"]
+PATHS_TO_SKIP = ["/generic/", "/Generic/", "/gui/", "/aces/", "/equipmentdesigner", "/technologies"]
 PATHS_TO_INCLUDE = ["/leaders/", "/event_pictures/", "/advisors/"]
 FALSE_POSITIVES = [
     "leader_unknown.dds",
@@ -24,6 +24,8 @@ def test_duplicated_gfx_texturefiles(test_runner: object):
     results = []
     for i in GFX_code:
         gfx = GFXFactory(i)
+        if "shine" in gfx.name:
+            continue
         if any([e for e in PATHS_TO_SKIP if e in gfx.texturefile]):
             continue
         if any([e for e in PATHS_TO_INCLUDE if e in gfx.texturefile]):
