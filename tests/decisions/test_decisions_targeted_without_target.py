@@ -28,6 +28,6 @@ def test_decisions_targeted_without_target(test_runner: object):
             if not decision.targets and not decision.target_array:
                 if not decision.allowed or "always = no" not in decision.allowed:
                     if "annexation" not in i:
-                        results.append(f"{decision.token}, {paths[i]} - The decision has target_root_trigger/target_trigger but targets are not defined")
+                        results.append(f"{decision.token:<55}{paths[i]:<55}")
 
     ResultsReporter.report_results(results=results, message="Decisions with target_root_trigger/target_trigger but no targets defined found. This means every country will be checked daily.")
