@@ -201,7 +201,7 @@ def format_logging_events(username, mod_name):
     print("Adding logging to events...")
     test_runner = TestRunner(username, mod_name)
     filepath_to_events = f'{test_runner.full_path_to_mod}events\\'
-    files_to_skip = ['Pilot', 'LaR', 'Nuke', ' - Vanilla']
+    files_to_skip = ['Pilot', 'LaR', 'Nuke', ' - Vanilla', 'Model Warning events']
     false_positives = []
     options_event_logging_args = {
         "country_event": "[GetLogInfo]",
@@ -387,6 +387,7 @@ def format_logging_decisions(username, mod_name):
     print("Adding logging to decisions...")
     test_runner = TestRunner(username, mod_name)
     filepath_to_decisions = f'{test_runner.full_path_to_mod}common\\decisions\\'
+    custom_cost_list = ['command_power', 'has_political_power', 'has_army_experience', 'has_air_experience', 'has_navy_experience']
 
     for filename in glob.iglob(filepath_to_decisions + '**/*.txt', recursive=True):
         if '\\categories' in filename or "Generic decisions" in filename:
@@ -406,6 +407,7 @@ def format_logging_decisions(username, mod_name):
                 complete_effect = re.findall('(\\t+)complete_effect = \\{([^\\n]*|.*?^\\1)\\}', dec, flags=re.DOTALL | re.MULTILINE)[0][1] if 'complete_effect =' in dec else False
                 remove_effect = re.findall('(\\t+)remove_effect = \\{([^\\n]*|.*?^\\1)\\}', dec, flags=re.DOTALL | re.MULTILINE)[0][1] if 'remove_effect =' in dec else False
                 timeout_effect = re.findall('(\\t+)timeout_effect = \\{([^\\n]*|.*?^\\1)\\}', dec, flags=re.DOTALL | re.MULTILINE)[0][1] if 'timeout_effect =' in dec else False
+                custom_cost_trigger = re.findall('(\\t+)custom_cost_trigger = \\{([^\\n]*|.*?^\\1)\\}', dec, flags=re.DOTALL | re.MULTILINE)[0][1] if 'custom_cost_trigger =' in dec else False
                 is_targeted = "FROM" in dec or "state_target = yes" in dec or "target_trigger" in dec or "target_root_trigger" in dec
                 target_line = "[GetLogFrom]" if is_targeted else ""
                 expected_logging_line_cancel = f'log = "[GetLogRoot]{target_line}: Decision cancel {dec_id}"'
@@ -417,6 +419,109 @@ def format_logging_decisions(username, mod_name):
                 has_any_logging_remove = 'remove_effect = {\n\t\t\tlog' in dec
                 has_any_logging_timeout = 'timeout_effect = {\n\t\t\tlog' in dec
                 fixed_decision_code = dec
+
+                if custom_cost_trigger:
+                    if ".99" in custom_cost_trigger:
+                        for i in custom_cost_list:
+                            if i + " >" in custom_cost_trigger:
+                                value_matches = re.findall(rf'({i} > (\d+)\.99)', custom_cost_trigger)
+                                if len(value_matches) > 0:
+                                    for v in value_matches:
+                                        int_value = v[1]
+                                        trigger_match = v[0]
+                                        value_updated = int(int_value) + 1
+                                        fixed_decision_code = fixed_decision_code.replace(trigger_match, f'NOT = {{ {i} < {value_updated} }}')
+                                        #print(f'{dec_id} - recheck custom cost trigger! Replaced {int_value}.99 with {value_updated}')
+                    elif ".9" in custom_cost_trigger:
+                        for i in custom_cost_list:
+                            if i + " >" in custom_cost_trigger:
+                                value_matches = re.findall(rf'({i} > (\d+)\.9)', custom_cost_trigger)
+                                if len(value_matches) > 0:
+                                    for v in value_matches:
+                                        int_value = v[1]
+                                        trigger_match = v[0]
+                                        value_updated = int(int_value) + 1
+                                        fixed_decision_code = fixed_decision_code.replace(trigger_match, f'NOT = {{ {i} < {value_updated} }}')
+                                        #print(f'{dec_id} - recheck custom cost trigger! Replaced {int_value}.9 with {value_updated}')
+                    elif "9" in custom_cost_trigger:
+                        for i in custom_cost_list:
+                            if i + " >" in custom_cost_trigger:
+                                value_matches = re.findall(rf'({i} > (\d+)9)', custom_cost_trigger)
+                                if len(value_matches) > 0:
+                                    for v in value_matches:
+                                        int_value = v[1]
+                                        trigger_match = v[0]
+                                        value_updated = int(int_value) + 1
+                                        fixed_decision_code = fixed_decision_code.replace(trigger_match, f'NOT = {{ {i} < {value_updated}0 }}')
+                                        print(f'{dec_id} - recheck custom cost trigger! Replaced {int_value}9 with {value_updated}0')
+                                value_matches = re.findall(rf'({i} > 9)', custom_cost_trigger)
+                                if len(value_matches) > 0:
+                                    for v in value_matches:
+                                        trigger_match = v
+                                        value_updated = 10
+                                        fixed_decision_code = fixed_decision_code.replace(trigger_match, f'NOT = {{ {i} < {value_updated} }}')
+                                        print(f'{dec_id} - recheck custom cost trigger! Replaced 9 with {value_updated}')
+                        if 'has_equipment' in custom_cost_trigger:
+                            if " >" in custom_cost_trigger:
+                                value_matches = re.findall(r'(has_equipment = \{ ([^ \t]+) > (\d+)9)', custom_cost_trigger)
+                                if len(value_matches) > 0:
+                                    for v in value_matches:
+                                        int_value = v[2]
+                                        eqt = v[1]
+                                        trigger_match = v[0]
+                                        value_updated = int(int_value) + 1
+                                        fixed_decision_code = fixed_decision_code.replace(trigger_match, f'NOT = {{ has_equipment = {{ {eqt} < {value_updated}0 }}')
+                        if 'has_manpower' in custom_cost_trigger:
+                            if " >" in custom_cost_trigger:
+                                value_matches = re.findall(r'(has_manpower > (\d+)9)', custom_cost_trigger)
+                                if len(value_matches) > 0:
+                                    for v in value_matches:
+                                        int_value = v[1]
+                                        trigger_match = v[0]
+                                        value_updated = int(int_value) + 1
+                                        fixed_decision_code = fixed_decision_code.replace(trigger_match, f'NOT = {{ has_manpower < {value_updated}0 }}')
+                    elif "4" in custom_cost_trigger:
+                        for i in custom_cost_list:
+                            if i + " >" in custom_cost_trigger:
+                                value_matches = re.findall(rf'({i} > (\d+)4)', custom_cost_trigger)
+                                if len(value_matches) > 0:
+                                    for v in value_matches:
+                                        int_value = v[1]
+                                        trigger_match = v[0]
+                                        value_updated = int(int_value)
+                                        fixed_decision_code = fixed_decision_code.replace(trigger_match, f'NOT = {{ {i} < {value_updated}5 }}')
+                                        print(f'{dec_id} - recheck custom cost trigger! Replaced {int_value}4 with {value_updated}5')
+                    elif ">" in custom_cost_trigger:
+                        for i in custom_cost_list:
+                            if i + " >" in custom_cost_trigger:
+                                value_matches = re.findall(rf'({i} > (\d+))', custom_cost_trigger)
+                                if len(value_matches) > 0:
+                                    for v in value_matches:
+                                        int_value = v[1]
+                                        trigger_match = v[0]
+                                        value_updated = int(int_value)
+                                        fixed_decision_code = fixed_decision_code.replace(trigger_match, f'NOT = {{ {i} < {value_updated} }}')
+                                        print(f'{dec_id} - recheck custom cost trigger! Replaced > {int_value} with NOT < {value_updated}')
+                        if 'has_equipment' in custom_cost_trigger:
+                            value_matches = re.findall(r'(has_equipment = \{ ([^ \t]+) > (\d+))', custom_cost_trigger)
+                            if len(value_matches) > 0:
+                                for v in value_matches:
+                                    int_value = v[2]
+                                    eqt = v[1]
+                                    trigger_match = v[0]
+                                    value_updated = int(int_value)
+                                    fixed_decision_code = fixed_decision_code.replace(trigger_match, f'NOT = {{ has_equipment = {{ {eqt} < {value_updated} }}')
+                                    print(f'{dec_id} - recheck custom cost trigger! Replaced > {int_value} with NOT < {value_updated}')
+                        if 'has_manpower' in custom_cost_trigger:
+                            if " >" in custom_cost_trigger:
+                                value_matches = re.findall(r'(has_manpower > (\d+))', custom_cost_trigger)
+                                if len(value_matches) > 0:
+                                    for v in value_matches:
+                                        int_value = v[1]
+                                        trigger_match = v[0]
+                                        value_updated = int(int_value)
+                                        fixed_decision_code = fixed_decision_code.replace(trigger_match, f'NOT = {{ has_manpower < {value_updated} }}')
+                                        print(f'{dec_id} - recheck custom cost trigger! Replaced > {int_value} with NOT < {value_updated}')
 
                 if cancel_effect:
                     if expected_logging_line_cancel not in cancel_effect:
@@ -457,6 +562,10 @@ def format_logging_decisions(username, mod_name):
                         if not has_any_logging_timeout:
                             str_to_replace_timeout = re.findall('timeout_effect = \\{', dec)[0]
                             fixed_decision_code = fixed_decision_code.replace(str_to_replace_timeout, 'timeout_effect = {\n\t\t\t' + expected_logging_line_timeout)
+
+                if "fixed_random_seed = no" not in dec:
+                    str_to_replace_seed = re.findall(r'^\t\}', dec, re.MULTILINE)[0]
+                    fixed_decision_code = '\t\tfixed_random_seed = no\n\t}'.join(fixed_decision_code.rsplit(str_to_replace_seed, 1))
 
                 if fixed_decision_code != dec:
                     dict_with_str_to_replace[dec] = fixed_decision_code
@@ -660,6 +769,7 @@ def apply_formatting(filename, encoding="utf-8"):
 
     replace_string(filename=filename, pattern='limit = \\{\\n\\t+(has_template = .*?)\\n\\t+\\}', replace_with='limit = { \\1 }', encoding=encoding)
     replace_string(filename=filename, pattern='set_technology = \\{\\n\\t+(.+?)\\n\\t+\\}', replace_with='set_technology = { \\1 }', encoding=encoding)
+    replace_string(filename=filename, pattern='has_equipment = \\{\\n\\t+(.+?)\\n\\t+\\}', replace_with='has_equipment = { \\1 }', encoding=encoding)
     replace_string(filename=filename, pattern='delete_unit_template_and_units = \\{[^}]*?\\n\\t+(division_template = \".*?\").*\\n\\t+(disband = \\w+).*\\n\\t+\\}', replace_with='delete_unit_template_and_units = { \\1 \\2 }', encoding=encoding)
     replace_string(filename=filename, pattern='delete_unit_template_and_units = \\{[^}]*?\\n\\t+(division_template = \".*?\").*\\n\\t+\\}', replace_with='delete_unit_template_and_units = { \\1 }', encoding=encoding)
     replace_string(filename=filename, pattern='target_array = allies', replace_with='target_array = faction_members', encoding=encoding)
@@ -669,6 +779,10 @@ def apply_formatting(filename, encoding="utf-8"):
     replace_string(filename=filename, pattern='remove_targeted_decision = \\{\\n\\t+(decision = .*?)\\n\\t+(target = .*?)\\n\\t+\\}', replace_with='remove_targeted_decision = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)
     replace_string(filename=filename, pattern='has_game_rule = \\{\\n\\t+(rule = .*?)\\n\\t+(option = .*?)\\n\\t+\\}', replace_with='has_game_rule = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
     replace_string(filename=filename, pattern='has_game_rule = \\{\\n\\t+(option = .*?)\\n\\t+(rule = .*?)\\n\\t+\\}', replace_with='has_game_rule = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)
+    replace_string(filename=filename, pattern='has_opinion = \\{\\n\\t+(target = .*?)\\n\\t+(value > .*?)\\n\\t+\\}', replace_with='has_opinion = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
+    replace_string(filename=filename, pattern='has_opinion = \\{\\n\\t+(value > .*?)\\n\\t+(target = .*?)\\n\\t+\\}', replace_with='has_opinion = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)
+    replace_string(filename=filename, pattern='has_opinion = \\{\\n\\t+(target = .*?)\\n\\t+(value < .*?)\\n\\t+\\}', replace_with='has_opinion = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)
+    replace_string(filename=filename, pattern='has_opinion = \\{\\n\\t+(value < .*?)\\n\\t+(target = .*?)\\n\\t+\\}', replace_with='has_opinion = { \\2 \\1 }', encoding=encoding, flag=re.MULTILINE)
 
     replace_string(filename=filename, pattern='ai_chance = \\{\\n\\t+(base = [\\d\\.]+).*\\n\\t+\\}', replace_with='ai_chance = { \\1 }', encoding=encoding, flag=re.MULTILINE)
     replace_string(filename=filename, pattern='ai_chance = \\{\\n\\t+(factor = [\\d\\.]+).*\\n\\t+\\}', replace_with='ai_chance = { \\1 }', encoding=encoding, flag=re.MULTILINE)
@@ -711,6 +825,25 @@ def apply_formatting(filename, encoding="utf-8"):
             replace_string(filename=filename, pattern='(?<!^)' + variant + ' = \\{\\n\\t+(id = [^ #]*?) .*?(#.*?)\\n\\t+(hours = [^ #]*?)\\n\\t+(random_hours = [^ #]*?)\\n\\t+\\}', replace_with=variant + ' = { \\1 \\3 \\4 } \\2', encoding=encoding, flag=re.MULTILINE)    # With comments on id line
             replace_string(filename=filename, pattern='(?<!^)' + variant + ' = \\{\\n\\t+(id = [^ #]*?) (days = [^ #]*?)\\n\\t+\\}', replace_with=variant + ' = { \\1 \\2 }', encoding=encoding, flag=re.MULTILINE)                                         # id and days on the same line
             replace_string(filename=filename, pattern='(?<!^)' + variant + ' = \\{\\n\\t+(id = [^ #]*?) (days = [^ #]*?) .*?(#.*?)\\n\\t+\\}', replace_with=variant + ' = { \\1 \\2 } \\3', encoding=encoding, flag=re.MULTILINE)                           # id and days and comments on the same line
+
+    if "check_variable" in text_file:
+        replace_string(filename=filename, pattern='check_variable = \\{\\n\\t+var = (.*?)\\n\\t+value = (.*?)\\n\\t+compare = less_than\\n\\t+\\}', replace_with='check_variable = { \\1 < \\2 }', encoding=encoding, flag=re.MULTILINE)
+        replace_string(filename=filename, pattern='check_variable = \\{ var = (.*?) value = (.*?) compare = less_than \\}', replace_with='check_variable = { \\1 < \\2 }', encoding=encoding)
+        replace_string(filename=filename, pattern='check_variable = \\{\\n\\t+var = (.*?)\\n\\t+value = (.*?)\\n\\t+compare = greater_than\\n\\t+\\}', replace_with='check_variable = { \\1 > \\2 }', encoding=encoding, flag=re.MULTILINE)
+        replace_string(filename=filename, pattern='check_variable = \\{ var = (.*?) value = (.*?) compare = greater_than \\}', replace_with='check_variable = { \\1 > \\2 }', encoding=encoding)
+        replace_string(filename=filename, pattern='check_variable = \\{\\n\\t+var = (.*?)\\n\\t+value = (.*?)\\n\\t+compare = equals\\n\\t+\\}', replace_with='check_variable = { \\1 = \\2 }', encoding=encoding, flag=re.MULTILINE)
+        replace_string(filename=filename, pattern='check_variable = \\{ var = (.*?) value = (.*?) compare = equals \\}', replace_with='check_variable = { \\1 = \\2 }', encoding=encoding)
+
+        replace_string(filename=filename, pattern='check_variable = \\{\\n\\t+var = (.*?)\\n\\t+value = (.*?)\\n\\t+compare = less_than_or_equals\\n\\t+\\}', replace_with='NOT = { check_variable = { \\1 > \\2 } }', encoding=encoding, flag=re.MULTILINE)
+        replace_string(filename=filename, pattern='check_variable = \\{ var = (.*?) value = (.*?) compare = less_than_or_equals \\}', replace_with='NOT = { check_variable = { \\1 > \\2 } }', encoding=encoding)
+        replace_string(filename=filename, pattern='check_variable = \\{\\n\\t+var = (.*?)\\n\\t+value = (.*?)\\n\\t+compare = greater_than_or_equals\\n\\t+\\}', replace_with='NOT = { check_variable = { \\1 < \\2 } }', encoding=encoding, flag=re.MULTILINE)
+        replace_string(filename=filename, pattern='check_variable = \\{ var = (.*?) value = (.*?) compare = greater_than_or_equals \\}', replace_with='NOT = { check_variable = { \\1 < \\2 } }', encoding=encoding)
+        replace_string(filename=filename, pattern='check_variable = \\{\\n\\t+var = (.*?)\\n\\t+value = (.*?)\\n\\t+compare = not_equals\\n\\t+\\}', replace_with='NOT = { check_variable = { \\1 = \\2 } }', encoding=encoding, flag=re.MULTILINE)
+        replace_string(filename=filename, pattern='check_variable = \\{ var = (.*?) value = (.*?) compare = not_equals \\}', replace_with='NOT = { check_variable = { \\1 = \\2 } }', encoding=encoding)
+
+        replace_string(filename=filename, pattern='check_variable = \\{\\n\\t+([^ ]*?) > ([^ ]*?)\\n\\t+\\}', replace_with='check_variable = { \\1 > \\2 }', encoding=encoding, flag=re.MULTILINE)
+        replace_string(filename=filename, pattern='check_variable = \\{\\n\\t+([^ ]*?) < ([^ ]*?)\\n\\t+\\}', replace_with='check_variable = { \\1 < \\2 }', encoding=encoding, flag=re.MULTILINE)
+        replace_string(filename=filename, pattern='check_variable = \\{\\n\\t+([^ ]*?) = ([^ ]*?)\\n\\t+\\}', replace_with='check_variable = { \\1 = \\2 }', encoding=encoding, flag=re.MULTILINE)
 
 
 def apply_formatting_loc(filename, encoding="utf-8-sig"):
