@@ -6,6 +6,21 @@ from pathlib import Path
 from test_classes.generic_test_class import FileOpener
 
 
+def extract_value(obj, s: str, lines: int = 2) -> str:
+    if lines == 1:
+        return re.findall(p1l(s), obj)[0] if f"\t{s} =" in obj else False
+    elif lines > 1:
+        return re.findall(pml(s), obj, flags=re.DOTALL | re.MULTILINE)[0][1] if f"\t{s} =" in obj else False
+
+
+def p1l(s: str) -> str:
+    return r"\t+" + s + r" = (\S*)"
+
+
+def pml(s: str) -> str:
+    return r"(\t+)" + s + r" = (\{([^\n]*|.*?^\1)\})"
+
+
 class Events:
     @classmethod
     def get_all_events(cls, test_runner, lowercase: bool = True, return_paths: bool = False, filepath_should_contain: str = "", filepath_should_not_contain: str = "") -> list[str]:
@@ -126,3 +141,7 @@ class EventFactory:
             raise
 
         self.is_triggered_only = "is_triggered_only = yes" in e
+        try:
+            self.trigger = re.findall(r'^\ttrigger = \{.*?^\t\}', e, flags=re.MULTILINE | re.DOTALL)[0]
+        except IndexError:
+            self.trigger = False
