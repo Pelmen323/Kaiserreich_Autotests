@@ -13,7 +13,7 @@ from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 def test_check_values_digits_after_decimal(test_runner: object):
     filepath = test_runner.full_path_to_mod
-    results = {}
+    results = []
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         if 'ambient_object' in filename:
             continue
@@ -25,6 +25,7 @@ def test_check_values_digits_after_decimal(test_runner: object):
             pattern_matches = re.findall('\\d\\.\\d{4,10}', current_line)
             if len(pattern_matches) > 0:
                 if '#' not in current_line and "stability" not in current_line and "war_support" not in current_line:
-                    results[f'{os.path.basename(filename)}, line {line}'] = current_line
+                    current_line = current_line.strip('\t')
+                    results.append(f'{os.path.basename(filename):<45}line {line:<15}{current_line:<15}')
 
     ResultsReporter.report_results(results=results, message="Values with 4+ digits after decimal point found, Hoi4 factors supports only 3 digits after decimal point.")

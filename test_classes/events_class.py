@@ -59,15 +59,16 @@ class Events:
         """
         events = Events.get_all_events(test_runner=test_runner, lowercase=lowercase)
         pattern = re.compile(r"^\tid = (\S+)", flags=re.MULTILINE)
+        event_ids = []
 
         for event in events:
             pattern_matches = pattern.findall(event)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
-                    events.append(match)
+                    event_ids.append(match)
 
-        assert len(events) != 0
-        return sorted(set(events))
+        assert len(event_ids) != 0
+        return sorted(set(event_ids))
 
     @classmethod
     def get_all_triggered_events_names(cls, test_runner, lowercase: bool = True, return_duplicates: bool = False) -> list:
@@ -114,3 +115,14 @@ class Events:
         if return_duplicates:
             return sorted(events)
         return sorted(set(events))
+
+
+class EventFactory:
+    def __init__(self, e: str) -> None:
+        try:
+            self.token = re.findall(r"^\tid = (\S+)", e, flags=re.MULTILINE)[0]
+        except Exception:
+            print(e)
+            raise
+
+        self.is_triggered_only = "is_triggered_only = yes" in e
