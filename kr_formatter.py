@@ -180,11 +180,12 @@ def format_filenames_portraits(username, mod_name):
                 if name[3] != '_':
                     continue
                 else:
-                    expected_name = name[0:3].upper() + '_' + name[4:].lower()
-                    if name != expected_name:
-                        override = True
-                        overridden_line = i.replace(name, expected_name)
-                        text_file_new = text_file_new.replace(i, overridden_line)
+                    if name[0:3] != 'old':
+                        expected_name = name[0:3].upper() + '_' + name[4:].lower()
+                        if name != expected_name:
+                            override = True
+                            overridden_line = i.replace(name, expected_name)
+                            text_file_new = text_file_new.replace(i, overridden_line)
 
         if override:
             with open(filename, 'w', encoding=file_encoding) as text_file_write:

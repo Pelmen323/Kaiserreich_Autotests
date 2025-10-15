@@ -55,7 +55,7 @@ def test_decisions_custom_cost_trigger(test_runner: object):
                 results.append(f"{d.token:<45}{paths[decision]:<55}useless 'ai_hint_pp_cost' line - no political power costs in custom_cost_trigger")
 
             for i in cost_map:
-                if i in d.custom_cost_trigger and "<" in d.custom_cost_trigger and "check_variable" not in d.custom_cost_trigger:
+                if i in d.custom_cost_trigger and "<" in d.custom_cost_trigger and "check_variable" not in d.custom_cost_trigger and "var:" not in d.custom_cost_trigger:
                     custom_cost = re.findall(i + r" \< \d+", d.custom_cost_trigger)[0]
                     expected_cost_line = custom_cost.replace("< ", "= -").replace(i, cost_map[i])
                     expected_cost_line_refund = expected_cost_line.replace("-", "")
