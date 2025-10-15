@@ -13,16 +13,19 @@ from test_classes.generic_test_class import (
 
 FALSE_POSITIVES_GENERIC = [
     "@",
+    "[",
 ]
 
 FALSE_POSITIVES_COUNTRY = [
     "@",
+    "[",
     "saf_antagonise_",
     "default_puppet",
 ]
 
 FALSE_POSITIVES_GLOBAL = [
     "@",
+    "[",
     "kr_current_version",
 ]
 

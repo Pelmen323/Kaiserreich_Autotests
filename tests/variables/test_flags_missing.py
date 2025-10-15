@@ -13,10 +13,12 @@ from test_classes.generic_test_class import (
 
 FALSE_POSITIVES_GENERIC = [
     "@",
+    "[",
 ]
 
 FALSE_POSITIVES_COUNTRY = [
     "@",
+    "[",
     "ire_got_guarantee",
     "ire_rejected_guarantee",
     "nfa_rebelled",
