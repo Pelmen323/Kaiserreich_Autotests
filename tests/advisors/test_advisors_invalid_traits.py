@@ -40,6 +40,14 @@ def test_advisors_invalid_traits(test_runner: object, trait_type):
                 lowercase=True,
                 path=filename
             )
+        if trait_type == "second_in_command":
+            path3 = str(base_path / '**second_in_command_traits.txt')
+            for filename in glob.iglob(path3):
+                allowed_advisor_traits += Characters.get_advisors_traits(
+                    test_runner=test_runner,
+                    lowercase=True,
+                    path=filename
+                )
 
     results = []
     assert len(allowed_advisor_traits) > 0, "Allowed advisor traits list is empty"
