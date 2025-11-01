@@ -17,8 +17,8 @@ def test_check_create_unit_string(test_runner: object):
         text_file = FileOpener.open_text_file(filename)
 
         if 'create_unit = {' in text_file:
-            pattern_matches_basic = re.findall('^(\\t+)create_unit = \\{(.*?)\\n\\1\\}', text_file, flags=re.MULTILINE | re.DOTALL)
-            pattern_matches = re.findall('^(\\t+)create_unit = \\{(.*?\t(division = [^\\n]+).*?)\\n\\1\\}', text_file, flags=re.MULTILINE | re.DOTALL)
+            pattern_matches_basic = re.findall(r'^(\t+)create_unit = \{(.*?)\n\1\}', text_file, flags=re.MULTILINE | re.DOTALL)
+            pattern_matches = re.findall(r'^(\t+)create_unit = \{(.*?\t(division = [^\n]+).*?)\n\1\}', text_file, flags=re.MULTILINE | re.DOTALL)
             # Check if every effect contains division string
             if len(pattern_matches_basic) != len(pattern_matches):
                 results.append(f'{os.path.basename(filename)} - one of the effects is missing division string')

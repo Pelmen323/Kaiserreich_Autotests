@@ -10,7 +10,7 @@ FALSE_POSITIVES = [
 ]
 
 
-def test_decisions_with_tartets_no_trigger(test_runner: object):
+def test_decisions_with_targets_no_trigger(test_runner: object):
     decisions, paths = Decisions.get_all_decisions(test_runner=test_runner, lowercase=True, return_paths=True)
     results = []
 
