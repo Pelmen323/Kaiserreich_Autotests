@@ -597,6 +597,10 @@ def format_logging_focuses(username, mod_name):
             for focus in pattern_matches:
                 try:
                     focus_id = re.findall('^\\t\\tid = (\S+)', focus, flags=re.MULTILINE)[0]
+                    try:
+                        focus_name = re.findall('^\\t\\ttext = (\S+)', focus, flags=re.MULTILINE)[0]
+                    except IndexError:
+                        focus_name = focus_id
 
                     select_effect = re.findall('(\\t+)select_effect = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'select_effect =' in focus else False
                     complete_effect = re.findall('(\\t+)completion_reward = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'completion_reward =' in focus else False
@@ -631,6 +635,21 @@ def format_logging_focuses(username, mod_name):
                         if not has_any_logging_complete:
                             str_to_replace_complete = re.findall('completion_reward = \\{', focus)[0]
                             fixed_focus_code = fixed_focus_code.replace(str_to_replace_complete, 'completion_reward = {\n\t\t\t' + expected_logging_line_complete)
+
+                    tech_bonus = re.findall(r'add_tech_bonus = \{.*?\}', complete_effect, flags=re.DOTALL | re.MULTILINE) if 'add_tech_bonus =' in complete_effect else False
+                    doctrine_cost_reduction = re.findall(r'add_doctrine_cost_reduction = \{.*?\}', complete_effect, flags=re.DOTALL | re.MULTILINE) if 'add_doctrine_cost_reduction =' in complete_effect else False
+                    mastery_bonus = re.findall(r'add_mastery_bonus = \{.*?\}', complete_effect, flags=re.DOTALL | re.MULTILINE) if 'add_mastery_bonus =' in complete_effect else False
+
+                    for matches in [tech_bonus, doctrine_cost_reduction, mastery_bonus]:
+                        if matches:
+                            for match in matches:
+                                if f'name = {focus_name}' not in match:
+                                    if 'name = ' not in match:
+                                        pass
+                                    else:
+                                        str_to_replace_name = re.findall(r'name = [^\t\n ]+', match)[0]
+                                        updated_match = match.replace(str_to_replace_name, f'name = {focus_name}')
+                                        fixed_focus_code = fixed_focus_code.replace(match, updated_match)
 
                 if fixed_focus_code != focus:
                     dict_with_str_to_replace[focus] = fixed_focus_code
