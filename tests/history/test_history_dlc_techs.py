@@ -22,7 +22,6 @@ armor_techs = {
     "super_heavy_tank": "super_heavy_tank_chassis",
     "land_cruiser_armor": "land_cruiser_chassis",
     "main_battle_tank": "main_battle_tank_chassis",
-    "amphibious_tank": "amphibious_tank_chassis",
 }
 
 aircraft_techs = {
