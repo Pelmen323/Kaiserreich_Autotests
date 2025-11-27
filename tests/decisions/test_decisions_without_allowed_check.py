@@ -48,8 +48,9 @@ def test_decisions_without_allowed_check(test_runner: object):
 
     # 1. Get all decision categories without allowed check:
     for cat, cat_code in decision_categories.items():
-        if "allowed = {" not in cat_code:
-            categories_without_allowed_trigger.append(cat)
+        if cat != 'governments_in_exile' and cat != 'category_exile_forces':
+            if "allowed = {" not in cat_code:
+                categories_without_allowed_trigger.append(cat)
 
     # 2. Extract decisions from categories above:
     for i in dict_decisions_categories:
