@@ -133,29 +133,18 @@ in console, replace **username** with your system username and **mod_name** with
 ![Screenshot (1959)](https://user-images.githubusercontent.com/43440389/151341518-cf21b401-3c90-459d-80ce-02385a0166fe.png)
 
 
-## Pytest-Jenkins instructions
-It allows to run tests automatically based on specific triggers
+## CI (GitHub Actions)
+Automated test runs for this repository are executed via private GitHub Actions workflows. Actions supply environment variables and secrets and may pass a `--repo_path` argument to tests when needed. Avoid hard-coded per-user file paths in workflow files.
 
-0. Create a Python Virtual Environment, install Pytest via 'pip install pytest' or 'pipenv install pytest' if you use pipenv, install 'pytest-xdist' - 'pip install pytest-xdist' or 'pipenv install pytest-xdist' if you use pipenv
-1. Install [Jenkins](https://www.jenkins.io/)
-2. Install **Python Plugin** and **ShiningPanda Plugin** Jenkins plugins:
-![Screenshot (1782)](https://user-images.githubusercontent.com/43440389/148402585-b2eaa6d6-7496-4b11-8643-1b1b17fa87ff.png)
+To produce XML test artifacts for consumers, include `--junitxml TestResults.xml` on the pytest command line inside the workflow step that runs tests.
 
-3. Provide Git and Python paths in "Manage Jenkins/Global Tool Configuration/" (For Python - provide path to your virtual environment python.exe file)
-![Screenshot (1783)](https://user-images.githubusercontent.com/43440389/148402687-6e20b249-e248-46b8-bca6-39af6920626f.png)
+Example (workflow snippet):
+```yaml
+- name: Run pytest
+	run: |
+		pip install -r requirements.txt
+		pytest -v -s --tb=short "--username=${{ github.actor }}" "--mod_name=Kaiserreich Dev Build" -n 6 --junitxml TestResults.xml
+```
 
-4. Create a new Job (Freestyle project)
-5. Configure the job
-- [GitHub repository](https://github.com/Pelmen323/Kaiserreich_Autotests), branch - main
-- Build action - Custom Python Builder, path to your venv (not to exe), nature - Shell, command:
-### pytest -v -s --tb=short "--username=xxx" "--mod_name=xxx" -n 6 --junitxml TestResults.xml
-(replace **username** with your system username and **mod_name** with mod folder name, -n - number of your CPU cores)
-![Screenshot (1961)](https://user-images.githubusercontent.com/43440389/151342210-319f1f31-e817-4283-8462-4279b4aa4e01.png)
-- Post-Build Actions - Publish Junit test result report, test report xmls - *.xml
-![Screenshot (1962)](https://user-images.githubusercontent.com/43440389/151342304-4a1a4855-e3b0-4ad5-ab7e-d75877be3084.png)
-
-6. Setup the Build Triggers (or you can trigger the job manually)
-7. Save the job
-
-![Diagram](tests_coverage.svg)
+Note: these workflows are maintained in a private repository for CI; do not rely on the old Jenkins instructions.
 
