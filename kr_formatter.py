@@ -564,9 +564,19 @@ def format_logging_decisions(username, mod_name):
                             str_to_replace_timeout = re.findall('timeout_effect = \\{', dec)[0]
                             fixed_decision_code = fixed_decision_code.replace(str_to_replace_timeout, 'timeout_effect = {\n\t\t\t' + expected_logging_line_timeout)
 
+                ### Append 'fixed_random_seed = no' to every decision
                 if "fixed_random_seed = no" not in dec:
                     str_to_replace_seed = re.findall(r'^\t\}', dec, re.MULTILINE)[0]
                     fixed_decision_code = '\t\tfixed_random_seed = no\n\t}'.join(fixed_decision_code.rsplit(str_to_replace_seed, 1))
+
+                ### Coal icon
+                if complete_effect:
+                    if "type = coal" in complete_effect:
+                        fixed_decision_code = re.sub(r'\t\ticon = [^\t\s\n]+', '\t\ticon = coal', fixed_decision_code)
+
+                if remove_effect:
+                    if "type = coal" in remove_effect:
+                        fixed_decision_code = re.sub(r'\t\ticon = [^\t\s\n]+', '\t\ticon = coal', fixed_decision_code)
 
                 if fixed_decision_code != dec:
                     dict_with_str_to_replace[dec] = fixed_decision_code
