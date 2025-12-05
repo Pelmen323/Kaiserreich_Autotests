@@ -8,8 +8,10 @@ from .generic_test_class import FileOpener
 class Localization:
 
     @classmethod
-    def get_all_loc_keys(cls, test_runner, lowercase: bool = True, return_duplicated_keys: bool = False, return_keys_from_specific_file: str = False) -> dict:
+    def get_all_loc_keys(cls, test_runner, lowercase: bool = True, return_duplicated_keys: bool = False, return_keys_from_specific_file: str = False, include_only: str = False, fetch_from_vanilla: bool = False) -> dict:
         filepath = str(Path(test_runner.full_path_to_mod) / "localisation") + "/"
+        if fetch_from_vanilla:
+            filepath = 'C:\\SteamLibrary\\steamapps\\common\\Hearts of Iron IV\\localisation\\'
         results = []
         loc_dict = {}
         duplicated_loc_keys = []
@@ -20,6 +22,10 @@ class Localization:
 
                 if "l_english" not in text_file:
                     continue
+
+                if include_only:
+                    if include_only not in filename:
+                        continue
 
                 lines_raw = text_file.split('\n')                                                                           # 1. Get list of all lines regardless of contents
                 lines_raw = [i for i in lines_raw if ":" in i and "l_english:" not in i and i.strip(' ')[0] != "#"]         # 2. Form a list only with valid loc keys
