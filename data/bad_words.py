@@ -630,7 +630,6 @@ bad_words = {
     "intelectual": "intellectual",
     "interupted": "interrupted",
     "intresting": "interesting",
-    "irresistible": "irresistible",
     "jist": "gist",
     "knowlegeable": "knowledgeable",
     "lenght": "length",
