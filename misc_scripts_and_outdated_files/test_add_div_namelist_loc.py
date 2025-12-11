@@ -18,7 +18,6 @@ def detect_encoding(filename):
 
 
 def test_division_composition_parser(test_runner: object):
-    filepath = test_runner.full_path_to_mod
     filepath_names = str(Path(test_runner.full_path_to_mod) / "common" / "units" / "names_divisions") + "/"
     filepath_loc = str(Path(test_runner.full_path_to_mod) / "localisation" / "english" / "KR_common" / "division namelists l_english.yml")
     dict_names = {}

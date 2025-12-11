@@ -3,13 +3,12 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import os
 import re
 from collections import Counter
 from pathlib import Path
 from charset_normalizer import detect
 
-from test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.generic_test_class import FileOpener
 
 def detect_encoding(filename):
     with open(filename, 'rb') as f:
@@ -94,7 +93,7 @@ def test_division_composition_parser(test_runner: object):
             if override:
                 with open(filename, 'w', encoding='utf-8') as text_file_write:
                     text_file_write.write(text_file_new)
-                    
+
 
 
 

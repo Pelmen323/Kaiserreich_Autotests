@@ -46,7 +46,7 @@ def main(input_list: list[str, str]):
             output_str = '\n\tSpriteType = {\n\t\tname = "GFX_' + tag + '_' + chassis + '"\n\t\ttexturefile = "' + icon_path + '"\n\t}'
             if output_str not in input_file:
                 if 'GFX_' + tag + '_' + chassis in input_file:
-                    print(f'GFX_{tag}_{chassis} is already present, but points to a different texture') 
+                    print(f'GFX_{tag}_{chassis} is already present, but points to a different texture')
                 output_list.append([key, output_str])
 
     if SAME_FILE:

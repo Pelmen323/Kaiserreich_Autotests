@@ -3,14 +3,11 @@ import re
 import os
 
 from ..test_classes.generic_test_class import FileOpener
-from ..test_classes.characters_class import Characters
 
 
 def test_convert_portraits_lines(test_runner):
     portraits_dict = {}
     gfx_override_dict = {}
-    pattern_civilian = r'\t\t\tcivilian = \{.*?\}'
-    pattern_army = r'\t\t\tarmy = \{.*?\}'
 
     filepath_to_gfx = f'{test_runner.full_path_to_mod}interface\\kaiserreich\\portraits'
     filepath_to_portraits = f'{test_runner.full_path_to_mod}gfx\\leaders\\'
@@ -55,7 +52,7 @@ def test_convert_portraits_lines(test_runner):
                     print(char_name)
                     new_filename = tag + '_' + char_name.lower() + '_' + portrait_type + '.png"'
                 else:
-                    new_filename = tag + '_' + char_name.lower() + '.png"'  
+                    new_filename = tag + '_' + char_name.lower() + '.png"'
                 texturefile_path, old_filename = re.findall(r'(.*/)([^/]*)"', texturefile)[0]
                 new_path = texturefile_path + new_filename
                 portraits_dict[old_filename] = new_filename[:-1]
@@ -82,8 +79,8 @@ def test_convert_portraits_lines(test_runner):
             if key in os.path.basename(filename):
                 os.rename(filename, filename.replace(os.path.basename(filename), value))
         # os.rename(filename, f'{filename[:-4]}_alt.png')
-                    
-        
+
+
         # for key, value in portraits_dict.items():
         #     if value[1] in text_file:
         #         text_file = FileOpener.open_text_file(filename, lowercase=False)

@@ -3,12 +3,10 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import os
 import re
-from collections import Counter
 from pathlib import Path
 
-from test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.generic_test_class import FileOpener
 
 invalid_targets = [
     'can_annex',

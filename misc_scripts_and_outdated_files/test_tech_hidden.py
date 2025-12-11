@@ -10,9 +10,7 @@ from test_classes.generic_test_class import FileOpener, ResultsReporter
 
 
 def test_non_dlc_techs_usage(test_runner: object):
-    filepath = test_runner.full_path_to_mod
     filepath_to_techs = f'{test_runner.full_path_to_mod}common\\technologies'
-    techs = []
     sub_techs = []
     results = []
 

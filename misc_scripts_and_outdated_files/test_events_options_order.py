@@ -11,23 +11,6 @@ from test_classes.generic_test_class import ResultsReporter
 def test_events_unsupported_title_desc(test_runner: object):
     results = []
     events = Events.get_all_events(test_runner=test_runner, lowercase=True, filepath_should_not_contain="Annexation")
-    expected_postfix_dict = {
-        0: ".a",
-        1: ".b",
-        2: ".c",
-        3: ".d",
-        4: ".e",
-        5: ".f",
-        6: ".g",
-        7: ".h",
-        8: ".i",
-        9: ".j",
-        10: ".k",
-        11: ".l",
-        12: ".m",
-        13: ".n",
-        14: ".o",
-    }
 
     for event in events:
         event_id = re.findall(r"^\tid = (\S+)", event, flags=re.MULTILINE)[0]

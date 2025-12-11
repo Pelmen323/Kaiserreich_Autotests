@@ -9,5 +9,5 @@ ideology_bundles = {
     "has_dictatorship_government": ["has_government = paternal_autocrat", "has_government = national_populist"],
     "has_right_democratic_government": ["has_government = social_conservative", "has_government = market_liberal"],
     "has_left_democratic_government": ["has_government = social_liberal", "has_government = social_democrat"],
-    "has_conservative_government": ["has_government = social_conservative", "has_government = authoritarian_democrat"], 
+    "has_conservative_government": ["has_government = social_conservative", "has_government = authoritarian_democrat"],
 }

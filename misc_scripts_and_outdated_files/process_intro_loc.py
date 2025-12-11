@@ -48,7 +48,7 @@ def main():
             with open(filename, 'w', encoding='utf-8-sig') as text_file_write:
                 text_file_write.write(input_file_new)
 
-            
+
 
     # for item in input_list:
     #     i = item[0]

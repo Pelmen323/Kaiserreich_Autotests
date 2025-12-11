@@ -4,7 +4,6 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import glob
-import re
 
 from test_classes.events_class import Events
 from test_classes.generic_test_class import FileOpener, ResultsReporter
@@ -16,13 +15,11 @@ def test_events_missing(test_runner: object):
     results = [i for i in triggered_events if events.count(i) == 0]
     results_to_exclude = []
     filepath = test_runner.full_path_to_mod
-    pattern = re.compile(r".*#.*country_event =")
 
     # exclude commented events
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename)
         if "#" in text_file and "country_event =" in text_file:
-            #if len(pattern.findall(text_file)) > 0:
             text_file_splitted = text_file.split('\n')[1:]
             for line in range(len(text_file_splitted)):
                 current_line = text_file_splitted[line]

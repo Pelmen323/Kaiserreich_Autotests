@@ -1,7 +1,5 @@
 import glob
 import os
-import re
-from collections import Counter
 
 
 INPUT_FOLDER = 'C:\\Repos\\Kaiserreich_Tests\\input_images\\'

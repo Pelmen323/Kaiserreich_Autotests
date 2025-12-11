@@ -102,7 +102,7 @@ def legacy_designer_trait_replacer(username, mod_name):
                 if m in idea_name.lower():
                     partial_match = True
                     matching_mio_trait = mio_dict[m]
-                    break 
+                    break
                 elif idea_name_arg:
                     # 3. idea name is in mio name
                     if idea_name_arg in m:
@@ -238,7 +238,6 @@ def legacy_designer_research_replacer(username, mod_name):
 def list_ideas(username, mod_name):
     results = []
     test_runner = TestRunner(username, mod_name)
-    filepath_to_ideas = str(Path(test_runner.full_path_to_mod) / "common" / "ideas") + "/"
 
     idea_names = []
 

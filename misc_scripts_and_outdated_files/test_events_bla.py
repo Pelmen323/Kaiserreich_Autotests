@@ -2,7 +2,6 @@
 # Test script to check for events with invalid title/desc
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-import re
 
 from test_classes.events_class import Events, EventFactory
 from test_classes.generic_test_class import ResultsReporter

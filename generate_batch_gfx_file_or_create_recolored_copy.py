@@ -1,6 +1,5 @@
 import os
 from PIL import Image, ImageEnhance
-import numpy as np
 import glob
 
 # Specify input and output directories

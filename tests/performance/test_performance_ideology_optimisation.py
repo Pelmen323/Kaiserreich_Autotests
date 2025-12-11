@@ -2,7 +2,6 @@
 # Test script to check for possible replacement of separate ideology triggers with scripted triggers
 # By Pelmen, https://github.com/Pelmen323
 ##########################
-import re
 
 from data.ideologies import ideology_bundles
 from test_classes.decisions_class import Decisions, DecisionsFactory

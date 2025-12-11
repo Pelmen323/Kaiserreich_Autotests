@@ -14,6 +14,7 @@ charset-normalizer = "*"
 requests = "*"
 pytest-timeout = "*"
 fuzzywuzzy = "*"
+ruff = "*"
 
 [dev-packages]
 

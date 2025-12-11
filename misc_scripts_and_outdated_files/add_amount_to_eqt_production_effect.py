@@ -2,7 +2,7 @@ import re
 import os
 import glob
 from pathlib import Path
-from test_classes.generic_test_class import FileOpener, ResultsReporter
+from test_classes.generic_test_class import FileOpener
 
 INPUT_FILE_PATH = 'C:\\Users\\' + os.getlogin() + '\\Documents\\Paradox Interactive\\Hearts of Iron IV\\mod\\Kaiserreich Dev Build\\'
 

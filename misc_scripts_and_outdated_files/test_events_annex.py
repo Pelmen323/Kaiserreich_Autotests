@@ -3,17 +3,14 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import re
-import glob
 
 from test_classes.events_class import Events
-from test_classes.generic_test_class import ResultsReporter, FileOpener
+from test_classes.generic_test_class import ResultsReporter
 
 
 def test_check_annex_events(test_runner: object):
     results = []
     events_code = Events.get_all_events(test_runner=test_runner, filepath_should_contain='Annexation', filepath_should_not_contain='Core')
-    replacement_dict = {}
-    filepath_to_events = f'{test_runner.full_path_to_mod}events\\'
 
     for event in events_code:
         event_id = re.findall(r'^\tid = (\S+)', event, flags=re.MULTILINE)[0]
@@ -24,10 +21,6 @@ def test_check_annex_events(test_runner: object):
             name = re.findall(r'^\t\tname = (\S+)', option, flags=re.MULTILINE)[0]
             event_options.append(name)
             trigger = re.findall(r'(^\t\ttrigger = \{.*?^\t\t\})', option, flags=re.DOTALL | re.MULTILINE)[0] if "trigger = {" in option else False
-            if trigger:
-                event_target = False
-                if "has_event_target" in trigger:
-                    event_target = re.findall(r'has_event_target = (\S+)', trigger, flags=re.MULTILINE)[0]
 
             try:
                 ai_chance = re.findall(r'(^\t\tai_chance = \{.*?\})', option, flags=re.MULTILINE)[0] if "ai_chance = {" in option else False

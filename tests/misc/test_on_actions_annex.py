@@ -28,7 +28,7 @@ def test_check_unsupported_on_actions(test_runner: object):
                     scripted_triggers.append(i)
 
     for trigger in scripted_triggers:
-        trigger_name = re.findall(r'^(can_release_\S+) = \{', trigger, flags=re.DOTALL | re.MULTILINE)[0]
+        # trigger_name = re.findall(r'^(can_release_\S+) = \{', trigger, flags=re.DOTALL | re.MULTILINE)[0]
         # if trigger.count("\tstate =") > 1:
         #     results.append(f'{trigger_name} - multiple state triggers found')
         if "\tstate =" in trigger:
