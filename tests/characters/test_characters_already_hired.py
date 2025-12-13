@@ -13,6 +13,8 @@ FALSE_POSITIVES = (
     "rus_nikolay_kuznetsov",
     "rus_aleksandr_lapchinsky",
     "rus_vasily_khripin",
+    "nep_mahabir_shumsher_rana",
+    "nep_subarna_shumsher_rana",
 )
 
 
