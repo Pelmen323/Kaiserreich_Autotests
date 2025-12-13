@@ -41,6 +41,8 @@ FALSE_POSITIVES_VP = [
     "Toledo",
     "Viborg",
     "Wau",
+    "Kingston",
+    "London",
 ]
 
 list_of_filepaths = [
