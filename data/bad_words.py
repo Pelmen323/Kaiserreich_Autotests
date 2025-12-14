@@ -293,7 +293,6 @@ bad_words = {
     "promiss": "promise",
     "pronounciation": "pronunciation",
     "propoganda": "propaganda",
-    "protestor": "protester",
     "prufe": "proof",
     "publically": "publicly",
     "publlic": "public",
