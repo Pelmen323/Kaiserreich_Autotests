@@ -2,6 +2,7 @@ import glob
 import re
 import os
 from charset_normalizer import detect
+from unidecode import unidecode
 
 from core.runner import TestRunner
 from test_classes.generic_test_class import DataCleaner, FileOpener
@@ -103,7 +104,8 @@ def format_filenames_strategic_regions(username, mod_name):
     for filename in glob.iglob(filepath_to_strategic_regions_code + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename, lowercase=False)
         current_region_id = re.findall("id[ ]*=[ ]*(.*)", text_file)[0]
-        expected_filename = f'{current_region_id} - {strategic_regions_loc[current_region_id]}.txt'
+        cleaned_region_name = unidecode(strategic_regions_loc[current_region_id])
+        expected_filename = f'{current_region_id} - {cleaned_region_name}.txt'
         if os.path.basename(filename) != expected_filename:
             os.rename(filename, f'{filepath_to_strategic_regions_code}\\{expected_filename}')
 
@@ -133,7 +135,8 @@ def format_filenames_states(username, mod_name):
     for filename in glob.iglob(filepath_to_states_code + '**/*.txt', recursive=True):
         text_file = FileOpener.open_text_file(filename, lowercase=False)
         current_region_id = re.findall("id[ ]*=[ ]*(\\d*)", text_file)[0]
-        expected_filename = f'{current_region_id} - {states_loc[current_region_id]}.txt'
+        cleaned_state_name = unidecode(states_loc[current_region_id])
+        expected_filename = f'{current_region_id} - {cleaned_state_name}.txt'
         if os.path.basename(filename) != expected_filename:
             os.rename(filename, f'{filepath_to_states_code}\\{expected_filename}')
 
@@ -930,6 +933,8 @@ def format_kaiserreich(username, mod_name):
 
 
 if __name__ == '__main__':
+    format_filenames_states(username="VADIM", mod_name="Kaiserreich Dev Build")
+    format_filenames_strategic_regions(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_kaiserreich(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_logging_events(username="VADIM", mod_name="Kaiserreich Dev Build")
     format_logging_ideas(username="VADIM", mod_name="Kaiserreich Dev Build")
