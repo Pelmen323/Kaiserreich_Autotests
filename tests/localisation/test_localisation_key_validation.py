@@ -13,6 +13,7 @@ from test_classes.buildings_class import Buildings, BuildFactory
 
 FALSE_POSITIVES = [
     "ORIGINAL_TAG_IS",                       # Vanilla trigger w unusual name
+    "ORIGINAL_TAG_IS_NOT",                   # Vanilla trigger w unusual name
     "GFX_news_event_india_protests"          # Vanilla GFX
 ]
 
