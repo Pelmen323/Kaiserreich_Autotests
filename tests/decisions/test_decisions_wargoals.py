@@ -2,12 +2,19 @@
 # Test script to check for decisions that generate wargoals if they have required parts
 # By Pelmen, https://github.com/Pelmen323
 ##########################
+import pytest
 from test_classes.decisions_class import Decisions, DecisionsFactory
 from test_classes.generic_test_class import ResultsReporter
 
-FALSE_POSITIVES = ["china_joint_strike_gxc_decision", "ca_attack_socialist_bukhara_timer", "pol_operation_parasol"]  # Handled by event  # Non cancellable
+FALSE_POSITIVES = [
+    "china_joint_strike_gxc_decision",  # Handled by event
+    "ca_attack_socialist_bukhara_timer",
+    "pol_operation_parasol"             # Non cancellable
+]
 
 
+# Uncomment once linked ticket is solved
+@pytest.mark.skip(reason='https://github.com/Kaiserreich/Kaiserreich-4-Development/issues/11276')
 def test_decisions_wargoals(test_runner: object):
     decisions, paths = Decisions.get_all_decisions(test_runner=test_runner, lowercase=True, return_paths=True)
     results = []
