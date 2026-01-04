@@ -1,6 +1,7 @@
 import glob
 import os
 import re
+from pathlib import Path
 
 from test_classes.generic_test_class import FileOpener
 
@@ -19,14 +20,14 @@ class ScriptedEffects:
             if return_paths - tuple[list, dict]: list with effects code and dict with effects filenames
             else - list: list with effects code
         """
-        filepath_to_effects = f'{test_runner.full_path_to_mod}common\\scripted_effects\\'
+        filepath_to_effects = str(Path(test_runner.full_path_to_mod) / "common" / "scripted_effects") + "/"
         effects = []
         paths = {}
 
         for filename in glob.iglob(filepath_to_effects + '**/*.txt', recursive=True):
             text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
 
-            pattern_matches = re.findall('^[^ \\n]*? = \\{.*?^\\}', text_file, flags=re.DOTALL | re.MULTILINE)
+            pattern_matches = re.findall(r'^[^ \n#]*? = \{.*?^\}', text_file, flags=re.DOTALL | re.MULTILINE)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     effects.append(match)
@@ -37,23 +38,7 @@ class ScriptedEffects:
         else:
             return effects
 
-    @classmethod
-    def get_all_effects_names(cls, test_runner, lowercase: bool = True) -> list:
-        """Parse effects file and return the list of all effects
 
-        Args:
-            test_runner (test_runner): Contains filepaths
-
-        Returns:
-            list: all effects in mod folder
-        """
-        effects_code = ScriptedEffects.get_all_scripted_effects(test_runner=test_runner, lowercase=lowercase)
-        effects = []
-
-        for effect in effects_code:
-            pattern_matches = re.findall('^(\\S+) = \\{', effect, flags=re.MULTILINE)
-            if len(pattern_matches) > 0:
-                for match in pattern_matches:
-                    effects.append(match)
-
-        return sorted(set(effects))
+class ScriptedEffectFactory:
+    def __init__(self, effect: str) -> None:
+        self.id = re.findall(r'^(\S+) = \{', effect, flags=re.MULTILINE)[0]

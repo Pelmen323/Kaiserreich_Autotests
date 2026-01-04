@@ -5,7 +5,7 @@
 import glob
 
 from test_classes.generic_test_class import FileOpener, ResultsReporter
-from test_classes.scripted_loc_class import Scripted_localisation
+from test_classes.scripted_loc_class import ScriptedLocalisation, ScriptedLocalisationFactory
 
 FALSE_POSITIVES = (
     "getsecondincommand",
@@ -15,7 +15,7 @@ FALSE_POSITIVES = (
 
 
 def test_check_localisation_scripted_brackets(test_runner: object):
-    scripted_loc, paths = Scripted_localisation.get_scripted_loc_names(test_runner=test_runner, lowercase=True, return_paths=True)
+    scripted_loc = [ScriptedLocalisationFactory(i).name for i in ScriptedLocalisation.get_all_scripted_loc(test_runner=test_runner)]
     filepath = test_runner.full_path_to_mod
     results = {i: 0 for i in scripted_loc}
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):
@@ -45,4 +45,4 @@ def test_check_localisation_scripted_brackets(test_runner: object):
                 results[loc] += 1
 
     results = [i for i in results if results[i] == 0 and i not in FALSE_POSITIVES]
-    ResultsReporter.report_results(results=results, paths=paths, message="Unused scripted loc was found.")
+    ResultsReporter.report_results(results=results, message="Unused scripted loc was found.")

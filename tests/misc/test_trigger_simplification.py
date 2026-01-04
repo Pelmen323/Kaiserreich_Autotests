@@ -7,12 +7,12 @@ import os
 import re
 
 from test_classes.generic_test_class import FileOpener, ResultsReporter
-from test_classes.scripted_triggers_class import ScriptedTriggers
+from test_classes.scripted_triggers_class import ScriptedTriggers, ScriptedTriggerFactory
 
 
 def test_trigger_simplification(test_runner: object):
     filepath = test_runner.full_path_to_mod
-    triggers = ScriptedTriggers.get_all_triggers_names(test_runner=test_runner, lowercase=False)
+    triggers = [ScriptedTriggerFactory(i).id for i in ScriptedTriggers.get_all_scripted_triggers(test_runner=test_runner)]
     results = []
 
     for filename in glob.iglob(filepath + "**/*.txt", recursive=True):

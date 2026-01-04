@@ -4,7 +4,7 @@
 ##########################
 import glob
 
-from test_classes.scripted_effects_class import ScriptedEffects
+from test_classes.scripted_effects_class import ScriptedEffects, ScriptedEffectFactory
 from test_classes.generic_test_class import (
     DataCleaner,
     FileOpener,
@@ -52,7 +52,9 @@ FALSE_POSITIVES = [
 
 def test_check_scripted_effects_unused(test_runner: object):
     filepath = test_runner.full_path_to_mod
-    dict_with_scripted_effects = {i: 0 for i in ScriptedEffects.get_all_effects_names(test_runner=test_runner, lowercase=True)}
+    effects = ScriptedEffects.get_all_scripted_effects(test_runner=test_runner, lowercase=True)
+    effects_names = [ScriptedEffectFactory(i).id for i in effects]
+    dict_with_scripted_effects = {i: 0 for i in effects_names}
     dict_with_scripted_effects = DataCleaner.clear_false_positives(input_iter=dict_with_scripted_effects, false_positives=FALSE_POSITIVES)
 
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):

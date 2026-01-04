@@ -1,6 +1,7 @@
 import glob
 import os
 import re
+from pathlib import Path
 
 from test_classes.generic_test_class import FileOpener
 
@@ -19,14 +20,14 @@ class ScriptedTriggers:
             if return_paths - tuple[list, dict]: list with triggers code and dict with triggers filenames
             else - list: list with triggers code
         """
-        filepath_to_triggers = f'{test_runner.full_path_to_mod}common\\scripted_triggers\\'
+        filepath_to_triggers = str(Path(test_runner.full_path_to_mod) / "common" / "scripted_triggers") + "/"
         triggers = []
         paths = {}
 
         for filename in glob.iglob(filepath_to_triggers + '**/*.txt', recursive=True):
             text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
 
-            pattern_matches = re.findall('^[^ \\n]*? = \\{.*?^\\}', text_file, flags=re.DOTALL | re.MULTILINE)
+            pattern_matches = re.findall(r'^[^ \n#]*? = \{.*?^\}', text_file, flags=re.DOTALL | re.MULTILINE)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     triggers.append(match)
@@ -37,23 +38,7 @@ class ScriptedTriggers:
         else:
             return triggers
 
-    @classmethod
-    def get_all_triggers_names(cls, test_runner, lowercase: bool = True) -> list:
-        """Parse triggers file and return the list of all triggers
 
-        Args:
-            test_runner (test_runner): Contains filepaths
-
-        Returns:
-            list: all triggers in mod folder
-        """
-        triggers_code = ScriptedTriggers.get_all_scripted_triggers(test_runner=test_runner, lowercase=lowercase)
-        triggers = []
-
-        for trigger in triggers_code:
-            pattern_matches = re.findall('^(\\S+) = \\{', trigger, flags=re.MULTILINE)
-            if len(pattern_matches) > 0:
-                for match in pattern_matches:
-                    triggers.append(match)
-
-        return sorted(set(triggers))
+class ScriptedTriggerFactory:
+    def __init__(self, trigger: str) -> None:
+        self.id = re.findall(r'^(\S+) = \{', trigger, flags=re.MULTILINE)[0]

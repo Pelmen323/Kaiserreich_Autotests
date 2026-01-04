@@ -9,12 +9,12 @@ import re
 from data.scripted_localisation_functions import \
     scripted_localisation_functions
 from test_classes.generic_test_class import FileOpener, ResultsReporter
-from test_classes.scripted_loc_class import Scripted_localisation
+from test_classes.scripted_loc_class import ScriptedLocalisation, ScriptedLocalisationFactory
 
 
 def test_check_unsupported_scripted_loc(test_runner: object):
     filepath = f'{test_runner.full_path_to_mod}localisation\\'
-    custom_scripted_loc = Scripted_localisation.get_scripted_loc_names(test_runner=test_runner, lowercase=True)
+    custom_scripted_loc = [ScriptedLocalisationFactory(i).name for i in ScriptedLocalisation.get_all_scripted_loc(test_runner=test_runner)]
     test_data_list = [i.lower() for i in scripted_localisation_functions]
     results = {}
     for filename in glob.iglob(filepath + '**/*.yml', recursive=True):
