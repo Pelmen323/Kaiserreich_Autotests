@@ -37,6 +37,21 @@ class ScriptedLocalisation:
         else:
             return container
 
+    @classmethod
+    def get_all_scripted_loc_names(cls, test_runner, lowercase: bool = True) -> list[str]:
+        """Parse all files in triggers and return the list with all loc names
+
+        Args:
+            test_runner (_type_): test runner obj
+            lowercase (bool, optional): defines if returned list contains lowercase str or not. Defaults to True.
+
+        Returns:
+            list: list with loc names
+        """
+        all_loc_code = ScriptedLocalisation.get_all_scripted_loc(test_runner=test_runner, lowercase=lowercase)
+        all_loc_names = [ScriptedLocalisationFactory(i).name for i in all_loc_code]
+        return all_loc_names
+
 
 class ScriptedLocalisationFactory:
     def __init__(self, loc: str) -> None:

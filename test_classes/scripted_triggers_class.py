@@ -38,6 +38,34 @@ class ScriptedTriggers:
         else:
             return triggers
 
+    @classmethod
+    def get_all_scripted_triggers_names(cls, test_runner, lowercase: bool = True, exclude_files: list = [], skip_system_triggers: bool = False) -> list[str]:
+        """Parse all files in triggers and return the list with all triggers names
+
+        Args:
+            test_runner (_type_): test runner obj
+            lowercase (bool, optional): defines if returned list contains lowercase str or not. Defaults to True.
+
+        Returns:
+            list: list with triggers names
+        """
+        all_triggers_code, paths = ScriptedTriggers.get_all_scripted_triggers(test_runner=test_runner, lowercase=lowercase, return_paths=True)
+        all_triggers_names = []
+        skipfiles = len(exclude_files) > 0
+        for trigger in all_triggers_code:
+            current_filepath = paths[trigger]
+            current_filename = os.path.basename(current_filepath)
+            if skip_system_triggers:
+                if current_filename.startswith('_'):
+                    continue
+            if skipfiles:
+                if any([path for path in exclude_files if path in current_filepath]):
+                    continue
+
+            all_triggers_names.append(ScriptedTriggerFactory(trigger).id)
+
+        return all_triggers_names
+
 
 class ScriptedTriggerFactory:
     def __init__(self, trigger: str) -> None:
