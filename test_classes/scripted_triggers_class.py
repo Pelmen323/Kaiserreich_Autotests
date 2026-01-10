@@ -27,7 +27,8 @@ class ScriptedTriggers:
         for filename in glob.iglob(filepath_to_triggers + '**/*.txt', recursive=True):
             text_file = FileOpener.open_text_file(filename, lowercase=lowercase)
 
-            pattern_matches = re.findall(r'^[^ \n#]*? = \{.*?^\}', text_file, flags=re.DOTALL | re.MULTILINE)
+            pattern_matches = re.findall(r'^[^ \n\t#]*? = \{[^\}]*\n.*?^\}', text_file, flags=re.DOTALL | re.MULTILINE)
+            pattern_matches += re.findall(r'^[^ \t\n#]*? = \{[^\n\}]*?\}', text_file, flags=re.MULTILINE)
             if len(pattern_matches) > 0:
                 for match in pattern_matches:
                     triggers.append(match)

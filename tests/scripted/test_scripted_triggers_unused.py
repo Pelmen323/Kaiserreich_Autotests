@@ -7,6 +7,7 @@ import re
 
 from test_classes.scripted_triggers_class import ScriptedTriggers
 from test_classes.generic_test_class import (
+    DataCleaner,
     FileOpener,
     ResultsReporter,
 )
@@ -16,19 +17,16 @@ FILES_TO_SKIP = [
     '00_diplo',
     '00_resistance',
 ]
-# FALSE_POSITIVES = [
-#     'is_controlled_by_ger_or_ally',
-#     'is_owned_by_ger_or_ally',
-#     'spa_spr_swf_has_fervor_idea',
-#     'owned_by_austria_or_puppet2',
-#     'yun_has_federalist_government',
-#     'yun_has_unaligned_government'
-# ]
+FALSE_POSITIVES = [
+    'gea_can_send_volunteers_to_target',
+    'maf_can_send_volunteers_to_target',
+]
 
 
 def test_check_scripted_triggers_unused(test_runner: object):
     filepath = test_runner.full_path_to_mod
-    scripted_triggers = set(ScriptedTriggers.get_all_scripted_triggers_names(test_runner=test_runner, skip_system_triggers=True, exclude_files=FILES_TO_SKIP))
+    scripted_triggers = ScriptedTriggers.get_all_scripted_triggers_names(test_runner=test_runner, skip_system_triggers=True, exclude_files=FILES_TO_SKIP)
+    scripted_triggers = set(DataCleaner.clear_false_positives(scripted_triggers, FALSE_POSITIVES))
 
     potential_match_pattern = re.compile(r'(\w+)\s*=\s*(yes|no)')
 
