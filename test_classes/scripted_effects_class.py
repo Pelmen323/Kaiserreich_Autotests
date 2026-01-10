@@ -39,7 +39,7 @@ class ScriptedEffects:
             return effects
 
     @classmethod
-    def get_all_scripted_effects_names(cls, test_runner, lowercase: bool = True) -> list[str]:
+    def get_all_scripted_effects_names(cls, test_runner, lowercase: bool = True, exclude_files: list = []) -> list[str]:
         """Parse all files in triggers and return the list with all effects names
 
         Args:
@@ -49,8 +49,15 @@ class ScriptedEffects:
         Returns:
             list: list with effects names
         """
-        all_effects_code = ScriptedEffects.get_all_scripted_effects(test_runner=test_runner, lowercase=lowercase)
-        all_effects_names = [ScriptedEffectFactory(i).id for i in all_effects_code]
+        all_effects_code, paths = ScriptedEffects.get_all_scripted_effects(test_runner=test_runner, lowercase=lowercase, return_paths=True)
+        all_effects_names = []
+        skipfiles = len(exclude_files) > 0
+        for effect in all_effects_code:
+            current_filepath = paths[effect]
+            if skipfiles:
+                if any([path for path in exclude_files if path in current_filepath]):
+                    continue
+            all_effects_names.append(ScriptedEffectFactory(effect).id)
 
         assert len(all_effects_names) > 0
         return all_effects_names
