@@ -64,6 +64,7 @@ class ScriptedTriggers:
 
             all_triggers_names.append(ScriptedTriggerFactory(trigger).id)
 
+        assert len(all_triggers_names) > 0
         return all_triggers_names
 
 

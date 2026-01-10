@@ -51,6 +51,8 @@ class ScriptedEffects:
         """
         all_effects_code = ScriptedEffects.get_all_scripted_effects(test_runner=test_runner, lowercase=lowercase)
         all_effects_names = [ScriptedEffectFactory(i).id for i in all_effects_code]
+
+        assert len(all_effects_names) > 0
         return all_effects_names
 
 

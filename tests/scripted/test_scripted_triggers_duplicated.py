@@ -4,13 +4,12 @@
 ##########################
 from collections import Counter
 
-from test_classes.scripted_triggers_class import ScriptedTriggers, ScriptedTriggerFactory
+from test_classes.scripted_triggers_class import ScriptedTriggers
 from test_classes.generic_test_class import ResultsReporter
 
 
 def test_scripted_triggers_duplicated(test_runner: object):
-    all_triggers_code = ScriptedTriggers.get_all_scripted_triggers(test_runner=test_runner)
-    all_triggers_names = [ScriptedTriggerFactory(i).id for i in all_triggers_code]
+    all_triggers_names = ScriptedTriggers.get_all_scripted_triggers_names(test_runner=test_runner)
     all_triggers_counter = Counter(all_triggers_names)
     results = [i for i in all_triggers_counter if all_triggers_counter[i] > 1]
 

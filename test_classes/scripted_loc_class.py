@@ -50,6 +50,8 @@ class ScriptedLocalisation:
         """
         all_loc_code = ScriptedLocalisation.get_all_scripted_loc(test_runner=test_runner, lowercase=lowercase)
         all_loc_names = [ScriptedLocalisationFactory(i).name for i in all_loc_code]
+
+        assert len(all_loc_names) > 0
         return all_loc_names
 
 
