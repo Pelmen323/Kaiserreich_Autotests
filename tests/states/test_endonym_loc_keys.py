@@ -3,6 +3,7 @@
 # By Pelmen, https://github.com/Pelmen323
 ##########################
 import re
+import glob
 
 from test_classes.generic_test_class import FileOpener, ResultsReporter
 
@@ -20,21 +21,29 @@ def test_check_endonyms_scripted_loc(test_runner: object):
     defined_vp_loc_keys_full = []
     results = []
 
+    # Get state loc keys used in history files
+    state_used_loc_keys_in_history = []
+    filepath_history = f'{test_runner.full_path_to_mod}history\\states\\'
+    for filename in glob.iglob(filepath_history + '**/*.txt', recursive=True):
+        text_file = FileOpener.open_text_file(filename, lowercase=False)
+        used_loc_key = re.findall(r'name = \"(STATE_\S*)\"', text_file)[0]
+        state_used_loc_keys_in_history.append(used_loc_key)
+
     # 1. Get states scripted loc used keys
     states_scripted_loc_file = FileOpener.open_text_file(filepath_to_scripted_loc_state, lowercase=False)
-    pattern_matches = re.findall("localization_key = (STATE_\\S*)", states_scripted_loc_file)
+    pattern_matches = re.findall(r"localization_key = (STATE_\S*)", states_scripted_loc_file)
     if len(pattern_matches) > 0:
         for match in pattern_matches:
             states_scripted_loc.append(match)
 
     # 1.1 Get states scripted loc defined keys
     states_loc_file = FileOpener.open_text_file(filepath_to_keys_states, lowercase=False)
-    pattern_matches = re.findall("(STATE_\\S*):", states_loc_file)
+    pattern_matches = re.findall(r"(STATE_\S*):", states_loc_file)
     if len(pattern_matches) > 0:
         for match in pattern_matches:
             defined_state_loc_keys.append(match)
             # Check if key is not used
-            if match not in states_scripted_loc and "RENAME" not in match:
+            if match not in states_scripted_loc and match not in state_used_loc_keys_in_history and "RENAME" not in match:
                 results.append(f"{match} - this key is not USED in states scripted loc")
 
     # 1.2 - Check if there are missing loc keys:

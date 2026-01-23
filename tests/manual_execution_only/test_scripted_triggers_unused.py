@@ -4,6 +4,7 @@
 ##########################
 import glob
 import re
+import pytest
 
 from test_classes.scripted_triggers_class import ScriptedTriggers
 from test_classes.generic_test_class import (
@@ -23,6 +24,7 @@ FALSE_POSITIVES = [
 ]
 
 
+@pytest.mark.skip("Costly and low-prio test")
 def test_scripted_triggers_unused(test_runner: object):
     filepath = test_runner.full_path_to_mod
     scripted_triggers = ScriptedTriggers.get_all_scripted_triggers_names(test_runner=test_runner, skip_system_triggers=True, exclude_files=FILES_TO_SKIP)

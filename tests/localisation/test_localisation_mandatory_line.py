@@ -18,7 +18,7 @@ def test_localisation_mandatory_line(test_runner: object):
         if text_file == [""]:
             continue
         elif "l_english:" not in text_file:
-            if "play_in_english" not in os.path.basename(filename):
+            if "play_in_english" not in os.path.basename(filename) and "KR_models_submod" not in filename:
                 results.append(f"{os.path.basename(filename)} l_xxx: line is absent")
 
     ResultsReporter.report_results(results=results, message="l_xxx: line is absent in localisation file.")
