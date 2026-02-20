@@ -15,6 +15,7 @@ requests = "*"
 pytest-timeout = "*"
 fuzzywuzzy = "*"
 ruff = "*"
+unidecode = "*"
 
 [dev-packages]
 

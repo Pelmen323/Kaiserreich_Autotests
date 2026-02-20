@@ -609,9 +609,9 @@ def format_logging_focuses(username, mod_name):
             dict_with_str_to_replace = dict()
             for focus in pattern_matches:
                 try:
-                    focus_id = re.findall('^\\t\\tid = (\S+)', focus, flags=re.MULTILINE)[0]
+                    focus_id = re.findall(r'^\t\tid = (\S+)', focus, flags=re.MULTILINE)[0]
                     try:
-                        focus_name = re.findall('^\\t\\ttext = (\S+)', focus, flags=re.MULTILINE)[0]
+                        focus_name = re.findall(r'^\t\ttext = (\S+)', focus, flags=re.MULTILINE)[0]
                     except IndexError:
                         focus_name = focus_id
 
@@ -679,7 +679,7 @@ def format_logging_focuses(username, mod_name):
         if len(pattern_matches) > 0:
             dict_with_str_to_replace = dict()
             for focus in pattern_matches:
-                focus_id = re.findall('^\\tid = (\S+)', focus, flags=re.MULTILINE)[0]
+                focus_id = re.findall(r'^\tid = (\S+)', focus, flags=re.MULTILINE)[0]
 
                 select_effect = re.findall('(\\t+)select_effect = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'select_effect =' in focus else False
                 complete_effect = re.findall('(\\t+)completion_reward = \\{([^\\n]*|.*?^\\1)\\}', focus, flags=re.DOTALL | re.MULTILINE)[0][1] if 'completion_reward =' in focus else False
