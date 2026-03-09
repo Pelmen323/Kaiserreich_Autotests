@@ -338,7 +338,7 @@ def format_logging_ideas(username, mod_name):
 
     for filename in glob.iglob(filepath_to_ideas + '**/*.txt', recursive=True):
         # System ideas
-        if 'Mitteleuropa' in filename:
+        if 'Mitteleuropa' in filename or 'Models' in filename:
             continue
 
         text_file = FileOpener.open_text_file(filename, lowercase=False)
