@@ -34,7 +34,10 @@ def test_decisions_ai_factors(test_runner: object):
             continue
         if decision.visible and any(["is_ai = no" in decision.visible, "always = no" in decision.visible]):
             continue
-        decision_category = [i for i in dict_decisions_categories.keys() if decision.token in dict_decisions_categories[i]][0]
+        try:
+            decision_category = [i for i in dict_decisions_categories.keys() if decision.token in dict_decisions_categories[i]][0]
+        except Exception:
+            raise Exception(i)
         if "is_ai = no" in decision_categories[decision_category][0] or "always = no" in decision_categories[decision_category][0]:
             continue
 

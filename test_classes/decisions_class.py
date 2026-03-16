@@ -73,7 +73,10 @@ class Decisions:
         decisions_names = []
         decisions_names_paths = {}
         for d in decisions:
-            name = pattern.findall(d)[0]
+            try:
+                name = pattern.findall(d)[0]
+            except IndexError:
+                raise IndexError(d)
             decisions_names.append(name)
             decisions_names_paths[name] = paths[d]
 
