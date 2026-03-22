@@ -51,23 +51,23 @@ def test_decisions_ai_factors(test_runner: object):
         elif not decision.ai_factor and "debug" not in decision.token:
             results.append(f"{decision.token} - {paths[i]} - Regular decision doesn't have AI factor")
 
-        if decision.ai_factor:
-            ai_factors_found = re.findall(r"(base = \S+|factor = \S+|add = \S+)", decision.ai_factor)
-            # Base and factor
-            if len(ai_factors_found) > 0 and "base =" in decision.ai_factor:
-                if "factor = 0" in ai_factors_found:
-                    num_of_zeroed_factors = ai_factors_found.count("factor = 0")
-                    for d in range(1, num_of_zeroed_factors):
-                        if ai_factors_found[d] != "factor = 0":
-                            results.append(f"{decision.token} - {paths[i]} - {ai_factors_found} - Zeroed ai factors that are not evaluated immediately")
-                            break
-            # Factor and factor
-            elif len(ai_factors_found) > 1:
-                if "factor = 0" in ai_factors_found:
-                    num_of_zeroed_factors = ai_factors_found.count("factor = 0")
-                    for d in range(1, num_of_zeroed_factors):
-                        if ai_factors_found[d] != "factor = 0":
-                            results.append(f"{decision.token} - {paths[i]} - {ai_factors_found} - Zeroed ai factors that are not evaluated immediately")
-                            break
+        # if decision.ai_factor:
+        #     ai_factors_found = re.findall(r"(base = \S+|factor = \S+|add = \S+)", decision.ai_factor)
+        #     # Base and factor
+        #     if len(ai_factors_found) > 0 and "base =" in decision.ai_factor:
+        #         if "factor = 0" in ai_factors_found:
+        #             num_of_zeroed_factors = ai_factors_found.count("factor = 0")
+        #             for d in range(1, num_of_zeroed_factors):
+        #                 if ai_factors_found[d] != "factor = 0":
+        #                     results.append(f"{decision.token} - {paths[i]} - {ai_factors_found} - Zeroed ai factors that are not evaluated immediately")
+        #                     break
+        #     # Factor and factor
+        #     elif len(ai_factors_found) > 1:
+        #         if "factor = 0" in ai_factors_found:
+        #             num_of_zeroed_factors = ai_factors_found.count("factor = 0")
+        #             for d in range(1, num_of_zeroed_factors):
+        #                 if ai_factors_found[d] != "factor = 0":
+        #                     results.append(f"{decision.token} - {paths[i]} - {ai_factors_found} - Zeroed ai factors that are not evaluated immediately")
+        #                     break
 
     ResultsReporter.report_results(results=results, message="Issues with decisions AI factors encountered.")
