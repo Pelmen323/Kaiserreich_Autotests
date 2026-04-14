@@ -28,6 +28,7 @@ FALSE_POSITIVES = (
     "henri_tanguy",                                     # Intentional
     "mission_militaire",                                # Generic
     "rus_theorist",                                     # Generic
+    "army_reform_department",                           # Generic
 )
 
 
