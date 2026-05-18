@@ -28,6 +28,7 @@ FALSE_POSITIVES_COUNTRY = [
     "rus_can_core",
     "sent_volunteers",
     "china_refused_alliance",
+    "gre_about_to_attack",
 ]
 
 input_list = [
