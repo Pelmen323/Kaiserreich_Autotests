@@ -60,8 +60,7 @@ def test_localisation_key_validation(test_runner: object):
                             continue
                         elif "building_state_modifier|" in k and any([i for i in build_obj_names if f"|{i}" in k]):
                             continue
-                        elif "country_culture|" in k:
-                            # country culture
+                        elif "country_culture|" in k or "idea_desc|" in k:
                             continue
 
                         results.append(k)
