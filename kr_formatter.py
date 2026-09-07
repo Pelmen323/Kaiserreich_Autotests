@@ -753,11 +753,12 @@ def format_characters(username, mod_name):
         visible = f"{tab}visible = {a.visible}\n" if a.visible else ""
         cost = f"{tab}cost = {a.cost}\n" if a.cost else ""
         can_be_fired = f"{tab}can_be_fired = {a.can_be_fired}\n" if a.can_be_fired else ""
+        always_show_on_actions_tooltip = f"{tab}always_show_on_actions_tooltip = {a.always_show_on_actions_tooltip}\n" if a.always_show_on_actions_tooltip else ""
         on_add = f"{tab}on_add = {a.on_add}\n" if a.on_add else ""
         on_remove = f"{tab}on_remove = {a.on_remove}\n" if a.on_remove else ""
         ai_will_do = f"{tab}ai_will_do = {a.ai_will_do}\n" if a.ai_will_do else ""
 
-        new_str = f'\n{name}{slot}{idea_token}{desc}{ledger}{allowed}{available}{visible}{traits}{modifier}{research_bonus}{cost}{can_be_fired}{on_add}{on_remove}{ai_will_do}'
+        new_str = f'\n{name}{slot}{idea_token}{desc}{ledger}{allowed}{available}{visible}{traits}{modifier}{research_bonus}{cost}{can_be_fired}{always_show_on_actions_tooltip}{on_add}{on_remove}{ai_will_do}'
         adv_link_dict[adv] = new_str
 
     for filename in glob.iglob(filepath + '**/*.txt', recursive=True):

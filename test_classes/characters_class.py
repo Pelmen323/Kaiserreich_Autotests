@@ -274,6 +274,7 @@ class Advisors:
         self.visible = extract_value(adv, "visible", t)
         self.cost = extract_value(adv, "cost", t, 1)
         self.can_be_fired = extract_value(adv, "can_be_fired", t, 1)
+        self.always_show_on_actions_tooltip = extract_value(adv, "always_show_on_actions_tooltip", t, 1)
         self.on_add = extract_value(adv, "on_add", t)
         self.on_remove = extract_value(adv, "on_remove", t)
         self.ai_will_do = extract_value(adv, "ai_will_do", t)
